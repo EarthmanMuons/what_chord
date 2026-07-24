@@ -1088,8 +1088,7 @@ footer {
    to screen: print already appends the full URL in parentheses (see the print
    block) and owns this ::after. */
 @media screen {
-  .article-body
-    a[href^="http"]:not(.btn, .heading-anchor, :has(img))::after {
+  .article-body a[href^="http"]:not(.btn, .heading-anchor, :has(img))::after {
     display: inline-block;
     width: 0.75em;
     height: 0.75em;
@@ -1215,7 +1214,8 @@ a.heading-anchor svg {
   border-collapse: collapse;
 }
 
-.member-stack caption {
+.member-stack caption,
+.article-table caption {
   padding-bottom: 8px;
   font-size: 0.82rem;
   font-weight: 700;
@@ -1249,6 +1249,41 @@ a.heading-anchor svg {
 
 .member-stack tr:first-child td {
   color: var(--accent-light);
+}
+
+/* Scale-degree caret. Stacking a spacing caret over the numeral renders
+   consistently across fonts, unlike a combining accent over a digit. */
+.sdeg {
+  position: relative;
+  display: inline-block;
+}
+
+.sdeg::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  font-size: 1em;
+  line-height: 1;
+  text-align: center;
+  pointer-events: none;
+  content: "ˆ";
+}
+
+.degree-mirror {
+  margin: 28px 0;
+  text-align: center;
+}
+
+.degree-mirror svg {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+}
+
+/* Keep a degree formula (1, 2, ♭3, …) on one line so it reads as a unit. */
+.article-body code.formula {
+  white-space: nowrap;
 }
 
 .article-table {
@@ -1859,7 +1894,8 @@ a.heading-anchor svg {
     border: 1pt solid #888;
   }
 
-  .article-page .member-stack caption {
+  .article-page .member-stack caption,
+  .article-page .article-table caption {
     color: #111;
   }
 
@@ -2230,8 +2266,7 @@ a.heading-anchor svg {
   .nav-menu .btn:active {
     color: var(--text);
     background:
-      linear-gradient(rgb(255 255 255 / 8%), rgb(255 255 255 / 8%)),
-      var(--bg);
+      linear-gradient(rgb(255 255 255 / 8%), rgb(255 255 255 / 8%)), var(--bg);
   }
 }
 
