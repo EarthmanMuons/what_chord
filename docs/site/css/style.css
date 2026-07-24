@@ -874,10 +874,25 @@ section {
   border-top: 1px solid var(--border);
 }
 
+.article-group-sub {
+  max-width: 540px;
+  margin: -14px 0 24px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text-2);
+}
+
 .article-group-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
+}
+
+/* Groups with only a card or two: keep cards at normal width and
+   left-aligned instead of stretching a lone card across the full row. */
+.article-group-grid-narrow {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 340px));
+  justify-content: start;
 }
 
 @media (width <= 520px) {
