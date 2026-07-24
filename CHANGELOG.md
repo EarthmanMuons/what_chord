@@ -10,6 +10,12 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Added a Scale Degree Guide to the website, covering how a key is numbered from
+  the tonic, the technical names for each degree, degree formulas, harmonizing
+  the scale into chords, and Roman numerals.
+
 ### Changed
 
 - Automatic key detection now defaults to Balanced behavior, following changes
