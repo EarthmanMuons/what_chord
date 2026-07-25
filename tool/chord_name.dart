@@ -36,6 +36,8 @@ Options:
                     when needed.
   -k, --key=KEY     Tonality for tie-breaks/spelling. Default: C:maj.
                     Examples: C, C:maj, A:min, Eb:maj, F#:min.
+      --ensemble    Ensemble playing context: rootless voicings may be named
+                    on an implied (unplayed) root.
 
 Output form (mutually exclusive; prints just the name, no label):
   --symbolic        Symbol notation (e.g. Cmaj7).
@@ -127,6 +129,9 @@ void main(List<String> args) {
     tonality: tonality,
     keySignature: ks,
     spellingPolicy: spellingPolicy,
+    playingContext: _hasFlag(args, 'ensemble', '')
+        ? PlayingContext.ensemble
+        : PlayingContext.solo,
   );
 
   final results = _analyzer.analyze(input, context: context);
@@ -281,6 +286,7 @@ List<String> _unknownFlags(List<String> args) {
     '--top',
     '--bass',
     '--key',
+    '--ensemble',
     '--symbolic',
     '--textual',
     '--idiomatic',

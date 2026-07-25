@@ -39,6 +39,8 @@ Options:
                          Accepts note names or pitch-class numbers 0-11.
   -k, --key=KEY          Tonality for tie-breaks/spelling. Default: C:maj.
                          Examples: C, C:maj, A:min, Eb:maj, F#:min.
+      --ensemble         Ensemble playing context: rootless voicings may be
+                         named on an implied (unplayed) root.
   -n, --notation=STYLE   Chord symbol style. Valid: textual, symbolic.
                          Default: textual.
       --spelling=MODE    How typed note spellings affect ranking.
@@ -92,6 +94,9 @@ void main(List<String> args) {
     tonality: tonality,
     keySignature: ks,
     spellingPolicy: spellingPolicy,
+    playingContext: _hasFlag(args, 'ensemble', '')
+        ? PlayingContext.ensemble
+        : PlayingContext.solo,
   );
   final rootFilter = _parseRootFilterFlag(
     _readStringFlag(args, 'root', ''),
@@ -1045,6 +1050,7 @@ List<String> _unknownFlags(List<String> args) {
     '--bass',
     '--root',
     '--key',
+    '--ensemble',
     '--notation',
     '--spelling',
     '--format',

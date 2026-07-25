@@ -17,8 +17,10 @@ class ChordSymbolBuilder {
   }) {
     final root = rootName ?? spellChordRoot(identity, tonality: tonality);
 
+    // An implied-root reading has a non-root lowest voice by construction;
+    // its symbol is the plain chord name, never a slash.
     String? bass;
-    if (identity.hasSlashBass) {
+    if (identity.hasSlashBass && !identity.hasImpliedRoot) {
       final interval = (identity.bassPc - identity.rootPc) % 12;
       final role = identity.toneRolesByInterval[interval];
       bass = spellSlashBass(

@@ -40,7 +40,11 @@ class ToneLedger {
       (mask, interval) => mask | (1 << interval),
     );
     final alsoPlayedMask = identity.presentIntervalsMask & ~representedMask;
-    final missingMask = _reasonIntervals(row, CostReasonLabel.missingRequired);
+    // An implied root belongs in the missing list: the name accounts for it,
+    // but nobody played it.
+    final missingMask =
+        _reasonIntervals(row, CostReasonLabel.missingRequired) |
+        _reasonIntervals(row, CostReasonLabel.missingRoot);
 
     /// Builds (degree, note) entries for the tones in [mask], by degree.
     List<ToneEntry> tonesFor(int mask) {

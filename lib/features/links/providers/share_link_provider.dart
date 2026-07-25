@@ -17,5 +17,8 @@ final shareLinkProvider = Provider<Uri?>((ref) {
   return ChordLink.build(
     orderedNoteNames: [for (final note in notes) note.label],
     tonality: ref.watch(selectedTonalityProvider),
+    playingContext: ref.watch(
+      analysisContextProvider.select((c) => c.playingContext),
+    ),
   );
 });

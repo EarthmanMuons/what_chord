@@ -116,12 +116,15 @@ class ChordIdResult {
 }
 
 /// Identifies the chord described by [notes] (free text), ranking up to [top]
-/// candidates within the harmonic context of [key].
+/// candidates within the harmonic context of [key]. [playingContext] mirrors
+/// the app's Solo/Ensemble setting; ensemble makes rootless voicings eligible
+/// for implied-root readings.
 ChordIdResult identifyChord(
   String notes, {
   String key = 'C:maj',
   ChordNotationStyle notation = ChordNotationStyle.textual,
   int top = 5,
+  PlayingContext playingContext = PlayingContext.solo,
 }) {
   if (notes.length > maxChordIdInputCharacters) {
     return ChordIdResult(
@@ -141,6 +144,7 @@ ChordIdResult identifyChord(
     tonality: tonality,
     keySignature: ks,
     spellingPolicy: NoteSpellingPolicy(preferFlats: ks.prefersFlats),
+    playingContext: playingContext,
   );
   final keyLabel = tonalityDisplayLabel(tonality);
 

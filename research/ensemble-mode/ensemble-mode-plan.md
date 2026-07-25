@@ -194,7 +194,8 @@ provider invalidation to `settings_reset_service.dart`.
       measurement; comping suite as CI tests; benchmark check; holdout
       confirmation (18/18 gate; 92.7-93.2% dev, 92.5-93.6% held-out; benchmark
       PASS; log entry 2026-07-25-03)
-- [ ] Phase 4: settings toggle and notifier; presentation (rootless label,
+- [x] Phase 4: settings toggle and notifier; presentation (rootless label,
       implied root, home indicator); history event field; deep links; lookup;
-      demo pin; web/CLI parity
+      demo pin; web/CLI parity (log entry 2026-07-25-04; /try page mode UI moved
+      to Phase 5 with the site work)
 - [ ] Phase 5: algorithm article, changelog, whatsnew, closing log entry

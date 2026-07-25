@@ -4,6 +4,7 @@ import '../models/chord_candidate.dart';
 import '../models/chord_identity.dart';
 import '../models/chord_input.dart';
 import '../models/observed_voicing.dart';
+import '../models/playing_context.dart';
 import '../models/tonality.dart';
 import 'chord_event.dart';
 
@@ -15,12 +16,14 @@ class CaptureFrame {
   final ObservedVoicing voicing;
   final List<ChordCandidate> candidates;
   final Tonality tonality;
+  final PlayingContext playingContext;
 
   const CaptureFrame({
     required this.input,
     required this.voicing,
     required this.candidates,
     required this.tonality,
+    this.playingContext = PlayingContext.solo,
   });
 
   ChordIdentity get identity => candidates.first.identity;
@@ -148,6 +151,7 @@ class ChordEventSegmenter {
         voicing: frame.voicing,
         candidates: frame.candidates,
         tonality: frame.tonality,
+        playingContext: frame.playingContext,
         duration: held,
       ),
     );
