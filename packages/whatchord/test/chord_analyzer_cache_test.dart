@@ -39,15 +39,32 @@ void main() {
     expect(analyzer.cacheSize, capacity);
     expect(analyzer.analyze(first, context: context), same(firstResult));
   });
+
+  test('solo and ensemble playing contexts never alias in the cache', () {
+    final solo = _context();
+    final ensemble = _context(playingContext: PlayingContext.ensemble);
+    final input = _inputFor(0);
+
+    final soloResult = analyzer.analyze(input, context: solo);
+    final ensembleResult = analyzer.analyze(input, context: ensemble);
+
+    expect(analyzer.cacheSize, 2);
+    expect(ensembleResult, isNot(same(soloResult)));
+    expect(analyzer.analyze(input, context: solo), same(soloResult));
+    expect(analyzer.analyze(input, context: ensemble), same(ensembleResult));
+  });
 }
 
-AnalysisContext _context() {
+AnalysisContext _context({
+  PlayingContext playingContext = PlayingContext.solo,
+}) {
   const tonality = Tonality(Tonic.c, TonalityMode.major);
   final keySignature = KeySignature.fromTonality(tonality);
   return AnalysisContext(
     tonality: tonality,
     keySignature: keySignature,
     spellingPolicy: NoteSpellingPolicy(preferFlats: keySignature.prefersFlats),
+    playingContext: playingContext,
   );
 }
 

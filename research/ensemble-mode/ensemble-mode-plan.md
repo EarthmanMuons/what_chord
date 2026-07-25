@@ -184,7 +184,7 @@ provider invalidation to `settings_reset_service.dart`.
 
 ## Progress
 
-- [ ] Phase 1: engine contract (`PlayingContext`, cache key, construction sites,
+- [x] Phase 1: engine contract (`PlayingContext`, cache key, construction sites,
       aliasing test)
 - [ ] Phase 2: ghost-root generation, diatonic filter, missing-root pricing,
       bass semantics, implied-root marker
