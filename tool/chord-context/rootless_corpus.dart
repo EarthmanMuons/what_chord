@@ -14,6 +14,11 @@
 //     ceiling for a key-filtered ensemble mode.
 //   ensembleInferred: the same, filtered by the closed-loop INFERRED key,
 //     the realistic product number.
+//   engineAnnotated / engineInferred: the real engine's top-1 under an
+//     ensemble playing context with the annotated / closed-loop inferred
+//     key. These replace the simulation as the shipping measurement; the
+//     simulated unique-correct numbers are the floor they must meet, and
+//     unique-correct plus ambiguous is the tiebreak ceiling.
 //
 // Fully symmetric qualities (diminished7) are reported separately: a
 // rootless dim7 has four equal roots and is inherently ambiguous.
@@ -74,9 +79,11 @@ void main(List<String> args) {
 
   var eligible = 0, symmetric = 0;
   var currentExact = 0;
+  var engineAnnotatedExact = 0, engineInferredExact = 0;
   final annotated = _Outcome();
   final inferred = _Outcome();
   final missByQuality = <String, int>{};
+  final engineInferredMissByQuality = <String, int>{};
 
   for (final fixture in selected) {
     final entries = (pieces[fixture.id] as List).cast<Map>();
@@ -118,19 +125,41 @@ void main(List<String> args) {
       }
 
       // current: the shipped engine on the stripped voicing.
+      final strippedInput = ChordInput(
+        pcMask: strippedMask,
+        bassPc: stripped.reduce((a, b) => a < b ? a : b) % 12,
+        noteCount: stripped.length,
+      );
+      final strippedVoicing = ObservedVoicing.fromMidi(stripped);
       final ranked = _analyzer.analyze(
-        ChordInput(
-          pcMask: strippedMask,
-          bassPc: stripped.reduce((a, b) => a < b ? a : b) % 12,
-          noteCount: stripped.length,
-        ),
+        strippedInput,
         context: _contextFor(annotatedKey),
-        voicing: ObservedVoicing.fromMidi(stripped),
+        voicing: strippedVoicing,
         take: _take,
       );
       if (ranked.first.identity.rootPc == rootPc &&
           ranked.first.identity.quality.name == quality) {
         currentExact++;
+      }
+
+      bool engineExact(Tonality key) {
+        final top = _analyzer
+            .analyze(
+              strippedInput,
+              context: _contextFor(key, PlayingContext.ensemble),
+              voicing: strippedVoicing,
+            )
+            .first
+            .identity;
+        return top.rootPc == rootPc && top.quality.name == quality;
+      }
+
+      if (engineExact(annotatedKey)) engineAnnotatedExact++;
+      if (engineExact(claimBefore ?? annotatedKey)) {
+        engineInferredExact++;
+      } else {
+        engineInferredMissByQuality[quality] =
+            (engineInferredMissByQuality[quality] ?? 0) + 1;
       }
 
       final hypotheses = _rootlessHypotheses(strippedMask);
@@ -152,6 +181,9 @@ void main(List<String> args) {
     'ensembleAnnotated': annotated.toJson(),
     'ensembleInferred': inferred.toJson(),
     'missByQuality': missByQuality,
+    'engineAnnotatedExact': engineAnnotatedExact,
+    'engineInferredExact': engineInferredExact,
+    'engineInferredMissByQuality': engineInferredMissByQuality,
   };
   final outDir = Directory(options['out'] ?? 'build/chord-context/rootless')
     ..createSync(recursive: true);
@@ -177,6 +209,10 @@ void main(List<String> args) {
       '  ensemble, inferred-key filter:  unique-correct '
       '${pct(inferred.uniqueCorrect)}  ambiguous '
       '${pct(inferred.ambiguous)}  miss ${pct(inferred.miss)}',
+    )
+    ..writeln(
+      '  engine, annotated key: exact ${pct(engineAnnotatedExact)}; '
+      'engine, inferred key: exact ${pct(engineInferredExact)}',
     );
   final misses = missByQuality.entries.toList()
     ..sort((a, b) => b.value.compareTo(a.value));
@@ -184,6 +220,14 @@ void main(List<String> args) {
     stdout.writeln(
       '  non-unique by quality: '
       '${misses.map((e) => '${e.key} ${e.value}').join(', ')}',
+    );
+  }
+  final engineMisses = engineInferredMissByQuality.entries.toList()
+    ..sort((a, b) => b.value.compareTo(a.value));
+  if (engineMisses.isNotEmpty) {
+    stdout.writeln(
+      '  engine inferred-key misses by quality: '
+      '${engineMisses.map((e) => '${e.key} ${e.value}').join(', ')}',
     );
   }
 }
@@ -271,12 +315,16 @@ List<_Hypothesis> _rootlessHypotheses(int pcMask) {
   return results;
 }
 
-AnalysisContext _contextFor(Tonality tonality) {
+AnalysisContext _contextFor(
+  Tonality tonality, [
+  PlayingContext playingContext = PlayingContext.solo,
+]) {
   final keySignature = KeySignature.fromTonality(tonality);
   return AnalysisContext(
     tonality: tonality,
     keySignature: keySignature,
     spellingPolicy: NoteSpellingPolicy(preferFlats: keySignature.prefersFlats),
+    playingContext: playingContext,
   );
 }
 

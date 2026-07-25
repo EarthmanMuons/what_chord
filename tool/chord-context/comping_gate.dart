@@ -12,6 +12,9 @@
 //     ALL surviving hypotheses per case, because the gate's real question
 //     is whether relaxing the no-ghost-roots rule yields a unique answer or
 //     an ambiguity explosion.
+//   engine: the real engine under the case's intended playing context
+//     (ensemble for rootless and shell cases, solo for solo cases), scoring
+//     the shipped ensemble implementation against the same suite.
 //
 // Pass/fail probes; excluded from pooled statistics per PROTOCOL.md.
 //
@@ -42,6 +45,8 @@ void main(List<String> args) {
   var rootlessContains = 0, rootlessUnique = 0, rootlessCases = 0;
   var rootlessKeyUnique = 0;
   var soloCases = 0, soloCorrect = 0, soloAtRisk = 0;
+  var engineExact = 0, engineRootQuality = 0;
+  var engineEnsembleExact = 0, engineSoloExact = 0;
   final rows = <Map<String, dynamic>>[];
 
   for (final raw in cases) {
@@ -57,21 +62,33 @@ void main(List<String> args) {
         preferFlats: keySignature.prefersFlats,
       ),
     );
+    final intendedContext = AnalysisContext(
+      tonality: tonality,
+      keySignature: keySignature,
+      spellingPolicy: NoteSpellingPolicy(
+        preferFlats: keySignature.prefersFlats,
+      ),
+      playingContext: testCase['intent'] == 'solo'
+          ? PlayingContext.solo
+          : PlayingContext.ensemble,
+    );
 
     var pcMask = 0;
     for (final note in midiNotes) {
       pcMask |= 1 << (note % 12);
     }
-    final ranked = analyzer.analyze(
-      ChordInput(
-        pcMask: pcMask,
-        bassPc: midiNotes.first % 12,
-        noteCount: midiNotes.length,
-      ),
-      context: context,
-      voicing: ObservedVoicing.fromMidi(midiNotes),
+    final input = ChordInput(
+      pcMask: pcMask,
+      bassPc: midiNotes.first % 12,
+      noteCount: midiNotes.length,
     );
+    final observed = ObservedVoicing.fromMidi(midiNotes);
+    final ranked = analyzer.analyze(input, context: context, voicing: observed);
     final top = ranked.first.identity;
+    final engineTop = analyzer
+        .analyze(input, context: intendedContext, voicing: observed)
+        .first
+        .identity;
     final expectedRoot = expected['rootPc'] as int;
     final expectedQuality = expected['quality'] as String;
     final expectedExtensions = (expected['extensions'] as List).cast<String>()
@@ -86,6 +103,17 @@ void main(List<String> args) {
     scored++;
     if (rootQualityMatch) currentRootQuality++;
     if (exactMatch) currentExact++;
+
+    final engineRootQualityMatch =
+        engineTop.rootPc == expectedRoot &&
+        engineTop.quality.name == expectedQuality;
+    final engineExtensions = [for (final e in engineTop.extensions) e.name]
+      ..sort();
+    final engineExactMatch =
+        engineRootQualityMatch &&
+        engineExtensions.join(',') == expectedExtensions.join(',');
+    if (engineRootQualityMatch) engineRootQuality++;
+    if (engineExactMatch) engineExact++;
 
     final hypotheses = _rootlessHypotheses(pcMask);
     // Key-filtered hypotheses: an ensemble mode would run with a prevailing
@@ -108,10 +136,12 @@ void main(List<String> args) {
       if (containsExpected) rootlessContains++;
       if (containsExpected && hypotheses.length == 1) rootlessUnique++;
       if (keyFilteredUnique) rootlessKeyUnique++;
+      if (engineExactMatch) engineEnsembleExact++;
     }
     if (intent == 'solo') {
       soloCases++;
       if (rootQualityMatch) soloCorrect++;
+      if (engineExactMatch) engineSoloExact++;
       // A solo case is at risk if a rootless hypothesis exists at all: an
       // ensemble mode that trusts ghost roots could overturn the correct
       // bass-rooted reading on exactly these pitch sets.
@@ -125,6 +155,8 @@ void main(List<String> args) {
       'expected': '$expectedRoot/$expectedQuality',
       'current': '${top.rootPc}/${top.quality.name}',
       'currentRootQualityMatch': rootQualityMatch,
+      'engine': '${engineTop.rootPc}/${engineTop.quality.name}',
+      'engineExactMatch': engineExactMatch,
       'rootlessHypotheses': [
         for (final h in hypotheses) '${h.rootPc}/${h.quality}',
       ],
@@ -146,6 +178,10 @@ void main(List<String> args) {
       'soloCases': soloCases,
       'soloCorrectToday': soloCorrect,
       'soloAtRiskUnderGhostRoots': soloAtRisk,
+      'engineExact': engineExact,
+      'engineRootQuality': engineRootQuality,
+      'engineEnsembleExact': engineEnsembleExact,
+      'engineSoloExact': engineSoloExact,
     },
     'cases': rows,
   };
@@ -169,15 +205,21 @@ void main(List<String> args) {
     '  solo cases: $soloCorrect/$soloCases correct today; '
     '$soloAtRisk would admit a ghost-root competitor',
   );
+  stdout.writeln(
+    '  engine (intended playing context): '
+    '$engineEnsembleExact/$rootlessCases rootless+shell exact, '
+    '$engineSoloExact/$soloCases solo exact, '
+    '$engineExact/$scored exact overall',
+  );
   stdout.writeln('');
   for (final row in rows) {
-    final mark = row['currentRootQualityMatch'] as bool ? 'ok  ' : 'MISS';
+    final mark = row['engineExactMatch'] as bool ? 'ok  ' : 'MISS';
     final hyps = (row['rootlessHypotheses'] as List).join(' ');
     stdout.writeln(
       '  $mark ${(row['id'] as String).padRight(34)} '
       '${(row['voicing'] as String).padRight(11)} '
       'want ${(row['expected'] as String).padRight(18)} '
-      'got ${(row['current'] as String).padRight(20)} '
+      'engine ${(row['engine'] as String).padRight(18)} '
       'ghost[${(row['rootlessHypotheses'] as List).length}] $hyps',
     );
   }

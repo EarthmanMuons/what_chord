@@ -190,9 +190,10 @@ provider invalidation to `settings_reset_service.dart`.
       bass semantics, implied-root marker (plus the implied-root hard rule and
       group-aware pruning the phase surfaced as necessary; see the plan addendum
       in log entry 2026-07-25-02)
-- [ ] Phase 3: guide-tone/dominant-color tiebreak; real-engine corpus
+- [x] Phase 3: guide-tone/dominant-color tiebreak; real-engine corpus
       measurement; comping suite as CI tests; benchmark check; holdout
-      confirmation
+      confirmation (18/18 gate; 92.7-93.2% dev, 92.5-93.6% held-out; benchmark
+      PASS; log entry 2026-07-25-03)
 - [ ] Phase 4: settings toggle and notifier; presentation (rootless label,
       implied root, home indicator); history event field; deep links; lookup;
       demo pin; web/CLI parity

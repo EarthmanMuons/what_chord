@@ -246,12 +246,22 @@ final List<NamedRule> whatKeyPaper2026TieBreakerRules = <NamedRule>[
 /// The key-functional-seventh rule slots in directly after the voicing rule.
 /// Anchoring by name keeps that intent stable if the historical list is later
 /// reordered, where a positional splice would silently shift the insertion.
+/// The implied-root dominant preference follows it: it must decide an
+/// implied-root near-tie before the generic diatonic and tonic rules below,
+/// which would otherwise favor the tonic-stack reading of a rootless dominant.
 final List<NamedRule> tieBreakerRules = _insertAfter(
-  whatKeyPaper2026TieBreakerRules,
-  anchor: 'prefer voicing-supported upper-structure slash',
+  _insertAfter(
+    whatKeyPaper2026TieBreakerRules,
+    anchor: 'prefer voicing-supported upper-structure slash',
+    rule: NamedRule(
+      'prefer key-functional seventh over sixth-chord twin',
+      preferKeyFunctionalSeventhOverSixthTwin,
+    ),
+  ),
+  anchor: 'prefer key-functional seventh over sixth-chord twin',
   rule: NamedRule(
-    'prefer key-functional seventh over sixth-chord twin',
-    preferKeyFunctionalSeventhOverSixthTwin,
+    'prefer dominant reading among implied roots',
+    preferDominantAmongImpliedRoots,
   ),
 );
 

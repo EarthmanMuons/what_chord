@@ -26,6 +26,28 @@ int? preferIdiomaticImpliedRootReading(
   return aPreferred ? -1 : 1;
 }
 
+/// Among implied-root readings, prefers the dominant-family one.
+///
+/// The near-tie ambiguity a diatonic root filter cannot settle is a dominant
+/// reading against a strained tonic-family stack on another diatonic root
+/// (F-B-E in C: G13, or Cmaj7 with an 11 against its major third). Comping
+/// treats the guide-tone-plus-color set as dominant vocabulary, so the
+/// dominant reading wins the pair. Fires only between implied-root readings;
+/// sounding-root pairs are untouched.
+int? preferDominantAmongImpliedRoots(
+  ChordCandidate a,
+  ChordCandidate b,
+  CandidateFeatures fa,
+  CandidateFeatures fb,
+  Tonality tonality,
+) {
+  if (!a.identity.hasImpliedRoot || !b.identity.hasImpliedRoot) return null;
+  final aDominant = a.identity.quality.isDominantFamily;
+  final bDominant = b.identity.quality.isDominantFamily;
+  if (aDominant == bDominant) return null;
+  return aDominant ? -1 : 1;
+}
+
 bool _isIdiomaticImpliedRoot(ChordIdentity id) {
   if (!id.hasImpliedRoot) return false;
   // Dominants own the full alt palette; elsewhere an altered extension marks

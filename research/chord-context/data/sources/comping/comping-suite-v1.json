@@ -158,7 +158,7 @@
       "expected": {
         "rootPc": 2,
         "quality": "halfDiminished7",
-        "extensions": ["eleven"]
+        "extensions": []
       },
       "expectedSymbol": "Dm7b5/F (first inversion; root D sounds)",
       "pitchSetId": "F-Ab-C-D",
