@@ -18,6 +18,9 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ### Changed
 
+- The tonality bar now uses a more compact key button and tighter scale-degree
+  spacing on narrow screens, keeping all seven degrees visible more often when
+  Ensemble mode is on.
 - Automatic key detection now defaults to Balanced behavior, following changes
   in the current tonal center sooner while keeping explicitly selected behavior
   preferences unchanged.

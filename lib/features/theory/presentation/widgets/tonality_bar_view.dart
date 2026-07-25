@@ -82,8 +82,8 @@ class TonalityBarView extends ConsumerWidget {
                     '${autoKeyDimmed ? ', uncertain' : ''}')
         : 'Key: ${tonalitySemanticLabel(tonality, noteNameSystem: noteNameSystem)}';
     final keyLabel = displayTonality == null
-        ? 'Key: ?'
-        : 'Key: ${tonalityDisplayLabel(displayTonality, noteNameSystem: noteNameSystem)}';
+        ? 'Unknown'
+        : tonalityDisplayLabel(displayTonality, noteNameSystem: noteNameSystem);
 
     TextStyle? scaledKeyLabelStyle(TextStyle? baseStyle) {
       final fontSize = baseStyle?.fontSize;
@@ -114,58 +114,43 @@ class TonalityBarView extends ConsumerWidget {
                 container: true,
                 button: true,
                 label: keySemanticLabel,
-                hint: 'Choose key signature.',
+                hint: 'Choose a key or detection mode.',
                 onTap: onOpenPicker,
-                onTapHint: 'Open key signature picker',
+                onTapHint: 'Open key and detection settings',
                 excludeSemantics: true,
                 child: Tooltip(
-                  message: 'Choose key signature',
-                  child: FilledButton.tonal(
+                  message: 'Choose a key or detection mode',
+                  child: FilledButton.tonalIcon(
                     onPressed: onOpenPicker,
                     style: ButtonStyle(
                       minimumSize: WidgetStatePropertyAll(
                         Size(0, effectiveMinButtonHeight),
                       ),
-                      padding: WidgetStatePropertyAll(
-                        EdgeInsetsDirectional.fromSTEB(
-                          6,
-                          verticalPadding,
-                          10,
-                          verticalPadding,
-                        ),
+                      padding: const WidgetStatePropertyAll(
+                        EdgeInsetsDirectional.fromSTEB(10, 0, 12, 0),
                       ),
                       visualDensity: VisualDensity.standard,
                     ),
-                    child: AnimatedOpacity(
+                    icon: _KeyModeIcon(auto: autoKey),
+                    label: AnimatedOpacity(
                       opacity: autoKey && autoKeyDimmed ? 0.55 : 1.0,
                       duration: const Duration(milliseconds: 400),
                       curve: Curves.easeInOut,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(autoKey ? Icons.hdr_auto : Icons.music_note),
-                          const SizedBox(width: 4),
-                          AnimatedSize(
-                            duration: const Duration(milliseconds: 400),
-                            curve: Curves.easeInOut,
-                            child: AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 400),
-                              child: Text(
-                                keyLabel,
-                                key: ValueKey(keyLabel),
-                                style: scaledKeyLabelStyle(
-                                  textTheme.labelLarge,
-                                ),
-                                textScaler: clampLabelScaler(
-                                  textTheme.labelLarge,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.clip,
-                                softWrap: false,
-                              ),
-                            ),
+                      child: AnimatedSize(
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.easeInOut,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 400),
+                          child: Text(
+                            keyLabel,
+                            key: ValueKey(keyLabel),
+                            style: scaledKeyLabelStyle(textTheme.labelLarge),
+                            textScaler: clampLabelScaler(textTheme.labelLarge),
+                            maxLines: 1,
+                            overflow: TextOverflow.clip,
+                            softWrap: false,
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -213,6 +198,47 @@ class TonalityBarView extends ConsumerWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Identifies the key control while marking automatic detection in-place.
+class _KeyModeIcon extends StatelessWidget {
+  const _KeyModeIcon({required this.auto});
+
+  final bool auto;
+
+  @override
+  Widget build(BuildContext context) {
+    final foreground =
+        IconTheme.of(context).color ?? DefaultTextStyle.of(context).style.color;
+
+    return SizedBox(
+      // Automatic mode uses the trailing edge for its A. Avoid reserving that
+      // otherwise-empty space between the key and label in manual mode.
+      width: auto ? 24 : 20,
+      height: 24,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          const Align(alignment: Alignment.center, child: Icon(Icons.key)),
+          if (auto)
+            PositionedDirectional(
+              top: -1,
+              end: 0,
+              child: Text(
+                'A',
+                textScaler: TextScaler.noScaling,
+                style: TextStyle(
+                  color: foreground,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w900,
+                  height: 1,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
