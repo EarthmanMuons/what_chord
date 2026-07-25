@@ -2,6 +2,7 @@ import '../models/chord_identity.dart';
 import 'rules/common_name_prior_rule.dart';
 import 'rules/coverage_simplicity_rules.dart';
 import 'rules/dominant_slash_rules.dart';
+import 'rules/ensemble_rules.dart';
 import 'rules/named_rule.dart';
 import 'rules/six_chord_rules.dart';
 import 'rules/triad_completeness_rules.dart';
@@ -20,6 +21,14 @@ export 'rules/named_rule.dart';
 /// A hard rule can promote a higher-cost reading to the top, so each is
 /// deliberately narrow and guarded.
 final List<NamedRule> hardRules = <NamedRule>[
+  // First on purpose: an implied-root candidate can only exist under ensemble
+  // analysis, and every implied-vs-sounding pair must be decided here before
+  // the sounding-root-era rules below see it. In solo analysis the rule never
+  // fires.
+  NamedRule(
+    'prefer idiomatic implied-root reading',
+    preferIdiomaticImpliedRootReading,
+  ),
   NamedRule(
     'prefer dominant flat-nine shell over colored diminished',
     preferCompleteDom7Flat9OverColoredDim7,

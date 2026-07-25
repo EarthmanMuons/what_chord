@@ -62,6 +62,10 @@ class ChordIdentity {
   /// Whether the bass is a different pitch class than the root.
   bool get hasSlashBass => bassPc != rootPc;
 
+  /// Whether the root is not among the sounding pitch classes: an ensemble
+  /// rootless reading, where the root is implied rather than played.
+  bool get hasImpliedRoot => (presentIntervalsMask & 0x1) == 0;
+
   @override
   String toString() =>
       'ChordIdentity(root=$rootPc, bass=$bassPc, quality=$quality, ext=$extensions, roles=$toneRolesByInterval)';

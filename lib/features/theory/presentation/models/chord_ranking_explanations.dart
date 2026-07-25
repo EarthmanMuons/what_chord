@@ -12,6 +12,8 @@ abstract final class ChordRankingExplanations {
   static const Map<String, String> _decisionSentences = <String, String>{
     'cost difference beyond tie-break range':
         'its explanation cost was clearly lower.',
+    'prefer idiomatic implied-root reading':
+        'in Ensemble mode the voicing reads as a rootless chord, so the name that reinstates the missing root wins over readings built only on the played notes.',
     'prefer dominant flat-nine shell over colored diminished':
         'the dominant-flat-nine name keeps the complete dominant shell together, while the diminished reading treats one of the dominant tones as added color.',
     'prefer flat-nine-bass dominant over remote reinterpretation':
@@ -109,6 +111,7 @@ abstract final class ChordRankingExplanations {
   static const Map<String, String> _costReasonLabels = <String, String>{
     CostReasonLabel.requiredTones: 'Required notes present',
     CostReasonLabel.missingRequired: 'Missing essential notes',
+    CostReasonLabel.missingRoot: 'Implied root (not played)',
     CostReasonLabel.optionalTones: 'Optional color tones',
     CostReasonLabel.penaltyTones: 'Conflicting tones',
     CostReasonLabel.colorTones: 'Named color tones',
