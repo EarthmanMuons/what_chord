@@ -36,18 +36,25 @@ class ChordTemplate {
   /// Whether the observed pitch classes must exactly match the base template.
   final bool requiresExactMatch;
 
+  /// Whether ensemble analysis may hypothesize this template on an absent
+  /// (implied) root. Every required tone must then sound: the guide tones
+  /// carry the identity, so the missing-essential allowance does not apply.
+  final bool allowsMissingRoot;
+
   const ChordTemplate({
     required this.quality,
     required this.requiredMask,
     this.optionalMask = 0,
     this.penaltyMask = 0,
     this.requiresExactMatch = false,
+    this.allowsMissingRoot = false,
   });
 
   ChordTemplate.fromIntervals(
     ChordQualityIntervals intervals, {
     required this.penaltyMask,
     this.requiresExactMatch = false,
+    this.allowsMissingRoot = false,
   }) : quality = intervals.quality,
        requiredMask = intervals.templateRequiredMask,
        optionalMask = intervals.omittableMask;
@@ -237,6 +244,7 @@ final chordTemplates = <ChordTemplate>[
   ChordTemplate.fromIntervals(
     ChordQuality.dominant7.intervals,
     penaltyMask: (1 << majorSeventhInterval) | (1 << minorThirdInterval),
+    allowsMissingRoot: true,
   ),
 
   // 7sus2: R + M2 + (P5) + b7
@@ -293,6 +301,7 @@ final chordTemplates = <ChordTemplate>[
   ChordTemplate.fromIntervals(
     ChordQuality.major7.intervals,
     penaltyMask: (1 << minorSeventhInterval) | (1 << minorThirdInterval),
+    allowsMissingRoot: true,
   ),
 
   // Major 7 suspended 2: R + M2 + (P5) + M7
@@ -350,6 +359,7 @@ final chordTemplates = <ChordTemplate>[
   ChordTemplate.fromIntervals(
     ChordQuality.minor7.intervals,
     penaltyMask: (1 << majorSeventhInterval) | (1 << majorThirdInterval),
+    allowsMissingRoot: true,
   ),
 
   // Minor 7 sharp 5: R + m3 + #5 + b7
@@ -370,6 +380,7 @@ final chordTemplates = <ChordTemplate>[
   ChordTemplate.fromIntervals(
     ChordQuality.minorMajor7.intervals,
     penaltyMask: (1 << majorThirdInterval) | (1 << minorSeventhInterval),
+    allowsMissingRoot: true,
   ),
 
   // Half-diminished 7th: R + m3 + b5 + b7
@@ -382,6 +393,7 @@ final chordTemplates = <ChordTemplate>[
         (1 << perfectFifthInterval) |
         (1 << majorThirdInterval) |
         (1 << majorSeventhInterval),
+    allowsMissingRoot: true,
   ),
 
   // Fully diminished 7th: R + m3 + b5 + d7 (enharmonic M6)
@@ -389,6 +401,7 @@ final chordTemplates = <ChordTemplate>[
   // - The top tone is spelled as diminished 7th in theory, but is pitch-class = M6 (9 semitones)
   // - No optional tones (tight, symmetrical structure)
   // - Penalty: b7 (would suggest half-diminished), P5/M3/M7 (contradict structure)
+  // - Never allowsMissingRoot: a rootless dim7 has four equally valid roots
   ChordTemplate.fromIntervals(
     ChordQuality.diminished7.intervals,
     penaltyMask:

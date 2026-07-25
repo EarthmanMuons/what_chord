@@ -9,6 +9,7 @@ import '../models/chord_identity.dart';
 import '../models/chord_input.dart';
 import '../models/chord_tone_role.dart';
 import '../models/observed_voicing.dart';
+import '../models/playing_context.dart';
 import '../services/bit_masks.dart';
 import '../services/chord_tone_roles.dart';
 import '../services/interval_constants.dart';
@@ -69,6 +70,7 @@ abstract final class CostReasonLabel {
   static const fifthlessSixth = 'fifthless sixth';
   static const penaltyTones = 'penalty tones';
   static const missingRequired = 'missing required';
+  static const missingRoot = 'missing root';
   static const bassFit = 'bass fit';
 
   /// Every label the analyzer can emit in a [CostReason].
@@ -80,6 +82,7 @@ abstract final class CostReasonLabel {
     fifthlessSixth,
     penaltyTones,
     missingRequired,
+    missingRoot,
     bassFit,
   };
 }
@@ -223,6 +226,11 @@ final class ChordAnalyzer {
   static const _missingSeventhCost = 0.75;
   static const _missingFifthCost = 0.5;
 
+  // The implied root of an ensemble rootless reading: cheap because the mode
+  // assumes another instrument covers it, but not free, so among otherwise
+  // equal readings the sounding root wins.
+  static const _missingRootCost = 0.25;
+
   // A sounding tone the name cannot account for at all.
   static const _unexplainedToneCost = 2.0;
 
@@ -354,16 +362,14 @@ final class ChordAnalyzer {
 
     final out = <_Evaluated>[];
 
-    // Assumption: chord roots must be spelled on notes actually present in the voicing.
-    // This prevents generating "ghost root" interpretations.
-    for (var rootPc = 0; rootPc < 12; rootPc++) {
-      if ((pcMask & (1 << rootPc)) == 0) continue;
+    void evaluateRoot(int rootPc, {required bool impliedRoot}) {
       if (engineCountersEnabled) EngineCounters.rootsConsidered++;
 
       final relMask = _rotateMaskToRoot(pcMask, rootPc);
       final bassInterval = intervalAboveRoot(input.bassPc, rootPc);
 
       for (final tmpl in chordTemplates) {
+        if (impliedRoot && !tmpl.allowsMissingRoot) continue;
         if (engineCountersEnabled) EngineCounters.templatesEvaluated++;
         final reasons = debug ? <CostReason>[] : null;
 
@@ -373,6 +379,7 @@ final class ChordAnalyzer {
           template: tmpl,
           rootPc: rootPc,
           context: context,
+          impliedRoot: impliedRoot,
           reasons: reasons,
         );
         if (priced == null) continue;
@@ -393,6 +400,24 @@ final class ChordAnalyzer {
         out.add(
           _Evaluated(candidate: candidate, template: tmpl, reasons: reasons),
         );
+      }
+    }
+
+    // Chord roots are spelled on notes actually present in the voicing; no
+    // "ghost root" interpretations under solo analysis.
+    for (var rootPc = 0; rootPc < 12; rootPc++) {
+      if ((pcMask & (1 << rootPc)) == 0) continue;
+      evaluateRoot(rootPc, impliedRoot: false);
+    }
+
+    // Ensemble analysis also hypothesizes rootless readings: the root may be
+    // covered by another instrument, so absent, key-diatonic pitch classes are
+    // tried as implied roots against the ensemble-eligible templates.
+    if (context.playingContext == PlayingContext.ensemble) {
+      for (var rootPc = 0; rootPc < 12; rootPc++) {
+        if ((pcMask & (1 << rootPc)) != 0) continue;
+        if (!context.tonality.containsPitchClass(rootPc)) continue;
+        evaluateRoot(rootPc, impliedRoot: true);
       }
     }
 
@@ -431,14 +456,27 @@ final class ChordAnalyzer {
   /// dense voicings keep the (larger) margin set, so the prune's win is intact.
   List<_Evaluated> _pruneForRanking(List<_Evaluated> out, int take) {
     if (out.length <= take) return out;
-    var minCost = double.infinity;
+    // Implied-root and sounding-root readings are pruned against their own
+    // group's cheapest: a hard rule can rank a rootless reading above a
+    // cheaper complete one, so the sounding-root minimum must not evict the
+    // implied-root group before ranking. In solo analysis no implied
+    // candidates exist and this reduces to a single minimum.
+    var minSounding = double.infinity;
+    var minImplied = double.infinity;
     for (final e in out) {
-      if (e.candidate.cost < minCost) minCost = e.candidate.cost;
+      final cost = e.candidate.cost;
+      if (e.candidate.identity.hasImpliedRoot) {
+        if (cost < minImplied) minImplied = cost;
+      } else {
+        if (cost < minSounding) minSounding = cost;
+      }
     }
-    final threshold = minCost + rankingPruneMargin;
     final within = [
       for (final e in out)
-        if (e.candidate.cost <= threshold) e,
+        if (e.candidate.cost <=
+            (e.candidate.identity.hasImpliedRoot ? minImplied : minSounding) +
+                rankingPruneMargin)
+          e,
     ];
     if (within.length >= take) return within;
     // Margin set is smaller than the requested count. Keep the cheapest [take]
@@ -463,6 +501,7 @@ final class ChordAnalyzer {
     required ChordTemplate template,
     required int rootPc,
     required AnalysisContext context,
+    bool impliedRoot = false,
     List<CostReason>? reasons,
   }) {
     void add(
@@ -483,10 +522,13 @@ final class ChordAnalyzer {
       );
     }
 
-    if ((relMask & 0x1) == 0) return null;
+    if (!impliedRoot && (relMask & 0x1) == 0) return null;
 
-    // Root must always be required for stability.
-    final required = template.requiredMask | 0x1;
+    // A sounding root is always required for stability; an implied root is
+    // absent by definition (the caller guarantees it).
+    final required = impliedRoot
+        ? template.requiredMask
+        : template.requiredMask | 0x1;
     final optional = template.optionalMask;
     final penalty = template.penaltyMask;
 
@@ -508,8 +550,10 @@ final class ChordAnalyzer {
     // Allow up to 1 missing required tone for sparse voicings.
     // Example: dominant7 without the 5th (shell voicing) is still valid.
     // More than 1 missing tone suggests wrong template entirely. A power
-    // chord is nothing but its fifth, so it gets no such allowance.
-    if (missCount > 1) return null;
+    // chord is nothing but its fifth, so it gets no such allowance, and an
+    // implied-root reading gets none either: with no root sounding, the guide
+    // tones are all the identity there is.
+    if (missCount > (impliedRoot ? 0 : 1)) return null;
     if (missCount > 0 && template.quality == ChordQuality.power) {
       return null;
     }
@@ -663,8 +707,11 @@ final class ChordAnalyzer {
 
     // A power chord is only a credible reading when the bare fifth plus its
     // named colors account for every sounding tone; a leftover tone means
-    // some other harmony is in play.
-    if (unexplainedMask != 0 && template.quality == ChordQuality.power) {
+    // some other harmony is in play. An implied-root reading is held to the
+    // same bar: hypothesizing an unplayed root is only credible when the name
+    // fully explains what was played.
+    if (unexplainedMask != 0 &&
+        (impliedRoot || template.quality == ChordQuality.power)) {
       return null;
     }
 
@@ -697,7 +744,19 @@ final class ChordAnalyzer {
       );
     }
 
-    final bassCost = isUpperTriadOverNinthBass
+    if (impliedRoot) {
+      cost += _missingRootCost;
+      add(
+        CostReasonLabel.missingRoot,
+        _missingRootCost,
+        intervals: 0x1,
+        count: 1,
+      );
+    }
+
+    // A rootless voicing puts a guide tone in the lowest voice by design, so
+    // its bass placement carries no evidence against the reading.
+    final bassCost = impliedRoot || isUpperTriadOverNinthBass
         ? 0.0
         : _bassPlacementCost(roles[bassInterval], template.quality);
     if (bassCost != 0) {

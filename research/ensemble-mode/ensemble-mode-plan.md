@@ -186,8 +186,10 @@ provider invalidation to `settings_reset_service.dart`.
 
 - [x] Phase 1: engine contract (`PlayingContext`, cache key, construction sites,
       aliasing test)
-- [ ] Phase 2: ghost-root generation, diatonic filter, missing-root pricing,
-      bass semantics, implied-root marker
+- [x] Phase 2: ghost-root generation, diatonic filter, missing-root pricing,
+      bass semantics, implied-root marker (plus the implied-root hard rule and
+      group-aware pruning the phase surfaced as necessary; see the plan addendum
+      in log entry 2026-07-25-02)
 - [ ] Phase 3: guide-tone/dominant-color tiebreak; real-engine corpus
       measurement; comping suite as CI tests; benchmark check; holdout
       confirmation

@@ -11,6 +11,7 @@ const defaultTestTonality = Tonality(Tonic.c, TonalityMode.major);
 AnalysisContext makeAnalysisContext({
   Tonality tonality = defaultTestTonality,
   NoteSpellingPolicy? spellingPolicy,
+  PlayingContext playingContext = PlayingContext.solo,
 }) {
   final keySignature = KeySignature.fromTonality(tonality);
   final policy =
@@ -21,6 +22,7 @@ AnalysisContext makeAnalysisContext({
     tonality: tonality,
     keySignature: keySignature,
     spellingPolicy: policy,
+    playingContext: playingContext,
   );
 }
 
