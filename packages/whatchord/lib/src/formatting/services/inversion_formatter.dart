@@ -7,8 +7,11 @@ import 'note_display_formatter.dart';
 /// Describes a slash bass in words (e.g. "1st inversion", "non-root bass").
 abstract final class InversionFormatter {
   /// The inversion description for [id], or null without a slash bass.
+  ///
+  /// An implied-root reading is not an inversion of anything the player
+  /// sounded, so it gets no description; callers label rootless separately.
   static String? format(ChordIdentity id) {
-    if (!id.hasSlashBass) return null;
+    if (!id.hasSlashBass || id.hasImpliedRoot) return null;
 
     final bassInterval = _interval(id.bassPc, id.rootPc);
 

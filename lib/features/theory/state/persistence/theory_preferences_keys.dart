@@ -2,6 +2,7 @@
 class TheoryPreferencesKeys {
   static const chordNotationStyle = 'theory.chordNotationStyle';
   static const noteNameSystem = 'theory.noteNameSystem';
+  static const playingContext = 'theory.playingContext';
   static const selectedTonality = 'theory.selectedTonality';
 }
 

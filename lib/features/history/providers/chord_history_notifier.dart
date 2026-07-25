@@ -46,6 +46,9 @@ final _captureFrameProvider = Provider<CaptureFrame?>((ref) {
   if (input == null || voicing == null) return null;
 
   final tonality = ref.watch(analysisContextProvider.select((c) => c.tonality));
+  final playingContext = ref.watch(
+    analysisContextProvider.select((c) => c.playingContext),
+  );
 
   // Chosen candidate plus its surfaced near-tie alternatives, so history and
   // the UI agree on what counts as a relevant alternative.
@@ -57,6 +60,7 @@ final _captureFrameProvider = Provider<CaptureFrame?>((ref) {
       ...ChordCandidateRanking.alternatives(candidates),
     ],
     tonality: tonality,
+    playingContext: playingContext,
   );
 });
 

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatchord/whatchord.dart';
 
+import '../../state/providers/analysis_context_provider.dart';
 import '../../state/providers/theory_preferences_notifier.dart';
 import 'scale_degrees.dart';
 import 'tonality_picker_sheet.dart';
@@ -30,6 +31,7 @@ class TonalityBarView extends ConsumerWidget {
     this.autoKey = false,
     this.autoKeyTonality,
     this.autoKeyDimmed = false,
+    this.onEnsembleTap,
   });
 
   final double height;
@@ -50,11 +52,20 @@ class TonalityBarView extends ConsumerWidget {
   final Tonality? autoKeyTonality;
   final bool autoKeyDimmed;
 
+  /// Invoked when the ensemble badge is tapped; typically opens the playing
+  /// mode setting. The badge is not tappable when null.
+  final VoidCallback? onEnsembleTap;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final noteNameSystem = ref.watch(noteNameSystemProvider);
+    // Effective context, not the raw setting, so the badge disappears while
+    // demo mode pins analysis to solo.
+    final ensembleActive =
+        ref.watch(analysisContextProvider.select((c) => c.playingContext)) ==
+        PlayingContext.ensemble;
 
     final textScale = MediaQuery.textScalerOf(context).scale(1.0);
     final verticalPadding = textScale > 1.2 ? 4.0 : 12.0;
@@ -160,6 +171,10 @@ class TonalityBarView extends ConsumerWidget {
                   ),
                 ),
               ),
+              if (ensembleActive) ...[
+                const SizedBox(width: 8),
+                _EnsembleBadge(onTap: onEnsembleTap),
+              ],
               const SizedBox(width: 10),
               Expanded(
                 child: Align(
@@ -198,6 +213,51 @@ class TonalityBarView extends ConsumerWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Persistent marker that ensemble analysis is on: naming changes globally in
+/// that mode, and without a visible reminder a forgotten toggle reads as a
+/// broken analyzer. Icon-only to spare the bar's horizontal space; tapping
+/// opens the playing mode setting.
+class _EnsembleBadge extends StatelessWidget {
+  const _EnsembleBadge({this.onTap});
+
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+
+    final badge = Container(
+      padding: const EdgeInsets.all(7),
+      decoration: BoxDecoration(
+        color: cs.secondaryContainer,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Icon(
+        Icons.groups_outlined,
+        size: 18,
+        color: cs.onSecondaryContainer,
+      ),
+    );
+
+    return Tooltip(
+      message: 'Ensemble mode',
+      child: Semantics(
+        label: 'Ensemble mode is on',
+        button: onTap != null,
+        onTap: onTap,
+        onTapHint: onTap == null ? null : 'Open playing mode setting',
+        child: onTap == null
+            ? badge
+            : InkWell(
+                borderRadius: BorderRadius.circular(8),
+                onTap: onTap,
+                child: badge,
+              ),
       ),
     );
   }

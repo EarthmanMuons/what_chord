@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:whatchord_app/features/key/key.dart';
+import 'package:whatchord_app/features/settings/settings.dart';
 import 'package:whatchord_app/features/theory/theory.dart';
 
 class TonalityBar extends ConsumerWidget {
@@ -52,6 +53,13 @@ class TonalityBar extends ConsumerWidget {
       autoKeyDimmed: inferred.displayKey != null && !inferred.emphasized,
       onOpenPicker: () =>
           unawaited(Navigator.of(context).push(KeyPage.route())),
+      onEnsembleTap: () => unawaited(
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (_) => const SettingsPage(scrollToPlayingMode: true),
+          ),
+        ),
+      ),
     );
   }
 }

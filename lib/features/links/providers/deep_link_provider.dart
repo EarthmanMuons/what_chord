@@ -26,6 +26,11 @@ final appDeepLinkProvider = Provider<void>((ref) {
     unawaited(
       ref.read(selectedTonalityProvider.notifier).setTonality(seed.tonality),
     );
+    // The linked reading only reproduces under the sharer's playing context;
+    // the mode change is visible in the tonality bar badge and in Settings.
+    unawaited(
+      ref.read(playingContextProvider.notifier).setContext(seed.playingContext),
+    );
 
     // Open the pad and replace any prior selection with the linked notes.
     final lookup = ref.read(lookupModeProvider.notifier);

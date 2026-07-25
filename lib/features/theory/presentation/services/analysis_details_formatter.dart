@@ -68,6 +68,7 @@ String analysisDetailsForChord({
   required List<String> members,
   required List<String> degrees,
   required String? appVersion,
+  String? playingMode,
 }) {
   final realizedBassPc = midis.first % 12;
 
@@ -80,7 +81,7 @@ String analysisDetailsForChord({
         'Members: ${members.isEmpty ? '(none)' : members.join('-')}',
       ]),
       _debugAlternatives(alternatives),
-      _debugContext(keyName: keyName),
+      _debugContext(keyName: keyName, playingMode: playingMode),
       _debugInput(midis: midis),
       _debugSection('Details', [
         'Root pitch class: $rootPc',
@@ -114,8 +115,11 @@ String _debugAlternatives(List<String> alternatives) {
   return _debugSection('Alternatives', lines);
 }
 
-String _debugContext({required String keyName}) {
-  return _debugSection('Context', ['Key: $keyName']);
+String _debugContext({required String keyName, String? playingMode}) {
+  return _debugSection('Context', [
+    'Key: $keyName',
+    if (playingMode != null) 'Playing mode: $playingMode',
+  ]);
 }
 
 String _debugInput({required List<int> midis}) {

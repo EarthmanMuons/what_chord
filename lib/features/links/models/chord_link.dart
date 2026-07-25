@@ -5,10 +5,12 @@ import 'package:whatchord_app/features/theory/theory.dart';
 /// Canonical website link grammar, shared by link building and deep-link
 /// parsing so the two can never drift.
 ///
-/// Shape: `https://whatchord.earthmanmuons.com/try?notes=<n>&key=<Root>:<maj|min>`
+/// Shape: `https://whatchord.earthmanmuons.com/try?notes=<n>&key=<Root>:<maj|min>&mode=ensemble`
 /// where `notes` is space-separated note names (C, F#, Bb) or MIDI numbers, and
-/// the first note is the bass. This matches the /try web page. Notation style is
-/// intentionally not carried; the app applies its own.
+/// the first note is the bass. This matches the /try web page. `mode` is
+/// present only for ensemble analysis: a rootless voicing resolves differently
+/// without it, so the link carries it while solo (the default) stays clean.
+/// Notation style is intentionally not carried; the app applies its own.
 class ChordLink {
   const ChordLink._();
 
@@ -32,6 +34,7 @@ class ChordLink {
   static Uri? build({
     required List<String> orderedNoteNames,
     required Tonality tonality,
+    PlayingContext playingContext = PlayingContext.solo,
   }) {
     if (orderedNoteNames.isEmpty) return null;
     final params = <String, String>{
@@ -40,6 +43,9 @@ class ChordLink {
     // Omit the default key (C major) for cleaner links, as the web page does.
     if (tonality != _defaultTonality) {
       params['key'] = _formatKey(tonality);
+    }
+    if (playingContext == PlayingContext.ensemble) {
+      params['mode'] = 'ensemble';
     }
     return Uri.https(host, path, params);
   }
@@ -58,6 +64,9 @@ class ChordLink {
     return ChordLinkSeed(
       pitchClasses: pitchClasses,
       tonality: _parseKey(uri.queryParameters['key']),
+      playingContext: uri.queryParameters['mode'] == 'ensemble'
+          ? PlayingContext.ensemble
+          : PlayingContext.solo,
     );
   }
 
@@ -121,11 +130,18 @@ class ChordLink {
 /// tonality to apply (C major when the link omits a key).
 @immutable
 class ChordLinkSeed {
-  const ChordLinkSeed({required this.pitchClasses, required this.tonality});
+  const ChordLinkSeed({
+    required this.pitchClasses,
+    required this.tonality,
+    this.playingContext = PlayingContext.solo,
+  });
 
   /// Entered pitch classes in order; the first entry is the bass.
   final List<int> pitchClasses;
 
   /// Tonality to apply.
   final Tonality tonality;
+
+  /// Playing context to apply; solo when the link omits `mode`.
+  final PlayingContext playingContext;
 }

@@ -115,7 +115,9 @@ final identityDisplayProvider = Provider<IdentityDisplay?>((ref) {
             .toList(growable: false);
 
         final inversion = InversionFormatter.format(id);
-        final secondaryLabel = (inversion == null || inversion.trim().isEmpty)
+        final secondaryLabel = id.hasImpliedRoot
+            ? 'Chord · rootless'
+            : (inversion == null || inversion.trim().isEmpty)
             ? 'Chord'
             : 'Chord · $inversion';
 
@@ -145,6 +147,12 @@ final identityDisplayProvider = Provider<IdentityDisplay?>((ref) {
               .toList(),
           degrees: presentation.memberDegrees.map(toGlyphAccidentals).toList(),
           appVersion: appVersion,
+          playingMode: switch (ref.watch(
+            analysisContextProvider.select((c) => c.playingContext),
+          )) {
+            PlayingContext.solo => 'Solo',
+            PlayingContext.ensemble => 'Ensemble',
+          },
         );
 
         return ChordDisplay(

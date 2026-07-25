@@ -4,6 +4,7 @@ import '../models/chord_candidate.dart';
 import '../models/chord_identity.dart';
 import '../models/chord_input.dart';
 import '../models/observed_voicing.dart';
+import '../models/playing_context.dart';
 import '../models/tonality.dart';
 
 /// One committed chord from live play: what sounded, how it was identified,
@@ -39,6 +40,11 @@ class ChordEvent {
   /// across a tonality change.
   final Tonality tonality;
 
+  /// Playing context the candidates were generated and ranked under. Like
+  /// [tonality], a second ranking-gating input: ensemble events may carry
+  /// implied-root identities a solo replay could never produce.
+  final PlayingContext playingContext;
+
   /// How long this identity persisted before the next one stabilized or the
   /// input released.
   final Duration duration;
@@ -49,6 +55,7 @@ class ChordEvent {
     required this.voicing,
     required List<ChordCandidate> candidates,
     required this.tonality,
+    this.playingContext = PlayingContext.solo,
     required this.duration,
   }) : assert(candidates.isNotEmpty, 'ChordEvent requires a chosen candidate'),
        candidates = List.unmodifiable(candidates);

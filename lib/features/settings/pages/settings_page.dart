@@ -18,7 +18,11 @@ import '../services/settings_reset_service.dart';
 import 'debug_log_page.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {
-  const SettingsPage({super.key});
+  const SettingsPage({super.key, this.scrollToPlayingMode = false});
+
+  /// Scrolls to and reveals the Playing Mode section on open; the tonality
+  /// bar's ensemble badge deep-links here.
+  final bool scrollToPlayingMode;
 
   @override
   ConsumerState<SettingsPage> createState() => _SettingsPageState();
@@ -38,10 +42,47 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   // unsafe once the widget is being unmounted.
   late final AudioMonitorNotifier _audioMonitor;
 
+  final _scrollController = ScrollController();
+  final _playingModeSectionKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
     _audioMonitor = ref.read(audioMonitorNotifier.notifier);
+    if (widget.scrollToPlayingMode) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        unawaited(_revealPlayingMode());
+      });
+    }
+  }
+
+  /// Scrolls until the Playing Mode section is built (the ListView is lazy,
+  /// so its context may not exist until the viewport reaches it), then aligns
+  /// it near the top.
+  Future<void> _revealPlayingMode() async {
+    for (var attempt = 0; attempt < 20; attempt++) {
+      if (!mounted) return;
+      final sectionContext = _playingModeSectionKey.currentContext;
+      if (sectionContext != null && sectionContext.mounted) {
+        await Scrollable.ensureVisible(
+          sectionContext,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeInOut,
+          alignment: 0,
+        );
+        return;
+      }
+      if (!_scrollController.hasClients) return;
+      final position = _scrollController.position;
+      if (position.pixels >= position.maxScrollExtent) return;
+      _scrollController.jumpTo(
+        (position.pixels + position.viewportDimension).clamp(
+          0,
+          position.maxScrollExtent,
+        ),
+      );
+      await WidgetsBinding.instance.endOfFrame;
+    }
   }
 
   @override
@@ -51,6 +92,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     _volumePreviewDebounceTimer?.cancel();
     _volumePreviewDebounceTimer = null;
     _audioMonitor.cancelPreviewNotes();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -126,7 +168,9 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       body: SafeArea(
         top: false,
         child: Scrollbar(
+          controller: _scrollController,
           child: ListView(
+            controller: _scrollController,
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
             children: [
               const SectionHeader(title: 'Input', icon: Icons.piano),
@@ -333,6 +377,24 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                     ref
                         .read(keyBehaviorProvider.notifier)
                         .setBehavior(behavior),
+                  );
+                },
+              ),
+
+              const SizedBox(height: 16),
+              SectionHeader(
+                key: _playingModeSectionKey,
+                title: 'Playing Mode',
+                icon: Icons.groups_outlined,
+              ),
+
+              _PlayingContextControl(
+                playingContext: ref.watch(playingContextProvider),
+                onChanged: (playingContext) {
+                  unawaited(
+                    ref
+                        .read(playingContextProvider.notifier)
+                        .setContext(playingContext),
                   );
                 },
               ),
@@ -631,6 +693,65 @@ class _AudioMonitorModeControl extends StatelessWidget {
               ],
               selected: {mode},
               onSelectionChanged: (selection) => onModeChanged(selection.first),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PlayingContextControl extends StatelessWidget {
+  const _PlayingContextControl({
+    required this.playingContext,
+    required this.onChanged,
+  });
+
+  final PlayingContext playingContext;
+  final ValueChanged<PlayingContext> onChanged;
+
+  String get _description => switch (playingContext) {
+    PlayingContext.solo => 'Names chords from the notes you play',
+    PlayingContext.ensemble => 'Names rootless voicings over a bassist',
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SegmentedButton<PlayingContext>(
+            segments: const <ButtonSegment<PlayingContext>>[
+              ButtonSegment(
+                value: PlayingContext.solo,
+                label: Text('Solo'),
+                icon: Icon(Icons.person_outline),
+              ),
+              ButtonSegment(
+                value: PlayingContext.ensemble,
+                label: Text('Ensemble'),
+                icon: Icon(Icons.groups_outlined),
+              ),
+            ],
+            selected: <PlayingContext>{playingContext},
+            onSelectionChanged: (selection) {
+              final next = selection.first;
+              if (next != playingContext) {
+                onChanged(next);
+                unawaited(HapticFeedback.selectionClick());
+              }
+            },
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _description,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: cs.onSurfaceVariant,
             ),
           ),
         ],
