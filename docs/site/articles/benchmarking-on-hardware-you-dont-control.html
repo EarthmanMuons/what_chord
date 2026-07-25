@@ -133,18 +133,17 @@
           <p>
             WhatChord names the chord you are playing, in real time, from the
             notes arriving over a MIDI connection. The part that does the
-            naming, the analysis engine, runs on every change to the keys you
-            are holding, so it sits on a
+            naming,
+            <a href="chord-recognition-algorithm.html">the analysis engine</a>,
+            runs on every change to the keys you are holding, so it sits on a
             <em>hot path</em>: code that runs constantly and has to stay fast.
             When we set out to make it faster, we hit a problem before changing
             a line. We could not trust our own measurements.
           </p>
 
           <p>
-            The problem fits in one number. Some of the optimizations in the
-            <a href="chord-ranking-performance.html"
-              >companion article on ranking performance</a
-            >
+            The problem fits in one number. Some of the
+            <a href="chord-ranking-performance.html">ranking optimizations</a>
             were worth about 4%. On a hot path that is worth shipping, but it is
             smaller than the run-to-run variation an ordinary laptop shows when
             a background task wakes up mid-benchmark, and far smaller than the

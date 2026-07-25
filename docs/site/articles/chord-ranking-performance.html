@@ -262,9 +262,11 @@
           <h2>The cost is real, and it grows with the chord</h2>
 
           <p>
-            The engine builds a candidate for every reasonable pairing of a root
-            note with a chord shape it can find in the voicing, so the candidate
-            count climbs steeply as you add notes:
+            The engine builds a candidate for every
+            <a href="chord-recognition-algorithm.html"
+              >reasonable pairing of a root note with a chord shape it can find
+              in the voicing</a
+            >, so the candidate count climbs steeply as you add notes:
           </p>
 
           <table class="article-table">
@@ -825,7 +827,11 @@
           <p>
             Each broken case had the same shape: the #1 pick was unchanged, and
             the shuffle was between alternatives at <em>identical</em> scores
-            that spell the same sound two different ways (for example
+            that
+            <a href="why-chord-naming-is-hard.html#enharmonic-spelling"
+              >spell the same sound two different ways</a
+            >
+            (for example
             <span class="chord">A♭7♯5♯11</span> versus
             <span class="chord">G♯7♭5♭13</span>), separated only by the
             root-note fallback. There is no musically correct order between
@@ -957,14 +963,14 @@
             </a>
             <a
               class="article-card article-card-following"
-              href="why-chord-naming-is-hard.html"
+              href="benchmarking-on-hardware-you-dont-control.html"
             >
-              <div class="article-tag">For musicians</div>
-              <h3>Why Chord Naming Is Harder Than It Looks</h3>
+              <div class="article-tag">Technical deep-dive</div>
+              <h3>Benchmarking on Hardware You Don’t Control</h3>
               <p>
-                The inversions, enharmonics, altered dominants, and genuine
-                ambiguity behind real chord recognition, explained without the
-                code.
+                Reference-normalized time, deterministic operation counters, and
+                a calibrated noise model for measuring the engine on shared CI
+                runners.
               </p>
               <span class="read-more">Read the article →</span>
             </a>
