@@ -1,7 +1,7 @@
 # Ensemble-Mode Evaluation Protocol
 
-Status: draft; to be frozen with a dated log entry before the first tiebreak
-measurement. This protocol inherits the frozen chord-context protocol
+Status: FROZEN 2026-07-25 (log entry 2026-07-25-03; text unchanged since
+initiative start). This protocol inherits the frozen chord-context protocol
 (`research/chord-context/PROTOCOL.md`) wholesale: split discipline, label
 isolation, ground-truth rules, statistics, and the performance budget all apply
 as written there. This document records only what is specific to ensemble mode.
