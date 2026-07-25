@@ -144,9 +144,12 @@
             Chord naming is musical interpretation, not pattern matching. The
             same set of notes can legitimately be described in several different
             ways, and musicians resolve this ambiguity constantly through
-            context, convention, and voice-leading intuition. Teaching that
-            intuition to a computer requires encoding a surprising amount of
-            musical knowledge.
+            context, convention, and
+            <a href="https://en.wikipedia.org/wiki/Voice_leading"
+              >voice-leading</a
+            >
+            intuition. Teaching that intuition to a computer requires encoding a
+            surprising amount of musical knowledge.
           </p>
 
           <h2>The same notes, different chords</h2>
@@ -157,13 +160,15 @@
           </p>
 
           <p>
-            It is a fully diminished 7th chord. That much is clear from the
-            interval structure: four notes, each a minor third apart, stacking
-            perfectly up the octave. But here is the catch: fully diminished 7th
-            chords are
-            <em>symmetrical</em>. Every voicing of this chord divides the octave
-            into four equal parts. That means the same four piano keys can
-            support four different diminished-7th readings.
+            It is a
+            <a href="https://en.wikipedia.org/wiki/Diminished_seventh_chord"
+              >fully diminished 7th chord</a
+            >. That much is clear from the interval structure: four notes, each
+            a minor third apart, stacking perfectly up the octave. But here is
+            the catch: fully diminished 7th chords are <em>symmetrical</em>.
+            Every voicing of this chord divides the octave into four equal
+            parts. That means the same four piano keys can support four
+            different diminished-7th readings.
           </p>
 
           <div class="callout">
@@ -284,27 +289,30 @@
           </p>
 
           <p>
-            The “altered scale,” the seventh mode of melodic minor, provides a
-            vocabulary of alterations that can be stacked on a dominant chord:
-            flat 9, sharp 9, sharp 11 or flat 5, and flat 13 or sharp 5. A
-            heavily altered dominant might look like
-            <span class="chord">G7(♯9,♯11,♭13)</span>: G plus its major 3rd (B),
-            its minor 7th (F), and three altered upper extensions. That is six
-            distinct pitch classes in a single chord.
+            The “<a href="https://en.wikipedia.org/wiki/Altered_scale"
+              >altered scale</a
+            >,” the seventh mode of melodic minor, provides a vocabulary of
+            alterations that can be stacked on a dominant chord: flat 9, sharp
+            9, sharp 11 or flat 5, and flat 13 or sharp 5. A heavily altered
+            dominant might look like <span class="chord">G7(♯9,♯11,♭13)</span>:
+            G plus its major 3rd (B), its minor 7th (F), and three altered upper
+            extensions. That is six distinct pitch classes in a single chord.
           </p>
 
           <p>
             The dominant 7th sharp-nine chord is particularly well-known,
-            nicknamed the “Hendrix chord” for its prominent use in “Purple
-            Haze,” where it appears as <span class="chord">E7♯9</span>. Building
-            one on G, the notes are G-B-F-A♯. That A♯ is the same piano key as
-            B♭, but the chord role is different: it is the raised 9th above G.
-            Without musical context, a naive recognizer might call the same keys
-            a diminished chord, a minor chord with a strange bass, or something
-            else entirely. The analyzer recognizes the dominant shell (major 3rd
-            + flat 7th) as the anchor, treats the sharp 9 as an alteration on
-            that dominant function, and reports
-            <span class="chord">G7♯9</span> as expected.
+            nicknamed the “<a
+              href="https://en.wikipedia.org/wiki/Dominant_seventh_sharp_ninth_chord"
+              >Hendrix chord</a
+            >” for its prominent use in “Purple Haze,” where it appears as
+            <span class="chord">E7♯9</span>. Building one on G, the notes are
+            G-B-F-A♯. That A♯ is the same piano key as B♭, but the chord role is
+            different: it is the raised 9th above G. Without musical context, a
+            naive recognizer might call the same keys a diminished chord, a
+            minor chord with a strange bass, or something else entirely. The
+            analyzer recognizes the dominant shell (major 3rd + flat 7th) as the
+            anchor, treats the sharp 9 as an alteration on that dominant
+            function, and reports <span class="chord">G7♯9</span> as expected.
           </p>
 
           <p>
@@ -380,8 +388,12 @@
             <span class="chord">Am7/C</span> case from earlier is the basic
             version of this problem: the notes are identical, but the musical
             meaning depends on where the harmony is going. Are you at the end of
-            a phrase resolving to tonic, or are you in the middle of a ii-V-I in
-            G major? The notes do not tell you. The music around them does.
+            a phrase resolving to tonic, or are you in the middle of a
+            <a
+              href="https://en.wikipedia.org/wiki/Ii%E2%80%93V%E2%80%93I_progression"
+              >ii-V-I</a
+            >
+            in G major? The notes do not tell you. The music around them does.
           </p>
 
           <p>
@@ -399,8 +411,11 @@
             support. The four notes C-E-F♯-B♭ are a clean example: they cost
             identically as <span class="chord">C7♭5</span> and
             <span class="chord">F♯7♭5/C</span>, two dominant 7th♭5 chords whose
-            roots sit a tritone apart, the same symmetry that underlies tritone
-            substitution in jazz. The app shows
+            roots sit a tritone apart, the same symmetry that underlies
+            <a href="https://en.wikipedia.org/wiki/Tritone_substitution"
+              >tritone substitution</a
+            >
+            in jazz. The app shows
             <span class="chord">C7♭5</span> as primary (root in the bass), with
             <span class="chord">F♯7♭5/C</span> listed as an equal-cost
             alternative.

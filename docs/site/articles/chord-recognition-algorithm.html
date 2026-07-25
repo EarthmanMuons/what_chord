@@ -191,13 +191,16 @@
           <h2>Pitch classes and bitmasks</h2>
 
           <p>
-            WhatChord models the common 12-tone equal temperament (12-TET)
-            pitch-class framework used by MIDI keyboards, which divides each
-            octave into equal semitone positions. A <em>pitch class</em> is the
-            note’s position within that octave, ignoring which octave it’s in,
-            so middle C, the C above it, and the C three octaves below all share
-            pitch class 0. In this engine, pitch classes are numbered 0 (C)
-            through 11 (B).
+            WhatChord models the common
+            <a href="https://en.wikipedia.org/wiki/12_equal_temperament"
+              >12-tone equal temperament</a
+            >
+            (12-TET) pitch-class framework used by MIDI keyboards, which divides
+            each octave into equal semitone positions. A <em>pitch class</em> is
+            the note’s position within that octave, ignoring which octave it’s
+            in, so middle C, the C above it, and the C three octaves below all
+            share pitch class 0. In this engine, pitch classes are numbered 0
+            (C) through 11 (B).
           </p>
 
           <p>
@@ -267,9 +270,13 @@
           <p>
             This representation is compact and fast. Checking whether a pitch
             class is present is a single bitwise AND. Counting present pitch
-            classes is a popcount. Rotating the set relative to a candidate root
-            is a loop over bits with modular arithmetic. All of these operations
-            are cheap.
+            classes is a
+            <a href="https://en.wikipedia.org/wiki/Hamming_weight">popcount</a>.
+            Rotating the set relative to a candidate root is a loop over bits
+            with
+            <a href="https://en.wikipedia.org/wiki/Modular_arithmetic"
+              >modular arithmetic</a
+            >. All of these operations are cheap.
           </p>
 
           <p>
@@ -794,9 +801,12 @@ notes: F♯ B♭ C E  |  bass: F♯ (pc 6)  |  key: C major
      (vs prev: cost difference beyond tie-break range)</code></pre>
 
           <p>
-            The same diagnostic output also exposes enharmonic spelling
-            decisions: MIDI provides pitch classes, and the engine chooses note
-            names from the winning chord context.
+            The same diagnostic output also exposes
+            <a href="https://en.wikipedia.org/wiki/Enharmonic_equivalence"
+              >enharmonic</a
+            >
+            spelling decisions: MIDI provides pitch classes, and the engine
+            chooses note names from the winning chord context.
           </p>
 
           <p>
@@ -1056,8 +1066,11 @@ notes: F♯ B♭ C E  |  bass: F♯ (pc 6)  |  key: C major
 
           <p>
             The engine uses a 512-entry Least Recently Used (LRU) cache
-            implemented as a <code>LinkedHashMap</code>. The cache key is a hash
-            of four inputs:
+            implemented as a
+            <a
+              href="https://api.dart.dev/dart-collection/LinkedHashMap-class.html"
+              ><code>LinkedHashMap</code></a
+            >. The cache key is a hash of four inputs:
           </p>
 
           <ul>
@@ -1111,9 +1124,12 @@ notes: F♯ B♭ C E  |  bass: F♯ (pc 6)  |  key: C major
           <ul>
             <li>
               <strong>Polychords.</strong> Two simultaneous independent
-              sonorities (like Stravinsky’s Petrushka chord, an F♯ major triad
-              over a C major triad) are not modeled. The algorithm will find the
-              best single-chord description of the combined note set.
+              sonorities (like Stravinsky’s
+              <a href="https://en.wikipedia.org/wiki/Petrushka_chord"
+                >Petrushka chord</a
+              >, an F♯ major triad over a C major triad) are not modeled. The
+              algorithm will find the best single-chord description of the
+              combined note set.
             </li>
             <li>
               <strong>Temporal context.</strong> Each snapshot of sounding notes
@@ -1125,8 +1141,11 @@ notes: F♯ B♭ C E  |  bass: F♯ (pc 6)  |  key: C major
             <li>
               <strong>Non-12-TET tuning.</strong> This engine is built around 12
               pitch classes and standard MIDI note numbers. Microtonal
-              intervals, quarter tones, and just-intonation distinctions have no
-              representation in this model.
+              intervals, quarter tones, and
+              <a href="https://en.wikipedia.org/wiki/Just_intonation"
+                >just-intonation</a
+              >
+              distinctions have no representation in this model.
             </li>
           </ul>
 
