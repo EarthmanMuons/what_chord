@@ -25,8 +25,11 @@ and published methods.
   conventions, and paper in one place.
 - [Chord Context](chord-context/): using recently played chords to improve live
   chord naming (contextual re-ranking, contextual spelling, display stability,
-  and a gate for rootless/ensemble voicings). Draft proposal; the protocol is
-  not yet frozen.
+  and a gate for rootless/ensemble voicings). Complete: findings validated on
+  held-out data; every front shipped, closed by measurement, or costed.
+- [Ensemble Mode](ensemble-mode/): an explicit comping mode that names rootless
+  voicings over a bassist, implementing the costed Track D handoff from Chord
+  Context. In progress; plan adopted, engine work not yet landed.
 
 Supporting code lives with the rest of the project: batch drivers and corpus
 tooling in `tool/`, performance benchmarks in `benchmark/`, and the engine
