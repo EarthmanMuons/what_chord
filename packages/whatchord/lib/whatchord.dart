@@ -19,6 +19,7 @@ export 'src/models/chord_tone_role.dart';
 export 'src/models/observed_voicing.dart';
 export 'src/models/key_signature.dart';
 export 'src/models/note_spelling_policy.dart';
+export 'src/models/playing_context.dart';
 export 'src/models/scale.dart';
 export 'src/models/scale_degree.dart';
 export 'src/models/tonic.dart';
