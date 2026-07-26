@@ -587,11 +587,14 @@ Future<void> _calibrateNoise() async {
       );
       if (results.length >= _minCalibrationRuns) {
         metrics = _calculateNoiseMetrics(baseline, results);
-        if (previousMetrics.isNotEmpty &&
-            _noiseMetricsStable(previousMetrics, metrics)) {
-          stable = true;
-          stdout.writeln('  stable after ${results.length} runs');
-          break;
+        if (previousMetrics.isNotEmpty) {
+          final unstable = _unstableNoiseMetrics(previousMetrics, metrics);
+          if (unstable.isEmpty) {
+            stable = true;
+            stdout.writeln('  stable after ${results.length} runs');
+            break;
+          }
+          stdout.writeln('    unstable: ${unstable.join(', ')}');
         }
         previousMetrics = metrics;
       }
@@ -698,20 +701,31 @@ Map<String, Map<String, double>> _calculateNoiseMetrics(
   return metrics;
 }
 
-bool _noiseMetricsStable(
+/// Names the metrics whose noise estimate moved more than the stability
+/// target since the previous round, with the signed change. Empty means the
+/// calibration has settled.
+List<String> _unstableNoiseMetrics(
   Map<String, Map<String, double>> previous,
   Map<String, Map<String, double>> current,
 ) {
-  if (previous.keys.length != current.keys.length) return false;
+  final unstable = <String>[];
   for (final key in current.keys) {
     final oldNoise = previous[key]?['noiseRel95'];
     final newNoise = current[key]?['noiseRel95'];
-    if (oldNoise == null || newNoise == null) return false;
+    if (oldNoise == null || newNoise == null) {
+      unstable.add('$key (new)');
+      continue;
+    }
     final denominator = math.max(oldNoise.abs(), 1e-12);
-    final relativeChange = (newNoise - oldNoise).abs() / denominator;
-    if (relativeChange > _calibrationStabilityTarget) return false;
+    final relativeChange = (newNoise - oldNoise) / denominator;
+    if (relativeChange.abs() > _calibrationStabilityTarget) {
+      unstable.add('$key (${_formatPercent(relativeChange)})');
+    }
   }
-  return true;
+  for (final key in previous.keys) {
+    if (!current.containsKey(key)) unstable.add('$key (dropped)');
+  }
+  return unstable;
 }
 
 void _printUsage() {
