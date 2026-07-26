@@ -83,6 +83,10 @@ void main(List<String> args) {
   var eligible = 0, symmetric = 0;
   var currentExact = 0;
   var engineAnnotatedExact = 0, engineInferredExact = 0;
+  // Hindsight arm: the inferred key one event later (the sticky claim after
+  // event i+1), the ceiling for a one-event-lag retroactive relabel of the
+  // history record (whatkey-local log 2026-07-26-04 Next).
+  var engineHindsightExact = 0;
   final annotated = _Outcome();
   final inferred = _Outcome();
   final inferredDominantAware = _Outcome(dominantAware: true);
@@ -93,6 +97,11 @@ void main(List<String> args) {
   // a key change, which no cadence-completion signal can reach in time).
   var engineMissKeyError = 0, engineMissAnnouncingDominant = 0;
   final engineMissKeyRelation = <String, int>{};
+  // Provenance of the key the inferred arm used: fresh (claimed at the
+  // previous event), carried (an older claim held through abstention), or
+  // fallback (no claim yet; annotated key stands in).
+  final provenanceTotal = <String, int>{};
+  final provenanceExact = <String, int>{};
 
   for (final fixture in selected) {
     final entries = (pieces[fixture.id] as List).cast<Map>();
@@ -101,11 +110,20 @@ void main(List<String> args) {
       decayHalfLife: behavior.emissionHalfLife,
       cadenceBoost: cadenceBoost,
     );
-    Tonality? inferredKey;
+    // First pass: sticky claim after each event and whether that event
+    // produced a fresh claim (vs carrying an older one through abstention).
+    final sticky = List<Tonality?>.filled(events.length, null);
+    final claimedAt = List<bool>.filled(events.length, false);
+    Tonality? running;
+    for (var i = 0; i < events.length; i++) {
+      final claim = detector.onEvent(events[i]).claim?.tonality;
+      claimedAt[i] = claim != null;
+      running = claim ?? running;
+      sticky[i] = running;
+    }
 
     for (var i = 0; i < events.length; i++) {
-      final claimBefore = inferredKey;
-      inferredKey = detector.onEvent(events[i]).claim?.tonality ?? inferredKey;
+      final claimBefore = i == 0 ? null : sticky[i - 1];
 
       final entry = entries[i].cast<String, dynamic>();
       if (entry['category'] != 'ok') continue;
@@ -169,7 +187,16 @@ void main(List<String> args) {
       final annotatedArmExact = engineExact(annotatedKey);
       if (annotatedArmExact) engineAnnotatedExact++;
       final usedKey = claimBefore ?? annotatedKey;
+      final hindsightKey =
+          sticky[i + 1 < events.length ? i + 1 : events.length - 1] ??
+          annotatedKey;
+      if (engineExact(hindsightKey)) engineHindsightExact++;
+      final provenance = claimBefore == null
+          ? 'fallback'
+          : (claimedAt[i - 1] ? 'fresh' : 'carried');
+      provenanceTotal[provenance] = (provenanceTotal[provenance] ?? 0) + 1;
       if (engineExact(usedKey)) {
+        provenanceExact[provenance] = (provenanceExact[provenance] ?? 0) + 1;
         engineInferredExact++;
       } else {
         engineInferredMissByQuality[quality] =
@@ -208,6 +235,9 @@ void main(List<String> args) {
     'missByQuality': missByQuality,
     'engineAnnotatedExact': engineAnnotatedExact,
     'engineInferredExact': engineInferredExact,
+    'engineHindsightExact': engineHindsightExact,
+    'engineInferredProvenanceTotal': provenanceTotal,
+    'engineInferredProvenanceExact': provenanceExact,
     'engineInferredMissByQuality': engineInferredMissByQuality,
     'engineInferredMissKeyError': engineMissKeyError,
     'engineInferredMissAnnouncingDominant': engineMissAnnouncingDominant,
@@ -253,6 +283,14 @@ void main(List<String> args) {
       '$engineMissKeyError, announcing dominant '
       '$engineMissAnnouncingDominant, used-key relation '
       '$engineMissKeyRelation',
+    )
+    ..writeln(
+      '  engine, hindsight key (one-event lag): exact '
+      '${pct(engineHindsightExact)}',
+    )
+    ..writeln(
+      '  inferred arm by key provenance (exact/total): '
+      '${provenanceTotal.keys.map((p) => '$p ${provenanceExact[p] ?? 0}/${provenanceTotal[p]}').join(', ')}',
     );
   final misses = missByQuality.entries.toList()
     ..sort((a, b) => b.value.compareTo(a.value));

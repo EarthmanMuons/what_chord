@@ -152,11 +152,21 @@ String _relation(
   ({int tonic, bool minor}) truth,
 ) {
   final interval = (inferred.tonic - truth.tonic) % 12;
-  if (inferred.tonic == truth.tonic) return 'parallel (same tonic, other mode)';
-  // Relative: minor claim three semitones below a major truth, or the mirror.
+  // Parallel and relative carry a direction tag (which mode was claimed) so
+  // the residual's mode asymmetry is visible (whatkey-local log
+  // 2026-07-26-04 Next: mine the relative residual for structure).
+  if (inferred.tonic == truth.tonic) {
+    return inferred.minor
+        ? 'parallel (claimed minor, truth major)'
+        : 'parallel (claimed major, truth minor)';
+  }
   if (inferred.minor != truth.minor) {
-    if (!truth.minor && inferred.minor && interval == 9) return 'relative';
-    if (truth.minor && !inferred.minor && interval == 3) return 'relative';
+    if (!truth.minor && inferred.minor && interval == 9) {
+      return 'relative (claimed minor, truth major)';
+    }
+    if (truth.minor && !inferred.minor && interval == 3) {
+      return 'relative (claimed major, truth minor)';
+    }
   }
   if (inferred.minor == truth.minor && interval == 7) return 'dominant (+5th)';
   if (inferred.minor == truth.minor && interval == 5) {
