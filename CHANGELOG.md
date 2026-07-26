@@ -43,6 +43,13 @@ The format is based on [Keep a Changelog][1], and this project adheres to
   waiting for three, when that chord is clear enough to name a key confidently.
   Ambiguous openings still show no key until the evidence settles, and accuracy
   improves slightly across the board.
+- Ensemble mode now names secondary and substitute dominants and other
+  outside-the-key chords correctly: the implied root of a rootless voicing no
+  longer has to belong to the current key, so a sub-five or V-of-something
+  comping voicing reads as the chord the pianist means instead of an in-key
+  lookalike. Measured on a new jazz corpus of 444 transcribed solos, correct
+  namings rise from about five in six to over nine in ten, with classical
+  accuracy improving as well.
 - The tonality bar now uses a more compact key button and tighter scale-degree
   spacing on narrow screens, keeping all seven degrees visible more often when
   Ensemble mode is on.

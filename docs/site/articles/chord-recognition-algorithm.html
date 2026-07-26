@@ -1089,7 +1089,6 @@ notes: F♯ B♭ C E  |  bass: F♯ (pc 6)  |  key: C major
           </p>
 
           <ul>
-            <li>Its root is diatonic to the prevailing key.</li>
             <li>
               Its quality is dominant 7th, major 7th, minor 7th, minor-major
               7th, or half-diminished 7th. Fully diminished 7th is excluded
@@ -1100,6 +1099,18 @@ notes: F♯ B♭ C E  |  bass: F♯ (pc 6)  |  key: C major
               explains every sounding tone.
             </li>
           </ul>
+
+          <p>
+            Any absent pitch class may serve as the implied root, in or out of
+            the prevailing key: secondary and substitute dominants put roots
+            outside the key constantly, and a key gate at this stage would
+            silently rename them all as their in-key twins. Key preference
+            belongs to ranking instead, where an out-of-key implied reading
+            earns priority only with all-natural colors, and the one pure
+            re-rooting pair (a rootless half-diminished 7th and the major 7th a
+            semitone below share identical tones) is decided by whichever root
+            the key contains.
+          </p>
 
           <p>
             An implied root adds <code>0.25</code> to the explanation cost. Bass
@@ -1113,8 +1124,12 @@ notes: F♯ B♭ C E  |  bass: F♯ (pc 6)  |  key: C major
             sounding-root alternatives; otherwise a complete upper-structure
             chord would usually win on cost. Altered extensions on a
             non-dominant implied chord do not receive this priority and compete
-            on cost instead. If two implied-root readings remain in a near tie,
-            the dominant-family reading wins.
+            on cost instead, and an out-of-key implied root must carry
+            all-natural colors to receive it (a real substitute dominant reads
+            with natural nine and thirteen, while a complete sounding dominant
+            reread as its own tritone-sub ghost shows up as an altered stack).
+            If two implied-root readings remain in a near tie, the
+            dominant-family reading wins.
           </p>
 
           <p>

@@ -90,18 +90,22 @@ void main() {
     expect(top.extensions, {ChordExtension.nine});
   });
 
-  test('implied roots are restricted to the diatonic pitch classes', () {
+  test('an out-of-key substitute dominant is admitted and named', () {
+    // A sub-five shell in C major: Db9 without its root (F Ab B Eb). The
+    // ghost root Db sits outside the key, which the admission gate allows
+    // (secondary and substitute dominants live off-key by definition,
+    // research/ensemble-tiebreak/log/2026-07-26-02); its natural-color
+    // reading earns the implied-root preference.
     final results = _analyzer.analyze(
-      chordInputFromNames(names: ['E', 'Bb', 'D', 'A']),
+      chordInputFromNames(names: ['F', 'Ab', 'B', 'Eb']),
       context: _ensemble(_cMajor),
       take: 12,
     );
 
-    final implied = results.where((c) => c.identity.hasImpliedRoot);
-    expect(implied, isNotEmpty);
-    for (final candidate in implied) {
-      expect(_cMajor.containsPitchClass(candidate.identity.rootPc), isTrue);
-    }
+    final top = results.first.identity;
+    expect(top.hasImpliedRoot, isTrue);
+    expect(top.rootPc, 1);
+    expect(top.quality.isDominantFamily, isTrue);
   });
 
   test('an off-idiom ghost reading does not displace a complete chord', () {

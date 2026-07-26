@@ -110,6 +110,8 @@ void main(List<String> args) {
   // Shape of annotated-key (oracle) misses: expected quality -> semitone
   // offset of the chosen root plus its quality.
   final annotatedMissShape = <String, int>{};
+  // Per-piece engine arms, for paired statistics across fixtures.
+  final perPiece = <Map<String, Object>>[];
 
   for (final fixture in selected) {
     final entries = (pieces[fixture.id] as List).cast<Map>();
@@ -130,6 +132,10 @@ void main(List<String> args) {
       running = claim ?? running;
       sticky[i] = running;
     }
+
+    var pieceScored = 0;
+    var pieceAnnotated = 0;
+    var pieceInferred = 0;
 
     for (var i = 0; i < events.length; i++) {
       final claimBefore = i == 0 ? null : sticky[i - 1];
@@ -194,11 +200,13 @@ void main(List<String> args) {
         return top.rootPc == rootPc && top.quality.name == quality;
       }
 
+      pieceScored++;
       final annotatedTop = engineTop(annotatedKey);
       final annotatedArmExact =
           annotatedTop.rootPc == rootPc && annotatedTop.quality.name == quality;
       if (annotatedArmExact) {
         engineAnnotatedExact++;
+        pieceAnnotated++;
       } else {
         // The pure naming residual: what the engine chose instead, with the
         // key removed as a factor (whatkey-local log 2026-07-26-04 sized
@@ -223,6 +231,7 @@ void main(List<String> args) {
       if (engineExact(usedKey)) {
         provenanceExact[provenance] = (provenanceExact[provenance] ?? 0) + 1;
         engineInferredExact++;
+        pieceInferred++;
       } else {
         engineInferredMissByQuality[quality] =
             (engineInferredMissByQuality[quality] ?? 0) + 1;
@@ -243,6 +252,14 @@ void main(List<String> args) {
       if (!annotated.wasUnique) {
         missByQuality[quality] = (missByQuality[quality] ?? 0) + 1;
       }
+    }
+    if (pieceScored > 0) {
+      perPiece.add({
+        'title': fixture.title,
+        'scored': pieceScored,
+        'engineAnnotatedExact': pieceAnnotated,
+        'engineInferredExact': pieceInferred,
+      });
     }
   }
 
@@ -269,6 +286,7 @@ void main(List<String> args) {
     'engineInferredMissAnnouncingDominant': engineMissAnnouncingDominant,
     'engineInferredMissKeyRelation': engineMissKeyRelation,
     'engineAnnotatedMissShape': annotatedMissShape,
+    'perPiece': perPiece,
   };
   final outDir = Directory(options['out'] ?? 'build/chord-context/rootless')
     ..createSync(recursive: true);

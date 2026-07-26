@@ -9,7 +9,12 @@ structural confusion pairs are 88% of the annotated-key naming residual, and the
 missing jazz-comping corpus turned out to be sitting in the corpus checkout the
 project already pins.
 
-Status: active (started 2026-07-26).
+Status: active (started 2026-07-26). The dev-split result is in (log entry -02):
+the residual was hypothesis admission, not tiebreaking. Key-open implied-root
+admission plus two narrow guards lifts Weimar dev from 83.7% to 92.9%
+inferred-key exact (paired +0.0786 per solo, p = 3.5e-30) and DCML dev from
+92.8% to 96.5% inferred / 95.9% to 97.3% annotated, with the comping suite exact
+and solo analysis bit-identical. Test-split confirmation pending.
 
 ## Why
 
