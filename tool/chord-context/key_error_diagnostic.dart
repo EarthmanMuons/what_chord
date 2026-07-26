@@ -52,6 +52,10 @@ void main(List<String> args) {
   final cadenceBoost = double.parse(
     options['cadence-boost'] ?? '${HmmKeyDetector.defaultCadenceBoost}',
   );
+  final relativeEvidenceTilt = double.parse(
+    options['relative-evidence-tilt'] ??
+        '${HmmKeyDetector.defaultRelativeEvidenceTilt}',
+  );
 
   final relation = <String, int>{};
   var labeledEvents = 0, abstained = 0, claimed = 0, exact = 0;
@@ -72,6 +76,7 @@ void main(List<String> args) {
     final detector = HmmKeyDetector(
       decayHalfLife: behavior.emissionHalfLife,
       cadenceBoost: cadenceBoost,
+      relativeEvidenceTilt: relativeEvidenceTilt,
     );
     for (var i = 0; i < events.length; i++) {
       final claim = detector.onEvent(events[i]).claim?.tonality;
@@ -112,6 +117,7 @@ void main(List<String> args) {
     'set': fixtureSet.name,
     'behavior': behavior.name,
     'cadenceBoost': cadenceBoost,
+    'relativeEvidenceTilt': relativeEvidenceTilt,
     'labeledEvents': labeledEvents,
     'abstained': abstained,
     'claimed': claimed,

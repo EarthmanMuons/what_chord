@@ -19,6 +19,7 @@
 //     [--decay-half-life-events N] \
 //     [--min-events N] [--margin-floor X] [--mode-tilt X] \
 //     [--relative-tilt X] [--relative-cadence-tilt X] \
+//     [--relative-evidence-tilt X] [--relative-evidence-window N] \
 //     [--cadence-boost X] [--cadence-triad-boost X] \
 //     [--relative-switch-factor X] \
 //     [--fifths-decay X] [--mode-switch-factor X] \
@@ -520,6 +521,8 @@ class _Options {
   final double modeTilt;
   final double relativeTilt;
   final double relativeCadenceTilt;
+  final double relativeEvidenceTilt;
+  final int relativeEvidenceWindow;
   final double cadenceBoost;
   final double cadenceTriadBoost;
   final double relativeSwitchFactor;
@@ -555,6 +558,8 @@ class _Options {
     required this.modeTilt,
     required this.relativeTilt,
     required this.relativeCadenceTilt,
+    required this.relativeEvidenceTilt,
+    required this.relativeEvidenceWindow,
     required this.cadenceBoost,
     required this.cadenceTriadBoost,
     required this.relativeSwitchFactor,
@@ -648,6 +653,8 @@ class _Options {
         modeTilt: modeTilt,
         relativeTilt: relativeTilt,
         relativeCadenceTilt: relativeCadenceTilt,
+        relativeEvidenceTilt: relativeEvidenceTilt,
+        relativeEvidenceWindow: relativeEvidenceWindow,
         cadenceBoost: cadenceBoost,
         cadenceTriadBoost: cadenceTriadBoost,
         relativeSwitchFactor: relativeSwitchFactor,
@@ -727,6 +734,8 @@ class _Options {
       'mode-tilt',
       'relative-tilt',
       'relative-cadence-tilt',
+      'relative-evidence-tilt',
+      'relative-evidence-window',
       'cadence-boost',
       'cadence-triad-boost',
       'relative-switch-factor',
@@ -831,6 +840,16 @@ class _Options {
             values.remove('relative-cadence-tilt') ??
                 '${HmmKeyDetector.defaultRelativeCadenceTilt}',
           ),
+      relativeEvidenceTilt:
+          recipe?.relativeEvidenceTilt ??
+          double.parse(
+            values.remove('relative-evidence-tilt') ??
+                '${HmmKeyDetector.defaultRelativeEvidenceTilt}',
+          ),
+      relativeEvidenceWindow: int.parse(
+        values.remove('relative-evidence-window') ??
+            '${HmmKeyDetector.defaultRelativeEvidenceWindow}',
+      ),
       cadenceBoost:
           recipe?.cadenceBoost ??
           double.parse(

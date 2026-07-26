@@ -87,6 +87,30 @@ class HmmKeyDetector implements KeyDetector {
   /// See [defaultRelativeTilt].
   static const double defaultRelativeCadenceTilt = 0;
 
+  /// Log-odds tilt toward the major twin of each relative pair on events
+  /// that carry no minor-defining evidence for that pair's minor key: the
+  /// minor key's raised seventh is not sounding and the event chord is not a
+  /// minor-tonic quality on its root. Pair sums are conserved (the mode-tilt
+  /// construction), so no other signature gains or loses evidence.
+  ///
+  /// Aimed at a measured structural asymmetry (whatkey-local log
+  /// 2026-07-26-07): the minor profile spreads weight across both sixths and
+  /// both sevenths, so every relative-major scale tone carries non-trivial
+  /// minor weight and sustained major-key content never votes against the
+  /// relative minor, while minor-specific content votes hard against the
+  /// major twin. The result is relative confusion that leans claimed-minor
+  /// against a major truth. This tilt supplies the missing vote in the one
+  /// direction the profiles cannot. Default off pending measurement.
+  static const double defaultRelativeEvidenceTilt = 0;
+
+  /// How many recent events (including the current one) the
+  /// [relativeEvidenceTilt] gate looks across. At 1 the gate is per-event,
+  /// which punishes genuine minor passages between cadences (the raised
+  /// seventh sounds at cadences, not in every chord); a wider window tests
+  /// the actual structural claim, that sustained content without the raised
+  /// seventh is major evidence.
+  static const int defaultRelativeEvidenceWindow = 1;
+
   /// Log-space boost on transition mass into a key whose cadence the incoming
   /// event completes: the previous event was a dominant-seventh-family chord
   /// rooted a fifth above the current chord's root, and the current chord has
@@ -160,6 +184,14 @@ class HmmKeyDetector implements KeyDetector {
   /// Cadence-gated relative-pair tilt strength (see [defaultRelativeTilt]).
   final double relativeCadenceTilt;
 
+  /// Minor-evidence-gated relative-pair tilt (see
+  /// [defaultRelativeEvidenceTilt]).
+  final double relativeEvidenceTilt;
+
+  /// Gate window for [relativeEvidenceTilt] (see
+  /// [defaultRelativeEvidenceWindow]).
+  final int relativeEvidenceWindow;
+
   /// Cadence-conditioned transition boost (see [defaultCadenceBoost]).
   final double cadenceBoost;
 
@@ -195,6 +227,8 @@ class HmmKeyDetector implements KeyDetector {
     this.modeTilt = defaultModeTilt,
     this.relativeTilt = defaultRelativeTilt,
     this.relativeCadenceTilt = defaultRelativeCadenceTilt,
+    this.relativeEvidenceTilt = defaultRelativeEvidenceTilt,
+    this.relativeEvidenceWindow = defaultRelativeEvidenceWindow,
     this.cadenceBoost = defaultCadenceBoost,
     this.cadenceTriadBoost = defaultCadenceTriadBoost,
     this.relativeSwitchFactor = defaultRelativeSwitchFactor,
@@ -222,6 +256,8 @@ class HmmKeyDetector implements KeyDetector {
       'emissionTemperature=$emissionTemperature '
       'minEvents=$minEvents marginFloor=$marginFloor modeTilt=$modeTilt '
       'relativeTilt=$relativeTilt relativeCadenceTilt=$relativeCadenceTilt '
+      'relativeEvidenceTilt=$relativeEvidenceTilt '
+      'relativeEvidenceWindow=$relativeEvidenceWindow '
       'cadenceBoost=$cadenceBoost cadenceTriadBoost=$cadenceTriadBoost '
       'relativeSwitchFactor=$relativeSwitchFactor '
       '| emissions: ${_emissions.configuration}';
@@ -233,6 +269,7 @@ class HmmKeyDetector implements KeyDetector {
     _eventCount = 0;
     _previousIdentity = null;
     _penultimateIdentity = null;
+    _evidenceWindow.clear();
   }
 
   @override
@@ -272,6 +309,7 @@ class HmmKeyDetector implements KeyDetector {
       final emission = _emissionDistribution(emissionFrame.ranked);
       _applyModeTilt(emission, event);
       _applyRelativeTilt(emission, event);
+      _applyRelativeEvidenceTilt(emission, event);
       var total = 0.0;
       for (var k = 0; k < 24; k++) {
         predicted[k] *= emission[k];
@@ -375,6 +413,49 @@ class HmmKeyDetector implements KeyDetector {
     emission[homeK] = home * rescale;
     emission[twinK] = twin * rescale;
   }
+
+  /// Tilts every relative pair toward its major twin by
+  /// [relativeEvidenceTilt] log-odds unless the last
+  /// [relativeEvidenceWindow] events carry minor-defining evidence for that
+  /// pair's minor key: its raised seventh sounding, or a
+  /// minor-tonic-quality chord on its root. Each pair's emission sum is
+  /// preserved, so no signature's total evidence moves.
+  void _applyRelativeEvidenceTilt(List<double> emission, ChordEvent event) {
+    if (relativeEvidenceTilt == 0) return;
+    final identity = event.identity;
+    final current = (
+      pcMask: event.input.pcMask,
+      minorTonicRoots: KeySpace.minorTonicQualities.contains(identity.quality)
+          ? 1 << identity.rootPc
+          : 0,
+    );
+    var pcUnion = current.pcMask;
+    var minorTonicRoots = current.minorTonicRoots;
+    for (final past in _evidenceWindow) {
+      pcUnion |= past.pcMask;
+      minorTonicRoots |= past.minorTonicRoots;
+    }
+    _evidenceWindow.add(current);
+    if (_evidenceWindow.length >= relativeEvidenceWindow) {
+      _evidenceWindow.removeAt(0);
+    }
+    final factor = math.exp(relativeEvidenceTilt);
+    for (var minorPc = 0; minorPc < 12; minorPc++) {
+      if (pcUnion & (1 << ((minorPc + 11) % 12)) != 0) continue;
+      if (minorTonicRoots & (1 << minorPc) != 0) continue;
+      final minorK = KeySpace.minorIndex(minorPc);
+      final majorK = KeySpace.majorIndex(KeySpace.relativeMajorPc(minorPc));
+      final pairSum = emission[minorK] + emission[majorK];
+      if (pairSum == 0) continue;
+      final major = emission[majorK] * factor;
+      final minor = emission[minorK] / factor;
+      final rescale = pairSum / (major + minor);
+      emission[majorK] = major * rescale;
+      emission[minorK] = minor * rescale;
+    }
+  }
+
+  final List<({int pcMask, int minorTonicRoots})> _evidenceWindow = [];
 
   /// Chord qualities that read as a settled major tonic when a cadence lands
   /// on them. Deliberately narrower than [KeySpace.majorTonicQualities]:
