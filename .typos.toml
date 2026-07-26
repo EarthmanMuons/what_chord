@@ -8,7 +8,8 @@ extend-exclude = [
   "*.pbxproj",
   "*.xib",
   "docs/site/js/chord-id.js",
-  "research/chord-context/data/splits/"
+  "research/chord-context/data/splits/",
+  "research/ensemble-tiebreak/data/splits/"
 ]
 
 # Don't correct these false positives

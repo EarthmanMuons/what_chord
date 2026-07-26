@@ -37,6 +37,10 @@ and published methods.
   an internal ensemble naming key and a one-event history relabel in the app),
   seven further mechanisms closed by measurement, and the holdout confirms
   significant coverage gains at maintained accuracy over the paper baseline.
+- [Ensemble Tiebreak](ensemble-tiebreak/): closing the ensemble mode's pure
+  naming residual on a new jazz-comping ruler built from the Weimar Jazz
+  Database. Active: corpus and split frozen, jazz baseline taken (83.7%
+  inferred-key exact; three confusion families are 79% of the residual).
 
 Supporting code lives with the rest of the project: batch drivers and corpus
 tooling in `tool/`, performance benchmarks in `benchmark/`, and the engine

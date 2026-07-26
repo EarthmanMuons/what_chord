@@ -1,0 +1,2705 @@
+{
+ "counts": {
+  "developmentSolos": 361,
+  "testSolos": 83,
+  "testTunes": 54,
+  "tunes": 295
+ },
+ "frozenAt": "2026-07-26",
+ "method": {
+  "excludedNoChanges": [
+   "weimar_185",
+   "weimar_187",
+   "weimar_188",
+   "weimar_322",
+   "weimar_336",
+   "weimar_337",
+   "weimar_338",
+   "weimar_339",
+   "weimar_403",
+   "weimar_404",
+   "weimar_405",
+   "weimar_434"
+  ],
+  "input": "partitions/weimar/choco/meta.csv plus an NC-only eligibility gate over the chord annotations",
+  "seed": "ensemble-tiebreak-weimar-comping-v1-split-2026-07-26",
+  "testRatio": 0.15,
+  "unit": "tune (all solos of a tune share a side)"
+ },
+ "schema": "chord-context-split/1",
+ "set": "weimar-comping-v1",
+ "source": {
+  "chocoCommit": "5fe168fd55be5c84512abcfbc4e6f1b1f8f0092a",
+  "type": "weimar-choco"
+ },
+ "splits": {
+  "development": [
+   {
+    "id": "John Coltrane/26-2 (weimar_215)",
+    "performers": "John Coltrane",
+    "solo": "weimar_215",
+    "tune": "26-2"
+   },
+   {
+    "id": "Wayne Shorter/Adam's Apple (weimar_426)",
+    "performers": "Wayne Shorter",
+    "solo": "weimar_426",
+    "tune": "Adam's Apple"
+   },
+   {
+    "id": "Buck Clayton/After Theatre Jump (weimar_44)",
+    "performers": "Buck Clayton",
+    "solo": "weimar_44",
+    "tune": "After Theatre Jump"
+   },
+   {
+    "id": "Dickie Wells/After Theatre Jump (weimar_127)",
+    "performers": "Dickie Wells",
+    "solo": "weimar_127",
+    "tune": "After Theatre Jump"
+   },
+   {
+    "id": "Lester Young/After Theatre Jump (weimar_278)",
+    "performers": "Lester Young",
+    "solo": "weimar_278",
+    "tune": "After Theatre Jump"
+   },
+   {
+    "id": "Herbie Hancock/Agitation (weimar_184)",
+    "performers": "Herbie Hancock",
+    "solo": "weimar_184",
+    "tune": "Agitation"
+   },
+   {
+    "id": "Miles Davis/Agitation (weimar_309)",
+    "performers": "Miles Davis",
+    "solo": "weimar_309",
+    "tune": "Agitation"
+   },
+   {
+    "id": "Miles Davis/Airegin (weimar_310)",
+    "performers": "Miles Davis",
+    "solo": "weimar_310",
+    "tune": "Airegin"
+   },
+   {
+    "id": "Sonny Rollins/Airegin (weimar_378)",
+    "performers": "Sonny Rollins",
+    "solo": "weimar_378",
+    "tune": "Airegin"
+   },
+   {
+    "id": "Eric Dolphy/Aisha (weimar_154)",
+    "performers": "Eric Dolphy",
+    "solo": "weimar_154",
+    "tune": "Aisha"
+   },
+   {
+    "id": "Paul Desmond/Alianca (weimar_346)",
+    "performers": "Paul Desmond",
+    "solo": "weimar_346",
+    "tune": "Alianca"
+   },
+   {
+    "id": "Paul Desmond/Alianca (weimar_347)",
+    "performers": "Paul Desmond",
+    "solo": "weimar_347",
+    "tune": "Alianca"
+   },
+   {
+    "id": "Lee Konitz/All the Things You Are (weimar_266)",
+    "performers": "Lee Konitz",
+    "solo": "weimar_266",
+    "tune": "All the Things You Are"
+   },
+   {
+    "id": "Milt Jackson/All the Things You Are (weimar_328)",
+    "performers": "Milt Jackson",
+    "solo": "weimar_328",
+    "tune": "All the Things You Are"
+   },
+   {
+    "id": "Pat Metheny/All the Things You Are (weimar_342)",
+    "performers": "Pat Metheny",
+    "solo": "weimar_342",
+    "tune": "All the Things You Are"
+   },
+   {
+    "id": "Zoot Sims/All the Things You Are (weimar_451)",
+    "performers": "Zoot Sims",
+    "solo": "weimar_451",
+    "tune": "All the Things You Are"
+   },
+   {
+    "id": "Paul Desmond/Alone Together (weimar_348)",
+    "performers": "Paul Desmond",
+    "solo": "weimar_348",
+    "tune": "Alone Together"
+   },
+   {
+    "id": "Steve Lacy/Alone Together (weimar_413)",
+    "performers": "Steve Lacy",
+    "solo": "weimar_413",
+    "tune": "Alone Together"
+   },
+   {
+    "id": "Pat Martino/Along Came Betty (weimar_341)",
+    "performers": "Pat Martino",
+    "solo": "weimar_341",
+    "tune": "Along Came Betty"
+   },
+   {
+    "id": "Bob Berg/Angles (weimar_31)",
+    "performers": "Bob Berg",
+    "solo": "weimar_31",
+    "tune": "Angles"
+   },
+   {
+    "id": "Wynton Marsalis/April in Paris (weimar_444)",
+    "performers": "Wynton Marsalis",
+    "solo": "weimar_444",
+    "tune": "April in Paris"
+   },
+   {
+    "id": "Chris Potter/Arjuna (weimar_79)",
+    "performers": "Chris Potter",
+    "solo": "weimar_79",
+    "tune": "Arjuna"
+   },
+   {
+    "id": "David Murray/Ask Me Now (weimar_115)",
+    "performers": "David Murray",
+    "solo": "weimar_115",
+    "tune": "Ask Me Now"
+   },
+   {
+    "id": "Steve Lacy/Ask Me Now (weimar_414)",
+    "performers": "Steve Lacy",
+    "solo": "weimar_414",
+    "tune": "Ask Me Now"
+   },
+   {
+    "id": "Benny Goodman/Avalon (weimar_14)",
+    "performers": "Benny Goodman",
+    "solo": "weimar_14",
+    "tune": "Avalon"
+   },
+   {
+    "id": "Lionel Hampton/Avalon (weimar_285)",
+    "performers": "Lionel Hampton",
+    "solo": "weimar_285",
+    "tune": "Avalon"
+   },
+   {
+    "id": "Henry Allen/Baby Won't You Please Come Home (weimar_183)",
+    "performers": "Henry Allen",
+    "solo": "weimar_183",
+    "tune": "Baby Won't You Please Come Home"
+   },
+   {
+    "id": "J.C. Higginbotham/Baby Won't You Please Come Home (weimar_189)",
+    "performers": "J.C. Higginbotham",
+    "solo": "weimar_189",
+    "tune": "Baby Won't You Please Come Home"
+   },
+   {
+    "id": "Sidney Bechet/Baby Won't You Please Come Home (weimar_373)",
+    "performers": "Sidney Bechet",
+    "solo": "weimar_373",
+    "tune": "Baby Won't You Please Come Home"
+   },
+   {
+    "id": "Milt Jackson/Bag's Groove (weimar_329)",
+    "performers": "Milt Jackson",
+    "solo": "weimar_329",
+    "tune": "Bag's Groove"
+   },
+   {
+    "id": "Dizzy Gillespie/Be-Bop (weimar_134)",
+    "performers": "Dizzy Gillespie",
+    "solo": "weimar_134",
+    "tune": "Be-Bop"
+   },
+   {
+    "id": "Don Byas/Be-Bop (weimar_139)",
+    "performers": "Don Byas",
+    "solo": "weimar_139",
+    "tune": "Be-Bop"
+   },
+   {
+    "id": "David Liebman/Begin the Beguine (weimar_104)",
+    "performers": "David Liebman",
+    "solo": "weimar_104",
+    "tune": "Begin the Beguine"
+   },
+   {
+    "id": "Milt Jackson/Bemsha Swing (weimar_330)",
+    "performers": "Milt Jackson",
+    "solo": "weimar_330",
+    "tune": "Bemsha Swing"
+   },
+   {
+    "id": "John Coltrane/Bessie's Blues (weimar_216)",
+    "performers": "John Coltrane",
+    "solo": "weimar_216",
+    "tune": "Bessie's Blues"
+   },
+   {
+    "id": "Louis Armstrong/Big Butter and Egg Man (weimar_292)",
+    "performers": "Louis Armstrong",
+    "solo": "weimar_292",
+    "tune": "Big Butter and Egg Man"
+   },
+   {
+    "id": "Dizzy Gillespie/Blue 'n Boogie (weimar_135)",
+    "performers": "Dizzy Gillespie",
+    "solo": "weimar_135",
+    "tune": "Blue 'n Boogie"
+   },
+   {
+    "id": "J.J. Johnson/Blue Mode (weimar_190)",
+    "performers": "J.J. Johnson",
+    "solo": "weimar_190",
+    "tune": "Blue Mode"
+   },
+   {
+    "id": "Sonny Stitt/Blue Mode (weimar_391)",
+    "performers": "Sonny Stitt",
+    "solo": "weimar_391",
+    "tune": "Blue Mode"
+   },
+   {
+    "id": "Paul Desmond/Blue Rondo a la Turk (weimar_349)",
+    "performers": "Paul Desmond",
+    "solo": "weimar_349",
+    "tune": "Blue Rondo a la Turk"
+   },
+   {
+    "id": "Curtis Fuller/Blue Train (weimar_102)",
+    "performers": "Curtis Fuller",
+    "solo": "weimar_102",
+    "tune": "Blue Train"
+   },
+   {
+    "id": "John Coltrane/Blue Train (weimar_218)",
+    "performers": "John Coltrane",
+    "solo": "weimar_218",
+    "tune": "Blue Train"
+   },
+   {
+    "id": "Lee Morgan/Blue Train (weimar_274)",
+    "performers": "Lee Morgan",
+    "solo": "weimar_274",
+    "tune": "Blue Train"
+   },
+   {
+    "id": "John Coltrane/Blues by Five (weimar_217)",
+    "performers": "John Coltrane",
+    "solo": "weimar_217",
+    "tune": "Blues by Five"
+   },
+   {
+    "id": "Miles Davis/Blues by Five (weimar_313)",
+    "performers": "Miles Davis",
+    "solo": "weimar_313",
+    "tune": "Blues by Five"
+   },
+   {
+    "id": "Charlie Parker/Blues for Alice (weimar_53)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_53",
+    "tune": "Blues for Alice"
+   },
+   {
+    "id": "Bob Berg/Blues for Bela (weimar_32)",
+    "performers": "Bob Berg",
+    "solo": "weimar_32",
+    "tune": "Blues for Bela"
+   },
+   {
+    "id": "Art Pepper/Blues for Blanche (weimar_2)",
+    "performers": "Art Pepper",
+    "solo": "weimar_2",
+    "tune": "Blues for Blanche"
+   },
+   {
+    "id": "David Murray/Blues for Two (weimar_116)",
+    "performers": "David Murray",
+    "solo": "weimar_116",
+    "tune": "Blues for Two"
+   },
+   {
+    "id": "David Murray/Blues for Two (weimar_117)",
+    "performers": "David Murray",
+    "solo": "weimar_117",
+    "tune": "Blues for Two"
+   },
+   {
+    "id": "Kenny Dorham/Blues in Be-Bop (weimar_249)",
+    "performers": "Kenny Dorham",
+    "solo": "weimar_249",
+    "tune": "Blues in Be-Bop"
+   },
+   {
+    "id": "Sonny Stitt/Blues in Be-Bop (weimar_392)",
+    "performers": "Sonny Stitt",
+    "solo": "weimar_392",
+    "tune": "Blues in Be-Bop"
+   },
+   {
+    "id": "J.J. Johnson/Blues in the Closet (weimar_191)",
+    "performers": "J.J. Johnson",
+    "solo": "weimar_191",
+    "tune": "Blues in the Closet"
+   },
+   {
+    "id": "Stan Getz/Blues in the Closet (weimar_397)",
+    "performers": "Stan Getz",
+    "solo": "weimar_397",
+    "tune": "Blues in the Closet"
+   },
+   {
+    "id": "Joshua Redman/Blues on Sunday (weimar_243)",
+    "performers": "Joshua Redman",
+    "solo": "weimar_243",
+    "tune": "Blues on Sunday"
+   },
+   {
+    "id": "Chu Berry/Body and Soul (weimar_85)",
+    "performers": "Chu Berry",
+    "solo": "weimar_85",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "Chu Berry/Body and Soul (weimar_86)",
+    "performers": "Chu Berry",
+    "solo": "weimar_86",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "Coleman Hawkins/Body and Soul (weimar_96)",
+    "performers": "Coleman Hawkins",
+    "solo": "weimar_96",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "David Murray/Body and Soul (weimar_118)",
+    "performers": "David Murray",
+    "solo": "weimar_118",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "David Murray/Body and Soul (weimar_119)",
+    "performers": "David Murray",
+    "solo": "weimar_119",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "Don Byas/Body and Soul (weimar_140)",
+    "performers": "Don Byas",
+    "solo": "weimar_140",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "Joe Lovano/Body and Soul (weimar_206)",
+    "performers": "Joe Lovano",
+    "solo": "weimar_206",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "Joe Lovano/Body and Soul (weimar_207)",
+    "performers": "Joe Lovano",
+    "solo": "weimar_207",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "John Coltrane/Body and Soul (weimar_219)",
+    "performers": "John Coltrane",
+    "solo": "weimar_219",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "John Coltrane/Body and Soul (weimar_220)",
+    "performers": "John Coltrane",
+    "solo": "weimar_220",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "Lester Young/Body and Soul (weimar_279)",
+    "performers": "Lester Young",
+    "solo": "weimar_279",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "Roy Eldridge/Body and Soul (weimar_367)",
+    "performers": "Roy Eldridge",
+    "solo": "weimar_367",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "Sonny Stitt/Body and Soul (weimar_393)",
+    "performers": "Sonny Stitt",
+    "solo": "weimar_393",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "Stan Getz/Body and Soul (weimar_398)",
+    "performers": "Stan Getz",
+    "solo": "weimar_398",
+    "tune": "Body and Soul"
+   },
+   {
+    "id": "Nat Adderley/Bohemia After Dark (weimar_334)",
+    "performers": "Nat Adderley",
+    "solo": "weimar_334",
+    "tune": "Bohemia After Dark"
+   },
+   {
+    "id": "Lee Konitz/Bop Goes to Leesel (weimar_267)",
+    "performers": "Lee Konitz",
+    "solo": "weimar_267",
+    "tune": "Bop Goes to Leesel"
+   },
+   {
+    "id": "Paul Desmond/Bossa Antigua (weimar_350)",
+    "performers": "Paul Desmond",
+    "solo": "weimar_350",
+    "tune": "Bossa Antigua"
+   },
+   {
+    "id": "Kenny Garrett/Brother Hubbard (weimar_256)",
+    "performers": "Kenny Garrett",
+    "solo": "weimar_256",
+    "tune": "Brother Hubbard"
+   },
+   {
+    "id": "Kenny Garrett/Brother Hubbard (weimar_257)",
+    "performers": "Kenny Garrett",
+    "solo": "weimar_257",
+    "tune": "Brother Hubbard"
+   },
+   {
+    "id": "Gerry Mulligan/Bunny (weimar_172)",
+    "performers": "Gerry Mulligan",
+    "solo": "weimar_172",
+    "tune": "Bunny"
+   },
+   {
+    "id": "Johnny Hodges/Bunny (weimar_241)",
+    "performers": "Johnny Hodges",
+    "solo": "weimar_241",
+    "tune": "Bunny"
+   },
+   {
+    "id": "Ben Webster/Bye Bye Blackbird (weimar_21)",
+    "performers": "Ben Webster",
+    "solo": "weimar_21",
+    "tune": "Bye Bye Blackbird"
+   },
+   {
+    "id": "Michael Brecker/Cabin Fever (weimar_299)",
+    "performers": "Michael Brecker",
+    "solo": "weimar_299",
+    "tune": "Cabin Fever"
+   },
+   {
+    "id": "Pat Metheny/Cabin Fever (weimar_343)",
+    "performers": "Pat Metheny",
+    "solo": "weimar_343",
+    "tune": "Cabin Fever"
+   },
+   {
+    "id": "Wynton Marsalis/Caravan (weimar_445)",
+    "performers": "Wynton Marsalis",
+    "solo": "weimar_445",
+    "tune": "Caravan"
+   },
+   {
+    "id": "Dexter Gordon/Cheese Cake (weimar_121)",
+    "performers": "Dexter Gordon",
+    "solo": "weimar_121",
+    "tune": "Cheese Cake"
+   },
+   {
+    "id": "David Murray/Chelsea Bridge (weimar_120)",
+    "performers": "David Murray",
+    "solo": "weimar_120",
+    "tune": "Chelsea Bridge"
+   },
+   {
+    "id": "Wynton Marsalis/Cherokee (weimar_446)",
+    "performers": "Wynton Marsalis",
+    "solo": "weimar_446",
+    "tune": "Cherokee"
+   },
+   {
+    "id": "Dizzy Gillespie/Cognac Blues (weimar_136)",
+    "performers": "Dizzy Gillespie",
+    "solo": "weimar_136",
+    "tune": "Cognac Blues"
+   },
+   {
+    "id": "Don Byas/Cognac Blues (weimar_141)",
+    "performers": "Don Byas",
+    "solo": "weimar_141",
+    "tune": "Cognac Blues"
+   },
+   {
+    "id": "Joe Lovano/Con Alma (weimar_209)",
+    "performers": "Joe Lovano",
+    "solo": "weimar_209",
+    "tune": "Con Alma"
+   },
+   {
+    "id": "Michael Brecker/Confirmation (weimar_300)",
+    "performers": "Michael Brecker",
+    "solo": "weimar_300",
+    "tune": "Confirmation"
+   },
+   {
+    "id": "Louis Armstrong/Cornet Chop Suey (weimar_293)",
+    "performers": "Louis Armstrong",
+    "solo": "weimar_293",
+    "tune": "Cornet Chop Suey"
+   },
+   {
+    "id": "Phil Woods/Cotton Tail (weimar_360)",
+    "performers": "Phil Woods",
+    "solo": "weimar_360",
+    "tune": "Cotton Tail"
+   },
+   {
+    "id": "John Coltrane/Countdown (weimar_221)",
+    "performers": "John Coltrane",
+    "solo": "weimar_221",
+    "tune": "Countdown"
+   },
+   {
+    "id": "Lee Konitz/Crosscurrent (weimar_268)",
+    "performers": "Lee Konitz",
+    "solo": "weimar_268",
+    "tune": "Crosscurrent"
+   },
+   {
+    "id": "Warne Marsh/Crosscurrent (weimar_423)",
+    "performers": "Warne Marsh",
+    "solo": "weimar_423",
+    "tune": "Crosscurrent"
+   },
+   {
+    "id": "Lester Young/D.B. Blues (weimar_280)",
+    "performers": "Lester Young",
+    "solo": "weimar_280",
+    "tune": "D.B. Blues"
+   },
+   {
+    "id": "Clifford Brown/Daahoud (weimar_88)",
+    "performers": "Clifford Brown",
+    "solo": "weimar_88",
+    "tune": "Daahoud"
+   },
+   {
+    "id": "Eric Dolphy/Dahomey Dance (weimar_155)",
+    "performers": "Eric Dolphy",
+    "solo": "weimar_155",
+    "tune": "Dahomey Dance"
+   },
+   {
+    "id": "Zoot Sims/Dancing in the Dark (weimar_452)",
+    "performers": "Zoot Sims",
+    "solo": "weimar_452",
+    "tune": "Dancing in the Dark"
+   },
+   {
+    "id": "Zoot Sims/Dancing in the Dark (weimar_453)",
+    "performers": "Zoot Sims",
+    "solo": "weimar_453",
+    "tune": "Dancing in the Dark"
+   },
+   {
+    "id": "Steve Turre/Dat Dere (weimar_419)",
+    "performers": "Steve Turre",
+    "solo": "weimar_419",
+    "tune": "Dat Dere"
+   },
+   {
+    "id": "Woody Shaw/Dat Dere (weimar_436)",
+    "performers": "Woody Shaw",
+    "solo": "weimar_436",
+    "tune": "Dat Dere"
+   },
+   {
+    "id": "David Liebman/Day & Nite (weimar_105)",
+    "performers": "David Liebman",
+    "solo": "weimar_105",
+    "tune": "Day & Nite"
+   },
+   {
+    "id": "Art Pepper/Desafinado (weimar_3)",
+    "performers": "Art Pepper",
+    "solo": "weimar_3",
+    "tune": "Desafinado"
+   },
+   {
+    "id": "Buck Clayton/Destination K.C. (weimar_45)",
+    "performers": "Buck Clayton",
+    "solo": "weimar_45",
+    "tune": "Destination K.C."
+   },
+   {
+    "id": "Dickie Wells/Destination K.C. (weimar_128)",
+    "performers": "Dickie Wells",
+    "solo": "weimar_128",
+    "tune": "Destination K.C."
+   },
+   {
+    "id": "Lester Young/Destination K.C. (weimar_281)",
+    "performers": "Lester Young",
+    "solo": "weimar_281",
+    "tune": "Destination K.C."
+   },
+   {
+    "id": "Dexter Gordon/Dextivity (weimar_122)",
+    "performers": "Dexter Gordon",
+    "solo": "weimar_122",
+    "tune": "Dextivity"
+   },
+   {
+    "id": "Buck Clayton/Dickie's Dream (weimar_46)",
+    "performers": "Buck Clayton",
+    "solo": "weimar_46",
+    "tune": "Dickie's Dream"
+   },
+   {
+    "id": "Dickie Wells/Dickie's Dream (weimar_129)",
+    "performers": "Dickie Wells",
+    "solo": "weimar_129",
+    "tune": "Dickie's Dream"
+   },
+   {
+    "id": "Lester Young/Dickie's Dream (weimar_282)",
+    "performers": "Lester Young",
+    "solo": "weimar_282",
+    "tune": "Dickie's Dream"
+   },
+   {
+    "id": "Ben Webster/Did You Call Her Today (weimar_22)",
+    "performers": "Ben Webster",
+    "solo": "weimar_22",
+    "tune": "Did You Call Her Today"
+   },
+   {
+    "id": "Harry Edison/Did You Call Her Today (weimar_182)",
+    "performers": "Harry Edison",
+    "solo": "weimar_182",
+    "tune": "Did You Call Her Today"
+   },
+   {
+    "id": "Lionel Hampton/Dinah (weimar_286)",
+    "performers": "Lionel Hampton",
+    "solo": "weimar_286",
+    "tune": "Dinah"
+   },
+   {
+    "id": "Miles Davis/Dolores (weimar_314)",
+    "performers": "Miles Davis",
+    "solo": "weimar_314",
+    "tune": "Dolores"
+   },
+   {
+    "id": "Wayne Shorter/Dolores (weimar_427)",
+    "performers": "Wayne Shorter",
+    "solo": "weimar_427",
+    "tune": "Dolores"
+   },
+   {
+    "id": "Freddie Hubbard/Dolphin Dance (weimar_166)",
+    "performers": "Freddie Hubbard",
+    "solo": "weimar_166",
+    "tune": "Dolphin Dance"
+   },
+   {
+    "id": "Charlie Parker/Don't Blame Me (weimar_54)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_54",
+    "tune": "Don't Blame Me"
+   },
+   {
+    "id": "Milt Jackson/Don't Get Around Much Anymore (weimar_331)",
+    "performers": "Milt Jackson",
+    "solo": "weimar_331",
+    "tune": "Don't Get Around Much Anymore"
+   },
+   {
+    "id": "Charlie Parker/Donna Lee (weimar_55)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_55",
+    "tune": "Donna Lee"
+   },
+   {
+    "id": "Hank Mobley/Doodlin' (weimar_178)",
+    "performers": "Hank Mobley",
+    "solo": "weimar_178",
+    "tune": "Doodlin'"
+   },
+   {
+    "id": "Kenny Dorham/Doodlin' (weimar_250)",
+    "performers": "Kenny Dorham",
+    "solo": "weimar_250",
+    "tune": "Doodlin'"
+   },
+   {
+    "id": "Fats Navarro/Double Talk (weimar_160)",
+    "performers": "Fats Navarro",
+    "solo": "weimar_160",
+    "tune": "Double Talk"
+   },
+   {
+    "id": "Kenny Wheeler/Double Vision (weimar_258)",
+    "performers": "Kenny Wheeler",
+    "solo": "weimar_258",
+    "tune": "Double Vision"
+   },
+   {
+    "id": "Curtis Fuller/Down Under (weimar_103)",
+    "performers": "Curtis Fuller",
+    "solo": "weimar_103",
+    "tune": "Down Under"
+   },
+   {
+    "id": "Freddie Hubbard/Down Under (weimar_167)",
+    "performers": "Freddie Hubbard",
+    "solo": "weimar_167",
+    "tune": "Down Under"
+   },
+   {
+    "id": "Wayne Shorter/Down Under (weimar_428)",
+    "performers": "Wayne Shorter",
+    "solo": "weimar_428",
+    "tune": "Down Under"
+   },
+   {
+    "id": "Miles Davis/E.S.P. (weimar_315)",
+    "performers": "Miles Davis",
+    "solo": "weimar_315",
+    "tune": "E.S.P."
+   },
+   {
+    "id": "Wayne Shorter/E.S.P. (weimar_429)",
+    "performers": "Wayne Shorter",
+    "solo": "weimar_429",
+    "tune": "E.S.P."
+   },
+   {
+    "id": "Pepper Adams/Early Morning Mood (weimar_355)",
+    "performers": "Pepper Adams",
+    "solo": "weimar_355",
+    "tune": "Early Morning Mood"
+   },
+   {
+    "id": "Steve Lacy/Easy to Love (weimar_415)",
+    "performers": "Steve Lacy",
+    "solo": "weimar_415",
+    "tune": "Easy to Love"
+   },
+   {
+    "id": "Miles Davis/Eighty-One (weimar_316)",
+    "performers": "Miles Davis",
+    "solo": "weimar_316",
+    "tune": "Eighty-One"
+   },
+   {
+    "id": "Wayne Shorter/Eighty-One (weimar_430)",
+    "performers": "Wayne Shorter",
+    "solo": "weimar_430",
+    "tune": "Eighty-One"
+   },
+   {
+    "id": "J.J. Johnson/Elora (weimar_193)",
+    "performers": "J.J. Johnson",
+    "solo": "weimar_193",
+    "tune": "Elora"
+   },
+   {
+    "id": "Sonny Stitt/Elora (weimar_394)",
+    "performers": "Sonny Stitt",
+    "solo": "weimar_394",
+    "tune": "Elora"
+   },
+   {
+    "id": "Charlie Parker/Embraceable You (weimar_56)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_56",
+    "tune": "Embraceable You"
+   },
+   {
+    "id": "Wayne Shorter/Footprints (weimar_431)",
+    "performers": "Wayne Shorter",
+    "solo": "weimar_431",
+    "tune": "Footprints"
+   },
+   {
+    "id": "Clifford Brown/George's Dilemma (weimar_89)",
+    "performers": "Clifford Brown",
+    "solo": "weimar_89",
+    "tune": "George's Dilemma"
+   },
+   {
+    "id": "John Coltrane/Giant Steps (weimar_222)",
+    "performers": "John Coltrane",
+    "solo": "weimar_222",
+    "tune": "Giant Steps"
+   },
+   {
+    "id": "John Coltrane/Giant Steps (weimar_223)",
+    "performers": "John Coltrane",
+    "solo": "weimar_223",
+    "tune": "Giant Steps"
+   },
+   {
+    "id": "Herbie Hancock/Gingerbread Boy (weimar_186)",
+    "performers": "Herbie Hancock",
+    "solo": "weimar_186",
+    "tune": "Gingerbread Boy"
+   },
+   {
+    "id": "Fats Navarro/Good Bait (weimar_161)",
+    "performers": "Fats Navarro",
+    "solo": "weimar_161",
+    "tune": "Good Bait"
+   },
+   {
+    "id": "Fats Navarro/Good Bait (weimar_162)",
+    "performers": "Fats Navarro",
+    "solo": "weimar_162",
+    "tune": "Good Bait"
+   },
+   {
+    "id": "Sonny Stitt/Good Kick (weimar_395)",
+    "performers": "Sonny Stitt",
+    "solo": "weimar_395",
+    "tune": "Good Kick"
+   },
+   {
+    "id": "Dizzy Gillespie/Groovin' High (weimar_137)",
+    "performers": "Dizzy Gillespie",
+    "solo": "weimar_137",
+    "tune": "Groovin' High"
+   },
+   {
+    "id": "Kid Ory/Gut Bucket Blues (weimar_262)",
+    "performers": "Kid Ory",
+    "solo": "weimar_262",
+    "tune": "Gut Bucket Blues"
+   },
+   {
+    "id": "Louis Armstrong/Gut Bucket Blues (weimar_295)",
+    "performers": "Louis Armstrong",
+    "solo": "weimar_295",
+    "tune": "Gut Bucket Blues"
+   },
+   {
+    "id": "Branford Marsalis/Gutbucket Steepy (weimar_38)",
+    "performers": "Branford Marsalis",
+    "solo": "weimar_38",
+    "tune": "Gutbucket Steepy"
+   },
+   {
+    "id": "Cannonball Adderley/High Fly (weimar_47)",
+    "performers": "Cannonball Adderley",
+    "solo": "weimar_47",
+    "tune": "High Fly"
+   },
+   {
+    "id": "Lionel Hampton/High Society (weimar_287)",
+    "performers": "Lionel Hampton",
+    "solo": "weimar_287",
+    "tune": "High Society"
+   },
+   {
+    "id": "Joshua Redman/Home Fries (weimar_244)",
+    "performers": "Joshua Redman",
+    "solo": "weimar_244",
+    "tune": "Home Fries"
+   },
+   {
+    "id": "Phil Woods/Honeysuckle Rose (weimar_362)",
+    "performers": "Phil Woods",
+    "solo": "weimar_362",
+    "tune": "Honeysuckle Rose"
+   },
+   {
+    "id": "Johnny Dodds/Hotter than That (weimar_237)",
+    "performers": "Johnny Dodds",
+    "solo": "weimar_237",
+    "tune": "Hotter than That"
+   },
+   {
+    "id": "Branford Marsalis/Housed from Edward (weimar_39)",
+    "performers": "Branford Marsalis",
+    "solo": "weimar_39",
+    "tune": "Housed from Edward"
+   },
+   {
+    "id": "Branford Marsalis/Housed from Edward (weimar_40)",
+    "performers": "Branford Marsalis",
+    "solo": "weimar_40",
+    "tune": "Housed from Edward"
+   },
+   {
+    "id": "Pepper Adams/How High the Moon (weimar_356)",
+    "performers": "Pepper Adams",
+    "solo": "weimar_356",
+    "tune": "How High the Moon"
+   },
+   {
+    "id": "Joe Lovano/I Can't Get Started (weimar_210)",
+    "performers": "Joe Lovano",
+    "solo": "weimar_210",
+    "tune": "I Can't Get Started"
+   },
+   {
+    "id": "Bob Berg/I Didn't Know What Time It Was (weimar_33)",
+    "performers": "Bob Berg",
+    "solo": "weimar_33",
+    "tune": "I Didn't Know What Time It Was"
+   },
+   {
+    "id": "Chet Baker/I Fall in Love Too Easily (weimar_70)",
+    "performers": "Chet Baker",
+    "solo": "weimar_70",
+    "tune": "I Fall in Love Too Easily"
+   },
+   {
+    "id": "Benny Carter/I Got It Bad (weimar_7)",
+    "performers": "Benny Carter",
+    "solo": "weimar_7",
+    "tune": "I Got It Bad"
+   },
+   {
+    "id": "Dickie Wells/I Got Rhythm (weimar_130)",
+    "performers": "Dickie Wells",
+    "solo": "weimar_130",
+    "tune": "I Got Rhythm"
+   },
+   {
+    "id": "Joshua Redman/I Got You (weimar_245)",
+    "performers": "Joshua Redman",
+    "solo": "weimar_245",
+    "tune": "I Got You"
+   },
+   {
+    "id": "Michael Brecker/I Mean You (weimar_302)",
+    "performers": "Michael Brecker",
+    "solo": "weimar_302",
+    "tune": "I Mean You"
+   },
+   {
+    "id": "Clifford Brown/I'll Remember April (weimar_90)",
+    "performers": "Clifford Brown",
+    "solo": "weimar_90",
+    "tune": "I'll Remember April"
+   },
+   {
+    "id": "Clifford Brown/I'll Remember April (weimar_91)",
+    "performers": "Clifford Brown",
+    "solo": "weimar_91",
+    "tune": "I'll Remember April"
+   },
+   {
+    "id": "Lee Konitz/I'll Remember April (weimar_269)",
+    "performers": "Lee Konitz",
+    "solo": "weimar_269",
+    "tune": "I'll Remember April"
+   },
+   {
+    "id": "Sonny Rollins/I'll Remember April (weimar_382)",
+    "performers": "Sonny Rollins",
+    "solo": "weimar_382",
+    "tune": "I'll Remember April"
+   },
+   {
+    "id": "Bix Beiderbecke/I'm Coming Virginia (weimar_26)",
+    "performers": "Bix Beiderbecke",
+    "solo": "weimar_26",
+    "tune": "I'm Coming Virginia"
+   },
+   {
+    "id": "Sidney Bechet/I'm Coming Virginia (weimar_374)",
+    "performers": "Sidney Bechet",
+    "solo": "weimar_374",
+    "tune": "I'm Coming Virginia"
+   },
+   {
+    "id": "Stan Getz/I'm Glad There Is You (weimar_400)",
+    "performers": "Stan Getz",
+    "solo": "weimar_400",
+    "tune": "I'm Glad There Is You"
+   },
+   {
+    "id": "David Liebman/I've Got You Under My Skin (weimar_106)",
+    "performers": "David Liebman",
+    "solo": "weimar_106",
+    "tune": "I've Got You Under My Skin"
+   },
+   {
+    "id": "Woody Shaw/Imagination (weimar_438)",
+    "performers": "Woody Shaw",
+    "solo": "weimar_438",
+    "tune": "Imagination"
+   },
+   {
+    "id": "John Coltrane/Impressions (weimar_224)",
+    "performers": "John Coltrane",
+    "solo": "weimar_224",
+    "tune": "Impressions"
+   },
+   {
+    "id": "John Coltrane/Impressions (weimar_225)",
+    "performers": "John Coltrane",
+    "solo": "weimar_225",
+    "tune": "Impressions"
+   },
+   {
+    "id": "Joe Henderson/In 'n Out (weimar_198)",
+    "performers": "Joe Henderson",
+    "solo": "weimar_198",
+    "tune": "In 'n Out"
+   },
+   {
+    "id": "Joe Henderson/In 'n Out (weimar_199)",
+    "performers": "Joe Henderson",
+    "solo": "weimar_199",
+    "tune": "In 'n Out"
+   },
+   {
+    "id": "Kenny Dorham/In 'n Out (weimar_251)",
+    "performers": "Kenny Dorham",
+    "solo": "weimar_251",
+    "tune": "In 'n Out"
+   },
+   {
+    "id": "Woody Shaw/In a Capricornian Way (weimar_439)",
+    "performers": "Woody Shaw",
+    "solo": "weimar_439",
+    "tune": "In a Capricornian Way"
+   },
+   {
+    "id": "Art Pepper/In a Mellow Tone (weimar_4)",
+    "performers": "Art Pepper",
+    "solo": "weimar_4",
+    "tune": "In a Mellow Tone"
+   },
+   {
+    "id": "Chris Potter/In a Sentimental Mood (weimar_80)",
+    "performers": "Chris Potter",
+    "solo": "weimar_80",
+    "tune": "In a Sentimental Mood"
+   },
+   {
+    "id": "Wayne Shorter/Infant Eyes (weimar_432)",
+    "performers": "Wayne Shorter",
+    "solo": "weimar_432",
+    "tune": "Infant Eyes"
+   },
+   {
+    "id": "Don Byas/Infidele (Cry) (weimar_144)",
+    "performers": "Don Byas",
+    "solo": "weimar_144",
+    "tune": "Infidele (Cry)"
+   },
+   {
+    "id": "Stan Getz/Insensatez (weimar_401)",
+    "performers": "Stan Getz",
+    "solo": "weimar_401",
+    "tune": "Insensatez"
+   },
+   {
+    "id": "Chris Potter/Item 1, D.I.T. (weimar_81)",
+    "performers": "Chris Potter",
+    "solo": "weimar_81",
+    "tune": "Item 1, D.I.T."
+   },
+   {
+    "id": "Dickie Wells/Jo-Jo (weimar_131)",
+    "performers": "Dickie Wells",
+    "solo": "weimar_131",
+    "tune": "Jo-Jo"
+   },
+   {
+    "id": "Don Ellis/Johnny Come Lately (weimar_148)",
+    "performers": "Don Ellis",
+    "solo": "weimar_148",
+    "tune": "Johnny Come Lately"
+   },
+   {
+    "id": "Joe Henderson/Johnny Come Lately (weimar_200)",
+    "performers": "Joe Henderson",
+    "solo": "weimar_200",
+    "tune": "Johnny Come Lately"
+   },
+   {
+    "id": "Wynton Marsalis/Johnny Come Lately (weimar_448)",
+    "performers": "Wynton Marsalis",
+    "solo": "weimar_448",
+    "tune": "Johnny Come Lately"
+   },
+   {
+    "id": "Clifford Brown/Jordu (weimar_92)",
+    "performers": "Clifford Brown",
+    "solo": "weimar_92",
+    "tune": "Jordu"
+   },
+   {
+    "id": "Clifford Brown/Joy Spring (weimar_93)",
+    "performers": "Clifford Brown",
+    "solo": "weimar_93",
+    "tune": "Joy Spring"
+   },
+   {
+    "id": "Wayne Shorter/Juju (weimar_433)",
+    "performers": "Wayne Shorter",
+    "solo": "weimar_433",
+    "tune": "Juju"
+   },
+   {
+    "id": "Benny Carter/Just Friends (weimar_10)",
+    "performers": "Benny Carter",
+    "solo": "weimar_10",
+    "tune": "Just Friends"
+   },
+   {
+    "id": "Chet Baker/Just Friends (weimar_71)",
+    "performers": "Chet Baker",
+    "solo": "weimar_71",
+    "tune": "Just Friends"
+   },
+   {
+    "id": "Lee Morgan/Just One of Those Things (weimar_275)",
+    "performers": "Lee Morgan",
+    "solo": "weimar_275",
+    "tune": "Just One of Those Things"
+   },
+   {
+    "id": "Pepper Adams/Just One of Those Things (weimar_357)",
+    "performers": "Pepper Adams",
+    "solo": "weimar_357",
+    "tune": "Just One of Those Things"
+   },
+   {
+    "id": "Charlie Parker/K.C. Blues (weimar_58)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_58",
+    "tune": "K.C. Blues"
+   },
+   {
+    "id": "Miles Davis/K.C. Blues (weimar_317)",
+    "performers": "Miles Davis",
+    "solo": "weimar_317",
+    "tune": "K.C. Blues"
+   },
+   {
+    "id": "Roy Eldridge/King David (weimar_368)",
+    "performers": "Roy Eldridge",
+    "solo": "weimar_368",
+    "tune": "King David"
+   },
+   {
+    "id": "Zoot Sims/King David (weimar_454)",
+    "performers": "Zoot Sims",
+    "solo": "weimar_454",
+    "tune": "King David"
+   },
+   {
+    "id": "Charlie Parker/Ko-Ko (weimar_59)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_59",
+    "tune": "Ko-Ko"
+   },
+   {
+    "id": "Hank Mobley/Lady Bird (weimar_179)",
+    "performers": "Hank Mobley",
+    "solo": "weimar_179",
+    "tune": "Lady Bird"
+   },
+   {
+    "id": "Kenny Dorham/Lady Bird (weimar_252)",
+    "performers": "Kenny Dorham",
+    "solo": "weimar_252",
+    "tune": "Lady Bird"
+   },
+   {
+    "id": "Lester Young/Lester Leaps In (weimar_283)",
+    "performers": "Lester Young",
+    "solo": "weimar_283",
+    "tune": "Lester Leaps In"
+   },
+   {
+    "id": "Steve Lacy/Let's Cool One (weimar_416)",
+    "performers": "Steve Lacy",
+    "solo": "weimar_416",
+    "tune": "Let's Cool One"
+   },
+   {
+    "id": "Chet Baker/Let's Get Lost (weimar_72)",
+    "performers": "Chet Baker",
+    "solo": "weimar_72",
+    "tune": "Let's Get Lost"
+   },
+   {
+    "id": "Charlie Shavers/Limehouse Blues (weimar_69)",
+    "performers": "Charlie Shavers",
+    "solo": "weimar_69",
+    "tune": "Limehouse Blues"
+   },
+   {
+    "id": "Sidney Bechet/Limehouse Blues (weimar_375)",
+    "performers": "Sidney Bechet",
+    "solo": "weimar_375",
+    "tune": "Limehouse Blues"
+   },
+   {
+    "id": "Gerry Mulligan/Line for Lyons (weimar_173)",
+    "performers": "Gerry Mulligan",
+    "solo": "weimar_173",
+    "tune": "Line for Lyons"
+   },
+   {
+    "id": "Joe Lovano/Little Willie Leaps in (weimar_211)",
+    "performers": "Joe Lovano",
+    "solo": "weimar_211",
+    "tune": "Little Willie Leaps in"
+   },
+   {
+    "id": "Benny Carter/Long Ago and Far Away (weimar_11)",
+    "performers": "Benny Carter",
+    "solo": "weimar_11",
+    "tune": "Long Ago and Far Away"
+   },
+   {
+    "id": "Benny Carter/Long Ago and Far Away (weimar_12)",
+    "performers": "Benny Carter",
+    "solo": "weimar_12",
+    "tune": "Long Ago and Far Away"
+   },
+   {
+    "id": "Chet Baker/Long Ago and Far Away (weimar_73)",
+    "performers": "Chet Baker",
+    "solo": "weimar_73",
+    "tune": "Long Ago and Far Away"
+   },
+   {
+    "id": "Joe Lovano/Lonnie's Lament (weimar_212)",
+    "performers": "Joe Lovano",
+    "solo": "weimar_212",
+    "tune": "Lonnie's Lament"
+   },
+   {
+    "id": "Freddie Hubbard/Maiden Voyage (weimar_168)",
+    "performers": "Freddie Hubbard",
+    "solo": "weimar_168",
+    "tune": "Maiden Voyage"
+   },
+   {
+    "id": "George Coleman/Maiden Voyage (weimar_171)",
+    "performers": "George Coleman",
+    "solo": "weimar_171",
+    "tune": "Maiden Voyage"
+   },
+   {
+    "id": "Bix Beiderbecke/Margie (weimar_27)",
+    "performers": "Bix Beiderbecke",
+    "solo": "weimar_27",
+    "tune": "Margie"
+   },
+   {
+    "id": "Lee Konitz/Marshmallow (weimar_270)",
+    "performers": "Lee Konitz",
+    "solo": "weimar_270",
+    "tune": "Marshmallow"
+   },
+   {
+    "id": "Lee Konitz/Mean to Me (weimar_271)",
+    "performers": "Lee Konitz",
+    "solo": "weimar_271",
+    "tune": "Mean to Me"
+   },
+   {
+    "id": "Lionel Hampton/Memories of You (weimar_288)",
+    "performers": "Lionel Hampton",
+    "solo": "weimar_288",
+    "tune": "Memories of You"
+   },
+   {
+    "id": "Michael Brecker/Midnight Voyage (weimar_303)",
+    "performers": "Michael Brecker",
+    "solo": "weimar_303",
+    "tune": "Midnight Voyage"
+   },
+   {
+    "id": "Pat Metheny/Midnight Voyage (weimar_344)",
+    "performers": "Pat Metheny",
+    "solo": "weimar_344",
+    "tune": "Midnight Voyage"
+   },
+   {
+    "id": "Miles Davis/Miles Runs the Voodoo Down (weimar_318)",
+    "performers": "Miles Davis",
+    "solo": "weimar_318",
+    "tune": "Miles Runs the Voodoo Down"
+   },
+   {
+    "id": "Miles Davis/Miles Runs the Voodoo Down (weimar_319)",
+    "performers": "Miles Davis",
+    "solo": "weimar_319",
+    "tune": "Miles Runs the Voodoo Down"
+   },
+   {
+    "id": "David Liebman/Milestones (weimar_107)",
+    "performers": "David Liebman",
+    "solo": "weimar_107",
+    "tune": "Milestones"
+   },
+   {
+    "id": "Dexter Gordon/Montmartre (weimar_123)",
+    "performers": "Dexter Gordon",
+    "solo": "weimar_123",
+    "tune": "Montmartre"
+   },
+   {
+    "id": "John Coltrane/Mr. P.C. (weimar_226)",
+    "performers": "John Coltrane",
+    "solo": "weimar_226",
+    "tune": "Mr. P.C."
+   },
+   {
+    "id": "Johnny Dodds/Muskrat Ramble (weimar_238)",
+    "performers": "Johnny Dodds",
+    "solo": "weimar_238",
+    "tune": "Muskrat Ramble"
+   },
+   {
+    "id": "Kid Ory/Muskrat Ramble (weimar_263)",
+    "performers": "Kid Ory",
+    "solo": "weimar_263",
+    "tune": "Muskrat Ramble"
+   },
+   {
+    "id": "Louis Armstrong/Muskrat Ramble (weimar_296)",
+    "performers": "Louis Armstrong",
+    "solo": "weimar_296",
+    "tune": "Muskrat Ramble"
+   },
+   {
+    "id": "Coleman Hawkins/My Blue Heaven (weimar_98)",
+    "performers": "Coleman Hawkins",
+    "solo": "weimar_98",
+    "tune": "My Blue Heaven"
+   },
+   {
+    "id": "John Coltrane/My Favorite Things (weimar_227)",
+    "performers": "John Coltrane",
+    "solo": "weimar_227",
+    "tune": "My Favorite Things"
+   },
+   {
+    "id": "John Coltrane/My Favorite Things (weimar_228)",
+    "performers": "John Coltrane",
+    "solo": "weimar_228",
+    "tune": "My Favorite Things"
+   },
+   {
+    "id": "J.J. Johnson/My Funny Valentine (weimar_194)",
+    "performers": "J.J. Johnson",
+    "solo": "weimar_194",
+    "tune": "My Funny Valentine"
+   },
+   {
+    "id": "Stan Getz/My Funny Valentine (weimar_402)",
+    "performers": "Stan Getz",
+    "solo": "weimar_402",
+    "tune": "My Funny Valentine"
+   },
+   {
+    "id": "Johnny Dodds/My Heart (weimar_239)",
+    "performers": "Johnny Dodds",
+    "solo": "weimar_239",
+    "tune": "My Heart"
+   },
+   {
+    "id": "Ben Webster/My Ideal (weimar_23)",
+    "performers": "Ben Webster",
+    "solo": "weimar_23",
+    "tune": "My Ideal"
+   },
+   {
+    "id": "Charlie Parker/My Little Suede Shoes (weimar_60)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_60",
+    "tune": "My Little Suede Shoes"
+   },
+   {
+    "id": "Michael Brecker/Naked Soul (weimar_304)",
+    "performers": "Michael Brecker",
+    "solo": "weimar_304",
+    "tune": "Naked Soul"
+   },
+   {
+    "id": "John Coltrane/Nature Boy (weimar_229)",
+    "performers": "John Coltrane",
+    "solo": "weimar_229",
+    "tune": "Nature Boy"
+   },
+   {
+    "id": "Bob Berg/Nature of the Beast (weimar_34)",
+    "performers": "Bob Berg",
+    "solo": "weimar_34",
+    "tune": "Nature of the Beast"
+   },
+   {
+    "id": "Michael Brecker/Never Alone (weimar_305)",
+    "performers": "Michael Brecker",
+    "solo": "weimar_305",
+    "tune": "Never Alone"
+   },
+   {
+    "id": "David Liebman/Nica's Dream (weimar_108)",
+    "performers": "David Liebman",
+    "solo": "weimar_108",
+    "tune": "Nica's Dream"
+   },
+   {
+    "id": "Ben Webster/Night and Day (weimar_24)",
+    "performers": "Ben Webster",
+    "solo": "weimar_24",
+    "tune": "Night and Day"
+   },
+   {
+    "id": "Zoot Sims/Night and Day (weimar_455)",
+    "performers": "Zoot Sims",
+    "solo": "weimar_455",
+    "tune": "Night and Day"
+   },
+   {
+    "id": "Zoot Sims/Night and Day (weimar_456)",
+    "performers": "Zoot Sims",
+    "solo": "weimar_456",
+    "tune": "Night and Day"
+   },
+   {
+    "id": "Bob Berg/No Moe (weimar_35)",
+    "performers": "Bob Berg",
+    "solo": "weimar_35",
+    "tune": "No Moe"
+   },
+   {
+    "id": "Benny Goodman/Nobody's Sweetheart (weimar_16)",
+    "performers": "Benny Goodman",
+    "solo": "weimar_16",
+    "tune": "Nobody's Sweetheart"
+   },
+   {
+    "id": "Michael Brecker/Nothing Personal (weimar_306)",
+    "performers": "Michael Brecker",
+    "solo": "weimar_306",
+    "tune": "Nothing Personal"
+   },
+   {
+    "id": "Pat Metheny/Nothing Personal (weimar_345)",
+    "performers": "Pat Metheny",
+    "solo": "weimar_345",
+    "tune": "Nothing Personal"
+   },
+   {
+    "id": "John Coltrane/Nutty (weimar_230)",
+    "performers": "John Coltrane",
+    "solo": "weimar_230",
+    "tune": "Nutty"
+   },
+   {
+    "id": "John Coltrane/Oleo (weimar_231)",
+    "performers": "John Coltrane",
+    "solo": "weimar_231",
+    "tune": "Oleo"
+   },
+   {
+    "id": "Miles Davis/Oleo (weimar_320)",
+    "performers": "Miles Davis",
+    "solo": "weimar_320",
+    "tune": "Oleo"
+   },
+   {
+    "id": "Miles Davis/Oleo (weimar_321)",
+    "performers": "Miles Davis",
+    "solo": "weimar_321",
+    "tune": "Oleo"
+   },
+   {
+    "id": "Red Garland/Oleo (weimar_365)",
+    "performers": "Red Garland",
+    "solo": "weimar_365",
+    "tune": "Oleo"
+   },
+   {
+    "id": "Phil Woods/On a Slow Boat to China (weimar_363)",
+    "performers": "Phil Woods",
+    "solo": "weimar_363",
+    "tune": "On a Slow Boat to China"
+   },
+   {
+    "id": "Johnny Dodds/Once in a While (weimar_240)",
+    "performers": "Johnny Dodds",
+    "solo": "weimar_240",
+    "tune": "Once in a While"
+   },
+   {
+    "id": "Louis Armstrong/Once in a While (weimar_297)",
+    "performers": "Louis Armstrong",
+    "solo": "weimar_297",
+    "tune": "Once in a While"
+   },
+   {
+    "id": "Charlie Parker/Ornithology (weimar_61)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_61",
+    "tune": "Ornithology"
+   },
+   {
+    "id": "Fats Navarro/Our Delight (weimar_163)",
+    "performers": "Fats Navarro",
+    "solo": "weimar_163",
+    "tune": "Our Delight"
+   },
+   {
+    "id": "Charlie Parker/Out of Nowhere (weimar_62)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_62",
+    "tune": "Out of Nowhere"
+   },
+   {
+    "id": "Don Byas/Out of Nowhere (weimar_145)",
+    "performers": "Don Byas",
+    "solo": "weimar_145",
+    "tune": "Out of Nowhere"
+   },
+   {
+    "id": "Don Ellis/Out of Nowhere (weimar_149)",
+    "performers": "Don Ellis",
+    "solo": "weimar_149",
+    "tune": "Out of Nowhere"
+   },
+   {
+    "id": "Michael Brecker/Peep (weimar_307)",
+    "performers": "Michael Brecker",
+    "solo": "weimar_307",
+    "tune": "Peep"
+   },
+   {
+    "id": "David Liebman/Pendulum (weimar_111)",
+    "performers": "David Liebman",
+    "solo": "weimar_111",
+    "tune": "Pendulum"
+   },
+   {
+    "id": "Coleman Hawkins/Perdido (weimar_99)",
+    "performers": "Coleman Hawkins",
+    "solo": "weimar_99",
+    "tune": "Perdido"
+   },
+   {
+    "id": "Rex Stewart/Perdido (weimar_366)",
+    "performers": "Rex Stewart",
+    "solo": "weimar_366",
+    "tune": "Perdido"
+   },
+   {
+    "id": "Sonny Rollins/Playin' in the Yard (weimar_383)",
+    "performers": "Sonny Rollins",
+    "solo": "weimar_383",
+    "tune": "Playin' in the Yard"
+   },
+   {
+    "id": "Sonny Rollins/Playin' in the Yard (weimar_384)",
+    "performers": "Sonny Rollins",
+    "solo": "weimar_384",
+    "tune": "Playin' in the Yard"
+   },
+   {
+    "id": "Chris Potter/Pop Tune #1 (weimar_82)",
+    "performers": "Chris Potter",
+    "solo": "weimar_82",
+    "tune": "Pop Tune #1"
+   },
+   {
+    "id": "Kenny Dorham/Prince Albert (weimar_253)",
+    "performers": "Kenny Dorham",
+    "solo": "weimar_253",
+    "tune": "Prince Albert"
+   },
+   {
+    "id": "Joe Henderson/Punjab (weimar_201)",
+    "performers": "Joe Henderson",
+    "solo": "weimar_201",
+    "tune": "Punjab"
+   },
+   {
+    "id": "Kenny Dorham/Punjab (weimar_254)",
+    "performers": "Kenny Dorham",
+    "solo": "weimar_254",
+    "tune": "Punjab"
+   },
+   {
+    "id": "Woody Shaw/Rahsaan's Run (weimar_440)",
+    "performers": "Woody Shaw",
+    "solo": "weimar_440",
+    "tune": "Rahsaan's Run"
+   },
+   {
+    "id": "Sidney Bechet/Really the Blues (weimar_376)",
+    "performers": "Sidney Bechet",
+    "solo": "weimar_376",
+    "tune": "Really the Blues"
+   },
+   {
+    "id": "Hank Mobley/Remember (weimar_180)",
+    "performers": "Hank Mobley",
+    "solo": "weimar_180",
+    "tune": "Remember"
+   },
+   {
+    "id": "Woody Shaw/Rosewood (weimar_441)",
+    "performers": "Woody Shaw",
+    "solo": "weimar_441",
+    "tune": "Rosewood"
+   },
+   {
+    "id": "Bix Beiderbecke/Royal Garden Blues (weimar_29)",
+    "performers": "Bix Beiderbecke",
+    "solo": "weimar_29",
+    "tune": "Royal Garden Blues"
+   },
+   {
+    "id": "Chris Potter/Rumples (weimar_83)",
+    "performers": "Chris Potter",
+    "solo": "weimar_83",
+    "tune": "Rumples"
+   },
+   {
+    "id": "Benny Goodman/Runnin' Wild (weimar_17)",
+    "performers": "Benny Goodman",
+    "solo": "weimar_17",
+    "tune": "Runnin' Wild"
+   },
+   {
+    "id": "Lionel Hampton/Runnin' Wild (weimar_289)",
+    "performers": "Lionel Hampton",
+    "solo": "weimar_289",
+    "tune": "Runnin' Wild"
+   },
+   {
+    "id": "Paul Desmond/Samba Cantina (weimar_351)",
+    "performers": "Paul Desmond",
+    "solo": "weimar_351",
+    "tune": "Samba Cantina"
+   },
+   {
+    "id": "Paul Desmond/Samba Cantina (weimar_352)",
+    "performers": "Paul Desmond",
+    "solo": "weimar_352",
+    "tune": "Samba Cantina"
+   },
+   {
+    "id": "Clifford Brown/Sandu (weimar_94)",
+    "performers": "Clifford Brown",
+    "solo": "weimar_94",
+    "tune": "Sandu"
+   },
+   {
+    "id": "Charlie Parker/Scrapple from the Apple (weimar_63)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_63",
+    "tune": "Scrapple from the Apple"
+   },
+   {
+    "id": "Gerry Mulligan/Scrapple from the Apple (weimar_174)",
+    "performers": "Gerry Mulligan",
+    "solo": "weimar_174",
+    "tune": "Scrapple from the Apple"
+   },
+   {
+    "id": "Bob Berg/Second Sight (weimar_36)",
+    "performers": "Bob Berg",
+    "solo": "weimar_36",
+    "tune": "Second Sight"
+   },
+   {
+    "id": "Charlie Parker/Segment (weimar_64)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_64",
+    "tune": "Segment"
+   },
+   {
+    "id": "Steve Coleman/Segment (weimar_408)",
+    "performers": "Steve Coleman",
+    "solo": "weimar_408",
+    "tune": "Segment"
+   },
+   {
+    "id": "Eric Dolphy/Serene (weimar_158)",
+    "performers": "Eric Dolphy",
+    "solo": "weimar_158",
+    "tune": "Serene"
+   },
+   {
+    "id": "Steve Lacy/Skippy (weimar_417)",
+    "performers": "Steve Lacy",
+    "solo": "weimar_417",
+    "tune": "Skippy"
+   },
+   {
+    "id": "Kenny Wheeler/Slipped again (weimar_260)",
+    "performers": "Kenny Wheeler",
+    "solo": "weimar_260",
+    "tune": "Slipped again"
+   },
+   {
+    "id": "Steve Coleman/Slipped again (weimar_409)",
+    "performers": "Steve Coleman",
+    "solo": "weimar_409",
+    "tune": "Slipped again"
+   },
+   {
+    "id": "Cannonball Adderley/So What (weimar_48)",
+    "performers": "Cannonball Adderley",
+    "solo": "weimar_48",
+    "tune": "So What"
+   },
+   {
+    "id": "John Coltrane/So What (weimar_233)",
+    "performers": "John Coltrane",
+    "solo": "weimar_233",
+    "tune": "So What"
+   },
+   {
+    "id": "Miles Davis/So What (weimar_323)",
+    "performers": "Miles Davis",
+    "solo": "weimar_323",
+    "tune": "So What"
+   },
+   {
+    "id": "Dexter Gordon/Society Red (weimar_124)",
+    "performers": "Dexter Gordon",
+    "solo": "weimar_124",
+    "tune": "Society Red"
+   },
+   {
+    "id": "Freddie Hubbard/Society Red (weimar_169)",
+    "performers": "Freddie Hubbard",
+    "solo": "weimar_169",
+    "tune": "Society Red"
+   },
+   {
+    "id": "David Liebman/Softly as in a Morning Sunrise (weimar_113)",
+    "performers": "David Liebman",
+    "solo": "weimar_113",
+    "tune": "Softly as in a Morning Sunrise"
+   },
+   {
+    "id": "Milt Jackson/Softly as in a Morning Sunrise (weimar_332)",
+    "performers": "Milt Jackson",
+    "solo": "weimar_332",
+    "tune": "Softly as in a Morning Sunrise"
+   },
+   {
+    "id": "Michael Brecker/Song for Bilbao (weimar_308)",
+    "performers": "Michael Brecker",
+    "solo": "weimar_308",
+    "tune": "Song for Bilbao"
+   },
+   {
+    "id": "Hank Mobley/Soul Station (weimar_181)",
+    "performers": "Hank Mobley",
+    "solo": "weimar_181",
+    "tune": "Soul Station"
+   },
+   {
+    "id": "John Coltrane/Soultrane (weimar_232)",
+    "performers": "John Coltrane",
+    "solo": "weimar_232",
+    "tune": "Soultrane"
+   },
+   {
+    "id": "Freddie Hubbard/Speak No Evil (weimar_170)",
+    "performers": "Freddie Hubbard",
+    "solo": "weimar_170",
+    "tune": "Speak No Evil"
+   },
+   {
+    "id": "Wayne Shorter/Speak No Evil (weimar_435)",
+    "performers": "Wayne Shorter",
+    "solo": "weimar_435",
+    "tune": "Speak No Evil"
+   },
+   {
+    "id": "Roy Eldridge/St. Louis Blues (weimar_369)",
+    "performers": "Roy Eldridge",
+    "solo": "weimar_369",
+    "tune": "St. Louis Blues"
+   },
+   {
+    "id": "Dexter Gordon/Stanley the Steamer (weimar_125)",
+    "performers": "Dexter Gordon",
+    "solo": "weimar_125",
+    "tune": "Stanley the Steamer"
+   },
+   {
+    "id": "Cannonball Adderley/Star Eyes (weimar_49)",
+    "performers": "Cannonball Adderley",
+    "solo": "weimar_49",
+    "tune": "Star Eyes"
+   },
+   {
+    "id": "Charlie Parker/Star Eyes (weimar_65)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_65",
+    "tune": "Star Eyes"
+   },
+   {
+    "id": "Art Pepper/Stardust (weimar_5)",
+    "performers": "Art Pepper",
+    "solo": "weimar_5",
+    "tune": "Stardust"
+   },
+   {
+    "id": "Art Pepper/Stardust (weimar_6)",
+    "performers": "Art Pepper",
+    "solo": "weimar_6",
+    "tune": "Stardust"
+   },
+   {
+    "id": "Charlie Parker/Steeplechase (weimar_66)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_66",
+    "tune": "Steeplechase"
+   },
+   {
+    "id": "Woody Shaw/Stepping Stone (weimar_442)",
+    "performers": "Woody Shaw",
+    "solo": "weimar_442",
+    "tune": "Stepping Stone"
+   },
+   {
+    "id": "Steve Turre/Steve's Blues (weimar_421)",
+    "performers": "Steve Turre",
+    "solo": "weimar_421",
+    "tune": "Steve's Blues"
+   },
+   {
+    "id": "Woody Shaw/Steve's Blues (weimar_443)",
+    "performers": "Woody Shaw",
+    "solo": "weimar_443",
+    "tune": "Steve's Blues"
+   },
+   {
+    "id": "Clifford Brown/Stompin' at the Savoy (weimar_95)",
+    "performers": "Clifford Brown",
+    "solo": "weimar_95",
+    "tune": "Stompin' at the Savoy"
+   },
+   {
+    "id": "Coleman Hawkins/Stompin' at the Savoy (weimar_101)",
+    "performers": "Coleman Hawkins",
+    "solo": "weimar_101",
+    "tune": "Stompin' at the Savoy"
+   },
+   {
+    "id": "Phil Woods/Strollin' with Pam (weimar_364)",
+    "performers": "Phil Woods",
+    "solo": "weimar_364",
+    "tune": "Strollin' with Pam"
+   },
+   {
+    "id": "Sidney Bechet/Summertime (weimar_377)",
+    "performers": "Sidney Bechet",
+    "solo": "weimar_377",
+    "tune": "Summertime"
+   },
+   {
+    "id": "Don Ellis/Sweet and Lovely (weimar_150)",
+    "performers": "Don Ellis",
+    "solo": "weimar_150",
+    "tune": "Sweet and Lovely"
+   },
+   {
+    "id": "Joshua Redman/Sweet Sorrow (weimar_246)",
+    "performers": "Joshua Redman",
+    "solo": "weimar_246",
+    "tune": "Sweet Sorrow"
+   },
+   {
+    "id": "Steve Coleman/Take the Coltrane (weimar_410)",
+    "performers": "Steve Coleman",
+    "solo": "weimar_410",
+    "tune": "Take the Coltrane"
+   },
+   {
+    "id": "Lee Konitz/Tautology (weimar_272)",
+    "performers": "Lee Konitz",
+    "solo": "weimar_272",
+    "tune": "Tautology"
+   },
+   {
+    "id": "Warne Marsh/Tautology (weimar_424)",
+    "performers": "Warne Marsh",
+    "solo": "weimar_424",
+    "tune": "Tautology"
+   },
+   {
+    "id": "Sonny Rollins/Tenor Madness (weimar_387)",
+    "performers": "Sonny Rollins",
+    "solo": "weimar_387",
+    "tune": "Tenor Madness"
+   },
+   {
+    "id": "Paul Desmond/The Girl from East 9th Street (weimar_353)",
+    "performers": "Paul Desmond",
+    "solo": "weimar_353",
+    "tune": "The Girl from East 9th Street"
+   },
+   {
+    "id": "Branford Marsalis/The Nearness of You (weimar_41)",
+    "performers": "Branford Marsalis",
+    "solo": "weimar_41",
+    "tune": "The Nearness of You"
+   },
+   {
+    "id": "Steve Coleman/The Oracle (weimar_411)",
+    "performers": "Steve Coleman",
+    "solo": "weimar_411",
+    "tune": "The Oracle"
+   },
+   {
+    "id": "Steve Coleman/The Oracle (weimar_412)",
+    "performers": "Steve Coleman",
+    "solo": "weimar_412",
+    "tune": "The Oracle"
+   },
+   {
+    "id": "Dexter Gordon/The Rainbow People (weimar_126)",
+    "performers": "Dexter Gordon",
+    "solo": "weimar_126",
+    "tune": "The Rainbow People"
+   },
+   {
+    "id": "Joe Henderson/The Sidewinder (weimar_203)",
+    "performers": "Joe Henderson",
+    "solo": "weimar_203",
+    "tune": "The Sidewinder"
+   },
+   {
+    "id": "Lee Morgan/The Sidewinder (weimar_276)",
+    "performers": "Lee Morgan",
+    "solo": "weimar_276",
+    "tune": "The Sidewinder"
+   },
+   {
+    "id": "Fats Navarro/The Skunk (weimar_164)",
+    "performers": "Fats Navarro",
+    "solo": "weimar_164",
+    "tune": "The Skunk"
+   },
+   {
+    "id": "Chet Baker/There Will Never Be Another You (weimar_74)",
+    "performers": "Chet Baker",
+    "solo": "weimar_74",
+    "tune": "There Will Never Be Another You"
+   },
+   {
+    "id": "Chet Baker/There Will Never Be Another You (weimar_75)",
+    "performers": "Chet Baker",
+    "solo": "weimar_75",
+    "tune": "There Will Never Be Another You"
+   },
+   {
+    "id": "David Liebman/There Will Never Be Another You (weimar_114)",
+    "performers": "David Liebman",
+    "solo": "weimar_114",
+    "tune": "There Will Never Be Another You"
+   },
+   {
+    "id": "Gerry Mulligan/This Can't Be Love (weimar_176)",
+    "performers": "Gerry Mulligan",
+    "solo": "weimar_176",
+    "tune": "This Can't Be Love"
+   },
+   {
+    "id": "Cannonball Adderley/This Here (weimar_50)",
+    "performers": "Cannonball Adderley",
+    "solo": "weimar_50",
+    "tune": "This Here"
+   },
+   {
+    "id": "Branford Marsalis/Three Little Words (weimar_42)",
+    "performers": "Branford Marsalis",
+    "solo": "weimar_42",
+    "tune": "Three Little Words"
+   },
+   {
+    "id": "Charlie Parker/Thriving on a Riff (weimar_67)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_67",
+    "tune": "Thriving on a Riff"
+   },
+   {
+    "id": "Benny Goodman/Tiger Rag (weimar_18)",
+    "performers": "Benny Goodman",
+    "solo": "weimar_18",
+    "tune": "Tiger Rag"
+   },
+   {
+    "id": "Benny Goodman/Tiger Rag (weimar_19)",
+    "performers": "Benny Goodman",
+    "solo": "weimar_19",
+    "tune": "Tiger Rag"
+   },
+   {
+    "id": "Kai Winding/Tiny's Blues (weimar_248)",
+    "performers": "Kai Winding",
+    "solo": "weimar_248",
+    "tune": "Tiny's Blues"
+   },
+   {
+    "id": "John Coltrane/Trane's Blues (weimar_234)",
+    "performers": "John Coltrane",
+    "solo": "weimar_234",
+    "tune": "Trane's Blues"
+   },
+   {
+    "id": "Miles Davis/Trane's Blues (weimar_324)",
+    "performers": "Miles Davis",
+    "solo": "weimar_324",
+    "tune": "Trane's Blues"
+   },
+   {
+    "id": "Miles Davis/Tune Up (weimar_325)",
+    "performers": "Miles Davis",
+    "solo": "weimar_325",
+    "tune": "Tune Up"
+   },
+   {
+    "id": "Chet Baker/Two's Blues (weimar_76)",
+    "performers": "Chet Baker",
+    "solo": "weimar_76",
+    "tune": "Two's Blues"
+   },
+   {
+    "id": "Don Byas/Un Amour Pleurait (weimar_146)",
+    "performers": "Don Byas",
+    "solo": "weimar_146",
+    "tune": "Un Amour Pleurait"
+   },
+   {
+    "id": "Roy Eldridge/Undecided (weimar_372)",
+    "performers": "Roy Eldridge",
+    "solo": "weimar_372",
+    "tune": "Undecided"
+   },
+   {
+    "id": "J.J. Johnson/Walkin' (weimar_196)",
+    "performers": "J.J. Johnson",
+    "solo": "weimar_196",
+    "tune": "Walkin'"
+   },
+   {
+    "id": "Miles Davis/Walkin' (weimar_327)",
+    "performers": "Miles Davis",
+    "solo": "weimar_327",
+    "tune": "Walkin'"
+   },
+   {
+    "id": "Ben Webster/Where or When (weimar_25)",
+    "performers": "Ben Webster",
+    "solo": "weimar_25",
+    "tune": "Where or When"
+   },
+   {
+    "id": "Benny Goodman/Whispering (weimar_20)",
+    "performers": "Benny Goodman",
+    "solo": "weimar_20",
+    "tune": "Whispering"
+   },
+   {
+    "id": "Lionel Hampton/Whispering (weimar_290)",
+    "performers": "Lionel Hampton",
+    "solo": "weimar_290",
+    "tune": "Whispering"
+   },
+   {
+    "id": "Kid Ory/Who's it (weimar_265)",
+    "performers": "Kid Ory",
+    "solo": "weimar_265",
+    "tune": "Who's it"
+   },
+   {
+    "id": "Joe Lovano/Work (weimar_213)",
+    "performers": "Joe Lovano",
+    "solo": "weimar_213",
+    "tune": "Work"
+   },
+   {
+    "id": "Steve Lacy/Work (weimar_418)",
+    "performers": "Steve Lacy",
+    "solo": "weimar_418",
+    "tune": "Work"
+   },
+   {
+    "id": "Lee Konitz/Wow (weimar_273)",
+    "performers": "Lee Konitz",
+    "solo": "weimar_273",
+    "tune": "Wow"
+   },
+   {
+    "id": "Warne Marsh/Wow (weimar_425)",
+    "performers": "Warne Marsh",
+    "solo": "weimar_425",
+    "tune": "Wow"
+   },
+   {
+    "id": "Charlie Parker/Yardbird Suite (weimar_68)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_68",
+    "tune": "Yardbird Suite"
+   },
+   {
+    "id": "Bob Berg/You and the Night and the Music (weimar_37)",
+    "performers": "Bob Berg",
+    "solo": "weimar_37",
+    "tune": "You and the Night and the Music"
+   },
+   {
+    "id": "Don Ellis/You Stepped Out of a Dream (weimar_151)",
+    "performers": "Don Ellis",
+    "solo": "weimar_151",
+    "tune": "You Stepped Out of a Dream"
+   },
+   {
+    "id": "Don Ellis/You Stepped Out of a Dream (weimar_152)",
+    "performers": "Don Ellis",
+    "solo": "weimar_152",
+    "tune": "You Stepped Out of a Dream"
+   },
+   {
+    "id": "Chet Baker/You'd Be So Nice to Come Home to (weimar_77)",
+    "performers": "Chet Baker",
+    "solo": "weimar_77",
+    "tune": "You'd Be So Nice to Come Home to"
+   },
+   {
+    "id": "Pepper Adams/You'd Be So Nice to Come Home to (weimar_358)",
+    "performers": "Pepper Adams",
+    "solo": "weimar_358",
+    "tune": "You'd Be So Nice to Come Home to"
+   }
+  ],
+  "test": [
+   {
+    "id": "Eric Dolphy/245 (weimar_153)",
+    "performers": "Eric Dolphy",
+    "solo": "weimar_153",
+    "tune": "245"
+   },
+   {
+    "id": "Freddie Hubbard/245 (weimar_165)",
+    "performers": "Freddie Hubbard",
+    "solo": "weimar_165",
+    "tune": "245"
+   },
+   {
+    "id": "Clifford Brown/A Night in Tunisia (weimar_87)",
+    "performers": "Clifford Brown",
+    "solo": "weimar_87",
+    "tune": "A Night in Tunisia"
+   },
+   {
+    "id": "Pepper Adams/A Night in Tunisia (weimar_354)",
+    "performers": "Pepper Adams",
+    "solo": "weimar_354",
+    "tune": "A Night in Tunisia"
+   },
+   {
+    "id": "Art Pepper/Anthropology (weimar_1)",
+    "performers": "Art Pepper",
+    "solo": "weimar_1",
+    "tune": "Anthropology"
+   },
+   {
+    "id": "Chris Potter/Anthropology (weimar_78)",
+    "performers": "Chris Potter",
+    "solo": "weimar_78",
+    "tune": "Anthropology"
+   },
+   {
+    "id": "Dizzy Gillespie/Anthropology (weimar_133)",
+    "performers": "Dizzy Gillespie",
+    "solo": "weimar_133",
+    "tune": "Anthropology"
+   },
+   {
+    "id": "Fats Navarro/Anthropology (weimar_159)",
+    "performers": "Fats Navarro",
+    "solo": "weimar_159",
+    "tune": "Anthropology"
+   },
+   {
+    "id": "Louis Armstrong/Basin Street Blues (weimar_291)",
+    "performers": "Louis Armstrong",
+    "solo": "weimar_291",
+    "tune": "Basin Street Blues"
+   },
+   {
+    "id": "Phil Woods/Be My Love (weimar_359)",
+    "performers": "Phil Woods",
+    "solo": "weimar_359",
+    "tune": "Be My Love"
+   },
+   {
+    "id": "Charlie Parker/Billie's Bounce (weimar_52)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_52",
+    "tune": "Billie's Bounce"
+   },
+   {
+    "id": "Miles Davis/Bitches Brew (weimar_311)",
+    "performers": "Miles Davis",
+    "solo": "weimar_311",
+    "tune": "Bitches Brew"
+   },
+   {
+    "id": "Miles Davis/Bitches Brew (weimar_312)",
+    "performers": "Miles Davis",
+    "solo": "weimar_312",
+    "tune": "Bitches Brew"
+   },
+   {
+    "id": "Sonny Rollins/Blue Seven (weimar_379)",
+    "performers": "Sonny Rollins",
+    "solo": "weimar_379",
+    "tune": "Blue Seven"
+   },
+   {
+    "id": "Sonny Rollins/Blue Seven (weimar_380)",
+    "performers": "Sonny Rollins",
+    "solo": "weimar_380",
+    "tune": "Blue Seven"
+   },
+   {
+    "id": "Sonny Rollins/Blue Seven (weimar_381)",
+    "performers": "Sonny Rollins",
+    "solo": "weimar_381",
+    "tune": "Blue Seven"
+   },
+   {
+    "id": "Joe Lovano/Central Park West (weimar_208)",
+    "performers": "Joe Lovano",
+    "solo": "weimar_208",
+    "tune": "Central Park West"
+   },
+   {
+    "id": "Wynton Marsalis/Cherokee II (weimar_447)",
+    "performers": "Wynton Marsalis",
+    "solo": "weimar_447",
+    "tune": "Cherokee II"
+   },
+   {
+    "id": "J.J. Johnson/Crazy Rhythm (weimar_192)",
+    "performers": "J.J. Johnson",
+    "solo": "weimar_192",
+    "tune": "Crazy Rhythm"
+   },
+   {
+    "id": "Phil Woods/Crazy Rhythm (weimar_361)",
+    "performers": "Phil Woods",
+    "solo": "weimar_361",
+    "tune": "Crazy Rhythm"
+   },
+   {
+    "id": "Stan Getz/Crazy Rhythm (weimar_399)",
+    "performers": "Stan Getz",
+    "solo": "weimar_399",
+    "tune": "Crazy Rhythm"
+   },
+   {
+    "id": "Michael Brecker/Delta City Blues (weimar_301)",
+    "performers": "Michael Brecker",
+    "solo": "weimar_301",
+    "tune": "Delta City Blues"
+   },
+   {
+    "id": "Johnny Hodges/Early Morning Rock (weimar_242)",
+    "performers": "Johnny Hodges",
+    "solo": "weimar_242",
+    "tune": "Early Morning Rock"
+   },
+   {
+    "id": "Johnny Dodds/Got No Blues (weimar_235)",
+    "performers": "Johnny Dodds",
+    "solo": "weimar_235",
+    "tune": "Got No Blues"
+   },
+   {
+    "id": "Kid Ory/Got No Blues (weimar_261)",
+    "performers": "Kid Ory",
+    "solo": "weimar_261",
+    "tune": "Got No Blues"
+   },
+   {
+    "id": "Louis Armstrong/Got No Blues (weimar_294)",
+    "performers": "Louis Armstrong",
+    "solo": "weimar_294",
+    "tune": "Got No Blues"
+   },
+   {
+    "id": "Benny Goodman/Handful of Keys (weimar_15)",
+    "performers": "Benny Goodman",
+    "solo": "weimar_15",
+    "tune": "Handful of Keys"
+   },
+   {
+    "id": "Don Byas/Harvard Blues (weimar_142)",
+    "performers": "Don Byas",
+    "solo": "weimar_142",
+    "tune": "Harvard Blues"
+   },
+   {
+    "id": "Don Byas/Harvard Blues (weimar_143)",
+    "performers": "Don Byas",
+    "solo": "weimar_143",
+    "tune": "Harvard Blues"
+   },
+   {
+    "id": "Johnny Dodds/Heebie Jeebies (weimar_236)",
+    "performers": "Johnny Dodds",
+    "solo": "weimar_236",
+    "tune": "Heebie Jeebies"
+   },
+   {
+    "id": "Dizzy Gillespie/Hot House (weimar_138)",
+    "performers": "Dizzy Gillespie",
+    "solo": "weimar_138",
+    "tune": "Hot House"
+   },
+   {
+    "id": "Charlie Parker/How Deep Is the Ocean (weimar_57)",
+    "performers": "Charlie Parker",
+    "solo": "weimar_57",
+    "tune": "How Deep Is the Ocean"
+   },
+   {
+    "id": "Don Ellis/I Love You (weimar_147)",
+    "performers": "Don Ellis",
+    "solo": "weimar_147",
+    "tune": "I Love You"
+   },
+   {
+    "id": "Steve Turre/If I Were a Bell (weimar_420)",
+    "performers": "Steve Turre",
+    "solo": "weimar_420",
+    "tune": "If I Were a Bell"
+   },
+   {
+    "id": "Woody Shaw/If I Were a Bell (weimar_437)",
+    "performers": "Woody Shaw",
+    "solo": "weimar_437",
+    "tune": "If I Were a Bell"
+   },
+   {
+    "id": "Benny Carter/It's a Wonderful World (weimar_8)",
+    "performers": "Benny Carter",
+    "solo": "weimar_8",
+    "tune": "It's a Wonderful World"
+   },
+   {
+    "id": "Benny Carter/It's a Wonderful World (weimar_9)",
+    "performers": "Benny Carter",
+    "solo": "weimar_9",
+    "tune": "It's a Wonderful World"
+   },
+   {
+    "id": "Coleman Hawkins/It's Only a Papermoon (weimar_97)",
+    "performers": "Coleman Hawkins",
+    "solo": "weimar_97",
+    "tune": "It's Only a Papermoon"
+   },
+   {
+    "id": "Eric Dolphy/Les (weimar_156)",
+    "performers": "Eric Dolphy",
+    "solo": "weimar_156",
+    "tune": "Les"
+   },
+   {
+    "id": "David Liebman/No Greater Love (weimar_109)",
+    "performers": "David Liebman",
+    "solo": "weimar_109",
+    "tune": "No Greater Love"
+   },
+   {
+    "id": "Eric Dolphy/On Green Dolphin Street (weimar_157)",
+    "performers": "Eric Dolphy",
+    "solo": "weimar_157",
+    "tune": "On Green Dolphin Street"
+   },
+   {
+    "id": "David Liebman/Pablo's Story (weimar_110)",
+    "performers": "David Liebman",
+    "solo": "weimar_110",
+    "tune": "Pablo's Story"
+   },
+   {
+    "id": "Kenny Wheeler/Pass It On (weimar_259)",
+    "performers": "Kenny Wheeler",
+    "solo": "weimar_259",
+    "tune": "Pass It On"
+   },
+   {
+    "id": "Steve Coleman/Pass It On (weimar_406)",
+    "performers": "Steve Coleman",
+    "solo": "weimar_406",
+    "tune": "Pass It On"
+   },
+   {
+    "id": "Von Freeman/Pass It On (weimar_422)",
+    "performers": "Von Freeman",
+    "solo": "weimar_422",
+    "tune": "Pass It On"
+   },
+   {
+    "id": "Steve Coleman/Processional (weimar_407)",
+    "performers": "Steve Coleman",
+    "solo": "weimar_407",
+    "tune": "Processional"
+   },
+   {
+    "id": "John Abercrombie/Ralph's Piano Waltz (weimar_214)",
+    "performers": "John Abercrombie",
+    "solo": "weimar_214",
+    "tune": "Ralph's Piano Waltz"
+   },
+   {
+    "id": "Ornette Coleman/Ramblin' (weimar_340)",
+    "performers": "Ornette Coleman",
+    "solo": "weimar_340",
+    "tune": "Ramblin'"
+   },
+   {
+    "id": "Bix Beiderbecke/Riverboat Shuffle (weimar_28)",
+    "performers": "Bix Beiderbecke",
+    "solo": "weimar_28",
+    "tune": "Riverboat Shuffle"
+   },
+   {
+    "id": "Kid Ory/Savoy Blues (weimar_264)",
+    "performers": "Kid Ory",
+    "solo": "weimar_264",
+    "tune": "Savoy Blues"
+   },
+   {
+    "id": "Louis Armstrong/Savoy Blues (weimar_298)",
+    "performers": "Louis Armstrong",
+    "solo": "weimar_298",
+    "tune": "Savoy Blues"
+   },
+   {
+    "id": "David Liebman/Secret Love (weimar_112)",
+    "performers": "David Liebman",
+    "solo": "weimar_112",
+    "tune": "Secret Love"
+   },
+   {
+    "id": "Joe Henderson/Serenity (weimar_202)",
+    "performers": "Joe Henderson",
+    "solo": "weimar_202",
+    "tune": "Serenity"
+   },
+   {
+    "id": "Kenny Dorham/Serenity (weimar_255)",
+    "performers": "Kenny Dorham",
+    "solo": "weimar_255",
+    "tune": "Serenity"
+   },
+   {
+    "id": "Bix Beiderbecke/Singin the Blues (weimar_30)",
+    "performers": "Bix Beiderbecke",
+    "solo": "weimar_30",
+    "tune": "Singin the Blues"
+   },
+   {
+    "id": "Dickie Wells/Six Cats and a Prince (weimar_132)",
+    "performers": "Dickie Wells",
+    "solo": "weimar_132",
+    "tune": "Six Cats and a Prince"
+   },
+   {
+    "id": "Lester Young/Six Cats and a Prince (weimar_284)",
+    "performers": "Lester Young",
+    "solo": "weimar_284",
+    "tune": "Six Cats and a Prince"
+   },
+   {
+    "id": "Coleman Hawkins/Sophisticated Lady (weimar_100)",
+    "performers": "Coleman Hawkins",
+    "solo": "weimar_100",
+    "tune": "Sophisticated Lady"
+   },
+   {
+    "id": "Sonny Rollins/St. Thomas (weimar_385)",
+    "performers": "Sonny Rollins",
+    "solo": "weimar_385",
+    "tune": "St. Thomas"
+   },
+   {
+    "id": "Sonny Rollins/St. Thomas (weimar_386)",
+    "performers": "Sonny Rollins",
+    "solo": "weimar_386",
+    "tune": "St. Thomas"
+   },
+   {
+    "id": "Benny Carter/Sweet Lorraine (weimar_13)",
+    "performers": "Benny Carter",
+    "solo": "weimar_13",
+    "tune": "Sweet Lorraine"
+   },
+   {
+    "id": "J.J. Johnson/Teapot (weimar_195)",
+    "performers": "J.J. Johnson",
+    "solo": "weimar_195",
+    "tune": "Teapot"
+   },
+   {
+    "id": "Sonny Stitt/Teapot (weimar_396)",
+    "performers": "Sonny Stitt",
+    "solo": "weimar_396",
+    "tune": "Teapot"
+   },
+   {
+    "id": "Joshua Redman/Tears in Heaven (weimar_247)",
+    "performers": "Joshua Redman",
+    "solo": "weimar_247",
+    "tune": "Tears in Heaven"
+   },
+   {
+    "id": "Sonny Rollins/The Everywhere Calypso (weimar_388)",
+    "performers": "Sonny Rollins",
+    "solo": "weimar_388",
+    "tune": "The Everywhere Calypso"
+   },
+   {
+    "id": "Sonny Rollins/The Everywhere Calypso (weimar_389)",
+    "performers": "Sonny Rollins",
+    "solo": "weimar_389",
+    "tune": "The Everywhere Calypso"
+   },
+   {
+    "id": "Roy Eldridge/The Gasser (weimar_370)",
+    "performers": "Roy Eldridge",
+    "solo": "weimar_370",
+    "tune": "The Gasser"
+   },
+   {
+    "id": "Roy Eldridge/The Gasser (weimar_371)",
+    "performers": "Roy Eldridge",
+    "solo": "weimar_371",
+    "tune": "The Gasser"
+   },
+   {
+    "id": "Gerry Mulligan/The Red Door (weimar_175)",
+    "performers": "Gerry Mulligan",
+    "solo": "weimar_175",
+    "tune": "The Red Door"
+   },
+   {
+    "id": "Chris Potter/Togo (weimar_84)",
+    "performers": "Chris Potter",
+    "solo": "weimar_84",
+    "tune": "Togo"
+   },
+   {
+    "id": "Joe Henderson/Totem Pole (weimar_204)",
+    "performers": "Joe Henderson",
+    "solo": "weimar_204",
+    "tune": "Totem Pole"
+   },
+   {
+    "id": "Lee Morgan/Totem Pole (weimar_277)",
+    "performers": "Lee Morgan",
+    "solo": "weimar_277",
+    "tune": "Totem Pole"
+   },
+   {
+    "id": "Branford Marsalis/U.M.M.G. (weimar_43)",
+    "performers": "Branford Marsalis",
+    "solo": "weimar_43",
+    "tune": "U.M.M.G."
+   },
+   {
+    "id": "Joe Henderson/U.M.M.G. (weimar_205)",
+    "performers": "Joe Henderson",
+    "solo": "weimar_205",
+    "tune": "U.M.M.G."
+   },
+   {
+    "id": "Wynton Marsalis/U.M.M.G. (weimar_449)",
+    "performers": "Wynton Marsalis",
+    "solo": "weimar_449",
+    "tune": "U.M.M.G."
+   },
+   {
+    "id": "Miles Davis/Vierd Blues (weimar_326)",
+    "performers": "Miles Davis",
+    "solo": "weimar_326",
+    "tune": "Vierd Blues"
+   },
+   {
+    "id": "Sonny Rollins/Vierd Blues (weimar_390)",
+    "performers": "Sonny Rollins",
+    "solo": "weimar_390",
+    "tune": "Vierd Blues"
+   },
+   {
+    "id": "Gerry Mulligan/Walking Shoes (weimar_177)",
+    "performers": "Gerry Mulligan",
+    "solo": "weimar_177",
+    "tune": "Walking Shoes"
+   },
+   {
+    "id": "Milt Jackson/What's New (weimar_333)",
+    "performers": "Milt Jackson",
+    "solo": "weimar_333",
+    "tune": "What's New"
+   },
+   {
+    "id": "Cannonball Adderley/Work Song (weimar_51)",
+    "performers": "Cannonball Adderley",
+    "solo": "weimar_51",
+    "tune": "Work Song"
+   },
+   {
+    "id": "Nat Adderley/Work Song (weimar_335)",
+    "performers": "Nat Adderley",
+    "solo": "weimar_335",
+    "tune": "Work Song"
+   },
+   {
+    "id": "J.J. Johnson/Yesterdays (weimar_197)",
+    "performers": "J.J. Johnson",
+    "solo": "weimar_197",
+    "tune": "Yesterdays"
+   },
+   {
+    "id": "Wynton Marsalis/You're My Everything (weimar_450)",
+    "performers": "Wynton Marsalis",
+    "solo": "weimar_450",
+    "tune": "You're My Everything"
+   }
+  ]
+ }
+}
