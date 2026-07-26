@@ -26,6 +26,11 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ### Changed
 
+- Automatic key detection now recognizes authentic cadences: when a dominant
+  seventh resolves down a fifth onto its tonic, the detector treats that as
+  permission to change key, so it follows modulations and key changes sooner and
+  more accurately in every key behavior mode, while blues and static
+  progressions are unaffected.
 - The tonality bar now uses a more compact key button and tighter scale-degree
   spacing on narrow screens, keeping all seven degrees visible more often when
   Ensemble mode is on.

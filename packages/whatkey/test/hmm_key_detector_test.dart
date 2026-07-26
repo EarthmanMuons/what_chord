@@ -282,7 +282,7 @@ void main() {
           (e) => e.tonality.tonicPitchClass == 7 && e.tonality.isMajor,
         )
         .confidence;
-    final plain = _run(HmmKeyDetector(), events);
+    final plain = _run(HmmKeyDetector(cadenceBoost: 0), events);
     final boosted = _run(HmmKeyDetector(cadenceBoost: 2), events);
     expect(gMajorConfidence(boosted), greaterThan(gMajorConfidence(plain)));
   });
@@ -295,7 +295,7 @@ void main() {
           (e) => e.tonality.tonicPitchClass == 0 && e.tonality.isMajor,
         )
         .confidence;
-    final plain = _run(HmmKeyDetector(), cCadence);
+    final plain = _run(HmmKeyDetector(cadenceBoost: 0), cCadence);
     final boosted = _run(HmmKeyDetector(cadenceBoost: 2), cCadence);
     expect(
       cMajorConfidence(boosted),
@@ -308,13 +308,55 @@ void main() {
     // excluded from the cadence targets, so two blues choruses must be
     // byte-identical with and without the boost.
     final events = [..._bluesChorus(0), ..._bluesChorus(12)];
-    final plain = _run(HmmKeyDetector(), events);
-    final boosted = _run(HmmKeyDetector(cadenceBoost: 3), events);
+    final plain = _run(HmmKeyDetector(cadenceBoost: 0), events);
+    final boosted = _run(HmmKeyDetector(cadenceBoost: 6), events);
     for (var i = 0; i < events.length; i++) {
       for (var k = 0; k < 24; k++) {
         expect(
           boosted[i].ranked[k].confidence,
           plain[i].ranked[k].confidence,
+          reason: 'event $i rank $k',
+        );
+      }
+    }
+  });
+
+  test('triad cadence boost needs the predominant two back', () {
+    // Dm G C is a ii-V-I trigram into C, so the triad boost fires on the
+    // final C; Am C F is I-vi... anything-I-IV shaped, with no predominant
+    // of F two back, so the plain V-I bigram alone must not fire.
+    final firing = [
+      _event(0, [2, 5, 9], ChordQuality.minor),
+      _event(1, [7, 11, 2], ChordQuality.major),
+      _event(2, [0, 4, 7], ChordQuality.major),
+    ];
+    double confidence(List<KeyEstimateFrame> frames, int pc, bool minor) =>
+        frames.last.ranked
+            .firstWhere(
+              (e) =>
+                  e.tonality.tonicPitchClass == pc &&
+                  e.tonality.isMinor == minor,
+            )
+            .confidence;
+    final plainFiring = _run(HmmKeyDetector(), firing);
+    final boostedFiring = _run(HmmKeyDetector(cadenceTriadBoost: 2), firing);
+    expect(
+      confidence(boostedFiring, 0, false),
+      greaterThan(confidence(plainFiring, 0, false)),
+    );
+
+    final nonFiring = [
+      _event(0, [9, 0, 4], ChordQuality.minor),
+      _event(1, [0, 4, 7], ChordQuality.major),
+      _event(2, [5, 9, 0], ChordQuality.major),
+    ];
+    final plainNon = _run(HmmKeyDetector(), nonFiring);
+    final boostedNon = _run(HmmKeyDetector(cadenceTriadBoost: 2), nonFiring);
+    for (var i = 0; i < nonFiring.length; i++) {
+      for (var k = 0; k < 24; k++) {
+        expect(
+          boostedNon[i].ranked[k].confidence,
+          plainNon[i].ranked[k].confidence,
           reason: 'event $i rank $k',
         );
       }

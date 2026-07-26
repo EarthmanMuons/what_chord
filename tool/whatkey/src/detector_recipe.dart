@@ -24,6 +24,9 @@ enum DetectorRecipe {
     modeTilt: 2,
     relativeTilt: 0,
     relativeCadenceTilt: 0,
+    cadenceBoost: 0,
+    cadenceTriadBoost: 0,
+    relativeSwitchFactor: 1,
   ),
 
   /// Faster-decay comparison reported alongside the shipped paper detector.
@@ -44,6 +47,9 @@ enum DetectorRecipe {
     modeTilt: 2,
     relativeTilt: 0,
     relativeCadenceTilt: 0,
+    cadenceBoost: 0,
+    cadenceTriadBoost: 0,
+    relativeSwitchFactor: 1,
   );
 
   const DetectorRecipe({
@@ -63,6 +69,9 @@ enum DetectorRecipe {
     required this.modeTilt,
     required this.relativeTilt,
     required this.relativeCadenceTilt,
+    required this.cadenceBoost,
+    required this.cadenceTriadBoost,
+    required this.relativeSwitchFactor,
   });
 
   final String detectorName;
@@ -81,4 +90,7 @@ enum DetectorRecipe {
   final double modeTilt;
   final double relativeTilt;
   final double relativeCadenceTilt;
+  final double cadenceBoost;
+  final double cadenceTriadBoost;
+  final double relativeSwitchFactor;
 }
