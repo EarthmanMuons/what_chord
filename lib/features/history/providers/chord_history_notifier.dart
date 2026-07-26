@@ -102,6 +102,19 @@ class ChordHistoryNotifier extends Notifier<List<ChordEvent>> {
     state = const [];
   }
 
+  /// Swaps [original] for [replacement] in place, preserving order: the
+  /// one-event-deep history relabel (research/whatkey-local/log/2026-07-26-09).
+  /// Record-only by contract: callers never replace the newest entry, so
+  /// detector listeners, which key on the appended tail, do not reprocess a
+  /// relabeled event. No-op when [original] is already gone (capacity
+  /// overflow or a clear).
+  void replace(ChordEvent original, ChordEvent replacement) {
+    final index = state.indexWhere((event) => identical(event, original));
+    if (index < 0) return;
+    final next = [...state]..[index] = replacement;
+    state = List.unmodifiable(next);
+  }
+
   /// Events whose start time falls within [window] of now, oldest first.
   List<ChordEvent> recentEvents(Duration window) {
     final cutoff = ref.read(historyClockProvider)().subtract(window);

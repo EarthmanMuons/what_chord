@@ -8,6 +8,7 @@ import 'package:whatchord_app/core/core.dart';
 import 'package:whatchord_app/features/audio/audio.dart';
 import 'package:whatchord_app/features/history/history.dart';
 import 'package:whatchord_app/features/home/home.dart';
+import 'package:whatchord_app/features/key/key.dart';
 import 'package:whatchord_app/features/links/links.dart';
 import 'package:whatchord_app/features/midi/midi.dart';
 
@@ -42,6 +43,7 @@ class MyApp extends ConsumerWidget {
     ref.watch(appMidiLifecycleProvider);
     ref.watch(appAudioMonitorLifecycleProvider);
     ref.watch(appChordHistoryLifecycleProvider);
+    ref.watch(appInternalKeyLifecycleProvider);
     ref.watch(appDeepLinkProvider);
 
     final themeMode = ref.watch(appThemeModeProvider);

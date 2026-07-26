@@ -3,6 +3,7 @@ import 'package:whatchord/whatchord.dart';
 
 import 'package:whatchord_app/features/demo/demo.dart';
 
+import 'ensemble_naming_tonality_provider.dart';
 import 'playing_context_notifier.dart';
 import 'selected_key_signature_provider.dart';
 import 'selected_tonality_notifier.dart';
@@ -21,8 +22,16 @@ final analysisContextProvider = Provider<AnalysisContext>((ref) {
       ? PlayingContext.solo
       : ref.watch(playingContextProvider);
 
+  // Ensemble identity follows the internal naming key when one is standing;
+  // keySignature and spellingPolicy stay with the selected key so visible
+  // spelling never contradicts the key display (decision 3 in
+  // research/whatkey-local/log/2026-07-26-09).
+  final namingTonality = playingContext == PlayingContext.ensemble
+      ? ref.watch(ensembleNamingTonalityProvider)
+      : null;
+
   return AnalysisContext(
-    tonality: tonality,
+    tonality: namingTonality ?? tonality,
     keySignature: keySignature,
     spellingPolicy: spellingPolicy,
     playingContext: playingContext,

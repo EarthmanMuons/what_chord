@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatkey/whatkey.dart';
 
@@ -43,18 +45,33 @@ final inferredKeyProvider =
 /// [inferredKeyStaleAfterProvider].
 class InferredKeyNotifier extends Notifier<InferredKeyState> {
   late HmmKeyDetector _detector;
+  ChordEvent? _lastProcessed;
   Timer? _staleTimer;
   Timer? _resetTimer;
 
+  /// The behavior preset this detector runs, watched so a preset change
+  /// rebuilds with fresh memory. [InternalKeyNotifier] overrides both hooks
+  /// with a pinned preset so the internal key never depends on display state.
+  @protected
+  KeyBehavior watchBehavior() => ref.watch(keyBehaviorProvider);
+
+  /// See [watchBehavior].
+  @protected
+  Duration get staleAfter => ref.read(inferredKeyStaleAfterProvider);
+
   @override
   InferredKeyState build() {
-    final behavior = ref.watch(keyBehaviorProvider);
+    final behavior = watchBehavior();
     _detector = HmmKeyDetector(decayHalfLife: behavior.emissionHalfLife);
     ref.onDispose(_cancelTimers);
     ref.listen(chordHistoryProvider, _onHistory);
     // resetAt marks this detector's birth: history committed before it (or
     // before the behavior switch that rebuilt it) no longer contributes, and
-    // the recent-chords display drops those events accordingly.
+    // the recent-chords display drops those events accordingly. Marking the
+    // current tail as processed enforces that from the first notification,
+    // even one caused by a record-only mutation (the history relabel).
+    final history = ref.read(chordHistoryProvider);
+    _lastProcessed = history.isEmpty ? null : history.last;
     return InferredKeyState.initial(resetAt: ref.read(historyClockProvider)());
   }
 
@@ -62,21 +79,22 @@ class InferredKeyNotifier extends Notifier<InferredKeyState> {
   void reset() {
     _cancelTimers();
     _detector.reset();
+    _lastProcessed = null;
     state = InferredKeyState.initial(resetAt: ref.read(historyClockProvider)());
   }
 
   void _onHistory(List<ChordEvent>? previous, List<ChordEvent> next) {
     if (next.isEmpty) {
-      if (previous != null && previous.isNotEmpty) reset();
+      if (_lastProcessed != null || (previous?.isNotEmpty ?? false)) reset();
       return;
     }
     // record() appends exactly one event per state change, so a changed tail
-    // is that one new event; an identical tail means no new commit.
-    if (previous != null &&
-        previous.isNotEmpty &&
-        identical(previous.last, next.last)) {
-      return;
-    }
+    // is that one new event. An identical tail is a record-only mutation
+    // (the history relabel) or a re-notification; tracking the processed
+    // tail here rather than trusting the listener's previous value keeps
+    // those from re-feeding the causal detector across rebuilds.
+    if (identical(next.last, _lastProcessed)) return;
+    _lastProcessed = next.last;
     _onEvent(next.last);
   }
 
@@ -95,7 +113,7 @@ class InferredKeyNotifier extends Notifier<InferredKeyState> {
 
   void _rescheduleTimers() {
     _cancelTimers();
-    _staleTimer = Timer(ref.read(inferredKeyStaleAfterProvider), () {
+    _staleTimer = Timer(staleAfter, () {
       _staleTimer = null;
       if (state.freshness == InferredKeyFreshness.fresh) {
         state = state.copyWith(freshness: InferredKeyFreshness.stale);
