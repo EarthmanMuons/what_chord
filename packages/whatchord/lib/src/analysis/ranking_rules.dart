@@ -29,6 +29,17 @@ final List<NamedRule> hardRules = <NamedRule>[
     'prefer idiomatic implied-root reading',
     preferIdiomaticImpliedRootReading,
   ),
+  // Directly after: the one implied-vs-implied pair that is a pure
+  // re-rooting of identical tones, decided by the key when the key can
+  // decide it (research/ensemble-tiebreak/log/2026-07-26-02).
+  NamedRule(
+    'prefer in-key member of the half-diminished/major-seventh pair',
+    preferInKeyMemberOfSemitonePair,
+    gate: (c, _, _) =>
+        c.identity.hasImpliedRoot &&
+        (c.identity.quality == ChordQuality.halfDiminished7 ||
+            c.identity.quality == ChordQuality.major7),
+  ),
   NamedRule(
     'prefer dominant flat-nine shell over colored diminished',
     preferCompleteDom7Flat9OverColoredDim7,

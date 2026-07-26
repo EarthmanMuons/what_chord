@@ -411,12 +411,16 @@ final class ChordAnalyzer {
     }
 
     // Ensemble analysis also hypothesizes rootless readings: the root may be
-    // covered by another instrument, so absent, key-diatonic pitch classes are
-    // tried as implied roots against the ensemble-eligible templates.
+    // covered by another instrument, so every absent pitch class is tried as
+    // an implied root against the ensemble-eligible templates. Admission is
+    // deliberately key-open: secondary and substitute dominants put roots
+    // outside the key constantly (12-22% of jazz seventh chords by quality,
+    // research/ensemble-tiebreak/log/2026-07-26-02), and a diatonic gate
+    // silently renames them all as their in-key twins. Key preference
+    // belongs to ranking, not admission.
     if (context.playingContext == PlayingContext.ensemble) {
       for (var rootPc = 0; rootPc < 12; rootPc++) {
         if ((pcMask & (1 << rootPc)) != 0) continue;
-        if (!context.tonality.containsPitchClass(rootPc)) continue;
         evaluateRoot(rootPc, impliedRoot: true);
       }
     }

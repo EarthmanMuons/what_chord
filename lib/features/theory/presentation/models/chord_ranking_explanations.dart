@@ -14,6 +14,8 @@ abstract final class ChordRankingExplanations {
         'its explanation cost was clearly lower.',
     'prefer idiomatic implied-root reading':
         'in Ensemble mode the voicing reads as a rootless chord, so the name that reinstates the missing root wins over readings built only on the played notes.',
+    'prefer in-key member of the half-diminished/major-seventh pair':
+        'a rootless half-diminished seventh and the major seventh a half step below share the same played notes, so the reading whose root belongs to the current key wins.',
     'prefer dominant flat-nine shell over colored diminished':
         'the dominant-flat-nine name keeps the complete dominant shell together, while the diminished reading treats one of the dominant tones as added color.',
     'prefer flat-nine-bass dominant over remote reinterpretation':
