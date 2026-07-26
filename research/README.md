@@ -39,8 +39,10 @@ and published methods.
   significant coverage gains at maintained accuracy over the paper baseline.
 - [Ensemble Tiebreak](ensemble-tiebreak/): closing the ensemble mode's pure
   naming residual on a new jazz-comping ruler built from the Weimar Jazz
-  Database. Active: corpus and split frozen, jazz baseline taken (83.7%
-  inferred-key exact; three confusion families are 79% of the residual).
+  Database. Complete: the residual was implied-root admission, not tiebreaking;
+  key-open admission with two narrow guards lifts held-out jazz naming from
+  87.3% to 94.2% exact with zero regressed solos, and classical improves
+  alongside.
 
 Supporting code lives with the rest of the project: batch drivers and corpus
 tooling in `tool/`, performance benchmarks in `benchmark/`, and the engine
