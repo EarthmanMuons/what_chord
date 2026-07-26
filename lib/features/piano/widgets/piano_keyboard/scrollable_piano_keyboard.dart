@@ -43,6 +43,7 @@ class ScrollablePianoKeyboard extends ConsumerStatefulWidget {
     required this.visibleWhiteKeyCount,
     required this.height,
     required this.highlightedNoteNumbers,
+    this.impliedNoteNumbers = const <int>{},
     this.autoCenter = true,
     this.autoCenterSuppression = const Duration(seconds: 3),
     this.fullWhiteKeyCount = PianoGeometry.fullKeyboardWhiteKeyCount,
@@ -65,6 +66,11 @@ class ScrollablePianoKeyboard extends ConsumerStatefulWidget {
   final double height;
 
   final Set<int> highlightedNoteNumbers;
+
+  /// Implied note numbers, drawn as hollow outlines (an ensemble rootless
+  /// reading's implied root). Included alongside the highlighted notes when
+  /// centering so the ghost key stays visible.
+  final Set<int> impliedNoteNumbers;
 
   /// If true, auto-center the viewport to keep highlighted notes visible.
   final bool autoCenter;
@@ -268,6 +274,17 @@ class _ScrollablePianoKeyboardState
     });
   }
 
+  /// Notes the scroll and indicator policies frame: the sounding keys plus
+  /// any implied (hollow) keys, so the ghost key stays in view.
+  Set<int> get _focusNotes => widget.impliedNoteNumbers.isEmpty
+      ? widget.highlightedNoteNumbers
+      : {...widget.highlightedNoteNumbers, ...widget.impliedNoteNumbers};
+
+  static Set<int> _focusNotesOf(ScrollablePianoKeyboard w) =>
+      w.impliedNoteNumbers.isEmpty
+      ? w.highlightedNoteNumbers
+      : {...w.highlightedNoteNumbers, ...w.impliedNoteNumbers};
+
   void _centerNow() {
     if (!mounted) return;
     _lastUserScroll = DateTime.fromMillisecondsSinceEpoch(
@@ -278,9 +295,7 @@ class _ScrollablePianoKeyboardState
     if (viewport == null) return;
 
     unawaited(
-      _animateTo(
-        PianoScrollPolicy.centerTarget(viewport, widget.highlightedNoteNumbers),
-      ),
+      _animateTo(PianoScrollPolicy.centerTarget(viewport, _focusNotes)),
     );
   }
 
@@ -344,10 +359,7 @@ class _ScrollablePianoKeyboardState
     super.didUpdateWidget(oldWidget);
 
     // If notes changed, consider recentering.
-    if (!setEquals(
-      oldWidget.highlightedNoteNumbers,
-      widget.highlightedNoteNumbers,
-    )) {
+    if (!setEquals(_focusNotesOf(oldWidget), _focusNotes)) {
       WidgetsBinding.instance.addPostFrameCallback(
         (_) => _autoCenterIfNeeded(),
       );
@@ -371,7 +383,7 @@ class _ScrollablePianoKeyboardState
     _lastUserScroll = DateTime.now();
     // Reset diff baseline so follow logic doesn't interpret changes during the
     // cooldown as a large "added" burst once suppression ends.
-    _previousHighlightedNotes = Set<int>.from(widget.highlightedNoteNumbers);
+    _previousHighlightedNotes = Set<int>.from(_focusNotes);
   }
 
   bool get _isAutoCenterSuppressed =>
@@ -409,7 +421,7 @@ class _ScrollablePianoKeyboardState
         ? ScrollIndicatorState.none
         : PianoScrollPolicy.indicatorState(
             viewport,
-            highlighted: widget.highlightedNoteNumbers,
+            highlighted: _focusNotes,
             previous: _indicatorState,
           );
 
@@ -423,7 +435,7 @@ class _ScrollablePianoKeyboardState
     if (!widget.autoCenter && !force) return;
     if (_isAutoCenterSuppressed && !force) return;
 
-    final next = widget.highlightedNoteNumbers;
+    final next = _focusNotes;
     if (next.isEmpty) {
       _previousHighlightedNotes = const <int>{};
       return;
@@ -458,7 +470,7 @@ class _ScrollablePianoKeyboardState
 
     final target = PianoScrollPolicy.chevronTarget(
       viewport,
-      highlighted: widget.highlightedNoteNumbers,
+      highlighted: _focusNotes,
       towardLeft: direction == AxisDirection.left,
       indicator: _indicatorState,
     );
@@ -570,6 +582,7 @@ class _ScrollablePianoKeyboardState
                             firstMidiNote: widget.lowestNoteNumber,
                             highlightedNoteNumbers:
                                 widget.highlightedNoteNumbers,
+                            impliedNoteNumbers: widget.impliedNoteNumbers,
                             scaleNoteNumbers: widget.scaleNoteNumbers,
                             normalHighlightPitchClasses:
                                 widget.normalHighlightPitchClasses,

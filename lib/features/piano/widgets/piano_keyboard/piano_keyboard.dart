@@ -10,6 +10,7 @@ class PianoKeyboard extends StatelessWidget {
     required this.whiteKeyCount,
     this.firstMidiNote = 48, // C3 by default
     this.highlightedNoteNumbers = const <int>{},
+    this.impliedNoteNumbers = const <int>{},
     this.scaleNoteNumbers = const <int>{},
     this.normalHighlightPitchClasses,
     this.tonicPitchClass,
@@ -26,6 +27,11 @@ class PianoKeyboard extends StatelessWidget {
 
   /// Highlighted *MIDI note numbers* (e.g., 60 for middle C).
   final Set<int> highlightedNoteNumbers;
+
+  /// Implied *MIDI note numbers*, drawn as a hollow outline of the pressed
+  /// highlight: named by the analysis but not played (an ensemble rootless
+  /// reading's implied root).
+  final Set<int> impliedNoteNumbers;
 
   /// Scale member *MIDI note numbers*. When non-empty, each member key is
   /// marked with a dot so the in-scale notes read at a glance.
@@ -78,6 +84,7 @@ class PianoKeyboard extends StatelessWidget {
           whiteKeyCount: whiteKeyCount,
           firstMidiNote: firstMidiNote,
           highlightedNoteNumbers: highlightedNoteNumbers,
+          impliedNoteNumbers: impliedNoteNumbers,
           scaleNoteNumbers: scaleNoteNumbers,
           normalHighlightPitchClasses: normalHighlightPitchClasses,
           // Keep the marker accent the same tone in both themes. The light

@@ -13,6 +13,7 @@ import 'package:whatchord_app/features/midi/midi.dart';
 import 'package:whatchord_app/features/onboarding/onboarding.dart';
 import 'package:whatchord_app/features/scales/scales.dart';
 import 'package:whatchord_app/features/settings/settings.dart';
+import 'package:whatchord_app/features/theory/theory.dart';
 
 import '../models/home_layout_config.dart';
 import '../widgets/analysis_section.dart';
@@ -334,6 +335,7 @@ class _HomeLandscape extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tourKeys = ref.watch(demoTourKeysProvider);
     final highlightedNotes = ref.watch(liveSoundingNoteNumbersProvider);
+    final impliedNotes = ref.watch(impliedRootNoteNumbersProvider);
     final lookupActive = ref.watch(lookupActiveProvider);
 
     return LayoutBuilder(
@@ -358,6 +360,7 @@ class _HomeLandscape extends ConsumerWidget {
                 reservedChrome: _tonalityBarHeight + 1, // bar + divider
               ),
               highlightedNotes: highlightedNotes,
+              impliedNotes: impliedNotes,
               overlay: _LookupOverlay(active: lookupActive),
               hasTonalityBar: true,
               topBar: KeyedSubtree(
@@ -393,6 +396,7 @@ class _HomePortrait extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tourKeys = ref.watch(demoTourKeysProvider);
     final highlightedNotes = ref.watch(liveSoundingNoteNumbersProvider);
+    final impliedNotes = ref.watch(impliedRootNoteNumbersProvider);
     final lookupActive = ref.watch(lookupActiveProvider);
 
     return LayoutBuilder(
@@ -432,6 +436,7 @@ class _HomePortrait extends ConsumerWidget {
                     minContent: portraitAnalysisMinContent(config),
                   ),
                   highlightedNotes: highlightedNotes,
+                  impliedNotes: impliedNotes,
                   overlay: _LookupOverlay(active: lookupActive),
                   hasTonalityBar: true,
                   topBar: KeyedSubtree(
