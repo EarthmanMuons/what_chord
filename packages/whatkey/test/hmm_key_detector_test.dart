@@ -363,6 +363,53 @@ void main() {
     }
   });
 
+  test('relative evidence tilt supplies the missing major vote', () {
+    // A fully diatonic C major loop with no raised seventh of A minor and no
+    // A minor tonic chord: every event lacks minor-defining evidence, so the
+    // tilt should leave less posterior on A minor than the plain detector.
+    final loop = [
+      for (var i = 0; i < 4; i++) ...[
+        _event(3 * i, [0, 4, 7], ChordQuality.major),
+        _event(3 * i + 1, [5, 9, 0], ChordQuality.major),
+        _event(3 * i + 2, [7, 11, 2], ChordQuality.major),
+      ],
+    ];
+    double confidence(List<KeyEstimateFrame> frames, int pc, bool minor) =>
+        frames.last.ranked
+            .firstWhere(
+              (e) =>
+                  e.tonality.tonicPitchClass == pc &&
+                  e.tonality.isMinor == minor,
+            )
+            .confidence;
+    final plain = _run(HmmKeyDetector(), loop);
+    final tilted = _run(HmmKeyDetector(relativeEvidenceTilt: 1), loop);
+    expect(confidence(tilted, 9, true), lessThan(confidence(plain, 9, true)));
+    expect(
+      confidence(tilted, 0, false),
+      greaterThan(confidence(plain, 0, false)),
+    );
+  });
+
+  test('relative evidence tilt spares evidenced minor keys', () {
+    // i-iv-V7-i in A minor: the E7 events sound G sharp (A minor's raised
+    // seventh) and the A minor chords are a minor tonic on the root, so the
+    // pair the phrase lives in keeps its claim.
+    final phrase = [
+      for (var i = 0; i < 3; i++) ...[
+        _event(4 * i, [9, 0, 4], ChordQuality.minor),
+        _event(4 * i + 1, [2, 5, 9], ChordQuality.minor),
+        _event(4 * i + 2, [4, 8, 11, 2], ChordQuality.dominant7),
+        _event(4 * i + 3, [9, 0, 4], ChordQuality.minor),
+      ],
+    ];
+    final tilted = _run(HmmKeyDetector(relativeEvidenceTilt: 1), phrase);
+    final claim = tilted.last.claim;
+    expect(claim, isNotNull);
+    expect(claim!.tonality.tonicPitchClass, 9);
+    expect(claim.tonality.isMinor, isTrue);
+  });
+
   test('relative switch factor below one slows relative drift', () {
     // C major established, then sustained root-position A minor material:
     // shrinking the relative twin's transition weight should leave less
