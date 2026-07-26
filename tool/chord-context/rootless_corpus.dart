@@ -107,6 +107,9 @@ void main(List<String> args) {
   final provenanceTotal = <String, int>{};
   final provenanceExact = <String, int>{};
   final provenanceHindsightExact = <String, int>{};
+  // Shape of annotated-key (oracle) misses: expected quality -> semitone
+  // offset of the chosen root plus its quality.
+  final annotatedMissShape = <String, int>{};
 
   for (final fixture in selected) {
     final entries = (pieces[fixture.id] as List).cast<Map>();
@@ -178,20 +181,32 @@ void main(List<String> args) {
         currentExact++;
       }
 
+      ChordIdentity engineTop(Tonality key) => _analyzer
+          .analyze(
+            strippedInput,
+            context: _contextFor(key, PlayingContext.ensemble),
+            voicing: strippedVoicing,
+          )
+          .first
+          .identity;
       bool engineExact(Tonality key) {
-        final top = _analyzer
-            .analyze(
-              strippedInput,
-              context: _contextFor(key, PlayingContext.ensemble),
-              voicing: strippedVoicing,
-            )
-            .first
-            .identity;
+        final top = engineTop(key);
         return top.rootPc == rootPc && top.quality.name == quality;
       }
 
-      final annotatedArmExact = engineExact(annotatedKey);
-      if (annotatedArmExact) engineAnnotatedExact++;
+      final annotatedTop = engineTop(annotatedKey);
+      final annotatedArmExact =
+          annotatedTop.rootPc == rootPc && annotatedTop.quality.name == quality;
+      if (annotatedArmExact) {
+        engineAnnotatedExact++;
+      } else {
+        // The pure naming residual: what the engine chose instead, with the
+        // key removed as a factor (whatkey-local log 2026-07-26-04 sized
+        // this at ~30% of ensemble misses; tiebreak scoping).
+        final rootRelation = (annotatedTop.rootPc - rootPc) % 12;
+        final miss = '$quality -> +$rootRelation ${annotatedTop.quality.name}';
+        annotatedMissShape[miss] = (annotatedMissShape[miss] ?? 0) + 1;
+      }
       final usedKey = claimBefore ?? annotatedKey;
       final hindsightKey =
           sticky[i + 1 < events.length ? i + 1 : events.length - 1] ??
@@ -253,6 +268,7 @@ void main(List<String> args) {
     'engineInferredMissKeyError': engineMissKeyError,
     'engineInferredMissAnnouncingDominant': engineMissAnnouncingDominant,
     'engineInferredMissKeyRelation': engineMissKeyRelation,
+    'engineAnnotatedMissShape': annotatedMissShape,
   };
   final outDir = Directory(options['out'] ?? 'build/chord-context/rootless')
     ..createSync(recursive: true);
@@ -307,6 +323,12 @@ void main(List<String> args) {
       '  hindsight arm by key provenance (exact/total): '
       '${provenanceTotal.keys.map((p) => '$p ${provenanceHindsightExact[p] ?? 0}/${provenanceTotal[p]}').join(', ')}',
     );
+  final missShapes = annotatedMissShape.entries.toList()
+    ..sort((a, b) => b.value.compareTo(a.value));
+  stdout.writeln('  annotated-key miss shapes (expected -> chosen):');
+  for (final e in missShapes.take(12)) {
+    stdout.writeln('    ${e.key}: ${e.value}');
+  }
   final misses = missByQuality.entries.toList()
     ..sort((a, b) => b.value.compareTo(a.value));
   if (misses.isNotEmpty) {
