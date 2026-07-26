@@ -99,9 +99,11 @@ void main(List<String> args) {
   final engineMissKeyRelation = <String, int>{};
   // Provenance of the key the inferred arm used: fresh (claimed at the
   // previous event), carried (an older claim held through abstention), or
-  // fallback (no claim yet; annotated key stands in).
+  // fallback (no claim yet; annotated key stands in). The hindsight split
+  // shows how much of the carried deficit a one-event relabel recovers.
   final provenanceTotal = <String, int>{};
   final provenanceExact = <String, int>{};
+  final provenanceHindsightExact = <String, int>{};
 
   for (final fixture in selected) {
     final entries = (pieces[fixture.id] as List).cast<Map>();
@@ -190,11 +192,15 @@ void main(List<String> args) {
       final hindsightKey =
           sticky[i + 1 < events.length ? i + 1 : events.length - 1] ??
           annotatedKey;
-      if (engineExact(hindsightKey)) engineHindsightExact++;
       final provenance = claimBefore == null
           ? 'fallback'
           : (claimedAt[i - 1] ? 'fresh' : 'carried');
       provenanceTotal[provenance] = (provenanceTotal[provenance] ?? 0) + 1;
+      if (engineExact(hindsightKey)) {
+        engineHindsightExact++;
+        provenanceHindsightExact[provenance] =
+            (provenanceHindsightExact[provenance] ?? 0) + 1;
+      }
       if (engineExact(usedKey)) {
         provenanceExact[provenance] = (provenanceExact[provenance] ?? 0) + 1;
         engineInferredExact++;
@@ -238,6 +244,7 @@ void main(List<String> args) {
     'engineHindsightExact': engineHindsightExact,
     'engineInferredProvenanceTotal': provenanceTotal,
     'engineInferredProvenanceExact': provenanceExact,
+    'engineHindsightProvenanceExact': provenanceHindsightExact,
     'engineInferredMissByQuality': engineInferredMissByQuality,
     'engineInferredMissKeyError': engineMissKeyError,
     'engineInferredMissAnnouncingDominant': engineMissAnnouncingDominant,
@@ -291,6 +298,10 @@ void main(List<String> args) {
     ..writeln(
       '  inferred arm by key provenance (exact/total): '
       '${provenanceTotal.keys.map((p) => '$p ${provenanceExact[p] ?? 0}/${provenanceTotal[p]}').join(', ')}',
+    )
+    ..writeln(
+      '  hindsight arm by key provenance (exact/total): '
+      '${provenanceTotal.keys.map((p) => '$p ${provenanceHindsightExact[p] ?? 0}/${provenanceTotal[p]}').join(', ')}',
     );
   final misses = missByQuality.entries.toList()
     ..sort((a, b) => b.value.compareTo(a.value));
