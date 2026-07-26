@@ -268,4 +268,74 @@ void main() {
     final total = frames.single.ranked.fold(0.0, (s, e) => s + e.confidence);
     expect(total, closeTo(1.0, 1e-9));
   });
+
+  test('cadence boost accelerates a cadenced modulation', () {
+    // C established, then a single D7 -> G authentic cadence: the boost
+    // should move posterior mass into G major faster than the plain kernel.
+    final events = [
+      ...cCadence,
+      _event(4, [2, 6, 9, 0], ChordQuality.dominant7),
+      _event(5, [7, 11, 2], ChordQuality.major),
+    ];
+    double gMajorConfidence(List<KeyEstimateFrame> frames) => frames.last.ranked
+        .firstWhere(
+          (e) => e.tonality.tonicPitchClass == 7 && e.tonality.isMajor,
+        )
+        .confidence;
+    final plain = _run(HmmKeyDetector(), events);
+    final boosted = _run(HmmKeyDetector(cadenceBoost: 2), events);
+    expect(gMajorConfidence(boosted), greaterThan(gMajorConfidence(plain)));
+  });
+
+  test('cadence boost stabilizes a cadence in the incumbent key', () {
+    // G7 -> C fires the boost into the incumbent C major; row
+    // renormalization turns that into extra staying mass, not leakage.
+    double cMajorConfidence(List<KeyEstimateFrame> frames) => frames.last.ranked
+        .firstWhere(
+          (e) => e.tonality.tonicPitchClass == 0 && e.tonality.isMajor,
+        )
+        .confidence;
+    final plain = _run(HmmKeyDetector(), cCadence);
+    final boosted = _run(HmmKeyDetector(cadenceBoost: 2), cCadence);
+    expect(
+      cMajorConfidence(boosted),
+      greaterThanOrEqualTo(cMajorConfidence(plain)),
+    );
+  });
+
+  test('cadence boost never fires on blues dominant-to-dominant motion', () {
+    // I7 -> IV7 and V7 -> I7 both land on a dominant quality, which is
+    // excluded from the cadence targets, so two blues choruses must be
+    // byte-identical with and without the boost.
+    final events = [..._bluesChorus(0), ..._bluesChorus(12)];
+    final plain = _run(HmmKeyDetector(), events);
+    final boosted = _run(HmmKeyDetector(cadenceBoost: 3), events);
+    for (var i = 0; i < events.length; i++) {
+      for (var k = 0; k < 24; k++) {
+        expect(
+          boosted[i].ranked[k].confidence,
+          plain[i].ranked[k].confidence,
+          reason: 'event $i rank $k',
+        );
+      }
+    }
+  });
+
+  test('relative switch factor below one slows relative drift', () {
+    // C major established, then sustained root-position A minor material:
+    // shrinking the relative twin's transition weight should leave less
+    // posterior on A minor than the shipped kernel at every point.
+    final events = [
+      ...cCadence,
+      for (var i = 0; i < 6; i++) _event(4 + i, [9, 0, 4], ChordQuality.minor),
+    ];
+    double aMinorConfidence(List<KeyEstimateFrame> frames) => frames.last.ranked
+        .firstWhere(
+          (e) => e.tonality.tonicPitchClass == 9 && e.tonality.isMinor,
+        )
+        .confidence;
+    final plain = _run(HmmKeyDetector(), events);
+    final damped = _run(HmmKeyDetector(relativeSwitchFactor: 0.25), events);
+    expect(aMinorConfidence(damped), lessThan(aMinorConfidence(plain)));
+  });
 }

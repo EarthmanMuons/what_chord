@@ -76,6 +76,7 @@ void main(List<String> args) {
       if (titles.contains(fixture.title)) fixture,
   ];
   final behavior = KeyBehavior.values.byName(options['behavior'] ?? 'stable');
+  final cadenceBoost = double.parse(options['cadence-boost'] ?? '0');
 
   var eligible = 0, symmetric = 0;
   var currentExact = 0;
@@ -88,7 +89,10 @@ void main(List<String> args) {
   for (final fixture in selected) {
     final entries = (pieces[fixture.id] as List).cast<Map>();
     final events = fixture.events;
-    final detector = HmmKeyDetector(decayHalfLife: behavior.emissionHalfLife);
+    final detector = HmmKeyDetector(
+      decayHalfLife: behavior.emissionHalfLife,
+      cadenceBoost: cadenceBoost,
+    );
     Tonality? inferredKey;
 
     for (var i = 0; i < events.length; i++) {
@@ -175,6 +179,7 @@ void main(List<String> args) {
     'schema': 'chord-context-rootless-corpus/1',
     'set': fixtureSet.name,
     'behavior': behavior.name,
+    'cadenceBoost': cadenceBoost,
     'eligibleSeventhEvents': eligible,
     'symmetricDim7': symmetric,
     'currentEngineExact': currentExact,
