@@ -24,6 +24,7 @@ class ResizableKeyboardArea extends ConsumerWidget {
     required this.config,
     required this.maxKeyboardHeight,
     required this.highlightedNotes,
+    this.impliedNotes = const <int>{},
     this.scaleNotes = const <int>{},
     this.normalHighlightPitchClasses,
     this.tonicPitchClass,
@@ -38,6 +39,10 @@ class ResizableKeyboardArea extends ConsumerWidget {
   final double maxKeyboardHeight;
 
   final Set<int> highlightedNotes;
+
+  /// Keys drawn as hollow implied notes (an ensemble reading's implied root).
+  final Set<int> impliedNotes;
+
   final Set<int> scaleNotes;
   final Set<int>? normalHighlightPitchClasses;
   final int? tonicPitchClass;
@@ -71,6 +76,7 @@ class ResizableKeyboardArea extends ConsumerWidget {
           visibleWhiteKeyCount: metrics.visibleWhiteKeyCount,
           height: metrics.height,
           highlightedNoteNumbers: highlightedNotes,
+          impliedNoteNumbers: impliedNotes,
           autoCenter: true,
           fullWhiteKeyCount: PianoGeometry.fullKeyboardWhiteKeyCount,
           lowestNoteNumber: PianoGeometry.fullKeyboardLowestMidi,

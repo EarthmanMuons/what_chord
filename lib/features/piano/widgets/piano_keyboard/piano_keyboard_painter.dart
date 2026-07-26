@@ -57,11 +57,17 @@ class PianoTopEdgeShadowStyle {
 class PianoKeyboardPainter extends CustomPainter {
   static const double _pressedWhiteEdgeAlpha = 0.08;
   static const double _pressedWhiteBorderWidth = 1.35;
+  static const double _impliedStrokeWidth = 2.5;
+  // The white-key stroke sits flush against the key boundary so the gray
+  // separator line is the outline's outer edge, with no white sliver between
+  // them; the black key floats its stroke inside the solid key surface.
+  static const double _impliedBlackInset = 2.0;
 
   PianoKeyboardPainter({
     required this.whiteKeyCount,
     required this.firstMidiNote,
     required this.highlightedNoteNumbers,
+    this.impliedNoteNumbers = const <int>{},
     this.scaleNoteNumbers = const <int>{},
     this.normalHighlightPitchClasses,
     this.scaleMarkerColor,
@@ -100,6 +106,12 @@ class PianoKeyboardPainter extends CustomPainter {
 
   /// Highlighted *MIDI note numbers* (e.g., 60 for middle C).
   final Set<int> highlightedNoteNumbers;
+
+  /// Implied *MIDI note numbers*: keys drawn as a hollow outline of the
+  /// pressed highlight, marking a tone the analysis names but nobody played
+  /// (the implied root of an ensemble rootless reading). A key that is also
+  /// highlighted keeps its normal pressed rendering.
+  final Set<int> impliedNoteNumbers;
 
   /// Scale member *MIDI note numbers*. Each member key gets a dot marker in the
   /// lower portion of the key so the in-scale notes are obvious at a glance.
@@ -193,6 +205,14 @@ class PianoKeyboardPainter extends CustomPainter {
     final pressedWhiteEdgePaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.black.withValues(alpha: _pressedWhiteEdgeAlpha);
+    final impliedWhitePaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = _impliedStrokeWidth
+      ..color = pressedWhiteKeyColor;
+    final impliedBlackPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = _impliedStrokeWidth
+      ..color = pressedBlackKeyColor;
     // White keys
     for (int i = 0; i < whiteKeyCount; i++) {
       final x = i * whiteKeyWidth;
@@ -220,6 +240,17 @@ class PianoKeyboardPainter extends CustomPainter {
         );
       }
       canvas.drawRect(rect, whiteBorderPaint);
+      if (!isHighlighted && impliedNoteNumbers.contains(midi)) {
+        canvas.drawRect(
+          Rect.fromLTRB(
+            rect.left + _impliedStrokeWidth / 2,
+            topInset + _impliedStrokeWidth / 2,
+            rect.right - _impliedStrokeWidth / 2,
+            rect.bottom - _impliedStrokeWidth / 2,
+          ),
+          impliedWhitePaint,
+        );
+      }
       if (isHighlighted && topInset < rect.bottom) {
         pressedWhiteBorderPaint.color = _pressedWhiteBorderFor(
           midi,
@@ -277,6 +308,9 @@ class PianoKeyboardPainter extends CustomPainter {
           ? highlightedBlackFill
           : blackKeyColor;
       canvas.drawRect(rect, blackFillPaint);
+      if (!isHighlightedBlack && impliedNoteNumbers.contains(blackMidi)) {
+        canvas.drawRect(rect.deflate(_impliedBlackInset), impliedBlackPaint);
+      }
       if (isHighlightedBlack) {
         pressedBlackAccentPaint.color = Color.lerp(
           highlightedBlackFill,
@@ -691,6 +725,7 @@ class PianoKeyboardPainter extends CustomPainter {
           oldDelegate.highlightedNoteNumbers,
           highlightedNoteNumbers,
         ) ||
+        !setEquals(oldDelegate.impliedNoteNumbers, impliedNoteNumbers) ||
         oldDelegate.scaleMarkerColor != scaleMarkerColor ||
         oldDelegate.tonicPitchClass != tonicPitchClass ||
         !setEquals(

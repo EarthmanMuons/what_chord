@@ -711,8 +711,9 @@ class _PlayingContextControl extends StatelessWidget {
   final ValueChanged<PlayingContext> onChanged;
 
   String get _description => switch (playingContext) {
-    PlayingContext.solo => 'Names chords from the notes you play',
-    PlayingContext.ensemble => 'Names rootless voicings over a bassist',
+    PlayingContext.solo => 'Chords are named from exactly the notes played',
+    PlayingContext.ensemble =>
+      'Rootless voicings are named as if a bassist covers the root',
   };
 
   @override

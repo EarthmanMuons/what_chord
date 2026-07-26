@@ -21,6 +21,7 @@ export 'state/providers/chord_analyzer_provider.dart';
 export 'state/providers/chord_presentation_provider.dart';
 export 'state/providers/detected_scale_degree_provider.dart';
 export 'state/providers/identity_display_provider.dart';
+export 'state/providers/implied_root_notes_provider.dart';
 export 'state/providers/pitch_class_names_provider.dart';
 export 'state/providers/playing_context_notifier.dart';
 export 'state/providers/selected_tonality_notifier.dart';
