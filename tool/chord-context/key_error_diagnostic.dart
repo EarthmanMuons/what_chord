@@ -52,6 +52,7 @@ void main(List<String> args) {
   final cadenceBoost = double.parse(
     options['cadence-boost'] ?? '${HmmKeyDetector.defaultCadenceBoost}',
   );
+  final minEvents = int.parse(options['min-events'] ?? '3');
   final relativeEvidenceTilt = double.parse(
     options['relative-evidence-tilt'] ??
         '${HmmKeyDetector.defaultRelativeEvidenceTilt}',
@@ -77,6 +78,7 @@ void main(List<String> args) {
       decayHalfLife: behavior.emissionHalfLife,
       cadenceBoost: cadenceBoost,
       relativeEvidenceTilt: relativeEvidenceTilt,
+      minEvents: minEvents,
     );
     for (var i = 0; i < events.length; i++) {
       final claim = detector.onEvent(events[i]).claim?.tonality;
