@@ -49,7 +49,9 @@ void main(List<String> args) {
       if (titles.contains(fixture.title)) fixture,
   ];
   final behavior = KeyBehavior.values.byName(options['behavior'] ?? 'stable');
-  final cadenceBoost = double.parse(options['cadence-boost'] ?? '0');
+  final cadenceBoost = double.parse(
+    options['cadence-boost'] ?? '${HmmKeyDetector.defaultCadenceBoost}',
+  );
 
   final relation = <String, int>{};
   var labeledEvents = 0, abstained = 0, claimed = 0, exact = 0;

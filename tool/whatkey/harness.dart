@@ -19,7 +19,8 @@
 //     [--decay-half-life-events N] \
 //     [--min-events N] [--margin-floor X] [--mode-tilt X] \
 //     [--relative-tilt X] [--relative-cadence-tilt X] \
-//     [--cadence-boost X] [--relative-switch-factor X] \
+//     [--cadence-boost X] [--cadence-triad-boost X] \
+//     [--relative-switch-factor X] \
 //     [--fifths-decay X] [--mode-switch-factor X] \
 //     [--hazard X] [--max-run-length N] \
 //     [--calibration-temperature X] \
@@ -520,6 +521,7 @@ class _Options {
   final double relativeTilt;
   final double relativeCadenceTilt;
   final double cadenceBoost;
+  final double cadenceTriadBoost;
   final double relativeSwitchFactor;
   final double fifthsDecay;
   final double modeSwitchFactor;
@@ -554,6 +556,7 @@ class _Options {
     required this.relativeTilt,
     required this.relativeCadenceTilt,
     required this.cadenceBoost,
+    required this.cadenceTriadBoost,
     required this.relativeSwitchFactor,
     required this.fifthsDecay,
     required this.modeSwitchFactor,
@@ -646,6 +649,7 @@ class _Options {
         relativeTilt: relativeTilt,
         relativeCadenceTilt: relativeCadenceTilt,
         cadenceBoost: cadenceBoost,
+        cadenceTriadBoost: cadenceTriadBoost,
         relativeSwitchFactor: relativeSwitchFactor,
       ),
       'bocpd' => BocpdKeyDetector(
@@ -724,6 +728,7 @@ class _Options {
       'relative-tilt',
       'relative-cadence-tilt',
       'cadence-boost',
+      'cadence-triad-boost',
       'relative-switch-factor',
       'fifths-decay',
       'mode-switch-factor',
@@ -826,16 +831,24 @@ class _Options {
             values.remove('relative-cadence-tilt') ??
                 '${HmmKeyDetector.defaultRelativeCadenceTilt}',
           ),
-      // The transition-kernel flags postdate the recipes; recipes pin the
-      // shipped defaults (flags are rejected above when a recipe is set).
-      cadenceBoost: double.parse(
-        values.remove('cadence-boost') ??
-            '${HmmKeyDetector.defaultCadenceBoost}',
-      ),
-      relativeSwitchFactor: double.parse(
-        values.remove('relative-switch-factor') ??
-            '${HmmKeyDetector.defaultRelativeSwitchFactor}',
-      ),
+      cadenceBoost:
+          recipe?.cadenceBoost ??
+          double.parse(
+            values.remove('cadence-boost') ??
+                '${HmmKeyDetector.defaultCadenceBoost}',
+          ),
+      cadenceTriadBoost:
+          recipe?.cadenceTriadBoost ??
+          double.parse(
+            values.remove('cadence-triad-boost') ??
+                '${HmmKeyDetector.defaultCadenceTriadBoost}',
+          ),
+      relativeSwitchFactor:
+          recipe?.relativeSwitchFactor ??
+          double.parse(
+            values.remove('relative-switch-factor') ??
+                '${HmmKeyDetector.defaultRelativeSwitchFactor}',
+          ),
       fifthsDecay: double.parse(values.remove('fifths-decay') ?? '0.5'),
       modeSwitchFactor: double.parse(
         values.remove('mode-switch-factor') ?? '0.5',

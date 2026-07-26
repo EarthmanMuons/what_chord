@@ -76,15 +76,23 @@ void main(List<String> args) {
       if (titles.contains(fixture.title)) fixture,
   ];
   final behavior = KeyBehavior.values.byName(options['behavior'] ?? 'stable');
-  final cadenceBoost = double.parse(options['cadence-boost'] ?? '0');
+  final cadenceBoost = double.parse(
+    options['cadence-boost'] ?? '${HmmKeyDetector.defaultCadenceBoost}',
+  );
 
   var eligible = 0, symmetric = 0;
   var currentExact = 0;
   var engineAnnotatedExact = 0, engineInferredExact = 0;
   final annotated = _Outcome();
   final inferred = _Outcome();
+  final inferredDominantAware = _Outcome(dominantAware: true);
   final missByQuality = <String, int>{};
   final engineInferredMissByQuality = <String, int>{};
+  // Decomposition of engine inferred-key misses (whatkey-local log
+  // 2026-07-26-03: the residual concentrates on the dominant that announces
+  // a key change, which no cadence-completion signal can reach in time).
+  var engineMissKeyError = 0, engineMissAnnouncingDominant = 0;
+  final engineMissKeyRelation = <String, int>{};
 
   for (final fixture in selected) {
     final entries = (pieces[fixture.id] as List).cast<Map>();
@@ -158,17 +166,28 @@ void main(List<String> args) {
         return top.rootPc == rootPc && top.quality.name == quality;
       }
 
-      if (engineExact(annotatedKey)) engineAnnotatedExact++;
-      if (engineExact(claimBefore ?? annotatedKey)) {
+      final annotatedArmExact = engineExact(annotatedKey);
+      if (annotatedArmExact) engineAnnotatedExact++;
+      final usedKey = claimBefore ?? annotatedKey;
+      if (engineExact(usedKey)) {
         engineInferredExact++;
       } else {
         engineInferredMissByQuality[quality] =
             (engineInferredMissByQuality[quality] ?? 0) + 1;
+        if (annotatedArmExact) engineMissKeyError++;
+        if (_dominantQualities.contains(quality) &&
+            annotatedKey.tonicPitchClass == (rootPc + 5) % 12) {
+          engineMissAnnouncingDominant++;
+        }
+        final relation = _keyRelation(usedKey, annotatedKey);
+        engineMissKeyRelation[relation] =
+            (engineMissKeyRelation[relation] ?? 0) + 1;
       }
 
       final hypotheses = _rootlessHypotheses(strippedMask);
       annotated.record(hypotheses, annotatedKey, rootPc, quality);
-      inferred.record(hypotheses, claimBefore ?? annotatedKey, rootPc, quality);
+      inferred.record(hypotheses, usedKey, rootPc, quality);
+      inferredDominantAware.record(hypotheses, usedKey, rootPc, quality);
       if (!annotated.wasUnique) {
         missByQuality[quality] = (missByQuality[quality] ?? 0) + 1;
       }
@@ -185,10 +204,14 @@ void main(List<String> args) {
     'currentEngineExact': currentExact,
     'ensembleAnnotated': annotated.toJson(),
     'ensembleInferred': inferred.toJson(),
+    'ensembleInferredDominantAware': inferredDominantAware.toJson(),
     'missByQuality': missByQuality,
     'engineAnnotatedExact': engineAnnotatedExact,
     'engineInferredExact': engineInferredExact,
     'engineInferredMissByQuality': engineInferredMissByQuality,
+    'engineInferredMissKeyError': engineMissKeyError,
+    'engineInferredMissAnnouncingDominant': engineMissAnnouncingDominant,
+    'engineInferredMissKeyRelation': engineMissKeyRelation,
   };
   final outDir = Directory(options['out'] ?? 'build/chord-context/rootless')
     ..createSync(recursive: true);
@@ -218,6 +241,18 @@ void main(List<String> args) {
     ..writeln(
       '  engine, annotated key: exact ${pct(engineAnnotatedExact)}; '
       'engine, inferred key: exact ${pct(engineInferredExact)}',
+    )
+    ..writeln(
+      '  ensemble, inferred key + secondary-dominant admission: '
+      'unique-correct ${pct(inferredDominantAware.uniqueCorrect)}  ambiguous '
+      '${pct(inferredDominantAware.ambiguous)}  miss '
+      '${pct(inferredDominantAware.miss)}',
+    )
+    ..writeln(
+      '  engine inferred-key misses: key error (annotated arm exact) '
+      '$engineMissKeyError, announcing dominant '
+      '$engineMissAnnouncingDominant, used-key relation '
+      '$engineMissKeyRelation',
     );
   final misses = missByQuality.entries.toList()
     ..sort((a, b) => b.value.compareTo(a.value));
@@ -238,6 +273,15 @@ void main(List<String> args) {
 }
 
 class _Outcome {
+  _Outcome({this.dominantAware = false});
+
+  /// When set, dominant7 hypotheses are also admitted if the key they
+  /// tonicize (a fifth below the hypothesis root) is diatonic in [key]: the
+  /// secondary-dominant admission, so V7-of-x survives the filter while x is
+  /// still the claimed key. Headroom probe for the announcing-dominant
+  /// residual (whatkey-local log 2026-07-26-03).
+  final bool dominantAware;
+
   int uniqueCorrect = 0;
   int ambiguous = 0;
   int miss = 0;
@@ -251,7 +295,11 @@ class _Outcome {
   ) {
     final diatonic = [
       for (final h in hypotheses)
-        if (key.containsPitchClass(h.rootPc)) h,
+        if (key.containsPitchClass(h.rootPc) ||
+            (dominantAware &&
+                h.quality == 'dominant7' &&
+                key.containsPitchClass((h.rootPc + 5) % 12)))
+          h,
     ];
     wasUnique =
         diatonic.length == 1 &&
@@ -279,6 +327,33 @@ class _Hypothesis {
   _Hypothesis(this.rootPc, this.quality);
   final int rootPc;
   final String quality;
+}
+
+const _dominantQualities = {'dominant7', 'dominant7Flat5', 'dominant7Sharp5'};
+
+/// Relation of the key the engine actually used to the annotated local key,
+/// mirroring key_error_diagnostic.dart's buckets.
+String _keyRelation(Tonality used, Tonality annotated) {
+  final sameTonic = used.tonicPitchClass == annotated.tonicPitchClass;
+  final sameMode = used.isMinor == annotated.isMinor;
+  if (sameTonic && sameMode) return 'exact';
+  if (sameTonic) return 'parallel';
+  final usedRelativeMajor = used.isMinor
+      ? (used.tonicPitchClass + 3) % 12
+      : used.tonicPitchClass;
+  final annotatedRelativeMajor = annotated.isMinor
+      ? (annotated.tonicPitchClass + 3) % 12
+      : annotated.tonicPitchClass;
+  if (usedRelativeMajor == annotatedRelativeMajor) return 'relative';
+  if (used.tonicPitchClass == (annotated.tonicPitchClass + 7) % 12 &&
+      sameMode) {
+    return 'dominant';
+  }
+  if (used.tonicPitchClass == (annotated.tonicPitchClass + 5) % 12 &&
+      sameMode) {
+    return 'subdominant';
+  }
+  return 'other';
 }
 
 List<_Hypothesis> _rootlessHypotheses(int pcMask) {
