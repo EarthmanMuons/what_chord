@@ -31,6 +31,14 @@ The format is based on [Keep a Changelog][1], and this project adheres to
   permission to change key, so it follows modulations and key changes sooner and
   more accurately in every key behavior mode, while blues and static
   progressions are unaffected.
+- Ensemble mode with automatic key detection now names rootless voicings under a
+  fast internal reading of the current key, so implied roots keep up with
+  modulations even while the visible key indicator stays as calm as the chosen
+  key behavior mode. Spelling still follows the displayed key signature, and a
+  manually selected key governs naming exactly as before.
+- The recent-chords list now corrects an entry one chord later when the detected
+  key turns out to have moved, so the history records each chord under the
+  settled key rather than the moment's guess.
 - The tonality bar now uses a more compact key button and tighter scale-degree
   spacing on narrow screens, keeping all seven degrees visible more often when
   Ensemble mode is on.

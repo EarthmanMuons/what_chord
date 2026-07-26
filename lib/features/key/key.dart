@@ -5,6 +5,7 @@ export 'models/inferred_key_state.dart';
 export 'pages/key_page.dart';
 export 'persistence/key_preferences_keys.dart';
 export 'providers/inferred_key_notifier.dart';
+export 'providers/internal_key_notifier.dart';
 export 'providers/key_behavior_notifier.dart';
 export 'providers/key_mode_notifier.dart';
 export 'providers/key_screenshot_seed_notifier.dart';
