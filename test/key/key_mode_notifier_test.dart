@@ -144,14 +144,19 @@ void main() {
 
   test('adoption waits for the claim streak', () async {
     final container = await makeContainer({'key.autoModeEnabled': true});
-    // Three events produce exactly one claim (warmup is three events), which
-    // is below the streak threshold of two.
-    record(container, _gMajorPhrase().take(3));
+    // The shipped warmup gate is one event, so a clear G major triad claims
+    // immediately; a single claiming event is still below the streak
+    // threshold of two.
+    record(container, [
+      _event(0, [7, 11, 2], ChordQuality.major),
+    ]);
     await pumpEventQueue();
     expect(container.read(inferredKeyProvider).claim, isNotNull);
     expect(container.read(selectedTonalityProvider), _cMajorTonality);
 
-    record(container, _gMajorPhrase().skip(3).take(1));
+    record(container, [
+      _event(1, [7, 11, 2], ChordQuality.major),
+    ]);
     // Adoption lands a microtask after the claim (see KeyModeNotifier._adopt).
     await pumpEventQueue();
     expect(container.read(selectedTonalityProvider).tonic, Tonic.g);
