@@ -9,12 +9,25 @@ structural confusion pairs are 88% of the annotated-key naming residual, and the
 missing jazz-comping corpus turned out to be sitting in the corpus checkout the
 project already pins.
 
-Status: active (started 2026-07-26). The dev-split result is in (log entry -02):
-the residual was hypothesis admission, not tiebreaking. Key-open implied-root
-admission plus two narrow guards lifts Weimar dev from 83.7% to 92.9%
-inferred-key exact (paired +0.0786 per solo, p = 3.5e-30) and DCML dev from
-92.8% to 96.5% inferred / 95.9% to 97.3% annotated, with the comping suite exact
-and solo analysis bit-identical. Test-split confirmation pending.
+Status: complete (log entries -02 through -06). The residual was hypothesis
+admission, not tiebreaking: the implied-root generator only proposed roots
+inside the key, so secondary and substitute dominants could never be named.
+Key-open admission plus two narrow guards (natural colors required for
+out-of-key promotion; the half-diminished/major-seventh identical-tones pair
+decided by the key) ships as the result.
+
+## Results
+
+Development (paired per solo or piece, inferred-key arm primary): Weimar 83.7%
+to 92.9% exact (+0.0786 per solo, 179/3/151, p = 3.5e-30); DCML 92.8% to 96.5%
+inferred and 95.9% to 97.3% annotated (+0.0335, 178/1, p = 1.3e-30). Held-out
+test split (one shot, log entry -06): stable inferred 87.3% to 94.2% (+0.0628
+per solo, 41 wins, zero losses, p = 2.4e-08), reactive 85.5% to 93.1% (46/0, p =
+3.5e-09). Preset sensitivity collapsed to within 0.2 points (log entry -04); the
+comping suite passes exactly and solo analysis is bit-identical throughout.
+Residual floor and mechanisms: log entry -03 (resolution-context dominants,
+template-eligibility sharp fives, global-key artifacts); the scoped follow-up is
+a resolution-aware relabel of ensemble history.
 
 ## Why
 
