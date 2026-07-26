@@ -33,8 +33,10 @@ and published methods.
   mode, with solo analysis verified unchanged.
 - [WhatKey Local](whatkey-local/): local-key accuracy for the streaming key
   detector, the bottleneck handed off by Chord Context and Ensemble Mode.
-  Active: settles the temporal-context debate on the record and tests
-  transition-side mechanisms against the frozen WhatKey rulers.
+  Complete: cadence-aware transitions and a one-event warmup gate shipped (with
+  an internal ensemble naming key and a one-event history relabel in the app),
+  seven further mechanisms closed by measurement, and the holdout confirms
+  significant coverage gains at maintained accuracy over the paper baseline.
 
 Supporting code lives with the rest of the project: batch drivers and corpus
 tooling in `tool/`, performance benchmarks in `benchmark/`, and the engine
