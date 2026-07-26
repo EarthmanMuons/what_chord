@@ -184,7 +184,17 @@ class HmmKeyDetector implements KeyDetector {
   /// Softmax temperature converting hybrid scores into emissions.
   final double emissionTemperature;
 
-  /// Events required before the detector may claim a key.
+  /// Events required before the detector may claim a key. Shipped at 1 per
+  /// the decision in research/whatkey-local/log/2026-07-26-15: the margin
+  /// floor is the real gate (deliberately ambiguous openings still abstain),
+  /// and letting confident first-chord claims through improves exact
+  /// accuracy on both classical rulers and the performed-input overlap with
+  /// significance, while the key indicator lights on the first chord. The
+  /// original value of 3 predated the HMM and was never re-measured until
+  /// that entry; the paper recipes pin it.
+  static const int defaultMinEvents = 1;
+
+  /// See [defaultMinEvents].
   final int minEvents;
 
   /// Minimum posterior margin between the top two keys to claim; below it
@@ -244,7 +254,7 @@ class HmmKeyDetector implements KeyDetector {
     this.fifthsDecay = 0.5,
     this.modeSwitchFactor = 0.5,
     this.emissionTemperature = 0.25,
-    this.minEvents = 3,
+    this.minEvents = defaultMinEvents,
     this.marginFloor = defaultMarginFloor,
     this.modeTilt = defaultModeTilt,
     this.relativeTilt = defaultRelativeTilt,

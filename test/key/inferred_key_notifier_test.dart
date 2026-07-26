@@ -88,9 +88,14 @@ void main() {
     expect(state.emphasized, isTrue);
   });
 
-  test('shows no key during warmup abstention', () async {
+  test('shows no key while the margin gate abstains', () async {
+    // The shipped warmup gate is one event; the margin floor is the real
+    // gate (whatkey-local log 2026-07-26-15), so a maximally ambiguous
+    // cluster keeps the display empty.
     final (container, _) = await setUpContainer();
-    record(container, _cCadence().take(2));
+    record(container, [
+      _event(0, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ChordQuality.major),
+    ]);
 
     final state = container.read(inferredKeyProvider);
     expect(state.freshness, InferredKeyFreshness.fresh);
@@ -154,14 +159,16 @@ void main() {
       InferredKeyFreshness.none,
     );
 
-    // One event after a reset must not produce a claim: warmup applies again,
-    // proving the detector state was truly discarded.
+    // An ambiguous event after the reset must not surface any key: the
+    // pre-reset claim was truly discarded, and the fresh posterior alone
+    // cannot clear the margin on a cluster.
     record(container, [
-      _event(9, [0, 4, 7], ChordQuality.major),
+      _event(9, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ChordQuality.major),
     ]);
     final state = container.read(inferredKeyProvider);
     expect(state.freshness, InferredKeyFreshness.fresh);
     expect(state.claim, isNull);
+    expect(state.lastClaim, isNull);
   });
 
   test('clearing history resets the inferred key', () async {
@@ -210,12 +217,14 @@ void main() {
     // The rebuild marks a reset so stale recent chords drop from the display.
     expect(state.resetAt, isNotNull);
 
-    // Warmup applies again: the fresh detector heard none of the history.
+    // The fresh detector heard none of the history: an ambiguous event
+    // yields no claim and no retained key from before the switch.
     record(container, [
-      _event(9, [0, 4, 7], ChordQuality.major),
+      _event(9, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ChordQuality.major),
     ]);
     state = container.read(inferredKeyProvider);
     expect(state.freshness, InferredKeyFreshness.fresh);
     expect(state.claim, isNull);
+    expect(state.lastClaim, isNull);
   });
 }

@@ -39,6 +39,10 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 - The recent-chords list now corrects an entry one chord later when the detected
   key turns out to have moved, so the history records each chord under the
   settled key rather than the moment's guess.
+- Automatic key detection now responds from the very first chord instead of
+  waiting for three, when that chord is clear enough to name a key confidently.
+  Ambiguous openings still show no key until the evidence settles, and accuracy
+  improves slightly across the board.
 - The tonality bar now uses a more compact key button and tighter scale-degree
   spacing on narrow screens, keeping all seven degrees visible more often when
   Ensemble mode is on.

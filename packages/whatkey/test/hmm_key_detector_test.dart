@@ -79,9 +79,24 @@ void main() {
   });
 
   test('abstains until minEvents have arrived', () {
-    final frames = _run(HmmKeyDetector(), cCadence);
+    final frames = _run(HmmKeyDetector(minEvents: 3), cCadence);
     expect(frames[0].isAbstention, isTrue);
     expect(frames[1].isAbstention, isTrue);
+  });
+
+  test('the shipped gate lets a confident first chord claim', () {
+    // Shipped minEvents is 1 (log entry 2026-07-26-15): the margin floor is
+    // the real gate, so a clear opening chord may claim immediately while a
+    // maximally ambiguous one still abstains.
+    final confident = _run(HmmKeyDetector(), [
+      _event(0, [0, 4, 7], ChordQuality.major),
+    ]);
+    expect(confident.single.claim, isNotNull);
+
+    final ambiguous = _run(HmmKeyDetector(), [
+      _event(0, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], ChordQuality.major),
+    ]);
+    expect(ambiguous.single.isAbstention, isTrue);
   });
 
   test('claims A minor for a harmonic-minor cadence with E7', () {

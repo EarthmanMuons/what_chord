@@ -79,7 +79,9 @@ void main(List<String> args) {
   final cadenceBoost = double.parse(
     options['cadence-boost'] ?? '${HmmKeyDetector.defaultCadenceBoost}',
   );
-  final minEvents = int.parse(options['min-events'] ?? '3');
+  final minEvents = int.parse(
+    options['min-events'] ?? '${HmmKeyDetector.defaultMinEvents}',
+  );
 
   var eligible = 0, symmetric = 0;
   var currentExact = 0;

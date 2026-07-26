@@ -112,9 +112,9 @@ void main() {
     expect(relabeled.tonality, claim!.tonality);
     expect(relabeled.candidates.first.identity.rootPc, 2);
 
-    // One event deep: entries that never sat second-from-last while a claim
-    // stood keep their original tonality (warmup covered the first arrivals).
-    expect(history[0].tonality, _cMajorTonality);
+    // With the one-event warmup gate a claim already stood at the second
+    // arrival, so even the opening entry was relabeled at its moment.
+    expect(history[0].tonality, isNot(_cMajorTonality));
     // The newest entry is never touched.
     expect(history[3].tonality, _cMajorTonality);
   });

@@ -517,7 +517,7 @@ class _Options {
   final bool durationWeighted;
   final int? decayHalfLifeSeconds;
   final double? decayHalfLifeEvents;
-  final int minEvents;
+  final int? minEvents;
   final double? marginFloor;
   final double modeTilt;
   final double relativeTilt;
@@ -613,13 +613,21 @@ class _Options {
     final effectiveConfidence =
         confidenceWeighted ??
         (hmmDefaults ? HmmKeyDetector.defaultEmissionConfidenceWeighted : true);
+    // The HMM follows its shipped warmup default (one event; the margin
+    // floor is the real gate, whatkey-local log 2026-07-26-15), while the
+    // research detectors keep the three-event warmup their constructors and
+    // published runs use. The paper contract does not depend on this
+    // fallback: recipes pin minEvents explicitly, so recipe runs arrive
+    // here non-null.
+    final effectiveMinEvents =
+        minEvents ?? (hmmDefaults ? HmmKeyDetector.defaultMinEvents : 3);
     return switch (detectorName) {
       'profile' => ProfileCorrelationKeyDetector(
         profiles: profiles,
         durationWeighted: durationWeighted,
         decayHalfLife: decay,
         decayHalfLifeEvents: decayHalfLifeEvents,
-        minEvents: minEvents,
+        minEvents: effectiveMinEvents,
         marginFloor: marginFloorOverride ?? marginFloor ?? 0.05,
       ),
       'progression' => ProgressionKeyDetector(
@@ -627,7 +635,7 @@ class _Options {
         durationWeighted: durationWeighted,
         decayHalfLife: decay,
         decayHalfLifeEvents: decayHalfLifeEvents,
-        minEvents: minEvents,
+        minEvents: effectiveMinEvents,
         marginFloor: marginFloorOverride ?? marginFloor ?? 0.5,
       ),
       'evidence' => WeightedEvidenceKeyDetector(
@@ -635,7 +643,7 @@ class _Options {
         durationWeighted: durationWeighted,
         decayHalfLife: decay,
         decayHalfLifeEvents: decayHalfLifeEvents,
-        minEvents: minEvents,
+        minEvents: effectiveMinEvents,
         marginFloor: marginFloorOverride ?? marginFloor ?? 0.5,
       ),
       'hmm' => HmmKeyDetector(
@@ -650,7 +658,7 @@ class _Options {
         fifthsDecay: fifthsDecay,
         modeSwitchFactor: modeSwitchFactor,
         emissionTemperature: emissionTemperature,
-        minEvents: minEvents,
+        minEvents: effectiveMinEvents,
         marginFloor:
             marginFloorOverride ??
             marginFloor ??
@@ -673,7 +681,7 @@ class _Options {
         maxRunLength: maxRunLength,
         emissionTemperature: emissionTemperature,
         modeTilt: modeTilt,
-        minEvents: minEvents,
+        minEvents: effectiveMinEvents,
         marginFloor:
             marginFloorOverride ??
             marginFloor ??
@@ -687,7 +695,7 @@ class _Options {
         confidenceWeighted: effectiveConfidence,
         functionalBlend: effectiveFunctional,
         progressionBlend: effectiveProgression,
-        minEvents: minEvents,
+        minEvents: effectiveMinEvents,
         marginFloor: marginFloorOverride ?? marginFloor ?? 0.05,
       ),
       _ => throw ArgumentError(
@@ -827,7 +835,11 @@ class _Options {
         final raw => double.parse(raw),
       },
       minEvents:
-          recipe?.minEvents ?? int.parse(values.remove('min-events') ?? '3'),
+          recipe?.minEvents ??
+          switch (values.remove('min-events')) {
+            null => null,
+            final raw => int.parse(raw),
+          },
       marginFloor: switch (values.remove('margin-floor')) {
         null => recipe?.marginFloor,
         final raw => double.parse(raw),
