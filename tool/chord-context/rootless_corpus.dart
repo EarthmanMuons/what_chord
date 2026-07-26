@@ -79,6 +79,7 @@ void main(List<String> args) {
   final cadenceBoost = double.parse(
     options['cadence-boost'] ?? '${HmmKeyDetector.defaultCadenceBoost}',
   );
+  final minEvents = int.parse(options['min-events'] ?? '3');
 
   var eligible = 0, symmetric = 0;
   var currentExact = 0;
@@ -111,6 +112,7 @@ void main(List<String> args) {
     final detector = HmmKeyDetector(
       decayHalfLife: behavior.emissionHalfLife,
       cadenceBoost: cadenceBoost,
+      minEvents: minEvents,
     );
     // First pass: sticky claim after each event and whether that event
     // produced a fresh claim (vs carrying an older one through abstention).
