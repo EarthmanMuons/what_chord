@@ -102,6 +102,10 @@ bool _isIdiomaticImpliedRoot(ChordIdentity id, Tonality tonality) {
   // the promotion this gate refuses.
   final inKey = tonality.containsPitchClass(id.rootPc);
   if (inKey && id.quality.isDominantFamily) return true;
+  return !_hasAlteredColor(id);
+}
+
+bool _hasAlteredColor(ChordIdentity id) {
   for (final e in id.extensions) {
     switch (e) {
       case ChordExtension.flat9:
@@ -109,12 +113,12 @@ bool _isIdiomaticImpliedRoot(ChordIdentity id, Tonality tonality) {
       case ChordExtension.flat13:
       case ChordExtension.addFlat9:
       case ChordExtension.addSharp9:
-        return false;
+        return true;
       case ChordExtension.sharp11:
-        if (!id.quality.sharp11IsNaturalColor) return false;
+        if (!id.quality.sharp11IsNaturalColor) return true;
       default:
         break;
     }
   }
-  return true;
+  return false;
 }
