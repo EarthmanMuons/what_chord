@@ -19,6 +19,8 @@
 //     [--decay-half-life-events N] \
 //     [--min-events N] [--margin-floor X] [--mode-tilt X] \
 //     [--relative-tilt X] [--relative-cadence-tilt X] \
+//     [--cadence-boost X] [--relative-switch-factor X] \
+//     [--fifths-decay X] [--mode-switch-factor X] \
 //     [--hazard X] [--max-run-length N] \
 //     [--calibration-temperature X] \
 //     [--sweep-calibration-temperatures 1,2,3,...] [--out <dir>] \
@@ -517,6 +519,10 @@ class _Options {
   final double modeTilt;
   final double relativeTilt;
   final double relativeCadenceTilt;
+  final double cadenceBoost;
+  final double relativeSwitchFactor;
+  final double fifthsDecay;
+  final double modeSwitchFactor;
   final double hazard;
   final int maxRunLength;
   final double calibrationTemperature;
@@ -547,6 +553,10 @@ class _Options {
     required this.modeTilt,
     required this.relativeTilt,
     required this.relativeCadenceTilt,
+    required this.cadenceBoost,
+    required this.relativeSwitchFactor,
+    required this.fifthsDecay,
+    required this.modeSwitchFactor,
     required this.hazard,
     required this.maxRunLength,
     required this.calibrationTemperature,
@@ -624,6 +634,8 @@ class _Options {
         functionalBlend: effectiveFunctional,
         progressionBlend: effectiveProgression,
         selfTransition: selfTransition,
+        fifthsDecay: fifthsDecay,
+        modeSwitchFactor: modeSwitchFactor,
         emissionTemperature: emissionTemperature,
         minEvents: minEvents,
         marginFloor:
@@ -633,6 +645,8 @@ class _Options {
         modeTilt: modeTilt,
         relativeTilt: relativeTilt,
         relativeCadenceTilt: relativeCadenceTilt,
+        cadenceBoost: cadenceBoost,
+        relativeSwitchFactor: relativeSwitchFactor,
       ),
       'bocpd' => BocpdKeyDetector(
         profiles: profiles,
@@ -709,6 +723,10 @@ class _Options {
       'mode-tilt',
       'relative-tilt',
       'relative-cadence-tilt',
+      'cadence-boost',
+      'relative-switch-factor',
+      'fifths-decay',
+      'mode-switch-factor',
       'hazard',
       'max-run-length',
     };
@@ -808,6 +826,20 @@ class _Options {
             values.remove('relative-cadence-tilt') ??
                 '${HmmKeyDetector.defaultRelativeCadenceTilt}',
           ),
+      // The transition-kernel flags postdate the recipes; recipes pin the
+      // shipped defaults (flags are rejected above when a recipe is set).
+      cadenceBoost: double.parse(
+        values.remove('cadence-boost') ??
+            '${HmmKeyDetector.defaultCadenceBoost}',
+      ),
+      relativeSwitchFactor: double.parse(
+        values.remove('relative-switch-factor') ??
+            '${HmmKeyDetector.defaultRelativeSwitchFactor}',
+      ),
+      fifthsDecay: double.parse(values.remove('fifths-decay') ?? '0.5'),
+      modeSwitchFactor: double.parse(
+        values.remove('mode-switch-factor') ?? '0.5',
+      ),
       hazard: double.parse(
         values.remove('hazard') ?? '${BocpdKeyDetector.defaultHazard}',
       ),

@@ -87,6 +87,33 @@ class HmmKeyDetector implements KeyDetector {
   /// See [defaultRelativeTilt].
   static const double defaultRelativeCadenceTilt = 0;
 
+  /// Log-space boost on transition mass into a key whose cadence the incoming
+  /// event completes: the previous event was a dominant-seventh-family chord
+  /// rooted a fifth above the current chord's root, and the current chord has
+  /// a tonic quality in the target mode. Unlike the rejected emission blends,
+  /// this conditions the transition prior, not the evidence: it gives the
+  /// chain permission to move exactly when harmony licenses a key change,
+  /// while ordinary tonicization drift still pays the full switch cost. Each
+  /// row renormalizes, so a cadence in the incumbent key stabilizes it rather
+  /// than leaking mass. Two deliberate exclusions keep the trigger honest: a
+  /// plain major triad does not count as the dominant (two root-position
+  /// major triads a fifth apart are the same bigram as I moving to IV, so
+  /// only the seventh disambiguates the direction), and dominant-quality
+  /// resolution targets do not count as tonics (a blues I7 to IV7 would
+  /// otherwise read as V7 to I in the IV key, the failure that disqualified
+  /// the functional blend). Local-key initiative lead from
+  /// research/chord-context/log/2026-07-20-18; default off pending
+  /// measurement.
+  static const double defaultCadenceBoost = 0;
+
+  /// Multiplier on transition weight between relative major/minor twins.
+  /// The kernel places relative pairs at signature distance zero, so a
+  /// relative switch is the cheapest move in the space and relative
+  /// confusion is 8.6% of claims on the DCML diagnostic (chord-context log
+  /// 2026-07-20-18). Values below 1 make the twin pay more than its
+  /// signature distance suggests; 1 preserves the shipped kernel.
+  static const double defaultRelativeSwitchFactor = 1;
+
   final HybridKeyDetector _emissions;
 
   /// Probability mass of staying in the current key per event.
@@ -116,6 +143,12 @@ class HmmKeyDetector implements KeyDetector {
 
   /// Cadence-gated relative-pair tilt strength (see [defaultRelativeTilt]).
   final double relativeCadenceTilt;
+
+  /// Cadence-conditioned transition boost (see [defaultCadenceBoost]).
+  final double cadenceBoost;
+
+  /// Relative-twin transition multiplier (see [defaultRelativeSwitchFactor]).
+  final double relativeSwitchFactor;
   ChordIdentity? _previousIdentity;
 
   late final List<List<double>> _transition = _buildTransitionMatrix();
@@ -141,7 +174,10 @@ class HmmKeyDetector implements KeyDetector {
     this.modeTilt = defaultModeTilt,
     this.relativeTilt = defaultRelativeTilt,
     this.relativeCadenceTilt = defaultRelativeCadenceTilt,
+    this.cadenceBoost = defaultCadenceBoost,
+    this.relativeSwitchFactor = defaultRelativeSwitchFactor,
   }) : assert(selfTransition > 0 && selfTransition < 1),
+       assert(relativeSwitchFactor > 0),
        _emissions = HybridKeyDetector(
          profiles: profiles,
          durationWeighted: durationWeighted,
@@ -164,6 +200,7 @@ class HmmKeyDetector implements KeyDetector {
       'emissionTemperature=$emissionTemperature '
       'minEvents=$minEvents marginFloor=$marginFloor modeTilt=$modeTilt '
       'relativeTilt=$relativeTilt relativeCadenceTilt=$relativeCadenceTilt '
+      'cadenceBoost=$cadenceBoost relativeSwitchFactor=$relativeSwitchFactor '
       '| emissions: ${_emissions.configuration}';
 
   @override
@@ -179,14 +216,27 @@ class HmmKeyDetector implements KeyDetector {
     final emissionFrame = _emissions.onEvent(event);
     _eventCount += 1;
 
-    // Predict: posterior through the transition matrix.
+    // Predict: posterior through the transition matrix. When the incoming
+    // event completes a cadence into some key, that key's transition column
+    // is boosted by exp(cadenceBoost) with each row renormalized, so the
+    // prior over key changes (not the evidence) is what the cadence informs.
+    final cadenceKey = cadenceBoost == 0 ? null : _cadenceTargetKey(event);
+    final boost = cadenceKey == null ? 1.0 : math.exp(cadenceBoost);
     final predicted = List<double>.filled(24, 0);
     for (var from = 0; from < 24; from++) {
       final mass = _posterior[from];
       if (mass == 0) continue;
       final row = _transition[from];
-      for (var to = 0; to < 24; to++) {
-        predicted[to] += mass * row[to];
+      if (cadenceKey == null) {
+        for (var to = 0; to < 24; to++) {
+          predicted[to] += mass * row[to];
+        }
+      } else {
+        final rowNorm = 1 + (boost - 1) * row[cadenceKey];
+        for (var to = 0; to < 24; to++) {
+          final weight = to == cadenceKey ? row[to] * boost : row[to];
+          predicted[to] += mass * weight / rowNorm;
+        }
       }
     }
 
@@ -300,6 +350,36 @@ class HmmKeyDetector implements KeyDetector {
     emission[twinK] = twin * rescale;
   }
 
+  /// Chord qualities that read as a settled major tonic when a cadence lands
+  /// on them. Deliberately narrower than [KeySpace.majorTonicQualities]:
+  /// dominant7 is excluded so a blues I7 moving to IV7 never reads as an
+  /// authentic cadence into the IV key (see [defaultCadenceBoost]).
+  static const Set<ChordQuality> _majorCadenceTargets = {
+    ChordQuality.major,
+    ChordQuality.major6,
+    ChordQuality.major7,
+  };
+
+  /// The key whose authentic cadence the incoming event completes, or null:
+  /// the previous event was a dominant-seventh-family chord rooted a fifth
+  /// above the current chord, and the current chord has a tonic quality; the
+  /// resolved chord's quality selects the target mode (see
+  /// [defaultCadenceBoost] for the deliberate exclusions).
+  int? _cadenceTargetKey(ChordEvent event) {
+    final previous = _previousIdentity;
+    if (previous == null) return null;
+    final current = event.identity;
+    if (previous.rootPc != (current.rootPc + 7) % 12) return null;
+    if (!KeySpace.dominantQualities.contains(previous.quality)) return null;
+    if (_majorCadenceTargets.contains(current.quality)) {
+      return KeySpace.majorIndex(current.rootPc);
+    }
+    if (KeySpace.minorTonicQualities.contains(current.quality)) {
+      return KeySpace.minorIndex(current.rootPc);
+    }
+    return null;
+  }
+
   /// Softmax of the hybrid's scores at [emissionTemperature], as a 24-vector
   /// indexed by [KeySpace.index].
   List<double> _emissionDistribution(List<KeyEstimate> ranked) {
@@ -330,14 +410,12 @@ class HmmKeyDetector implements KeyDetector {
       var switchTotal = 0.0;
       for (var to = 0; to < 24; to++) {
         if (to == from) continue;
-        var weight = math
-            .pow(
-              fifthsDecay,
-              _signatureDistance(tonalities[from], tonalities[to]),
-            )
-            .toDouble();
+        final distance = _signatureDistance(tonalities[from], tonalities[to]);
+        var weight = math.pow(fifthsDecay, distance).toDouble();
         if (tonalities[from].isMajor != tonalities[to].isMajor) {
           weight *= modeSwitchFactor;
+          // Distance zero with a mode change is exactly the relative twin.
+          if (distance == 0) weight *= relativeSwitchFactor;
         }
         row[to] = weight;
         switchTotal += weight;

@@ -18,7 +18,8 @@
 // being unrelated? Abstention (no claim yet) is counted separately.
 //
 // Usage mirrors the other harnesses (--fixtures/--labels/--split-file/
-// --split/--behavior).
+// --split/--behavior), plus --cadence-boost to characterize the whatkey-local
+// cadence-conditioned transition prior (default 0, shipped behavior).
 
 import 'dart:convert';
 import 'dart:io';
@@ -48,6 +49,7 @@ void main(List<String> args) {
       if (titles.contains(fixture.title)) fixture,
   ];
   final behavior = KeyBehavior.values.byName(options['behavior'] ?? 'stable');
+  final cadenceBoost = double.parse(options['cadence-boost'] ?? '0');
 
   final relation = <String, int>{};
   var labeledEvents = 0, abstained = 0, claimed = 0, exact = 0;
@@ -65,7 +67,10 @@ void main(List<String> args) {
       }
     }
 
-    final detector = HmmKeyDetector(decayHalfLife: behavior.emissionHalfLife);
+    final detector = HmmKeyDetector(
+      decayHalfLife: behavior.emissionHalfLife,
+      cadenceBoost: cadenceBoost,
+    );
     for (var i = 0; i < events.length; i++) {
       final claim = detector.onEvent(events[i]).claim?.tonality;
       final truth = annotated[i];
@@ -104,6 +109,7 @@ void main(List<String> args) {
     'schema': 'chord-context-key-diagnostic/1',
     'set': fixtureSet.name,
     'behavior': behavior.name,
+    'cadenceBoost': cadenceBoost,
     'labeledEvents': labeledEvents,
     'abstained': abstained,
     'claimed': claimed,

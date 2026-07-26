@@ -31,6 +31,10 @@ and published methods.
   voicings over a bassist, implementing the costed Track D handoff from Chord
   Context. Complete: ~93% top-1-exact on held-out data against 0% without the
   mode, with solo analysis verified unchanged.
+- [WhatKey Local](whatkey-local/): local-key accuracy for the streaming key
+  detector, the bottleneck handed off by Chord Context and Ensemble Mode.
+  Active: settles the temporal-context debate on the record and tests
+  transition-side mechanisms against the frozen WhatKey rulers.
 
 Supporting code lives with the rest of the project: batch drivers and corpus
 tooling in `tool/`, performance benchmarks in `benchmark/`, and the engine
