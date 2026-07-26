@@ -27,6 +27,8 @@ enum DetectorRecipe {
     relativeEvidenceTilt: 0,
     cadenceBoost: 0,
     cadenceTriadBoost: 0,
+    cadenceMarginFactor: 1,
+    coldStartTonicPrior: 0,
     relativeSwitchFactor: 1,
   ),
 
@@ -51,6 +53,8 @@ enum DetectorRecipe {
     relativeEvidenceTilt: 0,
     cadenceBoost: 0,
     cadenceTriadBoost: 0,
+    cadenceMarginFactor: 1,
+    coldStartTonicPrior: 0,
     relativeSwitchFactor: 1,
   );
 
@@ -74,6 +78,8 @@ enum DetectorRecipe {
     required this.relativeEvidenceTilt,
     required this.cadenceBoost,
     required this.cadenceTriadBoost,
+    required this.cadenceMarginFactor,
+    required this.coldStartTonicPrior,
     required this.relativeSwitchFactor,
   });
 
@@ -96,5 +102,7 @@ enum DetectorRecipe {
   final double relativeEvidenceTilt;
   final double cadenceBoost;
   final double cadenceTriadBoost;
+  final double cadenceMarginFactor;
+  final double coldStartTonicPrior;
   final double relativeSwitchFactor;
 }

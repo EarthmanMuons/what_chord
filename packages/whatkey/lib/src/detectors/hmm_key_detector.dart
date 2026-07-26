@@ -146,6 +146,22 @@ class HmmKeyDetector implements KeyDetector {
   /// pending measurement.
   static const double defaultCadenceTriadBoost = 0;
 
+  /// Multiplier on the claim margin floor for the event that fires the
+  /// cadence trigger. The residual after the cadence boost is
+  /// boundary-shaped: nearly half of all abstentions sit within two events
+  /// of an annotated key change (whatkey-local log 2026-07-26-12), and the
+  /// cadence event is the one moment a trusted signal has just moved the
+  /// posterior, so the gate can afford to be braver exactly there. 1 keeps
+  /// the shipped floor.
+  static const double defaultCadenceMarginFactor = 1;
+
+  /// Log-space boost applied once, on the first event after a reset, to the
+  /// key that reads that chord as its tonic (mode from the chord quality,
+  /// per [KeySpace.tonicQualities]). Musicians usually start on or near the
+  /// tonic; a uniform prior wastes that. Targets warmup, about a fifth of
+  /// abstentions (whatkey-local log 2026-07-26-12). Default off.
+  static const double defaultColdStartTonicPrior = 0;
+
   /// Multiplier on transition weight between relative major/minor twins.
   /// The kernel places relative pairs at signature distance zero, so a
   /// relative switch is the cheapest move in the space and relative
@@ -199,6 +215,12 @@ class HmmKeyDetector implements KeyDetector {
   /// [defaultCadenceTriadBoost]).
   final double cadenceTriadBoost;
 
+  /// Cadence-event margin relief (see [defaultCadenceMarginFactor]).
+  final double cadenceMarginFactor;
+
+  /// First-event tonic prior (see [defaultColdStartTonicPrior]).
+  final double coldStartTonicPrior;
+
   /// Relative-twin transition multiplier (see [defaultRelativeSwitchFactor]).
   final double relativeSwitchFactor;
   ChordIdentity? _previousIdentity;
@@ -231,6 +253,8 @@ class HmmKeyDetector implements KeyDetector {
     this.relativeEvidenceWindow = defaultRelativeEvidenceWindow,
     this.cadenceBoost = defaultCadenceBoost,
     this.cadenceTriadBoost = defaultCadenceTriadBoost,
+    this.cadenceMarginFactor = defaultCadenceMarginFactor,
+    this.coldStartTonicPrior = defaultColdStartTonicPrior,
     this.relativeSwitchFactor = defaultRelativeSwitchFactor,
   }) : assert(selfTransition > 0 && selfTransition < 1),
        assert(relativeSwitchFactor > 0),
@@ -259,6 +283,8 @@ class HmmKeyDetector implements KeyDetector {
       'relativeEvidenceTilt=$relativeEvidenceTilt '
       'relativeEvidenceWindow=$relativeEvidenceWindow '
       'cadenceBoost=$cadenceBoost cadenceTriadBoost=$cadenceTriadBoost '
+      'cadenceMarginFactor=$cadenceMarginFactor '
+      'coldStartTonicPrior=$coldStartTonicPrior '
       'relativeSwitchFactor=$relativeSwitchFactor '
       '| emissions: ${_emissions.configuration}';
 
@@ -323,6 +349,29 @@ class HmmKeyDetector implements KeyDetector {
         predicted.setAll(0, _posterior);
       }
     }
+    // First event after a reset: seed the belief with the tonic reading of
+    // the opening chord (see [defaultColdStartTonicPrior]).
+    if (coldStartTonicPrior != 0 && _eventCount == 1) {
+      final quality = event.identity.quality;
+      final int? tonicK;
+      if (KeySpace.majorTonicQualities.contains(quality)) {
+        tonicK = KeySpace.majorIndex(event.identity.rootPc);
+      } else if (KeySpace.minorTonicQualities.contains(quality)) {
+        tonicK = KeySpace.minorIndex(event.identity.rootPc);
+      } else {
+        tonicK = null;
+      }
+      if (tonicK != null) {
+        predicted[tonicK] *= math.exp(coldStartTonicPrior);
+        var total = 0.0;
+        for (var k = 0; k < 24; k++) {
+          total += predicted[k];
+        }
+        for (var k = 0; k < 24; k++) {
+          predicted[k] /= total;
+        }
+      }
+    }
     _posterior.setAll(0, predicted);
     _penultimateIdentity = _previousIdentity;
     _previousIdentity = event.identity;
@@ -335,11 +384,17 @@ class HmmKeyDetector implements KeyDetector {
         ),
     ]..sort((a, b) => b.confidence.compareTo(a.confidence));
 
+    // The cadence event is the one moment a trusted signal has just moved
+    // the posterior; the claim gate may be braver exactly there (see
+    // [defaultCadenceMarginFactor]).
+    final effectiveFloor = cadenceKey != null
+        ? marginFloor * cadenceMarginFactor
+        : marginFloor;
     return claimOrAbstain(
       ranked,
       eventCount: _eventCount,
       minEvents: minEvents,
-      marginFloor: marginFloor,
+      marginFloor: effectiveFloor,
     );
   }
 

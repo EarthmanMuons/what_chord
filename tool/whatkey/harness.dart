@@ -21,6 +21,7 @@
 //     [--relative-tilt X] [--relative-cadence-tilt X] \
 //     [--relative-evidence-tilt X] [--relative-evidence-window N] \
 //     [--cadence-boost X] [--cadence-triad-boost X] \
+//     [--cadence-margin-factor X] [--cold-start-tonic-prior X] \
 //     [--relative-switch-factor X] \
 //     [--fifths-decay X] [--mode-switch-factor X] \
 //     [--hazard X] [--max-run-length N] \
@@ -525,6 +526,8 @@ class _Options {
   final int relativeEvidenceWindow;
   final double cadenceBoost;
   final double cadenceTriadBoost;
+  final double cadenceMarginFactor;
+  final double coldStartTonicPrior;
   final double relativeSwitchFactor;
   final double fifthsDecay;
   final double modeSwitchFactor;
@@ -562,6 +565,8 @@ class _Options {
     required this.relativeEvidenceWindow,
     required this.cadenceBoost,
     required this.cadenceTriadBoost,
+    required this.cadenceMarginFactor,
+    required this.coldStartTonicPrior,
     required this.relativeSwitchFactor,
     required this.fifthsDecay,
     required this.modeSwitchFactor,
@@ -657,6 +662,8 @@ class _Options {
         relativeEvidenceWindow: relativeEvidenceWindow,
         cadenceBoost: cadenceBoost,
         cadenceTriadBoost: cadenceTriadBoost,
+        cadenceMarginFactor: cadenceMarginFactor,
+        coldStartTonicPrior: coldStartTonicPrior,
         relativeSwitchFactor: relativeSwitchFactor,
       ),
       'bocpd' => BocpdKeyDetector(
@@ -738,6 +745,8 @@ class _Options {
       'relative-evidence-window',
       'cadence-boost',
       'cadence-triad-boost',
+      'cadence-margin-factor',
+      'cold-start-tonic-prior',
       'relative-switch-factor',
       'fifths-decay',
       'mode-switch-factor',
@@ -861,6 +870,18 @@ class _Options {
           double.parse(
             values.remove('cadence-triad-boost') ??
                 '${HmmKeyDetector.defaultCadenceTriadBoost}',
+          ),
+      cadenceMarginFactor:
+          recipe?.cadenceMarginFactor ??
+          double.parse(
+            values.remove('cadence-margin-factor') ??
+                '${HmmKeyDetector.defaultCadenceMarginFactor}',
+          ),
+      coldStartTonicPrior:
+          recipe?.coldStartTonicPrior ??
+          double.parse(
+            values.remove('cold-start-tonic-prior') ??
+                '${HmmKeyDetector.defaultColdStartTonicPrior}',
           ),
       relativeSwitchFactor:
           recipe?.relativeSwitchFactor ??
