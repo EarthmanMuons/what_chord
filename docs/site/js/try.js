@@ -90,6 +90,7 @@
     keyRoot: document.getElementById("key-root"),
     keyMode: document.getElementById("key-mode"),
     notation: document.getElementById("notation"),
+    playing: document.getElementById("playing-mode"),
     status: document.getElementById("status"),
     resultsHead: document.getElementById("results-head"),
     echo: document.getElementById("echo"),
@@ -104,6 +105,8 @@
   var state = {
     mode: DEFAULT_MODE,
     notation: loadNotation(),
+    // Playing context; deliberately not persisted so a fresh visit is solo.
+    ensemble: false,
     canonicalNotes: null,
   };
 
@@ -177,6 +180,18 @@
     scheduleRun();
   });
 
+  els.playing.addEventListener("click", function (e) {
+    var btn = e.target.closest("button");
+    if (!btn) return;
+    state.ensemble = btn.getAttribute("data-playing") === "ensemble";
+    setSegmented(
+      els.playing,
+      "data-playing",
+      state.ensemble ? "ensemble" : "solo",
+    );
+    scheduleRun();
+  });
+
   els.keyRoot.addEventListener("change", scheduleRun);
   els.notes.addEventListener("input", function () {
     state.canonicalNotes = null;
@@ -226,6 +241,7 @@
     var params = new URLSearchParams();
     if (state.canonicalNotes) params.set("notes", state.canonicalNotes);
     if (currentKey() !== "C:" + DEFAULT_MODE) params.set("key", currentKey());
+    if (state.ensemble) params.set("mode", "ensemble");
     var q = params.toString();
     return q ? "?" + q : "";
   }
@@ -290,6 +306,13 @@
 
     setSegmented(els.notation, "data-notation", state.notation);
 
+    state.ensemble = params.get("mode") === "ensemble";
+    setSegmented(
+      els.playing,
+      "data-playing",
+      state.ensemble ? "ensemble" : "solo",
+    );
+
     var notes = params.get("notes");
     if (notes !== null) {
       els.notes.value =
@@ -330,6 +353,7 @@
     addEcho("Notes", result.input.notes.join(" "));
     addEcho("Bass", result.input.bass);
     addEcho("Key", result.input.key);
+    addEcho("Mode", state.ensemble ? "Ensemble" : "");
 
     if (!result.candidates.length) {
       var none = document.createElement("div");
@@ -488,7 +512,12 @@
       setStatus("");
       return;
     }
-    var json = window.whatchordIdentify(notes, currentKey(), state.notation);
+    var json = window.whatchordIdentify(
+      notes,
+      currentKey(),
+      state.notation,
+      state.ensemble ? "ensemble" : "solo",
+    );
     var result = JSON.parse(json);
     state.canonicalNotes = result.ok
       ? result.input.notes.map(toAsciiNote).join(" ")

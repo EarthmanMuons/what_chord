@@ -29,7 +29,8 @@ and published methods.
   held-out data; every front shipped, closed by measurement, or costed.
 - [Ensemble Mode](ensemble-mode/): an explicit comping mode that names rootless
   voicings over a bassist, implementing the costed Track D handoff from Chord
-  Context. In progress; plan adopted, engine work not yet landed.
+  Context. Complete: ~93% top-1-exact on held-out data against 0% without the
+  mode, with solo analysis verified unchanged.
 
 Supporting code lives with the rest of the project: batch drivers and corpus
 tooling in `tool/`, performance benchmarks in `benchmark/`, and the engine

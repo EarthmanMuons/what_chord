@@ -71,12 +71,14 @@ export default {
     const key = VALID_KEYS.has(requestedKey)
       ? requestedKey
       : "C:" + DEFAULT_MODE;
+    const playingMode =
+      url.searchParams.get("mode") === "ensemble" ? "ensemble" : "solo";
     let meta;
     try {
       const result = JSON.parse(
-        globalThis.whatchordIdentify(notes, key, DEFAULT_NOTATION),
+        globalThis.whatchordIdentify(notes, key, DEFAULT_NOTATION, playingMode),
       );
-      meta = buildMeta(result, url);
+      meta = buildMeta(result, url, playingMode);
     } catch {
       meta = null;
     }
@@ -95,7 +97,7 @@ export default {
 
 // Builds preview copy from an engine result, or null when there is nothing
 // worth previewing (bad input, or no candidates).
-function buildMeta(result, url) {
+function buildMeta(result, url, playingMode) {
   if (
     !result ||
     !result.ok ||
@@ -111,7 +113,12 @@ function buildMeta(result, url) {
 
   const title = notes + " → " + top;
   const description =
-    "Identified by WhatChord. Bass " + bass + ", key " + key + ".";
+    "Identified by WhatChord. Bass " +
+    bass +
+    ", key " +
+    key +
+    (playingMode === "ensemble" ? ", ensemble mode" : "") +
+    ".";
 
   return {
     title,
