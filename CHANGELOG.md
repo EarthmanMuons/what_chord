@@ -12,6 +12,13 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ### Added
 
+- Added an Ensemble playing mode for playing over a bassist: rootless jazz
+  comping voicings such as E-B♭-D-A are now named as the chord they imply (C13,
+  marked "rootless") instead of a strained slash-chord reading. Switch between
+  Solo and Ensemble under Playing Mode in Settings; while Ensemble is on, a
+  badge in the tonality bar shows the mode and taps through to the setting.
+  Shared chord links carry the mode so a rootless voicing reproduces for the
+  recipient, and the website's Try page gains the same Solo/Ensemble toggle.
 - Added a Scale Degree Guide to the website, covering how a key is numbered from
   the tonic, the technical names for each degree, degree formulas, harmonizing
   the scale into chords, and Roman numerals.

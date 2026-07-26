@@ -9,12 +9,12 @@
     <title>Building a Real-Time Chord Recognizer | WhatChord</title>
     <meta
       name="description"
-      content="A technical deep-dive into the pitch-class bitmasks, chord-quality templates, explanation costs and ranking heuristics, and LRU cache behind real-time chord identification."
+      content="A technical deep-dive into the pitch-class bitmasks, chord templates, implied roots, explanation costs, ranking heuristics, and LRU cache behind real-time chord identification."
     />
     <meta property="og:title" content="Building a Real-Time Chord Recognizer" />
     <meta
       property="og:description"
-      content="A detailed look at the bitmasks, templates, explanation costs and ranking heuristics, and LRU cache that power real-time chord identification in a Flutter app."
+      content="A detailed look at the bitmasks, templates, implied roots, explanation costs, ranking heuristics, and LRU cache that power real-time chord identification."
     />
     <meta
       property="og:image"
@@ -95,9 +95,9 @@
           <h1>Building a Real-Time Chord Recognizer</h1>
           <p class="article-deck">
             A technical look at the analysis engine behind WhatChord:
-            pitch-class bitmasks, chord-quality templates, explanation costs and
-            ranking heuristics, and the small LRU cache that keeps real-time
-            chord identification fast in a Flutter app.
+            pitch-class bitmasks, chord templates, implied roots, explanation
+            costs, ranking heuristics, and the small LRU cache that keeps
+            real-time chord identification fast.
           </p>
         </header>
 
@@ -119,10 +119,10 @@
           </p>
 
           <p>
-            Piano players often leave out notes that a dictionary entry might
-            expect. Extended chords add notes that no fixed dictionary entry
-            anticipates. And the same set of pitch classes can legitimately be
-            described as
+            Players routinely omit notes that a dictionary entry might expect;
+            in an ensemble, another instrument may even supply the root.
+            Extended chords add notes that no fixed entry anticipates. And the
+            same set of pitch classes can legitimately be described as
             <a href="why-chord-naming-is-hard.html"
               >multiple different chords depending on musical context</a
             >.
@@ -138,13 +138,14 @@
 
           <p>
             Before diving into each component, here is the overall shape of the
-            algorithm. A snapshot of sounding notes enters at the top; a ranked
-            list of chord interpretations comes out at the bottom.
+            algorithm. A snapshot of sounding notes and its analysis context
+            enter at the top; a ranked list of chord interpretations comes out
+            at the bottom.
           </p>
 
           <div class="pipeline-flow">
             <div class="pf-endpoint">
-              Input: set of sounding pitch classes + lowest (bass) note
+              Input: sounding pitch classes + bass note + analysis context
             </div>
             <div class="pf-arrow">↓</div>
             <div class="pf-box">
@@ -157,8 +158,8 @@
             <div class="pf-box">
               <div class="pf-name">Candidate generation</div>
               <div class="pf-sub">
-                Each sounding note becomes a candidate root, evaluated against
-                every chord template, extensions extracted
+                Sounding notes become candidate roots; Ensemble mode also tests
+                tightly constrained implied roots
               </div>
             </div>
             <div class="pf-arrow">↓</div>
@@ -280,25 +281,18 @@
           </p>
 
           <p>
-            A key design decision:
-            <strong
-              >only pitch classes actually present in the voicing are tested as
-              candidate roots.</strong
-            >
-            There are no “ghost roots” and the algorithm never proposes an
-            interpretation where the chord is rooted on a note that is not being
-            played. This keeps the candidate count small (bounded by the number
-            of sounding notes, typically 3–7) and avoids obviously wrong
-            readings.
+            Candidate generation depends on the playing mode. Solo mode tests
+            only pitch classes present in the voicing as roots. This keeps the
+            candidate count small (typically 3–7 roots) and suits a MIDI stream
+            that carries both harmony and bass.
           </p>
 
           <p>
-            This is a deliberate “solo keyboard” assumption. The current engine
-            is optimized for the common case where the same MIDI stream contains
-            both the harmony and the bass note. A future ensemble mode could
-            relax that rule for settings where another instrument is carrying
-            the bass, allowing rootless voicings to imply roots that are not
-            literally present in the keyboard part.
+            Ensemble mode evaluates the same sounding-root candidates, then adds
+            a constrained set of <em>implied</em> roots for voicings whose root
+            may be supplied by another instrument. The restrictions that keep
+            those additional readings useful are described below under
+            <a href="#ensemble-mode">Ensemble mode</a>.
           </p>
 
           <h2>Chord templates</h2>
@@ -523,10 +517,10 @@
           <h2>Template pricing</h2>
 
           <p>
-            For each candidate root (each pitch class present in the voicing),
-            the analyzer rotates the pitch class mask relative to that root to
-            get an interval mask. Then it assigns an explanation cost for that
-            interval mask against all 27 templates.
+            For each candidate root, the analyzer rotates the pitch-class mask
+            relative to that root to get an interval mask. It then assigns an
+            explanation cost for that interval mask against the eligible chord
+            templates.
           </p>
 
           <pre><code><span class="cm">// Rotate: compute intervals above rootPc for each sounding note</span>
@@ -652,6 +646,15 @@
                   dropped (0.5), but a chord without its third (1.7), seventh
                   (0.75), suspension (1.4), or defining altered fifth (0.9) is
                   barely that chord. At most one may be missing.
+                </td>
+              </tr>
+              <tr>
+                <td>Implied root (Ensemble mode)</td>
+                <td class="neg mono">0.25</td>
+                <td>
+                  Another instrument may supply the root. Only constrained
+                  rootless candidates qualify, and their played bass carries no
+                  inversion cost.
                 </td>
               </tr>
               <tr>
@@ -906,6 +909,11 @@ notes: F♯ B♭ C E  |  bass: F♯ (pc 6)  |  key: C major
               minor keys) a supertonic half-diminished 7th beats the sixth chord
               sharing its notes
             </li>
+            <li>
+              Prefer the dominant among tied implied-root candidates (Ensemble
+              mode), where the guide tones and colors support dominant
+              vocabulary more strongly than a tonic-family reading
+            </li>
             <li>Prefer root-position 6th over inverted 7th</li>
             <li>
               Prefer a complete triad over an incomplete 6th chord missing its
@@ -1055,13 +1063,77 @@ notes: F♯ B♭ C E  |  bass: F♯ (pc 6)  |  key: C major
             covers the measurement, dead ends, and pruning work in detail.
           </p>
 
+          <h2 id="ensemble-mode">Ensemble mode</h2>
+
+          <p>
+            A pianist comping over a bassist might play
+            <span class="chord">E-B♭-D-A</span> to mean
+            <span class="chord">C13</span>: the third, seventh, ninth, and
+            thirteenth of the chord while leaving C to the bass player. Ensemble
+            mode represents C as an implied root even though it is absent from
+            the keyboard voicing.
+          </p>
+
+          <p>
+            Pitch content alone cannot reveal whether a root was intentionally
+            omitted: <span class="chord">C-E-G</span>, for example, is both a
+            complete <span class="chord">C</span> triad and a rootless
+            <span class="chord">Am7</span>. The playing mode therefore makes the
+            assumption explicit. Solo mode expects the keyboard part to include
+            the root; Ensemble mode allows another part to provide it.
+          </p>
+
+          <p>
+            In Ensemble mode, candidate generation runs an additional pass over
+            absent pitch classes. An implied-root candidate qualifies only when:
+          </p>
+
+          <ul>
+            <li>Its root is diatonic to the prevailing key.</li>
+            <li>
+              Its quality is dominant 7th, major 7th, minor 7th, minor-major
+              7th, or half-diminished 7th. Fully diminished 7th is excluded
+              because its symmetry leaves four equally valid roots.
+            </li>
+            <li>
+              Every required tone except the root sounds, and the chord name
+              explains every sounding tone.
+            </li>
+          </ul>
+
+          <p>
+            An implied root adds <code>0.25</code> to the explanation cost. Bass
+            placement is free for these readings because the lowest keyboard
+            note is expected to be a guide tone or color rather than the chord
+            root.
+          </p>
+
+          <p>
+            Ranking gives an idiomatic implied-root reading priority over
+            sounding-root alternatives; otherwise a complete upper-structure
+            chord would usually win on cost. Altered extensions on a
+            non-dominant implied chord do not receive this priority and compete
+            on cost instead. If two implied-root readings remain in a near tie,
+            the dominant-family reading wins.
+          </p>
+
+          <p>
+            The result uses the plain chord symbol with a “rootless” tag, not a
+            slash chord: <span class="chord">E-B♭-D-A</span> appears as
+            <span class="chord">C13</span>, not
+            <span class="chord">C13/E</span>. The tone breakdown marks C as
+            implied, and the keyboard draws the nearest matching C below the
+            played bass as a hollow key.
+          </p>
+
           <h2>Caching for real-time performance</h2>
 
           <p>
-            Running the full pipeline (up to 12 candidate roots × 27 templates =
-            324 template evaluations) on every MIDI state change would be
-            wasteful. In practice, a pianist tends to produce many repeated
-            input states throughout a musical piece.
+            Running the full pipeline on every MIDI state change would be
+            wasteful. Each sounding root is evaluated against 27 templates, and
+            Ensemble mode adds its eligible implied-root evaluations. In
+            practice, a pianist produces many repeated input states throughout a
+            piece.
           </p>
 
           <p>
@@ -1075,7 +1147,9 @@ notes: F♯ B♭ C E  |  bass: F♯ (pc 6)  |  key: C major
 
           <ul>
             <li>The pitch class set and bass note</li>
-            <li>The analysis context (key signature + tonality)</li>
+            <li>
+              The analysis context (key signature, tonality, and playing mode)
+            </li>
             <li>
               The observed voicing's register signature, when one is supplied,
               because register evidence can nudge the ranking
@@ -1087,9 +1161,9 @@ notes: F♯ B♭ C E  |  bass: F♯ (pc 6)  |  key: C major
           </ul>
 
           <p>
-            The context is included in the key because diatonic preference rules
-            depend on it; a different key signature can change which candidate
-            ranks first even for identical voicings.
+            The context is included because the key and playing mode can both
+            change which candidate ranks first for the same notes. Solo and
+            Ensemble analyses therefore never alias to one cached result.
           </p>
 
           <pre><code><span class="kw">final</span> key = Object.<span class="fn">hash</span>(input.cacheKey, voicing?.signature ?? <span class="nu">0</span>, context, take);

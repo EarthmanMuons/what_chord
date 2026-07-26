@@ -5,10 +5,14 @@ way a jazz pianist means them when a bassist is covering the root. This
 initiative implements Track D of the chord-context investigation
 (`research/chord-context/`), which measured the problem, proved the mechanism,
 and handed the go/no-go off as a product decision. That decision was made on
-2026-07-25: we are building it.
+2026-07-25, and the mode was built and shipped the same day.
 
-Status: planning. The plan is adopted (log entry 2026-07-25-01); no engine work
-has landed yet.
+Status: complete (log entry 2026-07-25-05). All five phases are implemented and
+measured: the engine names rootless voicings under an explicit ensemble playing
+context at 92.5-93.6% top-1-exact on held-out data (against 0% without the
+mode), the 18-case comping suite passes exactly and runs in CI, solo analysis is
+verified bit-identical, and the app, website, and documentation surfaces are
+shipped.
 
 ## Why
 

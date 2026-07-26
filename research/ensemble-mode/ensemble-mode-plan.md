@@ -198,4 +198,5 @@ provider invalidation to `settings_reset_service.dart`.
       implied root, home indicator); history event field; deep links; lookup;
       demo pin; web/CLI parity (log entry 2026-07-25-04; /try page mode UI moved
       to Phase 5 with the site work)
-- [ ] Phase 5: algorithm article, changelog, whatsnew, closing log entry
+- [x] Phase 5: algorithm article, changelog, whatsnew, closing log entry (plus
+      the /try page mode control; log entry 2026-07-25-05)
