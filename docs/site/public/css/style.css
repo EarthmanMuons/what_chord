@@ -969,11 +969,18 @@ footer {
   border-bottom: 1px solid var(--border);
 }
 
+.article-header-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .article-back {
   display: inline-flex;
   gap: 6px;
   align-items: center;
-  margin-bottom: 28px;
   font-size: 0.82rem;
   color: var(--text-2);
   transition: color 0.15s;
@@ -985,7 +992,7 @@ footer {
 }
 
 .article-header .article-tag {
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .article-header h1 {
