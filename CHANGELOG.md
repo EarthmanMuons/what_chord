@@ -26,6 +26,8 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ### Changed
 
+- "Why This Chord?" now uses shorter, friendlier explanations for why each chord
+  name ranks above the next option.
 - Chord naming now uses the current key to resolve common sixth-versus-seventh
   ambiguities. In C major, D-F-A-C over an F bass is named Dm7/F rather than F6,
   while tonic sixth chords such as C6 keep their familiar names.
