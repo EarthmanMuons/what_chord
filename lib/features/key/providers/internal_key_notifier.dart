@@ -87,22 +87,31 @@ class InternalKeyCoordinator extends Notifier<void> {
   /// detector listeners, which key on the appended tail, never reprocess a
   /// relabeled event. Net-positive rather than per-flip perfect (whatkey-local
   /// log 2026-07-26-08), applied whenever the claim disagrees with the
-  /// tonality the entry was ranked under.
+  /// tonality the entry was ranked under, or when the newest event's
+  /// resolution disambiguates a flat-nine dominant re-rooting
+  /// (ensemble-tiebreak log 2026-07-26-07).
   void _relabelPrevious(InferredKeyState internal) {
-    final claim = internal.lastClaim?.tonality;
-    if (claim == null) return;
     final history = ref.read(chordHistoryProvider);
     if (history.length < 2) return;
     final target = history[history.length - 2];
-    if (target.tonality == claim) return;
+    final witness = history[history.length - 1];
+    final claim = internal.lastClaim?.tonality;
+    final keyChanged = claim != null && claim != target.tonality;
+    // Cheap prefilter: re-analysis is warranted only when the key moved or
+    // the entry is a resolution-eligible ensemble dominant.
+    if (!keyChanged &&
+        _resolutionTwinRoot(target.identity, witness.identity) == null) {
+      return;
+    }
 
-    final keySignature = KeySignature.fromTonality(claim);
-    final candidates = ref
+    final tonality = keyChanged ? claim : target.tonality;
+    final keySignature = KeySignature.fromTonality(tonality);
+    final ranked = ref
         .read(chordAnalyzerProvider)
         .analyze(
           target.input,
           context: AnalysisContext(
-            tonality: claim,
+            tonality: tonality,
             keySignature: keySignature,
             spellingPolicy: NoteSpellingPolicy(
               preferFlats: keySignature.prefersFlats,
@@ -110,17 +119,48 @@ class InternalKeyCoordinator extends Notifier<void> {
             playingContext: target.playingContext,
           ),
           voicing: target.voicing,
+          take: 24,
         );
-    if (candidates.isEmpty) return;
+    if (ranked.isEmpty) return;
+
+    // Resolution promotion: a flat-nine dominant's minor-third re-rootings
+    // sound identical, and only the next chord reveals the root. When the
+    // re-analyzed top does not resolve into the newest event but its twin
+    // does, the twin leads the record (90% flip precision in simulation,
+    // ensemble-tiebreak log 2026-07-26-07).
+    var ordered = ranked;
+    final twinRoot = _resolutionTwinRoot(
+      ranked.first.identity,
+      witness.identity,
+    );
+    if (twinRoot != null) {
+      ChordCandidate? twin;
+      for (final candidate in ranked) {
+        final id = candidate.identity;
+        if (id.hasImpliedRoot &&
+            id.quality.isDominantFamily &&
+            id.rootPc == twinRoot) {
+          twin = candidate;
+          break;
+        }
+      }
+      if (twin != null) {
+        ordered = [twin, ...ranked.where((c) => !identical(c, twin))];
+      }
+    }
+
+    // Record-only churn guard: nothing changed, nothing to write.
+    if (!keyChanged && ordered.first.identity == target.identity) return;
+
     final replacement = ChordEvent(
       timestamp: target.timestamp,
       input: target.input,
       voicing: target.voicing,
       candidates: [
-        candidates.first,
-        ...ChordCandidateRanking.alternatives(candidates),
+        ordered.first,
+        ...ChordCandidateRanking.alternatives(ordered),
       ],
-      tonality: claim,
+      tonality: tonality,
       playingContext: target.playingContext,
       duration: target.duration,
     );
@@ -128,5 +168,38 @@ class InternalKeyCoordinator extends Notifier<void> {
       if (!ref.mounted) return;
       ref.read(chordHistoryProvider.notifier).replace(target, replacement);
     });
+  }
+
+  /// The minor-third-axis re-rooting of [previous] that resolves down a
+  /// fifth into [witness], or null when the rule does not apply: [previous]
+  /// must be an implied-root dominant carrying the flat-nine stack (the
+  /// symmetry that makes its re-rootings sound identical), and must not
+  /// already resolve into [witness] down a fifth or by half step (the
+  /// substitute; its tritone twin resolves into the same target, so
+  /// resolution carries no information about that pair).
+  static int? _resolutionTwinRoot(
+    ChordIdentity previous,
+    ChordIdentity witness,
+  ) {
+    if (!previous.hasImpliedRoot || !previous.quality.isDominantFamily) {
+      return null;
+    }
+    const flatNineStack = {
+      ChordExtension.flat9,
+      ChordExtension.addFlat9,
+      ChordExtension.sharp9,
+      ChordExtension.addSharp9,
+    };
+    if (!previous.extensions.any(flatNineStack.contains)) return null;
+    final target = witness.rootPc;
+    final down = (target + 7) % 12;
+    if (previous.rootPc == down || previous.rootPc == (target + 1) % 12) {
+      return null;
+    }
+    if ((previous.rootPc + 3) % 12 == down ||
+        (previous.rootPc + 9) % 12 == down) {
+      return down;
+    }
+    return null;
   }
 }
