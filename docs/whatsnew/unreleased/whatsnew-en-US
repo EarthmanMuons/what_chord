@@ -1,4 +1,0 @@
-- New Ensemble mode names rootless voicings as the chords they imply when you're comping with a bassist. Implied roots appear on the keyboard, and shared links preserve the playing mode.
-- Automatic key detection follows clear openings, cadences, and modulations sooner.
-- Chord naming now uses the current key to resolve common sixth-versus-seventh ambiguities.
-- Added a Scale Degree Guide to the website.
