@@ -16,7 +16,7 @@
     "stylelint": "17.14.1",
     "stylelint-config-recess-order": "7.7.0",
     "stylelint-config-standard": "40.0.0",
-    "typescript": "6.0.3",
+    "typescript": "7.0.2",
     "wrangler": "4.114.0"
   },
   "allowScripts": {
