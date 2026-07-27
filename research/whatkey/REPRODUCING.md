@@ -348,6 +348,14 @@ python3 tool/whatkey/asap_wir_extract.py \
 Expected sanity result: 36 fixtures, each piece's opening key matching the known
 sonata key, with unalignable performances reported as skipped.
 
+CORRECTION (2026-07-27): the v1 labels carry measure-shifted analyst keys in 11
+of 36 movements (3.34% of events); discovery, fix, and corrected numbers are in
+log entry 2026-07-27-01 and performed-input logs 2026-07-27-02/-03. The current
+extractor emits the corrected, harmony-labeled `asap-wir-nc-v2` (and requires
+the repo venv for music21). Reproducing the published v1 numbers bit for bit
+requires the extractor as of the v2026.7.14 contract commit; every published
+conclusion also reproduces on v2, with the corrected values in the addendum.
+
 ## Verify Outputs
 
 Validate the split JSONs:
