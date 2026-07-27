@@ -305,11 +305,15 @@ timescale effect survives on identical performed input.
 
 The overlap corpus transfers When in Rome analyst keys onto ASAP performances of
 the same Beethoven sonata movements through the performance-to-score downbeat
-alignment, giving real tonic-and-mode ground truth on performed input. A small
-hand-authored pop/jazz suite (12-bar blues, modal vamps, deliberately ambiguous
-loops) serves as a per-fixture behavioral regression battery outside all pooled
-statistics. Performed corpora are replayed through the capture path of
-@sec-protocol, so detectors see the events they would see live.
+alignment, giving real tonic-and-mode ground truth on performed input. The
+transfer's per-movement measure offset is calibrated by content (agreement
+between sounding pitches and analyst chords must peak sharply at a whole-measure
+offset of zero when all labels are slid sideways), which guards the label
+quality this corpus's evaluation-only role depends on. A small hand-authored
+pop/jazz suite (12-bar blues, modal vamps, deliberately ambiguous loops) serves
+as a per-fixture behavioral regression battery outside all pooled statistics.
+Performed corpora are replayed through the capture path of @sec-protocol, so
+detectors see the events they would see live.
 
 The repository contains the open fixtures, split files, evaluation harness,
 paired-comparison script, dated experiment logs, and the committed artifacts of
@@ -480,14 +484,14 @@ annotation targets, not a best smoothing value.
     legend: (position: bottom + right),
     lq.plot(
       (0, 12, 20, 32),
-      (0.50, 0.60, 0.63, 0.65),
+      (0.52, 0.62, 0.64, 0.69),
       mark: "s",
       color: fig-blue,
       label: [30 s memory (section-key)],
     ),
     lq.plot(
       (0, 12, 20, 32),
-      (0.60, 0.62, 0.62, 0.62),
+      (0.60, 0.61, 0.62, 0.62),
       mark: "o",
       color: fig-orange,
       label: [1 s memory (local-key)],
@@ -495,8 +499,8 @@ annotation targets, not a best smoothing value.
   ),
   caption: [The crossover within a single corpus on identical performed input
     (ASAP-WiR overlap): filtering to longer analyst key segments, the
-    long-memory configuration climbs and overtakes the short-memory one at
-    20-measure segments, which stays flat. The same recordings, sliced by label
+    long-memory configuration climbs and overtakes the short-memory one by
+    12-measure segments, which stays flat. The same recordings, sliced by label
     granularity, reorder the two configurations. Accuracy pools claimed events
     under each segment filter.],
 ) <fig-segment>
@@ -504,7 +508,7 @@ annotation targets, not a best smoothing value.
 Could the crossover instead reflect input noise, or some other difference
 between the corpora? Three controls say no. First, noise: on the evaluation-only
 overlap corpus, identical performed recordings scored against analyst local keys
-still prefer short memory (0.60 vs 0.50 exact on claims, the leftmost points of
+still prefer short memory (0.60 vs 0.52 exact on claims, the leftmost points of
 @fig-segment), matching the clean-score result. Second, corpus identity: the
 crossover reproduces *within* that single corpus when the same claims are
 re-scored by annotated segment length (@fig-segment); the long-memory
