@@ -51,10 +51,9 @@ stable when renaming or adding content, and add redirects for intentional moves.
 
 Write ordinary article prose in Markdown. Keep raw HTML only for structures that
 need custom classes or markup, such as diagrams, tables, callouts, and
-syntax-highlighted code. Heading fragments are also public identifiers. Astro
-generates IDs for Markdown headings, but headings with an existing explicit `id`
-stay as HTML so inbound links remain stable. Do not rename or remove those IDs
-without adding an equivalent link target.
+syntax-highlighted code. Astro generates heading fragments from Markdown heading
+text. When changing a heading, update any links to its fragment; the production
+build checks that internal fragments continue to resolve.
 
 Use ordinary ASCII quote marks in Markdown prose; Astro renders them as smart
 punctuation. Frontmatter and raw HTML are not transformed, so use the intended

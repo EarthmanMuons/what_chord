@@ -346,7 +346,7 @@ The slash note names the sounding bass under the chord symbol. It does not
 change the root, and it does not make the bass note a second chord symbol. A
 voicing with E in the bass and a C major seventh above it is therefore
 <span class="chord">Cmaj7 / E</span>, not an E-rooted chord
-[unless the notes support that analysis more strongly](why-chord-naming-is-hard.html#inversions).
+[unless the notes support that analysis more strongly](why-chord-naming-is-hard.html#inversions-the-bass-note-changes-everything).
 
 Slash bass also affects which chord tones need to be named explicitly. If an
 added-tone label would only repeat the bass note, that label is omitted. For

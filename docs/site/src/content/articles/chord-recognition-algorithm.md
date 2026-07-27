@@ -789,7 +789,7 @@ quadratic in the candidate count and dominates uncached analysis time. The
 [ranking-performance deep dive](chord-ranking-performance.html) covers the
 measurement, dead ends, and pruning work in detail.
 
-<h2 id="ensemble-mode">Ensemble mode</h2>
+## Ensemble mode
 
 A pianist comping over a bassist might play <span class="chord">E-B♭-D-A</span>
 to mean <span class="chord">C13</span>: the third, seventh, ninth, and

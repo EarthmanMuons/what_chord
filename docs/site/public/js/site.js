@@ -9,28 +9,15 @@
     });
   }
 
-  // Give section headings GitHub-style anchor links, generating ids from the
-  // heading text so no page has to hand-author them. Covers long-form articles
-  // and the articles index.
+  // Give section headings GitHub-style anchor links. Astro generates ids for
+  // Markdown headings; headings authored directly in Astro supply their ids.
   document
     .querySelectorAll(".article-body, .articles-index")
     .forEach(function (scope) {
-      var usedIds = {};
       scope.querySelectorAll("h2").forEach(function (heading) {
         // Leave the call-to-action and related-articles headings alone.
         if (heading.closest(".article-cta, .article-related")) return;
-
-        var slug = heading.textContent
-          .trim()
-          .toLowerCase()
-          .replace(/[^\w\s-]/g, "")
-          .replace(/\s+/g, "-")
-          .replace(/-+/g, "-");
-        if (!slug) return;
-
-        usedIds[slug] = (usedIds[slug] || 0) + 1;
-        if (usedIds[slug] > 1) slug = slug + "-" + usedIds[slug];
-        if (!heading.id) heading.id = slug;
+        if (!heading.id) return;
 
         var anchor = document.createElement("a");
         anchor.className = "heading-anchor";

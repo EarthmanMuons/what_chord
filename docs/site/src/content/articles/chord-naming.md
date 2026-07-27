@@ -164,9 +164,7 @@ seventh, B𝄫. A half-diminished seventh chord,
 only the fifth. <span class="chord">Caug</span> means an augmented triad:
 C-E-G♯.
 
-<h2 id="from-degrees-to-quality-names">
-  From Degrees to Quality Names
-</h2>
+## From Degrees to Quality Names
 
 Once the notes are mapped to degree numbers, the chord quality comes from the
 pattern those degrees make. A few common patterns do most of the work:
