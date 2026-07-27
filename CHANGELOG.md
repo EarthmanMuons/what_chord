@@ -39,6 +39,10 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 - The recent-chords list now corrects an entry one chord later when the detected
   key turns out to have moved, so the history records each chord under the
   settled key rather than the moment's guess.
+- In Ensemble mode, the recent-chords list also corrects a flat-nine dominant
+  one chord later using its resolution: the four dominants sharing a flat-nine
+  voicing sound identical without their roots, and the chord that follows
+  usually reveals which one was meant.
 - Automatic key detection now responds from the very first chord instead of
   waiting for three, when that chord is clear enough to name a key confidently.
   Ambiguous openings still show no key until the evidence settles, and accuracy

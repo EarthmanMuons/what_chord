@@ -156,6 +156,93 @@ void main() {
     expect(container.read(ensembleNamingTonalityProvider), isNull);
   });
 
+  test(
+    'resolution relabels a flat-nine dominant to the resolving twin',
+    () async {
+      // The tones B-D-F-Ab are the rootless flat-nine stack shared by four
+      // dominants a minor third apart. The record holds the E7(b9) reading;
+      // when C major arrives next, G7(b9) is the member that resolves down a
+      // fifth, so the relabel promotes it (ensemble-tiebreak log
+      // 2026-07-26-07).
+      final container = await setUpContainer();
+      final tones = [11, 2, 5, 8];
+      var mask = 0;
+      for (final pc in tones) {
+        mask |= 1 << pc;
+      }
+      final misread = ChordEvent(
+        timestamp: DateTime.fromMillisecondsSinceEpoch(0),
+        input: ChordInput(pcMask: mask, bassPc: 11, noteCount: tones.length),
+        voicing: ObservedVoicing.fromMidi([for (final pc in tones) 60 + pc]),
+        candidates: [
+          ChordCandidate(
+            identity: ChordIdentity(
+              rootPc: 4,
+              bassPc: 11,
+              quality: ChordQuality.dominant7,
+              // Even mask: bit zero clear marks the root as implied.
+              presentIntervalsMask: 2,
+              extensions: {ChordExtension.flat9},
+            ),
+            cost: 0,
+          ),
+        ],
+        tonality: _cMajorTonality,
+        playingContext: PlayingContext.ensemble,
+        duration: const Duration(seconds: 2),
+      );
+      record(container, [misread]);
+      record(container, [
+        _event(1, [0, 4, 7], ChordQuality.major),
+      ]);
+      await flushMicrotasks();
+
+      final relabeled = container.read(chordHistoryProvider)[0];
+      expect(relabeled.identity.rootPc, 7);
+      expect(relabeled.identity.quality.isDominantFamily, isTrue);
+      expect(relabeled.identity.hasImpliedRoot, isTrue);
+      // The newest entry is never touched.
+      expect(container.read(chordHistoryProvider)[1].identity.rootPc, 0);
+    },
+  );
+
+  test('a natural-color dominant is not resolution-relabeled', () async {
+    // Without the flat-nine stack the minor-third re-rooting is not
+    // tone-identical, so the rule must not fire.
+    final container = await setUpContainer();
+    final natural = ChordEvent(
+      timestamp: DateTime.fromMillisecondsSinceEpoch(0),
+      input: ChordInput(
+        pcMask: (1 << 4) | (1 << 10) | (1 << 2),
+        bassPc: 4,
+        noteCount: 3,
+      ),
+      voicing: ObservedVoicing.fromMidi([64, 70, 74]),
+      candidates: [
+        ChordCandidate(
+          identity: ChordIdentity(
+            rootPc: 4,
+            bassPc: 4,
+            quality: ChordQuality.dominant7,
+            presentIntervalsMask: 2,
+            extensions: {ChordExtension.nine},
+          ),
+          cost: 0,
+        ),
+      ],
+      tonality: _cMajorTonality,
+      playingContext: PlayingContext.ensemble,
+      duration: const Duration(seconds: 2),
+    );
+    record(container, [natural]);
+    record(container, [
+      _event(1, [0, 4, 7], ChordQuality.major),
+    ]);
+    await flushMicrotasks();
+
+    expect(container.read(chordHistoryProvider)[0].identity.rootPc, 4);
+  });
+
   test('replace is a no-op once the original event is gone', () async {
     final container = await setUpContainer();
     record(container, _gCadence());
