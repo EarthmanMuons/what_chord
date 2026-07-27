@@ -62,6 +62,23 @@ alignment. The corrected shipped-arm numbers above are the corrected form of
 that corroboration (the paper recipe includes mode tilt 2), and no conclusion in
 either entry changes.
 
+Entry -22's segment-filtered series feeds the paper's within-corpus crossover
+figure, so it was re-run on corrected labels (pooled exact on claims,
+`mode_confusion.py --min-segment-measures`; published values in parentheses):
+
+| segments | shipped exact | reflex exact |
+| -------- | ------------- | ------------ |
+| all      | 0.52 (0.50)   | 0.60 (0.60)  |
+| >= 12    | 0.62 (0.60)   | 0.61 (0.62)  |
+| >= 20    | 0.64 (0.63)   | 0.62 (0.62)  |
+| >= 32    | 0.69 (0.65)   | 0.62 (0.62)  |
+
+The crossover sharpens: the long-memory configuration now overtakes by
+12-measure segments (published: at 20) and its advantage widens to 7 points at
+32-measure segments, while reflex stays flat. The mislabeled movements were
+diluting exactly the long-segment cells where the section-scale configuration
+earns its wins.
+
 **Plain-English reading.** The answer key for the performed-piano corpus had
 eleven pieces labeled one measure off. Regrading with the fixed key, every
 finding stands, the detector scores a little better than reported, and the most
