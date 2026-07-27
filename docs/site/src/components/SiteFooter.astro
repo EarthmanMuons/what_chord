@@ -1,8 +1,17 @@
+---
+const copyrightStartYear = 2025;
+const copyrightEndYear = new Date().getUTCFullYear();
+const copyrightYears =
+  copyrightEndYear > copyrightStartYear
+    ? `${copyrightStartYear}–${copyrightEndYear}`
+    : `${copyrightStartYear}`;
+---
+
 <footer>
   <div class="footer-inner">
     <div class="footer-left">
       <span class="footer-copy">
-        © 2025–2026{" "}
+        © {copyrightYears}{" "}
         <a href="mailto:support@earthmanmuons.com">Aaron Bull Schaefer</a>
         {" "}and contributors <span class="footer-separator">·</span>
         {" "}

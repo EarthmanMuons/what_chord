@@ -49,6 +49,20 @@ mise exec -- npx wrangler dev --config docs/site/wrangler.toml
 Article filenames are public identifiers. Keep the existing `.html` routes
 stable when renaming or adding content, and add redirects for intentional moves.
 
+Write ordinary article prose in Markdown. Keep raw HTML only for structures that
+need custom classes or markup, such as diagrams, tables, callouts, and
+syntax-highlighted code. Heading fragments are also public identifiers. Astro
+generates IDs for Markdown headings, but headings with an existing explicit `id`
+stay as HTML so inbound links remain stable. Do not rename or remove those IDs
+without adding an equivalent link target.
+
+Use ordinary ASCII quote marks in Markdown prose; Astro renders them as smart
+punctuation. Frontmatter and raw HTML are not transformed, so use the intended
+display characters in those contexts.
+
+The production build checks that local links, assets, and heading fragments
+resolve in the generated site.
+
 ## Chord Engine
 
 `public/js/chord-id.js` is a committed generated artifact because it is loaded

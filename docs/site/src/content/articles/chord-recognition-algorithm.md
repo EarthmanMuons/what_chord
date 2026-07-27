@@ -34,46 +34,32 @@ tag: "Technical deep-dive"
 title: "Building a Real-Time Chord Recognizer"
 ---
 
-<h2>The problem is not a lookup</h2>
+## The problem is not a lookup
 
-<p>
-  The first intuition when building a chord recognizer is to build a
-  dictionary. There are only 12 pitch classes, which means there are
-  only <code>2^12 = 4096</code> possible pitch-class sets. Store a
-  name for each set, and when a user plays C-E-G, look up C-E-G and
-  return “<span class="chord">C major</span>.”
-</p>
+The first intuition when building a chord recognizer is to build a dictionary.
+There are only 12 pitch classes, which means there are only `2^12 = 4096`
+possible pitch-class sets. Store a name for each set, and when a user plays
+C-E-G, look up C-E-G and return "<span class="chord">C major</span>."
 
-<p>
-  The problem is not memory. Four thousand entries is trivial. The
-  problem is meaning. A pitch-class set does not contain enough
-  information to decide what musicians will call it.
-</p>
+The problem is not memory. Four thousand entries is trivial. The problem is
+meaning. A pitch-class set does not contain enough information to decide what
+musicians will call it.
 
-<p>
-  Players routinely omit notes that a dictionary entry might expect;
-  in an ensemble, another instrument may even supply the root.
-  Extended chords add notes that no fixed entry anticipates. And the
-  same set of pitch classes can legitimately be described as
-  <a href="why-chord-naming-is-hard.html"
-    >multiple different chords depending on musical context</a
-  >.
-</p>
+Players routinely omit notes that a dictionary entry might expect; in an
+ensemble, another instrument may even supply the root. Extended chords add notes
+that no fixed entry anticipates. And the same set of pitch classes can
+legitimately be described as
+[multiple different chords depending on musical context](why-chord-naming-is-hard.html).
 
-<p>
-  What you actually need is a cost model. It has to evaluate how well
-  any given set of notes fits each chord type, rank all plausible
-  interpretations, and apply musical judgment when costs are close.
-</p>
+What you actually need is a cost model. It has to evaluate how well any given
+set of notes fits each chord type, rank all plausible interpretations, and apply
+musical judgment when costs are close.
 
-<h2>Overview: a four-stage pipeline</h2>
+## Overview: a four-stage pipeline
 
-<p>
-  Before diving into each component, here is the overall shape of the
-  algorithm. A snapshot of sounding notes and its analysis context
-  enter at the top; a ranked list of chord interpretations comes out
-  at the bottom.
-</p>
+Before diving into each component, here is the overall shape of the algorithm. A
+snapshot of sounding notes and its analysis context enter at the top; a ranked
+list of chord interpretations comes out at the bottom.
 
 <div class="pipeline-flow">
   <div class="pf-endpoint">
@@ -116,33 +102,23 @@ title: "Building a Real-Time Chord Recognizer"
   </div>
 </div>
 
-<p>
-  The rest of this article walks through each stage in detail, ending
-  with a discussion of known limitations.
-</p>
+The rest of this article walks through each stage in detail, ending with a
+discussion of known limitations.
 
-<h2>Pitch classes and bitmasks</h2>
+## Pitch classes and bitmasks
 
-<p>
-  WhatChord models the common
-  <a href="https://en.wikipedia.org/wiki/12_equal_temperament"
-    >12-tone equal temperament</a
-  >
-  (12-TET) pitch-class framework used by MIDI keyboards, which divides
-  each octave into equal semitone positions. A <em>pitch class</em> is
-  the note’s position within that octave, ignoring which octave it’s
-  in, so middle C, the C above it, and the C three octaves below all
-  share pitch class 0. In this engine, pitch classes are numbered 0
-  (C) through 11 (B).
-</p>
+WhatChord models the common
+[12-tone equal temperament](https://en.wikipedia.org/wiki/12_equal_temperament)
+(12-TET) pitch-class framework used by MIDI keyboards, which divides each octave
+into equal semitone positions. A _pitch class_ is the note's position within
+that octave, ignoring which octave it's in, so middle C, the C above it, and the
+C three octaves below all share pitch class 0. In this engine, pitch classes are
+numbered 0 (C) through 11 (B).
 
-<p>
-  For analysis, the engine collapses the sounding notes into a set of
-  pitch classes plus the lowest sounding note as bass. The pitch-class
-  set is represented as a 12-bit integer mask where bit <em>n</em> is
-  set if pitch class <em>n</em> is present. C major (C=0, E=4, G=7)
-  looks like this:
-</p>
+For analysis, the engine collapses the sounding notes into a set of pitch
+classes plus the lowest sounding note as bass. The pitch-class set is
+represented as a 12-bit integer mask where bit _n_ is set if pitch class _n_ is
+present. C major (C=0, E=4, G=7) looks like this:
 
 <table
   class="bit-field"
@@ -200,59 +176,36 @@ title: "Building a Real-Time Chord Recognizer"
 <span class="kw">int</span> pcMask = (<span class="nu">1</span> &lt;&lt; <span class="nu">0</span>) | (<span class="nu">1</span> &lt;&lt; <span class="nu">4</span>) | (<span class="nu">1</span> &lt;&lt; <span class="nu">7</span>);
 <span class="cm">// pcMask == 0b000010010001 == 0x091</span></code></pre>
 
-<p>
-  This representation is compact and fast. Checking whether a pitch
-  class is present is a single bitwise AND. Counting present pitch
-  classes is a
-  <a href="https://en.wikipedia.org/wiki/Hamming_weight">popcount</a>.
-  Rotating the set relative to a candidate root is a loop over bits
-  with
-  <a href="https://en.wikipedia.org/wiki/Modular_arithmetic"
-    >modular arithmetic</a
-  >. All of these operations are cheap.
-</p>
+This representation is compact and fast. Checking whether a pitch class is
+present is a single bitwise AND. Counting present pitch classes is a
+[popcount](https://en.wikipedia.org/wiki/Hamming_weight). Rotating the set
+relative to a candidate root is a loop over bits with
+[modular arithmetic](https://en.wikipedia.org/wiki/Modular_arithmetic). All of
+these operations are cheap.
 
-<p>
-  Candidate generation depends on the playing mode. Solo mode tests
-  only pitch classes present in the voicing as roots. This keeps the
-  candidate count small (typically 3–7 roots) and suits a MIDI stream
-  that carries both harmony and bass.
-</p>
+Candidate generation depends on the playing mode. Solo mode tests only pitch
+classes present in the voicing as roots. This keeps the candidate count small
+(typically 3–7 roots) and suits a MIDI stream that carries both harmony and
+bass.
 
-<p>
-  Ensemble mode evaluates the same sounding-root candidates, then adds
-  a constrained set of <em>implied</em> roots for voicings whose root
-  may be supplied by another instrument. The restrictions that keep
-  those additional readings useful are described below under
-  <a href="#ensemble-mode">Ensemble mode</a>.
-</p>
+Ensemble mode evaluates the same sounding-root candidates, then adds a
+constrained set of _implied_ roots for voicings whose root may be supplied by
+another instrument. The restrictions that keep those additional readings useful
+are described below under [Ensemble mode](#ensemble-mode).
 
-<h2>Chord templates</h2>
+## Chord templates
 
-<p>
-  Chord qualities are also defined as bitmask templates. Each one
-  describes three sets of intervals relative to the root:
-</p>
+Chord qualities are also defined as bitmask templates. Each one describes three
+sets of intervals relative to the root:
 
-<ul>
-  <li>
-    <strong>Required:</strong> tones that must be present to identify
-    this quality. Missing more than one required tone causes the
-    template to be skipped entirely.
-  </li>
-  <li>
-    <strong>Optional:</strong> tones frequently omitted in real
-    voicings (almost always the perfect 5th). Present when played,
-    unremarkable when absent.
-  </li>
-  <li>
-    <strong>Penalty:</strong> tones that actively contradict this
-    quality. Having a major 3rd present when you are trying to
-    identify a minor chord raises the cost.
-  </li>
-</ul>
+- **Required:** tones that must be present to identify this quality. Missing
+  more than one required tone causes the template to be skipped entirely.
+- **Optional:** tones frequently omitted in real voicings (almost always the
+  perfect 5th). Present when played, unremarkable when absent.
+- **Penalty:** tones that actively contradict this quality. Having a major 3rd
+  present when you are trying to identify a minor chord raises the cost.
 
-<p>The 27 templates, organized by complexity:</p>
+The 27 templates, organized by complexity:
 
 <table class="article-table">
   <thead>
@@ -429,31 +382,22 @@ title: "Building a Real-Time Chord Recognizer"
   </tbody>
 </table>
 
-<p>
-  Notice that the perfect 5th is optional for most chord families.
-  Requiring it would cause the algorithm to miss many idiomatic
-  voicings in common use. The power chord is the exception: a bare
-  fifth is the whole chord, so its fifth is required, and the reading
-  is discarded outright if any tone it cannot name as color is left
-  over.
-</p>
+Notice that the perfect 5th is optional for most chord families. Requiring it
+would cause the algorithm to miss many idiomatic voicings in common use. The
+power chord is the exception: a bare fifth is the whole chord, so its fifth is
+required, and the reading is discarded outright if any tone it cannot name as
+color is left over.
 
-<p>
-  Penalty tones are not hard rejections. The template is still
-  evaluated; it just pays an added price. This handles cases where a
-  note might simultaneously belong to one chord and partially fit
-  another, and lets the cost reflect the degree of fit rather than
-  producing a binary yes/no.
-</p>
+Penalty tones are not hard rejections. The template is still evaluated; it just
+pays an added price. This handles cases where a note might simultaneously belong
+to one chord and partially fit another, and lets the cost reflect the degree of
+fit rather than producing a binary yes/no.
 
-<h2>Template pricing</h2>
+## Template pricing
 
-<p>
-  For each candidate root, the analyzer rotates the pitch-class mask
-  relative to that root to get an interval mask. It then assigns an
-  explanation cost for that interval mask against the eligible chord
-  templates.
-</p>
+For each candidate root, the analyzer rotates the pitch-class mask relative to
+that root to get an interval mask. It then assigns an explanation cost for that
+interval mask against the eligible chord templates.
 
 <pre><code><span class="cm">// Rotate: compute intervals above rootPc for each sounding note</span>
 <span class="kw">int</span> <span class="fn">rotateMaskToRoot</span>(<span class="kw">int</span> pcMask, <span class="kw">int</span> rootPc) {
@@ -466,12 +410,9 @@ title: "Building a Real-Time Chord Recognizer"
   <span class="kw">return</span> rel;
 }</code></pre>
 
-<p>
-  Each surviving reading is then priced by how well it explains the
-  input. That price is its <em>explanation cost</em>: core chord tones
-  are free, and the name pays for everything else it asks a reader to
-  accept. The lowest cost is the best fit.
-</p>
+Each surviving reading is then priced by how well it explains the input. That
+price is its _explanation cost_: core chord tones are free, and the name pays
+for everything else it asks a reader to accept. The lowest cost is the best fit.
 
 <table class="article-table">
   <thead>
@@ -618,106 +559,71 @@ title: "Building a Real-Time Chord Recognizer"
   </tbody>
 </table>
 
-<p>
-  This input-centric accounting replaced an earlier template-centric
-  cost model that rewarded each matched template slot and normalized
-  by template size. That formulation systematically favored rare
-  four-tone templates that booked every sounding note as a required
-  tone over more common readings that treat one note as color, and it
-  took a dozen hand-tuned counterweight bonuses to fight the bias.
-  Pricing the input directly removes the bias at the source: a rare
-  name can still win, but only when it explains the voicing decisively
-  more cheaply than any common name.
-</p>
+This input-centric accounting replaced an earlier template-centric cost model
+that rewarded each matched template slot and normalized by template size. That
+formulation systematically favored rare four-tone templates that booked every
+sounding note as a required tone over more common readings that treat one note
+as color, and it took a dozen hand-tuned counterweight bonuses to fight the
+bias. Pricing the input directly removes the bias at the source: a rare name can
+still win, but only when it explains the voicing decisively more cheaply than
+any common name.
 
-<h2>Extension extraction</h2>
+## Extension extraction
 
-<p>
-  During template pricing, any tone not accounted for by the base
-  template (required + optional + penalty) lands in the “extras” mask.
-  A few context-specific penalty tones can be moved into that extras
-  mask first when they function as chord color instead of true
-  contradictions. These get converted to named extensions in the final
-  chord identity, each priced by its role as described above:
-</p>
+During template pricing, any tone not accounted for by the base template
+(required + optional + penalty) lands in the "extras" mask. A few
+context-specific penalty tones can be moved into that extras mask first when
+they function as chord color instead of true contradictions. These get converted
+to named extensions in the final chord identity, each priced by its role as
+described above:
 
-<ul>
-  <li>
-    <strong>Alterations</strong> (from the extras mask): flat 9
-    (semitone 1), sharp 9 (semitone 3), sharp 11 (semitone 6), flat 13
-    (semitone 8)
-  </li>
-  <li>
-    <strong>Split-third add tone:</strong> add sharp 9 (semitone 3)
-    when a major-family triad already contains its major third
-  </li>
-  <li>
-    <strong>Natural extensions:</strong> 9 (semitone 2), 11 (semitone
-    5), 13 (semitone 9)
-  </li>
-</ul>
+- **Alterations** (from the extras mask): flat 9 (semitone 1), sharp 9 (semitone
+  3), sharp 11 (semitone 6), flat 13 (semitone 8)
+- **Split-third add tone:** add sharp 9 (semitone 3) when a major-family triad
+  already contains its major third
+- **Natural extensions:** 9 (semitone 2), 11 (semitone 5), 13 (semitone 9)
 
-<p>
-  Whether natural extensions become “9/11/13” or “add9/add11/add13”
-  depends on whether the chord has a 7th. With a 7th present, a 9, 11,
-  or 13 reads as a stacked extension regardless of which lower stack
-  members are also sounding, matching
-  <a href="chord-symbols.html">common chord-symbol practice</a> where
-  the inner extensions are freely omitted. Without a 7th, the same
-  pitch class is labeled as an add tone instead, with one hard
-  exception: a bare major or minor triad plus a major sixth is a sixth
-  chord (C6, Cm6), so its add13 relabeling is rejected outright rather
-  than merely priced higher. The rejection spares the case where the
-  sixth is the bass, since the add13 label folds into the slash and
-  the reading survives as the conventional triad-over-sixth-bass
-  symbol (A-C-E as C/A).
-</p>
+Whether natural extensions become "9/11/13" or "add9/add11/add13" depends on
+whether the chord has a 7th. With a 7th present, a 9, 11, or 13 reads as a
+stacked extension regardless of which lower stack members are also sounding,
+matching [common chord-symbol practice](chord-symbols.html) where the inner
+extensions are freely omitted. Without a 7th, the same pitch class is labeled as
+an add tone instead, with one hard exception: a bare major or minor triad plus a
+major sixth is a sixth chord (C6, Cm6), so its add13 relabeling is rejected
+outright rather than merely priced higher. The rejection spares the case where
+the sixth is the bass, since the add13 label folds into the slash and the
+reading survives as the conventional triad-over-sixth-bass symbol (A-C-E as
+C/A).
 
-<p>
-  Interval 3 is normally a minor third, but the analyzer allows a few
-  narrow musical exceptions where that pitch clearly functions as
-  sharp-nine color instead: dominant 7th shells with ♯9 color, plain
-  major seventh chords with both the major third and major seventh
-  present, and major-family split-third voicings. These exceptions
-  keep common blues, altered-dominant sounds, and explicit altered
-  major-seventh colors from being misread as contradictions.
-</p>
+Interval 3 is normally a minor third, but the analyzer allows a few narrow
+musical exceptions where that pitch clearly functions as sharp-nine color
+instead: dominant 7th shells with ♯9 color, plain major seventh chords with both
+the major third and major seventh present, and major-family split-third
+voicings. These exceptions keep common blues, altered-dominant sounds, and
+explicit altered major-seventh colors from being misread as contradictions.
 
-<h2>How the prices were tuned</h2>
+## How the prices were tuned
 
-<p>
-  The prices were not established arbitrarily. They started as
-  musician-judged priors, were calibrated offline against a pool of
-  every distinct 3&ndash;7 note pitch-class set, and were then tuned
-  against a set of golden test cases: specific voicings where the
-  expected output was chosen in advance. Most golden cases capture
-  chords a musician would name unambiguously; ambiguous cases pin the
-  intended primary reading for the current cost and ranking model.
-</p>
+The prices were not established arbitrarily. They started as musician-judged
+priors, were calibrated offline against a pool of every distinct 3–7 note
+pitch-class set, and were then tuned against a set of golden test cases:
+specific voicings where the expected output was chosen in advance. Most golden
+cases capture chords a musician would name unambiguously; ambiguous cases pin
+the intended primary reading for the current cost and ranking model.
 
-<p>
-  The test suite covers major, minor, diminished, dominant, altered,
-  and extended voicings across different inversions and ambiguous
-  situations. The tuning loop looked like this:
-</p>
+The test suite covers major, minor, diminished, dominant, altered, and extended
+voicings across different inversions and ambiguous situations. The tuning loop
+looked like this:
 
-<ol>
-  <li>Run the golden test suite.</li>
-  <li>
-    For any case that failed, use the <code>chord-debug</code> CLI
-    tool to inspect the full ranked candidate list with cost
-    breakdowns.
-  </li>
-  <li>Adjust prices or rules until the failing case passed.</li>
-  <li>Re-run the full suite to verify no regressions.</li>
-</ol>
+1. Run the golden test suite.
+2. For any case that failed, use the `chord-debug` CLI tool to inspect the full
+   ranked candidate list with cost breakdowns.
+3. Adjust prices or rules until the failing case passed.
+4. Re-run the full suite to verify no regressions.
 
-<p>
-  The <code>chord-debug</code> tool runs the full analysis pipeline on
-  any set of notes and prints each candidate with its cost, individual
-  cost contributions, and the ranking rule that decided its position
-  relative to the previous candidate:
-</p>
+The `chord-debug` tool runs the full analysis pipeline on any set of notes and
+prints each candidate with its cost, individual cost contributions, and the
+ranking rule that decided its position relative to the previous candidate:
 
 <pre><code>$ dart run tool/chord_debug.dart F# Bb C E
 
@@ -735,381 +641,224 @@ notes: F♯ B♭ C E  |  bass: F♯ (pc 6)  |  key: C major
  3) F♯7♯11         1.30  Δ +0.90
      (vs prev: cost difference beyond tie-break range)</code></pre>
 
-<p>
-  The same diagnostic output also exposes
-  <a href="https://en.wikipedia.org/wiki/Enharmonic_equivalence"
-    >enharmonic</a
-  >
-  spelling decisions: MIDI provides pitch classes, and the engine
-  chooses note names from the winning chord context.
-</p>
+The same diagnostic output also exposes
+[enharmonic](https://en.wikipedia.org/wiki/Enharmonic_equivalence) spelling
+decisions: MIDI provides pitch classes, and the engine chooses note names from
+the winning chord context.
 
-<p>
-  That kind of diagnostic visibility was essential for understanding
-  why the algorithm chose wrong answers and what needed to change. A
-  weight that fixed one case would sometimes break another, and the
-  only way to make progress without regressing was to have the full
-  ranked list visible while making targeted adjustments.
-</p>
+That kind of diagnostic visibility was essential for understanding why the
+algorithm chose wrong answers and what needed to change. A weight that fixed one
+case would sometimes break another, and the only way to make progress without
+regressing was to have the full ranked list visible while making targeted
+adjustments.
 
-<h2>The ranking problem</h2>
+## The ranking problem
 
-<p>
-  The debug output above shows why raw cost is only the first half of
-  the problem. Once multiple readings are plausible, the analysis
-  engine needs a separate ranking layer that encodes musical
-  priorities more directly than a single numeric cost can.
-</p>
+The debug output above shows why raw cost is only the first half of the problem.
+Once multiple readings are plausible, the analysis engine needs a separate
+ranking layer that encodes musical priorities more directly than a single
+numeric cost can.
 
-<p>
-  This is not an isolated case. Several common note sets produce
-  near-identical costs for multiple plausible interpretations, and the
-  cost alone cannot distinguish which one a musician would name:
-</p>
+This is not an isolated case. Several common note sets produce near-identical
+costs for multiple plausible interpretations, and the cost alone cannot
+distinguish which one a musician would name:
 
-<ul>
-  <li>
-    C-E-G-A: <span class="chord">C6</span> vs.
-    <span class="chord">Am7/C</span> (identical costs; which reading
-    wins depends on context and function)
-  </li>
-  <li>
-    B-E-G with B in the bass: <span class="chord">Em/B</span> vs.
-    <span class="chord">G6/B</span> (the complete triad should beat an
-    inverted 6th-chord spelling whose fifth is absent)
-  </li>
-  <li>
-    B-D-F-A♭: <span class="chord">Bdim7</span> vs.
-    <span class="chord">G♯dim7/B</span> vs.
-    <span class="chord">Ddim7/C♭</span> vs.
-    <span class="chord">Fdim7/C♭</span>
-    (C♭ = B enharmonically; all four readings cost identically due to
-    dim7 symmetry)
-  </li>
-</ul>
+- C-E-G-A: <span class="chord">C6</span> vs. <span class="chord">Am7/C</span>
+  (identical costs; which reading wins depends on context and function)
+- B-E-G with B in the bass: <span class="chord">Em/B</span> vs.
+  <span class="chord">G6/B</span> (the complete triad should beat an inverted
+  6th-chord spelling whose fifth is absent)
+- B-D-F-A♭: <span class="chord">Bdim7</span> vs.
+  <span class="chord">G♯dim7/B</span> vs. <span class="chord">Ddim7/C♭</span>
+  vs. <span class="chord">Fdim7/C♭</span> (C♭ = B enharmonically; all four
+  readings cost identically due to dim7 symmetry)
 
-<p>
-  The analyzer handles these ambiguities with two ranking paths:
-  narrow structural overrides for cases where the conventional name
-  should win despite cost, and ordered tie-breakers for candidates
-  whose costs are already close.
-</p>
+The analyzer handles these ambiguities with two ranking paths: narrow structural
+overrides for cases where the conventional name should win despite cost, and
+ordered tie-breakers for candidates whose costs are already close.
 
-<h3>Hard rules</h3>
+### Hard rules
 
-<p>
-  Hard rules are intentionally narrow guardrails for known failure
-  modes in the cost model. They only fire when a pitch-class-valid but
-  misleading interpretation looks cheaper than the name musicians
-  would normally expect. Each rule is documented in code with the
-  concrete voicing that motivated it, and covered by focused ranking
-  tests so the exception stays bounded.
-</p>
+Hard rules are intentionally narrow guardrails for known failure modes in the
+cost model. They only fire when a pitch-class-valid but misleading
+interpretation looks cheaper than the name musicians would normally expect. Each
+rule is documented in code with the concrete voicing that motivated it, and
+covered by focused ranking tests so the exception stays bounded.
 
-<h3>The near-tie window</h3>
+### The near-tie window
 
-<p>
-  The ordered list below applies only after those hard rules have had
-  a chance to run. If none of them fire and the cost difference is
-  greater than <code>0.25</code> (the
-  <code>nearTieWindow</code> constant), the lower-cost candidate wins
-  on cost alone.
-</p>
+The ordered list below applies only after those hard rules have had a chance to
+run. If none of them fire and the cost difference is greater than `0.25` (the
+`nearTieWindow` constant), the lower-cost candidate wins on cost alone.
 
-<p>
-  When costs are within the near-tie window, tie-breaker rules are
-  applied sequentially. The first rule that produces a non-tie result
-  decides the ordering:
-</p>
+When costs are within the near-tie window, tie-breaker rules are applied
+sequentially. The first rule that produces a non-tie result decides the
+ordering:
 
-<p>
-  The displayed alternatives use the same cost window as a lower
-  bound, then include every ranked candidate through the last
-  cost-window match. This keeps hard-rule ordering coherent when a
-  higher-ranked candidate sits just outside the raw numeric window.
-</p>
+The displayed alternatives use the same cost window as a lower bound, then
+include every ranked candidate through the last cost-window match. This keeps
+hard-rule ordering coherent when a higher-ranked candidate sits just outside the
+raw numeric window.
 
-<ol>
-  <li>
-    Prefer a voicing-supported upper-structure slash: a complete chord
-    stacked above an isolated bass note, when the input carries real
-    octaves
-  </li>
-  <li>
-    Prefer the key-functional seventh over its sixth-chord twin: a
-    supertonic minor 7th, a leading-tone half-diminished 7th, or (in
-    minor keys) a supertonic half-diminished 7th beats the sixth chord
-    sharing its notes
-  </li>
-  <li>
-    Prefer the dominant among tied implied-root candidates (Ensemble
-    mode), where the guide tones and colors support dominant
-    vocabulary more strongly than a tonic-family reading
-  </li>
-  <li>Prefer root-position 6th over inverted 7th</li>
-  <li>
-    Prefer a complete triad over an incomplete 6th chord missing its
-    fifth
-  </li>
-  <li>Prefer upper-structure dominant 7th slash</li>
-  <li>Prefer major-seventh upper-structure sus slash</li>
-  <li>
-    Prefer root-position dominant sus, including flat-nine sus colors,
-    over remote slash reinterpretations
-  </li>
-  <li>
-    Prefer flat-nine-bass dominant shells over remote minor-major or
-    diminished reinterpretations
-  </li>
-  <li>
-    Prefer the cleaner-spelled reading of tritone-twin extended
-    dominants (C7alt vs G♭(9,♯11) shapes), unless one side is a
-    complete natural-thirteenth stack
-  </li>
-  <li>
-    Prefer stable extended dominant inversions over altered-fifth
-    dominant slash
-  </li>
-  <li>
-    Prefer a complete altered dominant thirteenth over an altered
+1. Prefer a voicing-supported upper-structure slash: a complete chord stacked
+   above an isolated bass note, when the input carries real octaves
+2. Prefer the key-functional seventh over its sixth-chord twin: a supertonic
+   minor 7th, a leading-tone half-diminished 7th, or (in minor keys) a
+   supertonic half-diminished 7th beats the sixth chord sharing its notes
+3. Prefer the dominant among tied implied-root candidates (Ensemble mode), where
+   the guide tones and colors support dominant vocabulary more strongly than a
+   tonic-family reading
+4. Prefer root-position 6th over inverted 7th
+5. Prefer a complete triad over an incomplete 6th chord missing its fifth
+6. Prefer upper-structure dominant 7th slash
+7. Prefer major-seventh upper-structure sus slash
+8. Prefer root-position dominant sus, including flat-nine sus colors, over
+   remote slash reinterpretations
+9. Prefer flat-nine-bass dominant shells over remote minor-major or diminished
+   reinterpretations
+10. Prefer the cleaner-spelled reading of tritone-twin extended dominants (C7alt
+    vs G♭(9,♯11) shapes), unless one side is a complete natural-thirteenth stack
+11. Prefer stable extended dominant inversions over altered-fifth dominant slash
+12. Prefer a complete altered dominant thirteenth over an altered
     minor-thirteenth reading with rarer color
-  </li>
-  <li>
-    Prefer a complete flat-nine flat-thirteen dominant over a remote
-    diminished or seventh-family spelling
-  </li>
-  <li>
-    Prefer complete major-triad ♯11 inversions over sparse
-    major-13-sus4 spellings
-  </li>
-  <li>
-    Prefer a complete major-triad inversion over a seventh-family
-    chord where the bass is only an add-extension
-  </li>
-  <li>Prefer root-position diminished 7th</li>
-  <li>
-    Prefer dominant 7th slash over non-dominant seventh-family slash
-  </li>
-  <li>
-    Prefer a reading that names every tone over one that drops a tone,
-    unless that would promote rarer altered bookkeeping above a
-    lower-cost idiomatic shell
-  </li>
-  <li>
-    Prefer a lower-cost add-chord reading over an unusual
-    seventh-family spelling that omits the third
-  </li>
-  <li>
-    Prefer a harmonic-minor tonic over a split-third major-triad
-    inversion
-  </li>
-  <li>
-    Prefer a lower-cost major-seventh-bass inversion over a slash
-    reading where the bass is only a remote color tone
-  </li>
-  <li>Prefer fewer altered/tension colors</li>
-  <li>Prefer diatonic chords</li>
-  <li>
-    Prefer a root-position relative-minor seventh over the equivalent
+13. Prefer a complete flat-nine flat-thirteen dominant over a remote diminished
+    or seventh-family spelling
+14. Prefer complete major-triad ♯11 inversions over sparse major-13-sus4
+    spellings
+15. Prefer a complete major-triad inversion over a seventh-family chord where
+    the bass is only an add-extension
+16. Prefer root-position diminished 7th
+17. Prefer dominant 7th slash over non-dominant seventh-family slash
+18. Prefer a reading that names every tone over one that drops a tone, unless
+    that would promote rarer altered bookkeeping above a lower-cost idiomatic
+    shell
+19. Prefer a lower-cost add-chord reading over an unusual seventh-family
+    spelling that omits the third
+20. Prefer a harmonic-minor tonic over a split-third major-triad inversion
+21. Prefer a lower-cost major-seventh-bass inversion over a slash reading where
+    the bass is only a remote color tone
+22. Prefer fewer altered/tension colors
+23. Prefer diatonic chords
+24. Prefer a root-position relative-minor seventh over the equivalent
     major-sixth slash reading
-  </li>
-  <li>Prefer the tonic chord</li>
-  <li>
-    Prefer a complete triad with add-tone extensions over an unusual
-    or sparse seventh-family reading that turns the same pitches into
-    remote color
-  </li>
-  <li>
-    Prefer natural extensions (9/11/13) over add-tones, then fewer
-    overall, unless that would reward an incomplete slash chord
-  </li>
-  <li>Prefer root position</li>
-  <li>
-    Prefer the more common name when the corpus shows a strong
-    preference between otherwise equivalent spellings
-  </li>
-  <li>
-    Prefer cleaner spelling for otherwise tied tritone-related
-    flat-five dominant readings
-  </li>
-  <li>
-    Prefer more conventional inversion, based on the bass tone's named
-    role in the candidate rather than its raw interval alone
-  </li>
-  <li>
-    Prefer 7th chords over triads when both fit and the seventh is
-    actually sounding, unless the seventh-family spelling is a
-    suspended slash label with no third competing against a complete
-    sixth-chord reading
-  </li>
-  <li>Prefer fewer extensions</li>
-  <li>Avoid suspended chords</li>
-  <li>
-    Prefer the reading whose members spell more cleanly in context
-  </li>
-</ol>
+25. Prefer the tonic chord
+26. Prefer a complete triad with add-tone extensions over an unusual or sparse
+    seventh-family reading that turns the same pitches into remote color
+27. Prefer natural extensions (9/11/13) over add-tones, then fewer overall,
+    unless that would reward an incomplete slash chord
+28. Prefer root position
+29. Prefer the more common name when the corpus shows a strong preference
+    between otherwise equivalent spellings
+30. Prefer cleaner spelling for otherwise tied tritone-related flat-five
+    dominant readings
+31. Prefer more conventional inversion, based on the bass tone's named role in
+    the candidate rather than its raw interval alone
+32. Prefer 7th chords over triads when both fit and the seventh is actually
+    sounding, unless the seventh-family spelling is a suspended slash label with
+    no third competing against a complete sixth-chord reading
+33. Prefer fewer extensions
+34. Avoid suspended chords
+35. Prefer the reading whose members spell more cleanly in context
 
-<p>
-  If all of these rules still have not produced a winner, there is a
-  deterministic fallback: sort by root pitch class numerically. This
-  ensures the output is always consistent for the same input, even for
-  exotic voicings.
-</p>
+If all of these rules still have not produced a winner, there is a deterministic
+fallback: sort by root pitch class numerically. This ensures the output is
+always consistent for the same input, even for exotic voicings.
 
-<p>
-  The ordering of these rules encodes musical priorities. Structural
-  clarity (root position, shell tones) comes before contextual
-  preferences (diatonic, tonic). Conventional naming (fewer
-  alterations, natural extensions, and common corpus labels) comes
-  before complexity. Suspended chords are deprioritized late because
-  they are valid but easy to over-detect when a third is absent, so
-  they should win only when the surrounding evidence supports them.
-</p>
+The ordering of these rules encodes musical priorities. Structural clarity (root
+position, shell tones) comes before contextual preferences (diatonic, tonic).
+Conventional naming (fewer alterations, natural extensions, and common corpus
+labels) comes before complexity. Suspended chords are deprioritized late because
+they are valid but easy to over-detect when a third is absent, so they should
+win only when the surrounding evidence supports them.
 
-<h3>Turning the comparison into a stable order</h3>
+### Turning the comparison into a stable order
 
-<p>
-  Because hard rules and the near-tie window deliberately override raw
-  cost, the candidate comparison is not guaranteed to be transitive: A
-  can beat B, B can beat C, and yet C can beat A. A generic sort is
-  undefined on a comparison like that and can bury a strong reading
-  below a weaker one.
-</p>
+Because hard rules and the near-tie window deliberately override raw cost, the
+candidate comparison is not guaranteed to be transitive: A can beat B, B can
+beat C, and yet C can beat A. A generic sort is undefined on a comparison like
+that and can bury a strong reading below a weaker one.
 
-<p>
-  So the engine linearizes the candidates rather than sorting them
-  directly: it repeatedly takes the one that nothing else outranks,
-  breaking any cycle in a fixed, repeatable way. The result honors
-  every rule above and always produces the same order for a given
-  input.
-</p>
+So the engine linearizes the candidates rather than sorting them directly: it
+repeatedly takes the one that nothing else outranks, breaking any cycle in a
+fixed, repeatable way. The result honors every rule above and always produces
+the same order for a given input.
 
-<p>
-  That linearization is not free. To know which candidate nothing else
-  outranks, the engine has to compare every candidate against every
-  other, which is quadratic in the candidate count and dominates
-  uncached analysis time. The
-  <a href="chord-ranking-performance.html"
-    >ranking-performance deep dive</a
-  >
-  covers the measurement, dead ends, and pruning work in detail.
-</p>
+That linearization is not free. To know which candidate nothing else outranks,
+the engine has to compare every candidate against every other, which is
+quadratic in the candidate count and dominates uncached analysis time. The
+[ranking-performance deep dive](chord-ranking-performance.html) covers the
+measurement, dead ends, and pruning work in detail.
 
 <h2 id="ensemble-mode">Ensemble mode</h2>
 
-<p>
-  A pianist comping over a bassist might play
-  <span class="chord">E-B♭-D-A</span> to mean
-  <span class="chord">C13</span>: the third, seventh, ninth, and
-  thirteenth of the chord while leaving C to the bass player. Ensemble
-  mode represents C as an implied root even though it is absent from
-  the keyboard voicing.
-</p>
+A pianist comping over a bassist might play <span class="chord">E-B♭-D-A</span>
+to mean <span class="chord">C13</span>: the third, seventh, ninth, and
+thirteenth of the chord while leaving C to the bass player. Ensemble mode
+represents C as an implied root even though it is absent from the keyboard
+voicing.
 
-<p>
-  Pitch content alone cannot reveal whether a root was intentionally
-  omitted: <span class="chord">C-E-G</span>, for example, is both a
-  complete <span class="chord">C</span> triad and a rootless
-  <span class="chord">Am7</span>. The playing mode therefore makes the
-  assumption explicit. Solo mode expects the keyboard part to include
-  the root; Ensemble mode allows another part to provide it.
-</p>
+Pitch content alone cannot reveal whether a root was intentionally omitted:
+<span class="chord">C-E-G</span>, for example, is both a complete
+<span class="chord">C</span> triad and a rootless
+<span class="chord">Am7</span>. The playing mode therefore makes the assumption
+explicit. Solo mode expects the keyboard part to include the root; Ensemble mode
+allows another part to provide it.
 
-<p>
-  In Ensemble mode, candidate generation runs an additional pass over
-  absent pitch classes. An implied-root candidate qualifies only when:
-</p>
+In Ensemble mode, candidate generation runs an additional pass over absent pitch
+classes. An implied-root candidate qualifies only when:
 
-<ul>
-  <li>
-    Its quality is dominant 7th, major 7th, minor 7th, minor-major
-    7th, or half-diminished 7th. Fully diminished 7th is excluded
-    because its symmetry leaves four equally valid roots.
-  </li>
-  <li>
-    Every required tone except the root sounds, and the chord name
-    explains every sounding tone.
-  </li>
-</ul>
+- Its quality is dominant 7th, major 7th, minor 7th, minor-major 7th, or
+  half-diminished 7th. Fully diminished 7th is excluded because its symmetry
+  leaves four equally valid roots.
+- Every required tone except the root sounds, and the chord name explains every
+  sounding tone.
 
-<p>
-  Any absent pitch class can serve as the implied root, whether or not
-  it belongs to the current key; key preference is a ranking concern,
-  not a generation filter. One pair gets an explicit ranking rule: a
-  rootless half-diminished 7th contains exactly the same notes as the
-  rootless major 7th one semitone below it, and when only one of the
-  two candidate roots belongs to the key, that reading wins.
-</p>
+Any absent pitch class can serve as the implied root, whether or not it belongs
+to the current key; key preference is a ranking concern, not a generation
+filter. One pair gets an explicit ranking rule: a rootless half-diminished 7th
+contains exactly the same notes as the rootless major 7th one semitone below it,
+and when only one of the two candidate roots belongs to the key, that reading
+wins.
 
-<p>
-  An implied root adds <code>0.25</code> to the explanation cost. Bass
-  placement is free for these readings because the lowest keyboard
-  note is expected to be a guide tone or color rather than the chord
-  root.
-</p>
+An implied root adds `0.25` to the explanation cost. Bass placement is free for
+these readings because the lowest keyboard note is expected to be a guide tone
+or color rather than the chord root.
 
-<p>
-  Ranking gives an idiomatic implied-root reading priority over
-  sounding-root alternatives; otherwise a complete upper-structure
-  chord would usually win on cost. Altered extensions on a
-  non-dominant implied chord do not receive this priority and compete
-  on cost instead. An implied root from outside the key receives it
-  only when the reading’s extensions are plain (a natural 9, 11, or
-  13), because every complete dominant 7th also matches a rootless
-  dominant a tritone away whose reading needs sharpened and flattened
-  extensions; the plain-extension requirement rejects those
-  re-readings. If two implied-root readings remain in a near tie, the
-  dominant-family reading wins.
-</p>
+Ranking gives an idiomatic implied-root reading priority over sounding-root
+alternatives; otherwise a complete upper-structure chord would usually win on
+cost. Altered extensions on a non-dominant implied chord do not receive this
+priority and compete on cost instead. An implied root from outside the key
+receives it only when the reading's extensions are plain (a natural 9, 11, or
+13), because every complete dominant 7th also matches a rootless dominant a
+tritone away whose reading needs sharpened and flattened extensions; the
+plain-extension requirement rejects those re-readings. If two implied-root
+readings remain in a near tie, the dominant-family reading wins.
 
-<p>
-  The result uses the plain chord symbol with a “rootless” tag, not a
-  slash chord: <span class="chord">E-B♭-D-A</span> appears as
-  <span class="chord">C13</span>, not
-  <span class="chord">C13/E</span>. The tone breakdown marks C as
-  implied, and the keyboard draws the nearest matching C below the
-  played bass as a hollow key.
-</p>
+The result uses the plain chord symbol with a "rootless" tag, not a slash chord:
+<span class="chord">E-B♭-D-A</span> appears as <span class="chord">C13</span>,
+not <span class="chord">C13/E</span>. The tone breakdown marks C as implied, and
+the keyboard draws the nearest matching C below the played bass as a hollow key.
 
-<h2>Caching for real-time performance</h2>
+## Caching for real-time performance
 
-<p>
-  Running the full pipeline on every MIDI state change would be
-  wasteful. Each sounding root is evaluated against 27 templates, and
-  Ensemble mode adds its eligible implied-root evaluations. In
-  practice, a pianist produces many repeated input states throughout a
-  piece.
-</p>
+Running the full pipeline on every MIDI state change would be wasteful. Each
+sounding root is evaluated against 27 templates, and Ensemble mode adds its
+eligible implied-root evaluations. In practice, a pianist produces many repeated
+input states throughout a piece.
 
-<p>
-  The engine uses a 512-entry Least Recently Used (LRU) cache
-  implemented as a
-  <a
-    href="https://api.dart.dev/dart-collection/LinkedHashMap-class.html"
-    ><code>LinkedHashMap</code></a
-  >. The cache key is a hash of four inputs:
-</p>
+The engine uses a 512-entry Least Recently Used (LRU) cache implemented as a
+[`LinkedHashMap`](https://api.dart.dev/dart-collection/LinkedHashMap-class.html).
+The cache key is a hash of four inputs:
 
-<ul>
-  <li>The pitch class set and bass note</li>
-  <li>
-    The analysis context (key signature, tonality, and playing mode)
-  </li>
-  <li>
-    The observed voicing's register signature, when one is supplied,
-    because register evidence can nudge the ranking
-  </li>
-  <li>
-    The <code>take</code> parameter (how many candidates to return,
-    default 5)
-  </li>
-</ul>
+- The pitch class set and bass note
+- The analysis context (key signature, tonality, and playing mode)
+- The observed voicing's register signature, when one is supplied, because
+  register evidence can nudge the ranking
+- The `take` parameter (how many candidates to return, default 5)
 
-<p>
-  The context is included because the key and playing mode can both
-  change which candidate ranks first for the same notes. Solo and
-  Ensemble analyses therefore never alias to one cached result.
-</p>
+The context is included because the key and playing mode can both change which
+candidate ranks first for the same notes. Solo and Ensemble analyses therefore
+never alias to one cached result.
 
 <pre><code><span class="kw">final</span> key = Object.<span class="fn">hash</span>(input.cacheKey, voicing?.signature ?? <span class="nu">0</span>, context, take);
 <span class="kw">final</span> cached = _cache[key];
@@ -1121,87 +870,53 @@ notes: F♯ B♭ C E  |  bass: F♯ (pc 6)  |  key: C major
   <span class="kw">return</span> cached;
 }</code></pre>
 
-<p>
-  The LinkedHashMap preserves insertion order. On a cache hit, the
-  entry is removed and re-inserted at the end (most recently used). On
-  eviction, the first key is removed (least recently used). This is
-  the standard LRU pattern in Dart without a separate doubly-linked
-  list.
-</p>
+The LinkedHashMap preserves insertion order. On a cache hit, the entry is
+removed and re-inserted at the end (most recently used). On eviction, the first
+key is removed (least recently used). This is the standard LRU pattern in Dart
+without a separate doubly-linked list.
 
-<p>
-  The 512-entry capacity was chosen from benchmarks across random
-  inputs, exhaustive inputs, tonal progressions, and simulated live
-  note transitions. Realistic playing showed high reuse, and larger
-  caches produced no material improvement.
-</p>
+The 512-entry capacity was chosen from benchmarks across random inputs,
+exhaustive inputs, tonal progressions, and simulated live note transitions.
+Realistic playing showed high reuse, and larger caches produced no material
+improvement.
 
-<h2>What the algorithm does not handle</h2>
+## What the algorithm does not handle
 
-<p>A few things are known limitations or non-goals:</p>
+A few things are known limitations or non-goals:
 
-<ul>
-  <li>
-    <strong>Polychords.</strong> Two simultaneous independent
-    sonorities (like Stravinsky’s
-    <a href="https://en.wikipedia.org/wiki/Petrushka_chord"
-      >Petrushka chord</a
-    >, an F♯ major triad over a C major triad) are not modeled. The
-    algorithm will find the best single-chord description of the
-    combined note set.
-  </li>
-  <li>
-    <strong>Temporal context.</strong> Each snapshot of sounding notes
-    is analyzed independently. The algorithm does not track what chord
-    came before and does not use progression history to inform
-    interpretation. Using temporal context to further increase
-    accuracy is a natural direction for future improvement.
-  </li>
-  <li>
-    <strong>Non-12-TET tuning.</strong> This engine is built around 12
-    pitch classes and standard MIDI note numbers. Microtonal
-    intervals, quarter tones, and
-    <a href="https://en.wikipedia.org/wiki/Just_intonation"
-      >just-intonation</a
-    >
-    distinctions have no representation in this model.
-  </li>
-</ul>
+- **Polychords.** Two simultaneous independent sonorities (like Stravinsky's
+  [Petrushka chord](https://en.wikipedia.org/wiki/Petrushka_chord), an F♯ major
+  triad over a C major triad) are not modeled. The algorithm will find the best
+  single-chord description of the combined note set.
+- **Temporal context.** Each snapshot of sounding notes is analyzed
+  independently. The algorithm does not track what chord came before and does
+  not use progression history to inform interpretation. Using temporal context
+  to further increase accuracy is a natural direction for future improvement.
+- **Non-12-TET tuning.** This engine is built around 12 pitch classes and
+  standard MIDI note numbers. Microtonal intervals, quarter tones, and
+  [just-intonation](https://en.wikipedia.org/wiki/Just_intonation) distinctions
+  have no representation in this model.
 
-<p>
-  The cost heuristics are tuned from experience. They encode
-  accumulated musical convention, but they are adjustable constants,
-  not proven axioms. Edge cases and counterexamples help improve them.
-</p>
+The cost heuristics are tuned from experience. They encode accumulated musical
+convention, but they are adjustable constants, not proven axioms. Edge cases and
+counterexamples help improve them.
 
-<h2>The codebase</h2>
+## The codebase
 
-<p>
-  WhatChord is written in <a href="https://dart.dev/">Dart</a> using
-  the <a href="https://flutter.dev/">Flutter</a> framework. The chord
-  analysis engine lives entirely in a handful of files with no
-  platform dependencies and a unit test suite that verifies
-  known-correct outputs across major, minor, dominant, altered,
-  extended, and ambiguous chord types.
-</p>
+WhatChord is written in [Dart](https://dart.dev/) using the
+[Flutter](https://flutter.dev/) framework. The chord analysis engine lives
+entirely in a handful of files with no platform dependencies and a unit test
+suite that verifies known-correct outputs across major, minor, dominant,
+altered, extended, and ambiguous chord types.
 
-<p>
-  The project is open source and released under the Zero Clause BSD
-  License, which means you are free to use, modify, and share the code
-  however you like.
-</p>
+The project is open source and released under the Zero Clause BSD License, which
+means you are free to use, modify, and share the code however you like.
 
-<p>
-  If you find a misidentified chord, the best way to report it is to
-  long-press the chord card to open
-  <em>Analysis Details</em>, copy the diagnostic output, and
-  <a
-    href="https://github.com/EarthmanMuons/whatchord/issues/new/choose"
-    >open a GitHub issue</a
-  >. The diagnostic output includes the exact pitch classes and
-  context that produced the result, which makes it straightforward to
-  reproduce and debug.
-</p>
+If you find a misidentified chord, the best way to report it is to long-press
+the chord card to open _Analysis Details_, copy the diagnostic output, and
+[open a GitHub issue](https://github.com/EarthmanMuons/whatchord/issues/new/choose).
+The diagnostic output includes the exact pitch classes and context that produced
+the result, which makes it straightforward to reproduce and debug.
 
 <div class="article-cta">
   <h3>See it in action.</h3>

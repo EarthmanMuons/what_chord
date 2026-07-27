@@ -33,16 +33,13 @@ tag: "Reference"
 title: "Scale Degree Guide"
 ---
 
-<h2>Numbering the Scale</h2>
+## Numbering the Scale
 
-<p>
-  In the seven-note scales used in tonal harmony, the tonic is degree
-  1, and the scale is numbered up from there, through 7, with the
-  octave arriving back at 1. The numbers are relative, not absolute.
-  In the C major scale, the fifth degree is G; in the E major scale,
-  the fifth degree is B. Same role in the key, different pitch on the
-  instrument.
-</p>
+In the seven-note scales used in tonal harmony, the tonic is degree 1, and the
+scale is numbered up from there, through 7, with the octave arriving back at 1.
+The numbers are relative, not absolute. In the C major scale, the fifth degree
+is G; in the E major scale, the fifth degree is B. Same role in the key,
+different pitch on the instrument.
 
 <div class="member-stack-scroll">
   <table class="member-stack">
@@ -76,22 +73,16 @@ title: "Scale Degree Guide"
   </table>
 </div>
 
-<p>
-  In many theory texts the numbers are written with a small caret
-  above them (<span class="sdeg">1</span>,
-  <span class="sdeg">2</span>, <span class="sdeg">3</span> …) to
-  distinguish a scale degree from a chord member or a
-  <a href="https://en.wikipedia.org/wiki/Figured_bass"
-    >figured-bass figure</a
-  >. This guide uses plain numbers for readability.
-</p>
+In many theory texts the numbers are written with a small caret above them
+(<span class="sdeg">1</span>, <span class="sdeg">2</span>,
+<span class="sdeg">3</span> …) to distinguish a scale degree from a chord member
+or a [figured-bass figure](https://en.wikipedia.org/wiki/Figured_bass). This
+guide uses plain numbers for readability.
 
-<h2>The Technical Names</h2>
+## The Technical Names
 
-<p>
-  In major, each degree also has a traditional name that describes its
-  relationship to the tonic.
-</p>
+In major, each degree also has a traditional name that describes its
+relationship to the tonic.
 
 <table class="article-table">
   <thead>
@@ -152,17 +143,13 @@ title: "Scale Degree Guide"
   </tbody>
 </table>
 
-<p>
-  The scale is numbered upward, but these names also look downward
-  from the tonic: degree 4 is a fourth above the tonic and a fifth
-  below it, while degree 6 is a sixth above and a third below.
-</p>
+The scale is numbered upward, but these names also look downward from the tonic:
+degree 4 is a fourth above the tonic and a fifth below it, while degree 6 is a
+sixth above and a third below.
 
-<p>
-  The names mirror each other around the tonic: each
-  <em>sub-</em> degree sits as far below the tonic as its partner sits
-  above. The seventh degree is the one place the mirror bends.
-</p>
+The names mirror each other around the tonic: each _sub-_ degree sits as far
+below the tonic as its partner sits above. The seventh degree is the one place
+the mirror bends.
 
 <!-- prettier-ignore -->
 <div class="degree-mirror">
@@ -260,58 +247,39 @@ title: "Scale Degree Guide"
   </svg>
 </div>
 
-<h3>Leading tone or subtonic</h3>
+### Leading tone or subtonic
 
-<p>
-  The seventh degree earns the name leading tone only when it sits a
-  semitone below the tonic, as it does in the major scale, where its
-  pull toward home is strong. When it sits two semitones below, as in
-  natural minor, that pull weakens and the degree takes the name
-  subtonic instead. Raising it by a semitone, which is exactly what
-  harmonic minor does, restores the leading tone.
-</p>
+The seventh degree earns the name leading tone only when it sits a semitone
+below the tonic, as it does in the major scale, where its pull toward home is
+strong. When it sits two semitones below, as in natural minor, that pull weakens
+and the degree takes the name subtonic instead. Raising it by a semitone, which
+is exactly what harmonic minor does, restores the leading tone.
 
-<h2>Numbers, Names, and Solfège</h2>
+## Numbers, Names, and Solfège
 
-<p>
-  Numbers are one of several movable systems for the same idea. In
-  major, the technical names give tonic, supertonic, mediant, and so
-  on, while movable-<em>do</em>
-  <a href="https://en.wikipedia.org/wiki/Solf%C3%A8ge">solfège</a>
-  names the degrees <em>do, re, mi, fa, sol, la, ti</em>. All three
-  describe notes relative to the tonic rather than as absolute
-  pitches, so their relationships transpose from one key to another.
-</p>
+Numbers are one of several movable systems for the same idea. In major, the
+technical names give tonic, supertonic, mediant, and so on, while movable-_do_
+[solfège](https://en.wikipedia.org/wiki/Solf%C3%A8ge) names the degrees _do, re,
+mi, fa, sol, la, ti_. All three describe notes relative to the tonic rather than
+as absolute pitches, so their relationships transpose from one key to another.
 
-<h2>Scale Formulas</h2>
+## Scale Formulas
 
-<p>
-  An interval is the distance between two notes. A flat
-  (<code>♭</code>) lowers that distance by one semitone; a sharp
-  (<code>♯</code>) raises it by one. A major third interval spans four
-  semitones, while a minor third interval spans three.
-</p>
+An interval is the distance between two notes. A flat (`♭`) lowers that distance
+by one semitone; a sharp (`♯`) raises it by one. A major third interval spans
+four semitones, while a minor third interval spans three.
 
-<p>Degree and formula describe a note two different ways:</p>
+Degree and formula describe a note two different ways:
 
-<ul>
-  <li>
-    <strong>Scale degrees</strong> count positions within a scale. C
-    is the third note of A minor, so it is degree <code>3</code>.
-  </li>
-  <li>
-    <strong>Scale formulas</strong> describe each note’s interval
-    above the tonic. C is a minor third above A, so the formula labels
-    it <code>♭3</code>.
-  </li>
-</ul>
+- **Scale degrees** count positions within a scale. C is the third note of A
+  minor, so it is degree `3`.
+- **Scale formulas** describe each note's interval above the tonic. C is a minor
+  third above A, so the formula labels it `♭3`.
 
-<p>
-  Scale formulas use the parallel major scale as their reference,
-  meaning the major scale with the same tonic. Its formula is
-  <code class="formula">1, 2, 3, 4, 5, 6, 7</code>. The table below
-  focuses on major and the three familiar forms of minor:
-</p>
+Scale formulas use the parallel major scale as their reference, meaning the
+major scale with the same tonic. Its formula is <code class="formula">1, 2, 3,
+4, 5, 6, 7</code>. The table below focuses on major and the three familiar forms
+of minor:
 
 <table class="article-table">
   <thead>
@@ -340,56 +308,35 @@ title: "Scale Degree Guide"
   </tbody>
 </table>
 
-<p>
-  Relative to the parallel major, all three minor forms lower degree
-  3; changes to degrees 6 and 7 distinguish them. That fixed reference
-  keeps each formula label tied to one interval, so <code>♭3</code>
-  always means a minor third above the tonic. The flat does not mark
-  the note as foreign to the scale; it only compares it with that
-  reference. This convention is used throughout the guide for scale
-  formulas and Roman-numeral degree labels.
-</p>
+Relative to the parallel major, all three minor forms lower degree 3; changes to
+degrees 6 and 7 distinguish them. That fixed reference keeps each formula label
+tied to one interval, so `♭3` always means a minor third above the tonic. The
+flat does not mark the note as foreign to the scale; it only compares it with
+that reference. This convention is used throughout the guide for scale formulas
+and Roman-numeral degree labels.
 
-<h2>Harmonizing the Scale</h2>
+## Harmonizing the Scale
 
-<p>
-  Degrees also build chords. The root is the note a chord is built
-  from. Take each degree as a root and stack thirds using only notes
-  in the scale, skipping every other degree. The chord on degree 1
-  uses
-  <code class="formula">1, 3, 5</code>; the chord on degree 2 uses
-  <code class="formula">2, 4, 6</code>; the pattern continues around
-  the scale. Each degree yields a triad, a three-note chord; adding
-  one more third adds the seventh above the root, making a four-note
-  seventh chord.
-</p>
+Degrees also build chords. The root is the note a chord is built from. Take each
+degree as a root and stack thirds using only notes in the scale, skipping every
+other degree. The chord on degree 1 uses <code class="formula">1, 3, 5</code>;
+the chord on degree 2 uses <code class="formula">2, 4, 6</code>; the pattern
+continues around the scale. Each degree yields a triad, a three-note chord;
+adding one more third adds the seventh above the root, making a four-note
+seventh chord.
 
-<p>
-  A triad’s
-  <a href="chord-naming.html#from-degrees-to-quality-names"
-    >quality</a
-  >
-  comes from the two thirds it stacks from bottom to top.
-</p>
+A triad's [quality](chord-naming.html#from-degrees-to-quality-names) comes from
+the two thirds it stacks from bottom to top.
 
-<ul>
-  <li>
-    A major third followed by a minor third makes a major triad.
-  </li>
-  <li>
-    A minor third followed by a major third makes a minor triad.
-  </li>
-  <li>Two minor thirds make a diminished triad.</li>
-  <li>Two major thirds make an augmented triad.</li>
-</ul>
+- A major third followed by a minor third makes a major triad.
+- A minor third followed by a major third makes a minor triad.
+- Two minor thirds make a diminished triad.
+- Two major thirds make an augmented triad.
 
-<p>
-  In major the pattern of qualities is fixed: major, minor, minor,
-  major, major, minor, diminished. Roman numerals name these chords by
-  degree and quality at once. An uppercase numeral is a major triad, a
-  lowercase one is minor, a <code>°</code> marks a diminished triad,
-  and a <code>+</code> an augmented one.
-</p>
+In major the pattern of qualities is fixed: major, minor, minor, major, major,
+minor, diminished. Roman numerals name these chords by degree and quality at
+once. An uppercase numeral is a major triad, a lowercase one is minor, a `°`
+marks a diminished triad, and a `+` an augmented one.
 
 <table class="article-table">
   <caption>
@@ -449,13 +396,10 @@ title: "Scale Degree Guide"
   </tbody>
 </table>
 
-<p>
-  Natural minor follows a different pattern. The Degree column still
-  counts positions within the scale, but flats before the Roman
-  numerals show which chord roots are lower than their parallel-major
-  counterparts. Degree <code>3</code> therefore appears as
-  <code>♭III</code>.
-</p>
+Natural minor follows a different pattern. The Degree column still counts
+positions within the scale, but flats before the Roman numerals show which chord
+roots are lower than their parallel-major counterparts. Degree `3` therefore
+appears as `♭III`.
 
 <table class="article-table">
   <caption>
@@ -515,94 +459,62 @@ title: "Scale Degree Guide"
   </tbody>
 </table>
 
-<p>
-  C major and A natural minor contain the same notes, but changing the
-  tonic reorders the chords and changes their Roman numerals.
-</p>
+C major and A natural minor contain the same notes, but changing the tonic
+reorders the chords and changes their Roman numerals.
 
-<p>
-  Natural minor keeps its subtonic two semitones below the tonic.
-  Harmonic minor raises that note by one semitone to create a leading
-  tone. That change affects three triads: <code>♭III</code> becomes
-  <code>♭III+</code>, <code>v</code> becomes <code>V</code>, and
-  <code>♭VII</code> becomes <code>vii°</code>. The major
-  <code>V</code> is the most important functional result, restoring a
-  strong dominant-to-tonic resolution.
-</p>
+Natural minor keeps its subtonic two semitones below the tonic. Harmonic minor
+raises that note by one semitone to create a leading tone. That change affects
+three triads: `♭III` becomes `♭III+`, `v` becomes `V`, and `♭VII` becomes
+`vii°`. The major `V` is the most important functional result, restoring a
+strong dominant-to-tonic resolution.
 
-<p>
-  Seventh chords extend the same stack. The major scale gives
-  <span class="chord">Cmaj7</span> on the tonic,
-  <span class="chord">Dm7</span> on the supertonic, the dominant
-  seventh <span class="chord">G7</span> on the fifth, and the
-  half-diminished <span class="chord">Bm7(♭5)</span> on the seventh. A
-  Roman numeral, in the end, is just a scale degree carrying a chord.
-</p>
+Seventh chords extend the same stack. The major scale gives
+<span class="chord">Cmaj7</span> on the tonic, <span class="chord">Dm7</span> on
+the supertonic, the dominant seventh <span class="chord">G7</span> on the fifth,
+and the half-diminished <span class="chord">Bm7(♭5)</span> on the seventh. A
+Roman numeral, in the end, is just a scale degree carrying a chord.
 
-<h2>Degrees and Spelling</h2>
+## Degrees and Spelling
 
-<p>
-  Because a conventionally spelled
-  <a href="https://en.wikipedia.org/wiki/Diatonic_scale"
-    >diatonic scale</a
-  >
-  uses each letter once, a degree also fixes the letter its chord’s
-  root is spelled with. The chord a third above the tonic in C is some
-  kind of E; the chord a sixth above is some kind of A; whatever
-  accidentals the key adds, the letter stays put. It holds for altered
-  degrees too: the
-  <code>♭VI</code> in C is written <span class="chord">A♭</span>, not
-  <span class="chord not-used">G♯</span>, because it is still the
-  sixth degree, built on the letter A. This is the same
-  <a href="why-chord-naming-is-hard.html#enharmonic-spelling"
-    >enharmonic logic</a
-  >
-  that spells the notes inside a chord, applied to the roots
-  themselves.
-</p>
+Because a conventionally spelled
+[diatonic scale](https://en.wikipedia.org/wiki/Diatonic_scale) uses each letter
+once, a degree also fixes the letter its chord's root is spelled with. The chord
+a third above the tonic in C is some kind of E; the chord a sixth above is some
+kind of A; whatever accidentals the key adds, the letter stays put. It holds for
+altered degrees too: the `♭VI` in C is written <span class="chord">A♭</span>,
+not <span class="chord not-used">G♯</span>, because it is still the sixth
+degree, built on the letter A. This is the same
+[enharmonic logic](why-chord-naming-is-hard.html#enharmonic-spelling) that
+spells the notes inside a chord, applied to the roots themselves.
 
-<h2>Tendency and Function</h2>
+## Tendency and Function
 
-<p>
-  Scale degrees describe both melodic tendencies and harmonic
-  functions. As a note, the leading tone tends to rise to the tonic.
-  As chord roots, <span class="chord">V</span> tends toward
-  <span class="chord">I</span>, while
-  <span class="chord">ii</span> commonly prepares
-  <span class="chord">V</span>. These relationships transpose from one
-  major key to another because they follow degrees rather than
-  letters.
-</p>
+Scale degrees describe both melodic tendencies and harmonic functions. As a
+note, the leading tone tends to rise to the tonic. As chord roots,
+<span class="chord">V</span> tends toward <span class="chord">I</span>, while
+<span class="chord">ii</span> commonly prepares <span class="chord">V</span>.
+These relationships transpose from one major key to another because they follow
+degrees rather than letters.
 
-<p>
-  This is why analysis so often reduces to a handful of numerals. A
-  progression of <span class="chord">ii</span>-<span class="chord"
-    >V</span
-  >-<span class="chord">I</span> behaves the same in every major key
-  because it is a statement about degrees: the supertonic moving to
-  the dominant, the dominant resolving home.
-</p>
+This is why analysis so often reduces to a handful of numerals. A progression of
+<span class="chord">ii</span>-<span class="chord" >V</span >-<span class="chord">I</span>
+behaves the same in every major key because it is a statement about degrees: the
+supertonic moving to the dominant, the dominant resolving home.
 
-<h2>How WhatChord Uses Scale Degrees</h2>
+## How WhatChord Uses Scale Degrees
 
-<p>
-  The scale-degree strip highlights the Roman numeral of a chord that
-  fits the current key, whether you selected the key or WhatChord
-  detected it automatically. Chords that do not fit cleanly remain
-  unhighlighted rather than receiving a forced label.
-</p>
+The scale-degree strip highlights the Roman numeral of a chord that fits the
+current key, whether you selected the key or WhatChord detected it
+automatically. Chords that do not fit cleanly remain unhighlighted rather than
+receiving a forced label.
 
-<p>
-  Explore Scales shows every scale’s tones and formula. Where
-  stacked-third harmony applies, it also lays out the diatonic triads
-  and seventh chords with Roman numerals. Selecting a degree shows its
-  technical name and, where appropriate, its resolution tendency.
-</p>
+Explore Scales shows every scale's tones and formula. Where stacked-third
+harmony applies, it also lays out the diatonic triads and seventh chords with
+Roman numerals. Selecting a degree shows its technical name and, where
+appropriate, its resolution tendency.
 
-<p>
-  Thinking in degrees is what makes harmony portable: a note, a chord,
-  or a progression keeps its meaning as you move it from key to key.
-</p>
+Thinking in degrees is what makes harmony portable: a note, a chord, or a
+progression keeps its meaning as you move it from key to key.
 
 <div class="article-cta">
   <h3>Watch the degrees as you play.</h3>
