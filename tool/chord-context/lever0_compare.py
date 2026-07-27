@@ -17,7 +17,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "whatkey"))
-from compare import bootstrap_ci, wilcoxon_signed_rank  # noqa: E402
+from compare import bootstrap_ci, wilcoxon_signed_rank
 
 DEFAULT_SEED = "chord-context-lever0-compare-v1"
 

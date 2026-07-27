@@ -30,7 +30,7 @@ from music21 import key as m21key
 from music21 import roman
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from labels_common import classify_figure, map_quality  # noqa: E402
+from labels_common import classify_figure, map_quality
 
 SCHEMA = "chord-context-labels/1"
 

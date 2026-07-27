@@ -13,7 +13,7 @@ import argparse
 import hashlib
 import json
 from collections import Counter, defaultdict
-from datetime import date
+from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
@@ -72,7 +72,7 @@ def main() -> int:
     payload = {
         "schema": SPLIT_SCHEMA,
         "set": args.set_name,
-        "frozenAt": date.today().isoformat(),
+        "frozenAt": datetime.now(tz=timezone.utc).date().isoformat(),
         "source": source_info,
         "licenseGate": {
             "status": "passed-for-v1-groups",

@@ -21,12 +21,12 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import pathops
-from fontTools.ttLib import TTFont, newTable
-from fontTools.ttLib.tables._c_m_a_p import cmap_format_4, cmap_format_12
-from fontTools.subset import Subsetter, Options
 from fontTools.pens.boundsPen import BoundsPen
 from fontTools.pens.t2CharStringPen import T2CharStringPen
 from fontTools.pens.transformPen import TransformPen
+from fontTools.subset import Options, Subsetter
+from fontTools.ttLib import TTFont, newTable
+from fontTools.ttLib.tables._c_m_a_p import cmap_format_4, cmap_format_12
 
 TOOL_DIR = Path(__file__).resolve().parent
 REPO_ROOT = TOOL_DIR.parents[1]
@@ -499,7 +499,7 @@ def set_sidebearings(font: TTFont, pad: int, skip: set[str] = frozenset()) -> No
             TransformPen(path.getPen(glyphSet=glyph_set), (1, 0, 0, 1, shift, 0))
         )
         _set_charstring(font, gname, path, new_adv)
-        hmtx[gname] = (new_adv, round(pad))
+        hmtx[gname] = (new_adv, pad)
 
 
 def center_glyphs(

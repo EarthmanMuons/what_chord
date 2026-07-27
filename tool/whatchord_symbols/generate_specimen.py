@@ -11,9 +11,9 @@ Run with:  mise run symbols:specimen
 from html import escape
 from pathlib import Path
 
-from fontTools.ttLib import TTFont
-from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.boundsPen import BoundsPen
+from fontTools.pens.svgPathPen import SVGPathPen
+from fontTools.ttLib import TTFont
 
 TOOL_DIR = Path(__file__).resolve().parent
 REPO_ROOT = TOOL_DIR.parents[1]
@@ -96,20 +96,24 @@ def main() -> None:
     height = PAD + 40 + len(glyphs) * ROW_H + PAD
 
     out = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" '
-        f'height="{height}" viewBox="0 0 {width} {height}" '
-        f'font-family="ui-sans-serif,system-ui,sans-serif">',
-        "<style>"
-        ".glyph{fill:#111}"
-        ".adv{stroke:#c8c8c8;stroke-width:1;vector-effect:non-scaling-stroke}"
-        ".base{stroke:#9bb;stroke-width:1;vector-effect:non-scaling-stroke}"
-        ".ink{stroke:#e08;stroke-width:1;stroke-dasharray:3 3;"
-        "vector-effect:non-scaling-stroke}"
-        ".sb{fill:#888;font-size:11px;text-anchor:middle}"
-        ".lbl{fill:#222;font-size:13px}"
-        ".sub{fill:#888;font-size:11px}"
-        ".hdr{fill:#111;font-size:14px;font-weight:600;text-anchor:middle}"
-        "</style>",
+        (
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" '
+            f'height="{height}" viewBox="0 0 {width} {height}" '
+            f'font-family="ui-sans-serif,system-ui,sans-serif">'
+        ),
+        (
+            "<style>"
+            ".glyph{fill:#111}"
+            ".adv{stroke:#c8c8c8;stroke-width:1;vector-effect:non-scaling-stroke}"
+            ".base{stroke:#9bb;stroke-width:1;vector-effect:non-scaling-stroke}"
+            ".ink{stroke:#e08;stroke-width:1;stroke-dasharray:3 3;"
+            "vector-effect:non-scaling-stroke}"
+            ".sb{fill:#888;font-size:11px;text-anchor:middle}"
+            ".lbl{fill:#222;font-size:13px}"
+            ".sub{fill:#888;font-size:11px}"
+            ".hdr{fill:#111;font-size:14px;font-weight:600;text-anchor:middle}"
+            "</style>"
+        ),
         f'<rect width="{width}" height="{height}" fill="#fff"/>',
     ]
 

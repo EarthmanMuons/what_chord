@@ -169,9 +169,11 @@ def main() -> None:
     if unknown:
         sys.exit(f"unknown rule name(s): {unknown}")
 
-    pool_args = dict(
-        all_transpositions=args.all_transpositions, top=args.top, key=args.key
-    )
+    pool_args = {
+        "all_transpositions": args.all_transpositions,
+        "top": args.top,
+        "key": args.key,
+    }
     print(
         f"building reference over the {'full' if args.all_transpositions else 'canonical'} pool..."
     )

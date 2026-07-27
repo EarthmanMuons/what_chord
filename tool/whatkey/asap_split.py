@@ -17,7 +17,7 @@ import argparse
 import hashlib
 import json
 from collections import defaultdict
-from datetime import date
+from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -74,7 +74,7 @@ def main() -> int:
     split = {
         "schema": SPLIT_SCHEMA,
         "set": set_name,
-        "frozenAt": date.today().isoformat(),
+        "frozenAt": datetime.now(tz=timezone.utc).date().isoformat(),
         "source": {
             "type": manifest["source"]["type"],
             **{

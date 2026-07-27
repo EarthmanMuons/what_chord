@@ -127,7 +127,7 @@ def load_piece(bench_root: Path, piece: dict, cbench) -> list[dict] | None:
 
     try:
         score = converter.parse(score_path)
-    except Exception as error:
+    except Exception as error:  # noqa: BLE001
         score = parse_without_harmony(score_path)
         if score is None:
             print(f"{piece['id']}: score parse failed: {error}", file=sys.stderr)
@@ -147,7 +147,7 @@ def load_piece(bench_root: Path, piece: dict, cbench) -> list[dict] | None:
             continue
         try:
             expected = roman.RomanNumeral(figure, cbench.make_m21_key(*key))
-        except Exception:
+        except Exception:  # noqa: BLE001, S112
             continue
 
         sounding = chord.Chord(pitches)
@@ -203,7 +203,7 @@ def parse_without_harmony(score_path: Path):
             handle.write(stripped)
             handle.flush()
             return converter.parse(handle.name)
-    except Exception:
+    except Exception:  # noqa: BLE001
         return None
 
 
@@ -230,6 +230,7 @@ def analyze(events: list[dict]) -> dict[str, dict]:
         input=payload,
         capture_output=True,
         text=True,
+        check=False,
     )
     if process.returncode:
         raise RuntimeError(process.stderr)
@@ -308,8 +309,7 @@ def is_explicit_or_incomplete_annotation(event: dict) -> bool:
     common_name = event["expectedCommonName"]
     return (
         "[" in event["figure"]
-        or common_name.startswith("incomplete ")
-        or common_name.startswith("enharmonic equivalent ")
+        or common_name.startswith(("incomplete ", "enharmonic equivalent "))
         or any(
             token in common_name
             for token in ("tetrachord", "pentachord", "tetramirror")
@@ -504,8 +504,10 @@ def report_section(rows: list[dict], flag: str, title: str) -> list[str]:
         )
         out.extend(
             [
-                f"[{len(case_rows)} occurrence{'s' if len(case_rows) != 1 else ''}] "
-                f"{row['expectedCommonName']} / figures: {figures}",
+                (
+                    f"[{len(case_rows)} occurrence{'s' if len(case_rows) != 1 else ''}] "
+                    f"{row['expectedCommonName']} / figures: {figures}"
+                ),
                 f"  expected root: {pc_name(row['expectedRootPc'])}  chosen: {predicted}",
                 f"  score bass: {pc_name(row['bassPc'])}  annotation bass: {pc_name(row['expectedBassPc'])}",
                 f"  top candidates: {candidates}",
