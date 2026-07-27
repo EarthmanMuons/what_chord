@@ -112,6 +112,10 @@ void main(List<String> args) {
   final annotatedMissShape = <String, int>{};
   // Per-piece engine arms, for paired statistics across fixtures.
   final perPiece = <Map<String, Object>>[];
+  // Resolution-aware relabel simulation counters (log 2026-07-26-03 lead).
+  var resolutionRelabelFired = 0;
+  var resolutionRelabelFixed = 0;
+  var resolutionRelabelBroken = 0;
 
   for (final fixture in selected) {
     final entries = (pieces[fixture.id] as List).cast<Map>();
@@ -136,6 +140,17 @@ void main(List<String> args) {
     var pieceScored = 0;
     var pieceAnnotated = 0;
     var pieceInferred = 0;
+    ({
+      int chosenRoot,
+      String chosenQuality,
+      bool chosenImplied,
+      bool chosenDominant,
+      bool chosenFlatNine,
+      int truthRoot,
+      String truthQuality,
+      bool exact,
+    })?
+    previousScored;
 
     for (var i = 0; i < events.length; i++) {
       final claimBefore = i == 0 ? null : sticky[i - 1];
@@ -228,7 +243,10 @@ void main(List<String> args) {
         provenanceHindsightExact[provenance] =
             (provenanceHindsightExact[provenance] ?? 0) + 1;
       }
-      if (engineExact(usedKey)) {
+      final inferredTop = engineTop(usedKey);
+      final inferredArmExact =
+          inferredTop.rootPc == rootPc && inferredTop.quality.name == quality;
+      if (inferredArmExact) {
         provenanceExact[provenance] = (provenanceExact[provenance] ?? 0) + 1;
         engineInferredExact++;
         pieceInferred++;
@@ -244,6 +262,59 @@ void main(List<String> args) {
         engineMissKeyRelation[relation] =
             (engineMissKeyRelation[relation] ?? 0) + 1;
       }
+
+      // Resolution-aware relabel simulation (scoped follow-up from log
+      // entry 2026-07-26-03): when the PREVIOUS scored event's chosen
+      // reading is an implied-root dominant that does not resolve into this
+      // event's chosen root (down a fifth, or a half step for the
+      // substitute), and exactly one minor-third-axis re-rooting of it does
+      // resolve down a fifth, relabel the record to that member. Tritone
+      // twins are deliberately not relabeled: both members resolve into the
+      // same target.
+      if (previousScored != null) {
+        final prev = previousScored;
+        if (prev.chosenImplied && prev.chosenDominant && prev.chosenFlatNine) {
+          final target = inferredTop.rootPc;
+          bool resolves(int root) =>
+              root == (target + 7) % 12 || root == (target + 1) % 12;
+          var relabeledRoot = prev.chosenRoot;
+          if (!resolves(prev.chosenRoot)) {
+            final candidates = [
+              for (final offset in [3, 9])
+                if ((prev.chosenRoot + offset) % 12 == (target + 7) % 12)
+                  (prev.chosenRoot + offset) % 12,
+            ];
+            if (candidates.length == 1) relabeledRoot = candidates.single;
+          }
+          if (relabeledRoot != prev.chosenRoot) {
+            resolutionRelabelFired++;
+            final wasExact = prev.exact;
+            final nowExact =
+                relabeledRoot == prev.truthRoot &&
+                prev.chosenQuality == prev.truthQuality;
+            if (!wasExact && nowExact) resolutionRelabelFixed++;
+            if (wasExact && !nowExact) resolutionRelabelBroken++;
+          }
+        }
+      }
+      previousScored = (
+        chosenRoot: inferredTop.rootPc,
+        chosenQuality: inferredTop.quality.name,
+        chosenImplied: inferredTop.hasImpliedRoot,
+        chosenDominant: inferredTop.quality.isDominantFamily,
+        // The minor-third-axis re-rooting is only tone-identical when the
+        // reading carries the symmetric flat-nine stack.
+        chosenFlatNine: inferredTop.extensions.any(
+          (e) =>
+              e == ChordExtension.flat9 ||
+              e == ChordExtension.addFlat9 ||
+              e == ChordExtension.sharp9 ||
+              e == ChordExtension.addSharp9,
+        ),
+        truthRoot: rootPc,
+        truthQuality: quality,
+        exact: inferredArmExact,
+      );
 
       final hypotheses = _rootlessHypotheses(strippedMask);
       annotated.record(hypotheses, annotatedKey, rootPc, quality);
@@ -286,6 +357,11 @@ void main(List<String> args) {
     'engineInferredMissAnnouncingDominant': engineMissAnnouncingDominant,
     'engineInferredMissKeyRelation': engineMissKeyRelation,
     'engineAnnotatedMissShape': annotatedMissShape,
+    'resolutionRelabel': {
+      'fired': resolutionRelabelFired,
+      'fixed': resolutionRelabelFixed,
+      'broken': resolutionRelabelBroken,
+    },
     'perPiece': perPiece,
   };
   final outDir = Directory(options['out'] ?? 'build/chord-context/rootless')
@@ -341,6 +417,10 @@ void main(List<String> args) {
       '  hindsight arm by key provenance (exact/total): '
       '${provenanceTotal.keys.map((p) => '$p ${provenanceHindsightExact[p] ?? 0}/${provenanceTotal[p]}').join(', ')}',
     );
+  stdout.writeln(
+    '  resolution relabel simulation: fired $resolutionRelabelFired, '
+    'fixed $resolutionRelabelFixed, broken $resolutionRelabelBroken',
+  );
   final missShapes = annotatedMissShape.entries.toList()
     ..sort((a, b) => b.value.compareTo(a.value));
   stdout.writeln('  annotated-key miss shapes (expected -> chosen):');
