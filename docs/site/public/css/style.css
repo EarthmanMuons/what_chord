@@ -1096,19 +1096,28 @@ footer {
   color: var(--text);
 }
 
-/* Mark inline prose links that leave the site with a small "arrow out of box"
-   glyph. Internal cross-links are relative (no http scheme) so they stay clean;
+/* Mark links that leave the site with a small "arrow out of box" glyph. Inline
+   prose links receive it directly; external article cards place it beside the
+   read-more label so the card's column layout cannot push it onto another line.
+   Internal cross-links are relative (no http scheme) so they stay clean;
    buttons, heading anchors, and image links (store badges in the CTA) opt out.
    The mark is a currentColor mask, so it tracks the link color on hover. Scoped
    to screen: print already appends the full URL in parentheses (see the print
    block) and owns this ::after. */
 @media screen {
-  .article-body a[href^="http"]:not(.btn, .heading-anchor, :has(img))::after {
+  .article-card-external .read-more::after,
+  .article-body
+    a[href^="http"]:not(
+      .btn,
+      .heading-anchor,
+      .article-card,
+      :has(img)
+    )::after {
     display: inline-block;
     width: 0.75em;
     height: 0.75em;
-    margin-left: 0.18em;
-    vertical-align: -0.03em;
+    margin-left: 0.25em;
+    vertical-align: -0.06em;
     content: "";
     background-color: currentcolor;
     -webkit-mask: var(--external-link-icon) center / contain no-repeat;
