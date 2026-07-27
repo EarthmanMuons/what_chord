@@ -51,7 +51,10 @@ const related = await getEntries(article.data.related);
           }
           {
             article.data.relatedExternal?.map((entry) => (
-              <a class="article-card article-card-following" href={entry.href}>
+              <a
+                class="article-card article-card-external article-card-following"
+                href={entry.href}
+              >
                 <div class="article-tag">{entry.tag}</div>
                 <h3>{entry.title}</h3>
                 <p>{entry.description}</p>
