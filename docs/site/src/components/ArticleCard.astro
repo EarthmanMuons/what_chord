@@ -1,0 +1,45 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+  featured?: boolean;
+  first?: boolean;
+  following?: boolean;
+  showTag?: boolean;
+}
+
+const {
+  article,
+  featured = false,
+  first = false,
+  following = false,
+  showTag = false,
+} = Astro.props;
+const classes = [
+  "article-card",
+  first && "article-card-first",
+  following && "article-card-following",
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<a class={classes} href={`/articles/${article.id}.html`}>
+  {showTag && <div class="article-tag">{article.data.tag}</div>}
+  <h3>{article.data.cardTitle}</h3>
+  <p>
+    {
+      featured && article.data.featuredDescription
+        ? article.data.featuredDescription
+        : article.data.cardDescription
+    }
+  </p>
+  <span class="read-more">
+    {
+      article.data.tag === "Reference"
+        ? "Read the guide →"
+        : "Read the article →"
+    }
+  </span>
+</a>

@@ -6,7 +6,7 @@
 //
 // The chord engine is the same compiled Dart bundle the browser uses; importing
 // it for its side effects attaches globalThis.whatchordIdentify.
-import "../js/chord-id.js";
+import "../public/js/chord-id.js";
 
 const DEFAULT_MODE = "maj";
 const DEFAULT_NOTATION = "textual";

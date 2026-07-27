@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  bodyClass={"not-found-page"}
+  description={"The requested page could not be found. Return to WhatChord or explore its chord identification tools and articles."}
+  footer={false}
+  noindex={true}
+  simpleNav={true}
+  title={"Page Not Found | WhatChord"}
+>
+  <main class="not-found-main">
+    <div class="wrap not-found-content">
+      <div class="not-found-code" aria-hidden="true">404</div>
+      <h1>That page is out of tune.</h1>
+      <p>
+        The link may be outdated, or the page may have moved. Try one of these
+        places instead.
+      </p>
+      <div class="not-found-actions">
+        <a class="btn btn-primary" href="/">Go to the homepage</a>
+        <a class="btn btn-ghost" href="/try">Try chord identification</a>
+      </div>
+      <nav class="not-found-links" aria-label="WhatChord articles">
+        <a href="/articles/">Browse the articles</a>
+      </nav>
+    </div>
+  </main>
+</BaseLayout>

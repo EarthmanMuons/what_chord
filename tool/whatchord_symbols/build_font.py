@@ -36,7 +36,7 @@ OUTPUT_DIR = REPO_ROOT / "assets/fonts"
 # The website self-hosts a woff2 copy of the same fonts. woff2 is
 # brotli-compressed and universally supported, so the web build ships only that
 # flavor.
-WEB_OUTPUT_DIR = REPO_ROOT / "docs/site/fonts"
+WEB_OUTPUT_DIR = REPO_ROOT / "docs/site/public/fonts"
 
 FAMILY_NAME = "WhatChord Symbols"
 VERSION = "1.001"

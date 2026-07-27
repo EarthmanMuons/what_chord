@@ -24,12 +24,12 @@ Generated outputs:
 
 - `../../assets/fonts/WhatChordSymbols-Regular.otf` (Flutter app)
 - `../../assets/fonts/WhatChordSymbols-Bold.otf` (Flutter app)
-- `../../docs/site/fonts/WhatChordSymbols-Regular.woff2` (website)
-- `../../docs/site/fonts/WhatChordSymbols-Bold.woff2` (website)
+- `../../docs/site/public/fonts/WhatChordSymbols-Regular.woff2` (website)
+- `../../docs/site/public/fonts/WhatChordSymbols-Bold.woff2` (website)
 - `specimen.svg`
 
-The website self-hosts the woff2 copies; `docs/site/css/style.css` declares them
-via `@font-face` and prepends the family to `--font`.
+The website self-hosts the woff2 copies; `docs/site/public/css/style.css`
+declares them via `@font-face` and prepends the family to `--font`.
 
 `LelandText.otf`, `Leland.otf`, and `specimen.svg` are intentionally ignored by
 git.

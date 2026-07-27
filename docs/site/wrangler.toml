@@ -3,7 +3,7 @@ compatibility_date = "2026-05-16"
 main = "worker/index.js"
 
 [assets]
-directory = "."
+directory = "dist"
 binding = "ASSETS"
 not_found_handling = "404-page"
 # Keep .html asset paths available for the Worker and for the rest of the site.

@@ -1,0 +1,67 @@
+---
+import { getEntries, type CollectionEntry } from "astro:content";
+
+import ArticleCard from "../components/ArticleCard.astro";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+
+const { article } = Astro.props;
+const related = await getEntries(article.data.related);
+---
+
+<BaseLayout
+  bodyClass="article-page"
+  canonicalPath={`/articles/${article.id}.html`}
+  description={article.data.description}
+  image={article.data.image}
+  imageAlt={article.data.imageAlt}
+  socialDescription={article.data.socialDescription}
+  socialTitle={article.data.socialTitle}
+  socialType="article"
+  title={article.data.pageTitle}
+>
+  <article>
+    <div class="article-wrap">
+      <header class="article-header">
+        <a class="article-back" href="/">← WhatChord</a>
+        <div class="article-tag">{article.data.tag}</div>
+        <h1>{article.data.title}</h1>
+        {
+          article.data.decks.map((deck) => (
+            <p class="article-deck" set:html={deck} />
+          ))
+        }
+      </header>
+      <div class="article-body">
+        <slot />
+        <div class="article-related">
+          <h4>Related reading</h4>
+          {
+            related.map((entry, index) => (
+              <ArticleCard
+                article={entry}
+                first={index === 0}
+                following={index > 0}
+                showTag
+              />
+            ))
+          }
+          {
+            article.data.relatedExternal?.map((entry) => (
+              <a class="article-card article-card-following" href={entry.href}>
+                <div class="article-tag">{entry.tag}</div>
+                <h3>{entry.title}</h3>
+                <p>{entry.description}</p>
+                <span class="read-more">{entry.readMore}</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </article>
+  <script is:inline src="/js/site.js" slot="scripts"></script>
+</BaseLayout>

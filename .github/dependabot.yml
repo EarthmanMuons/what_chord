@@ -19,3 +19,17 @@ updates:
       interval: weekly
     cooldown:
       default-days: 7
+
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      site-minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch

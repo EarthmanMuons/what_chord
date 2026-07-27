@@ -7,7 +7,7 @@ locale = "en-us"
 extend-exclude = [
   "*.pbxproj",
   "*.xib",
-  "docs/site/js/chord-id.js",
+  "docs/site/public/js/chord-id.js",
   "research/chord-context/data/splits/",
   "research/ensemble-tiebreak/data/splits/"
 ]

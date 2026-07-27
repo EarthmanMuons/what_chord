@@ -62,14 +62,14 @@ Convert any screenshot images from _png_ to _webp_ using the `shotproc` utility
 from [toolbox-envy][] (it's a convenience wrapper around the ImageMagick CLI).
 
 ```
-$ shotproc ~/Desktop/real_time.png docs/site/images/real_time.webp
+$ shotproc ~/Desktop/real_time.png docs/site/public/images/real_time.webp
 ```
 
 The diagonal merge hero image is created from combining a light mode and a dark
 mode screenshot together using the `diagmerge` utility from [toolbox-envy][].
 
 ```
-$ diagmerge ~/Desktop/light_mode.png ~/Desktop/dark_mode.png docs/site/images/theme_modes.webp
+$ diagmerge ~/Desktop/light_mode.png ~/Desktop/dark_mode.png docs/site/public/images/theme_modes.webp
 ```
 
 [toolbox-envy]: https://github.com/EarthmanMuons/toolbox-envy

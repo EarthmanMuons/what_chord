@@ -2,7 +2,7 @@
 //
 // Browser entry point for the website chord-identification demo. Compiled to
 // JavaScript with `dart compile js` (see tool/build_web_demo.sh) and loaded by
-// docs/site/try.html.
+// docs/site/src/pages/try.astro.
 //
 // Exposes a single global function:
 //   whatchordIdentify(notes, key, notation, mode) -> JSON string

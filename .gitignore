@@ -36,6 +36,9 @@ tool/whatchord_symbols/specimen.svg
 .pub/
 /build/
 /coverage/
+/docs/site/.astro/
+/docs/site/dist/
+/docs/site/node_modules/
 /node_modules/
 bugreport-*.zip
 flutter_*.png

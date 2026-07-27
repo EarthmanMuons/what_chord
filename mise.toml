@@ -8,17 +8,34 @@ _.python.venv = { path = ".venv", create = true }
 
 [tasks."css:lint:install"]
 description = "Install stylelint and shared config for site CSS"
-run = "npm install --no-package-lock"
+run = "npm install"
 
 [tasks."css:lint"]
 description = "Lint site CSS with stylelint"
 depends = ["css:lint:install"]
-run = "npx stylelint 'docs/site/css/*.css'"
+run = "npx stylelint 'docs/site/public/css/*.css'"
 
 [tasks."css:lint:fix"]
 description = "Lint and auto-fix site CSS with stylelint"
 depends = ["css:lint:install"]
-run = "npx stylelint --fix 'docs/site/css/*.css'"
+run = "npx stylelint --fix 'docs/site/public/css/*.css'"
+
+[tasks."site:engine"]
+description = "Compile the Dart chord engine used by the website"
+run = "tool/build_web_demo.sh"
+
+[tasks."site:engine:check"]
+description = "Verify that the committed website chord engine is current"
+run = "tool/build_web_demo.sh --check"
+
+[tasks."site:check"]
+description = "Type-check the Astro website"
+run = "npm run site:check"
+
+[tasks."site:build"]
+description = "Verify the chord engine and build the static website"
+depends = ["site:engine:check"]
+run = "npm run site:build"
 
 [tasks."python:format"]
 description = "Format Python tooling with Ruff"
@@ -36,7 +53,7 @@ run = "uv pip install -r tool/requirements-research.txt"
 description = "Install optional chord oracle dependencies for local comparison runs"
 depends = ["research:python-install"]
 run = [
-  "npm install --no-package-lock",
+  "npm install",
 ]
 
 [tasks."research:oracle-compare"]

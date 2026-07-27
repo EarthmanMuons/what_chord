@@ -1,0 +1,114 @@
+---
+import { getCollection } from "astro:content";
+
+import ArticleCard from "../../components/ArticleCard.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const articles = (await getCollection("articles")).sort(
+  (a, b) => a.data.indexOrder - b.data.indexOrder,
+);
+const musicianArticles = articles.filter(
+  (article) => article.data.group === "musicians",
+);
+const technicalArticles = articles.filter(
+  (article) => article.data.group === "technical",
+);
+---
+
+<BaseLayout
+  bodyClass="articles-index-page"
+  canonicalPath="/articles/"
+  currentNav="articles"
+  description="Writing on chords, harmony, and how WhatChord works: guides for musicians on naming, writing, and identifying chords, plus technical deep-dives and research notes behind the analysis engine."
+  socialDescription="Guides for musicians on naming, writing, and identifying chords, plus technical deep-dives and research notes behind the analysis engine."
+  socialTitle="WhatChord Articles"
+  title="Articles | WhatChord"
+>
+  <main>
+    <section class="articles-section articles-index">
+      <div class="wrap">
+        <div class="section-label">Articles</div>
+        <h1 class="section-title">
+          Writing on chords, harmony, and how WhatChord works.
+        </h1>
+        <p class="section-sub">
+          Guides for musicians on naming, writing, and identifying chords, plus
+          technical deep-dives and research notes behind the analysis engine.
+        </p>
+
+        <div class="article-group">
+          <h2>For Musicians</h2>
+          <div class="article-group-grid">
+            {
+              musicianArticles.map((article) => (
+                <ArticleCard article={article} />
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="article-group">
+          <h2>Technical Deep-Dives</h2>
+          <div class="article-group-grid">
+            {
+              technicalArticles.map((article) => (
+                <ArticleCard article={article} />
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="article-group">
+          <h2>Research Projects</h2>
+          <p class="article-group-sub">
+            The open, reproducible investigations behind the app’s features,
+            developed and versioned in the source repository.
+          </p>
+          <div class="article-group-grid article-group-grid-narrow">
+            <a
+              class="article-card"
+              href="https://github.com/EarthmanMuons/whatchord/tree/main/research/whatkey"
+            >
+              <h3>Streaming Key Estimation Research</h3>
+              <p>
+                The research project behind automatic key detection: a frozen
+                evaluation protocol, versioned fixtures, external baselines,
+                dated experiment logs, and held-out results.
+              </p>
+              <span class="read-more">Read the research notes →</span>
+            </a>
+            <a
+              class="article-card"
+              href="https://github.com/EarthmanMuons/whatchord/tree/main/research/chord-context"
+            >
+              <h3>Chord Context Research</h3>
+              <p>
+                The research project testing whether recently played chords, and
+                the key they imply, sharpen live chord naming, measured against
+                a strong baseline on two annotated classical corpora.
+              </p>
+              <span class="read-more">Read the research notes →</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="try-teaser">
+      <div class="wrap">
+        <div class="try-teaser-card">
+          <div class="section-label">Try it now</div>
+          <h2>Identify a chord in your browser.</h2>
+          <p class="section-sub">
+            Nothing to install. Type a few notes and the same engine that powers
+            the app will name the voicing and its close alternatives.
+          </p>
+          <a class="btn btn-primary" href="/try">
+            Open the chord identifier →
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script is:inline src="/js/site.js" slot="scripts"></script>
+</BaseLayout>

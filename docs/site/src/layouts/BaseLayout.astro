@@ -1,0 +1,91 @@
+---
+import SiteFooter from "../components/SiteFooter.astro";
+import SiteNav from "../components/SiteNav.astro";
+
+interface Props {
+  appleItunesApp?: string;
+  bodyClass?: string;
+  canonicalPath?: string;
+  currentNav?: "articles";
+  description: string;
+  footer?: boolean;
+  image?: string;
+  imageAlt?: string;
+  noindex?: boolean;
+  simpleNav?: boolean;
+  socialDescription?: string;
+  socialTitle?: string;
+  socialType?: "article" | "website";
+  styles?: string[];
+  title: string;
+}
+
+const {
+  title,
+  appleItunesApp,
+  bodyClass,
+  canonicalPath = Astro.url.pathname,
+  currentNav,
+  description,
+  footer = true,
+  image = "/images/homepage_social.jpg",
+  imageAlt = "WhatChord: Identify chords. Understand harmony.",
+  noindex = false,
+  simpleNav = false,
+  socialDescription = description,
+  socialTitle = title,
+  socialType = "website",
+  styles = [],
+} = Astro.props;
+const canonical = new URL(canonicalPath, Astro.site);
+const socialImage = new URL(image, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    {
+      appleItunesApp && (
+        <meta name="apple-itunes-app" content={appleItunesApp} />
+      )
+    }
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {
+      !noindex && (
+        <>
+          <meta property="og:title" content={socialTitle} />
+          <meta property="og:description" content={socialDescription} />
+          <meta property="og:image" content={socialImage} />
+          <meta property="og:image:type" content="image/jpeg" />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content={imageAlt} />
+          <meta property="og:type" content={socialType} />
+          <meta property="og:url" content={canonical} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={socialTitle} />
+          <meta name="twitter:description" content={socialDescription} />
+          <meta name="twitter:image" content={socialImage} />
+          <meta name="twitter:image:alt" content={imageAlt} />
+          <link rel="canonical" href={canonical} />
+        </>
+      )
+    }
+    <link rel="icon" type="image/webp" href="/images/whatchord_logo.webp" />
+    <link rel="stylesheet" href="/css/style.css" />
+    {styles.map((style) => <link rel="stylesheet" href={style} />)}
+  </head>
+  <body class={bodyClass}>
+    <SiteNav current={currentNav} simple={simpleNav} />
+    <slot />
+    {footer && <SiteFooter />}
+    <slot name="scripts" />
+  </body>
+</html>
