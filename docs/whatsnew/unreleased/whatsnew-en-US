@@ -1,8 +1,4 @@
-- New Ensemble mode: playing over a bassist? Rootless comping voicings now get
-  their real names (E-B♭-D-A reads as C13, not a slash chord).
-- The keyboard shows the implied root as a hollow key below your played bass,
-  so you can see the note the name is built on.
-- Switch between Solo and Ensemble in Settings under Playing Mode; a badge in
-  the key bar shows while Ensemble is on and jumps to the setting.
-- Shared chord links now carry the playing mode, so a rootless voicing opens
-  the same way for the recipient.
+- New Ensemble mode names rootless voicings as the chords they imply when you're comping with a bassist. Implied roots appear on the keyboard, and shared links preserve the playing mode.
+- Automatic key detection follows clear openings, cadences, and modulations sooner.
+- Chord naming now uses the current key to resolve common sixth-versus-seventh ambiguities.
+- Added a Scale Degree Guide to the website.

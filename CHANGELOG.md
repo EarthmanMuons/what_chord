@@ -12,70 +12,41 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ### Added
 
-- Added an Ensemble playing mode for playing over a bassist: rootless jazz
-  comping voicings such as E-B♭-D-A are now named as the chord they imply (C13,
-  marked "rootless") instead of a strained slash-chord reading. Switch between
-  Solo and Ensemble under Playing Mode in Settings; while Ensemble is on, a
-  badge in the tonality bar shows the mode and taps through to the setting. The
-  live keyboard draws the implied root as a hollow key below your played bass,
-  shared chord links carry the mode so a rootless voicing reproduces for the
-  recipient, and the website's Try page gains the same Solo/Ensemble toggle.
-- Added a Scale Degree Guide to the website, covering how a key is numbered from
-  the tonic, the technical names for each degree, degree formulas, harmonizing
-  the scale into chords, and Roman numerals.
+- Ensemble mode now names rootless voicings as the chords they imply when
+  comping with a bassist. For example, E-B♭-D-A is named C13 and marked
+  "rootless" instead of receiving a strained slash-chord name. Ensemble mode
+  also recognizes secondary dominants, tritone substitutions, and other
+  outside-the-key chords.
+- Switch between Solo and Ensemble under Playing Mode in Settings. A badge in
+  the tonality bar shows when Ensemble mode is active, and the keyboard marks
+  the implied root with a hollow key. Shared chord links preserve the playing
+  mode, and the website's Try page includes the same toggle.
+- A new Scale Degree Guide on the website explains degree names and formulas,
+  Roman numerals, and how scales are harmonized into chords.
 
 ### Changed
 
-- Automatic key detection now recognizes authentic cadences: when a dominant
-  seventh resolves down a fifth onto its tonic, the detector treats that as
-  permission to change key, so it follows modulations and key changes sooner and
-  more accurately in every key behavior mode, while blues and static
-  progressions are unaffected.
-- Ensemble mode with automatic key detection now names rootless voicings under a
-  fast internal reading of the current key, so implied roots keep up with
-  modulations even while the visible key indicator stays as calm as the chosen
-  key behavior mode. Spelling still follows the displayed key signature, and a
-  manually selected key governs naming exactly as before.
-- The recent-chords list now corrects an entry one chord later when the detected
-  key turns out to have moved, so the history records each chord under the
-  settled key rather than the moment's guess.
-- In Ensemble mode, the recent-chords list also corrects a flat-nine dominant
-  one chord later using its resolution: the four dominants sharing a flat-nine
-  voicing sound identical without their roots, and the chord that follows
-  usually reveals which one was meant.
-- Automatic key detection now responds from the very first chord instead of
-  waiting for three, when that chord is clear enough to name a key confidently.
-  Ambiguous openings still show no key until the evidence settles, and accuracy
-  improves slightly across the board.
-- Ensemble mode now names secondary and substitute dominants and other
-  outside-the-key chords correctly: the implied root of a rootless voicing no
-  longer has to belong to the current key, so a sub-five or V-of-something
-  comping voicing reads as the chord the pianist means instead of an in-key
-  lookalike. Measured on a new jazz corpus of 444 transcribed solos, correct
-  namings rise from about five in six to over nine in ten, with classical
-  accuracy improving as well.
-- The tonality bar now uses a more compact key button and tighter scale-degree
-  spacing on narrow screens, keeping all seven degrees visible more often when
-  Ensemble mode is on.
-- Automatic key detection now defaults to Balanced behavior, following changes
-  in the current tonal center sooner while keeping explicitly selected behavior
-  preferences unchanged.
-- Automatic key detection now labels the six-sharp key as F♯ major rather than
-  G♭ major, so playing in F♯ shows F♯ spellings in the key display and chord
-  names. Annotated practice in both a classical and a pop/rock corpus prefers
-  the sharp side for this key.
+- Chord naming now uses the current key to resolve common sixth-versus-seventh
+  ambiguities. In C major, D-F-A-C over an F bass is named Dm7/F rather than F6,
+  while tonic sixth chords such as C6 keep their familiar names.
+- Automatic key detection now responds to a clear first chord and follows
+  authentic cadences and modulations sooner. New installations default to
+  Balanced behavior; existing behavior preferences are unchanged.
+- Ensemble mode uses a faster internal reading of the current key so rootless
+  chord names keep up with modulations without making the visible key indicator
+  more reactive. Manually selected keys continue to govern naming directly.
+- Recent Chords can revise the previous chord after a key change or resolution
+  clarifies its meaning, including ambiguous rootless flat-nine dominants.
+- The tonality bar uses a more compact key button and tighter scale-degree
+  spacing on narrow screens.
+- Six-sharp keys are now labeled F♯ major instead of G♭ major, producing the
+  expected F♯ spellings in chord names.
 
-- Chord naming now reads the current key for the classic sixth-versus-seventh
-  ambiguity: notes like D-F-A-C over an F bass display as Dm7/F in C major (the
-  ii7 musicians expect mid-progression) instead of F6, and likewise for the
-  half-diminished flavor in minor keys and on the leading tone. Tonic sixth
-  chords such as C6 keep their sixth-chord names, and the other reading is still
-  shown as an alternative.
-- Google Play download links now open WhatChord's public production listing, and
-  published releases now upload to the production track.
-- Connecting to a Bluetooth MIDI device that has deleted its pairing now shows
-  clearer guidance: forget the device in system Bluetooth settings, then pair
-  again.
+### Fixed
+
+- Connecting to a Bluetooth MIDI device that has lost its pairing now explains
+  how to forget the device in system Bluetooth settings and pair it again.
+- Google Play download links now open WhatChord's public production listing.
 
 ## [2026.7.20] - 2026-07-20
 

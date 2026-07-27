@@ -36,7 +36,7 @@ simple note-matching.
 
 ## Features
 
-- **Live chord identification**  
+- **Live chord identification**\
   Connect a Bluetooth or USB MIDI keyboard and see chords update instantly as
   you play.
 
@@ -46,33 +46,38 @@ simple note-matching.
   context following your playing. When the evidence is ambiguous, it waits
   instead of guessing.
 
-- **Manual chord lookup**  
+- **Manual chord lookup**\
   Enter notes directly to identify a chord from any instrument, sheet music, or
   recording. The first note entered sets the bass.
 
-- **Explore chords**  
+- **Explore chords**\
   Tap the chord card to open explore mode and try chord roots, qualities,
   extensions, bass notes, and example voicings.
 
-- **Explore scales**  
+- **Explore scales**\
   Tap the scale-degree strip to browse scale tones, keyboard patterns, and
   diatonic chords across a wide range of scales.
 
-- **Musically informed chord detection**  
+- **Musically informed chord detection**\
   Goes beyond simple note-matching by ranking and resolving ambiguous
   interpretations using musical context such as inversions, extensions, upper
   structures, and diatonic preference.
 
-- **Ambiguity-aware user interface**  
+- **Ensemble mode**\
+  When comping with a bassist, switch to Ensemble so rootless voicings are named
+  as the chords they imply. The keyboard marks the implied root, and shared
+  chord links preserve the selected playing mode.
+
+- **Ambiguity-aware user interface**\
   When multiple interpretations are plausible, WhatChord shows alternative
   candidates rather than hiding uncertainty, and lets you tap them to see why
   the current chord ranked first.
 
-- **Context-aware spelling**  
+- **Context-aware spelling**\
   Notes and chord symbols are spelled using the current key signature _and_ the
   identified chord context, producing appropriate enharmonic spellings.
 
-- **Notation style preferences**  
+- **Notation style preferences**\
   Choose between text-based and traditional symbolic chord notation conventions
   so chord names read naturally to you.
 

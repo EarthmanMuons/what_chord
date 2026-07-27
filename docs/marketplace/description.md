@@ -6,7 +6,7 @@ WhatChord gives musicians fast, musically informed chord names and live key cont
 
 Play it. Explore it. Learn it.
 
-WhatChord goes beyond simple note matching. Its musically informed analysis considers inversions, extensions, slash chords, altered tones, key context, and conventional naming practices so chord names appear the way musicians expect to see them.
+WhatChord goes beyond simple note matching. Its musically informed analysis considers inversions, extensions, slash chords, altered tones, key context, and conventional naming practices so chord names appear the way musicians expect to see them. When you're comping with a bassist, Ensemble mode names rootless voicings as the chords they imply and marks the implied root on the keyboard.
 
 FEATURES
 
@@ -27,6 +27,9 @@ FEATURES
 
 - Musically informed analysis  
   Recognizes inversions, extensions, slash chords, upper structures, altered tones, and complex harmony.
+
+- Ensemble mode
+  When comping with a bassist, switch to Ensemble so rootless voicings are named as the chords they imply.
 
 - Alternative interpretations  
   See other valid chord names when more than one reading makes musical sense.
