@@ -4,6 +4,7 @@ python = "3.12.13"
 uv = "0.11.16"
 
 [env]
+ASTRO_TELEMETRY_DISABLED = "1"
 _.python.venv = { path = ".venv", create = true }
 
 [tasks."css:lint:install"]
@@ -32,10 +33,20 @@ run = "tool/build_web_demo.sh --check"
 description = "Type-check the Astro website"
 run = "npm run site:check"
 
+[tasks."site:dev"]
+description = "Verify the chord engine and start the Astro development server"
+depends = ["site:engine:check"]
+run = "npm run site:dev"
+
 [tasks."site:build"]
 description = "Verify the chord engine and build the static website"
 depends = ["site:engine:check"]
 run = "npm run site:build"
+
+[tasks."site:preview"]
+description = "Build and preview the static website"
+depends = ["site:build"]
+run = "npm run site:preview"
 
 [tasks."python:format"]
 description = "Format Python tooling with Ruff"
