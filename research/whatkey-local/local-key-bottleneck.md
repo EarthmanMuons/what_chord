@@ -31,6 +31,8 @@ half-life).
 | Mode tilt = 2                                           | Adopted: +0.0164 Iso dev, +0.0302 WiR dev, both p = 0.03                                                                                                            | whatkey log 2026-07-07-23                              |
 | Relative tilt, relative cadence tilt                    | Inert or harmful; default 0                                                                                                                                         | whatkey log 2026-07-07-24                              |
 | Confidence weighting                                    | Six nulls; permanently closed                                                                                                                                       | key-behavior-modes.md                                  |
+| Functional blend re-tested on the shipped config        | Classical dev win reproduces (+0.041 exact, p = 0.02) but both blues fixtures collapse to exact 0.00 at hl1 and hl4 and the secondary-dominants probe regresses     | whatkey-local log 2026-07-27-01                        |
+| Progression blend re-tested on the shipped config       | Exact a wash trending negative (-0.016, p = 0.17); its coverage gain is a smaller copy of the cadence boost's; churns the blues and secondary-dominants probes      | whatkey-local log 2026-07-27-01                        |
 
 Two things are worth noticing. First, every progression mechanism tested is an
 **emission** ingredient: it adds progression-pattern points into the per-event
