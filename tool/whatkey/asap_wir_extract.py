@@ -34,6 +34,7 @@ import json
 import re
 import sys
 from datetime import datetime, timezone
+from itertools import pairwise
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -45,6 +46,7 @@ from reproducibility import (
     DEFAULT_ANALYSIS_PROFILE,
     fixture_hashes,
 )
+from wir_alignment_probe import analyst_chord
 
 REPO_ROOT = asap_x.REPO_ROOT
 
@@ -131,15 +133,22 @@ def main() -> int:
         downbeats = perf["performance_downbeats"]
         # Map entries are usually ints; spans like "63-64" take their first
         # measure. The base is inconsistent across pieces (some start at 0,
-        # some at 1), so calibrate an offset by matching the map's last
-        # measure to the analysis's, tolerating small edition differences.
-        measures = [int(str(m).split("-")[0]) for m in perf["downbeats_score_map"]]
+        # some at 1). Anchor an offset guess by matching the map's last
+        # measure to the analysis's, then calibrate by content: the offset
+        # near the anchor whose analyst chords best match the sounding
+        # pitch classes (performed-input log 2026-07-27-02: last-measure
+        # matching alone mislabeled 8 of 36 movements, including -1 offsets
+        # it could not represent).
+        raw_measures = [int(str(m).split("-")[0]) for m in perf["downbeats_score_map"]]
         last_analysis_measure = max(keys_by_measure)
-        offset = min(
-            (0, 1), key=lambda d: abs(measures[-1] + d - last_analysis_measure)
+        anchor = min(
+            (0, 1), key=lambda d: abs(raw_measures[-1] + d - last_analysis_measure)
         )
-        measures = [m + offset for m in measures]
         snapshots = asap_x.sounding_snapshots(args.asap_root / perf_path)
+        offset, curve = calibrate_offset(
+            harmony_spans, downbeats, raw_measures, snapshots, anchor
+        )
+        measures = [m + offset for m in raw_measures]
         pieces.append(
             {
                 "id": f"{args.set_name}/{folder}",
@@ -151,10 +160,14 @@ def main() -> int:
                 "harmonySpans": harmony_spans,
             }
         )
+        curve_text = "  ".join(
+            f"{candidate:+d}: {score:.3f}" for candidate, score in sorted(curve.items())
+        )
         print(
             f"{perf_path}: {len(snapshots)} snapshots, "
             f"{len(keys_by_measure)} keyed measures, opens in "
-            f"{key_at(keys_by_measure, 1)}",
+            f"{key_at(keys_by_measure, 1)}, offset {offset:+d} "
+            f"(anchor {anchor:+d}; {curve_text})",
             file=sys.stderr,
         )
 
@@ -306,6 +319,53 @@ def beat_count(time_sig: str) -> int:
     if numerator > 3 and numerator % 3 == 0:
         return numerator // 3
     return numerator
+
+
+def calibrate_offset(
+    spans: list[dict],
+    downbeats: list[float],
+    raw_measures: list[int],
+    snapshots: list[dict],
+    anchor: int,
+) -> tuple[int, dict[int, float]]:
+    """Pick the downbeat-map measure offset by analyst-chord agreement.
+
+    Scores each candidate offset within 2 of the last-measure anchor by the
+    time-weighted overlap between sounding pitch classes and the analyst
+    chord active at each snapshot. Correct alignments peak sharply (roughly
+    0.7-0.9 against 0.4-0.6 off-peak, see wir_alignment_probe.py), so the
+    argmax is effectively deterministic; verify regenerated sets with the
+    probe regardless.
+    """
+    if not spans or not snapshots:
+        return anchor, {}
+    curve = {}
+    for delta in range(-2, 3):
+        candidate = anchor + delta
+        timeline = harmony_timeline(
+            spans, downbeats, [m + candidate for m in raw_measures]
+        )
+        curve[candidate] = snapshot_overlap(snapshots, timeline)
+    return max(curve, key=lambda c: curve[c]), curve
+
+
+def snapshot_overlap(snapshots: list[dict], timeline: list[dict]) -> float:
+    """Time-weighted mean overlap of sounding pcs with the analyst chord."""
+    times = [entry["timestampMs"] for entry in timeline]
+    weighted = total = 0.0
+    for current, following in pairwise(snapshots):
+        pcs = {note % 12 for note in current["midiNotes"]}
+        weight = following["timestampMs"] - current["timestampMs"]
+        if not pcs or weight <= 0:
+            continue
+        at = bisect.bisect_right(times, current["timestampMs"]) - 1
+        entry = timeline[max(at, 0)]
+        expected, _ = analyst_chord(entry["figure"], entry["key"])
+        if expected is None:
+            continue
+        weighted += weight * len(pcs & expected) / len(pcs)
+        total += weight
+    return weighted / total if total else 0.0
 
 
 def harmony_timeline(
