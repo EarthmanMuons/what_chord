@@ -21,14 +21,23 @@ mise exec -- npm ci
 Start the Astro development server with:
 
 ```console
-mise exec -- npm run site:dev
+mise run site:dev
 ```
+
+This is the primary local workflow. Astro watches the site source, rebuilds
+changed pages, and refreshes the browser automatically.
 
 Build and type-check the static site with:
 
 ```console
 mise run site:check
 mise run site:build
+```
+
+Build the site and start Astro's local preview server with:
+
+```console
+mise run site:preview
 ```
 
 The production-like local server includes the custom Worker:
