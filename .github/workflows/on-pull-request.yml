@@ -50,6 +50,7 @@ jobs:
     uses: EarthmanMuons/reusable-workflows/.github/workflows/check-html.yml@main
     with:
       files: ${{ needs.detect_changed_files.outputs.html_files }}
+      prettier_plugins: prettier-plugin-astro
 
   check_markdown:
     name: check markdown
@@ -58,6 +59,7 @@ jobs:
     uses: EarthmanMuons/reusable-workflows/.github/workflows/check-markdown.yml@main
     with:
       files: ${{ needs.detect_changed_files.outputs.markdown_files }}
+      prettier_plugins: prettier-plugin-astro
 
   check_python:
     name: check python
