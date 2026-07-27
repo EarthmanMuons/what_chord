@@ -17,7 +17,6 @@ from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
-
 NO_CHORD_LABELS = {"", "N", "X"}
 ROOT_RE = re.compile(r"^[A-G](?:#{1,2}|b{1,2})?")
 
@@ -153,10 +152,7 @@ def apply_degree_modifications(degrees: set[str], modifications: list[str]) -> N
     for degree in modifications:
         if degree.startswith("*"):
             degrees.discard(degree[1:])
-        elif degree == "b5":
-            degrees.discard("5")
-            degrees.add(degree)
-        elif degree == "#5":
+        elif degree in ("b5", "#5"):
             degrees.discard("5")
             degrees.add(degree)
         else:

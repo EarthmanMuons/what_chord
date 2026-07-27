@@ -31,8 +31,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "chord"))
-import asap_extract as asap_x  # noqa: E402
-from reproducibility import (  # noqa: E402
+import asap_extract as asap_x
+from reproducibility import (
     ANALYSIS_PROFILES,
     CANONICALIZATION,
     DEFAULT_ANALYSIS_PROFILE,

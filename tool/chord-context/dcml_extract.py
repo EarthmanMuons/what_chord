@@ -40,7 +40,7 @@ from fractions import Fraction
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from labels_common import MASKS_BY_NAME, classify_figure  # noqa: E402
+from labels_common import MASKS_BY_NAME, classify_figure
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 FIXTURE_SCHEMA = "whatkey-fixture/1"
@@ -349,18 +349,16 @@ def build_piece(
     span_tpcs: list[dict[int, set[int]]] = [{} for _ in harmony_rows]
     for onset, dur, midi, tpc in note_rows:
         index = bisect.bisect_right(span_starts, onset) - 1
-        if index < 0:
-            index = 0
+        index = max(index, 0)
         off = onset + dur
         while index < len(harmony_rows):
             start = harmony_rows[index][0]
             end = start + harmony_rows[index][1]
             if start >= off:
                 break
-            if onset < end:
-                if view == "span" or onset <= start < off:
-                    span_notes[index].add(midi)
-                    span_tpcs[index].setdefault(midi % 12, set()).add(tpc)
+            if onset < end and (view == "span" or onset <= start < off):
+                span_notes[index].add(midi)
+                span_tpcs[index].setdefault(midi % 12, set()).add(tpc)
             index += 1
 
     events = []
@@ -508,6 +506,7 @@ def attach_candidates(fixtures: list[dict], context: str) -> None:
         capture_output=True,
         text=True,
         cwd=REPO_ROOT,
+        check=False,
     )
     if process.returncode:
         raise RuntimeError(process.stderr)

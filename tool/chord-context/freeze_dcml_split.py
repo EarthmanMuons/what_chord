@@ -20,7 +20,7 @@ import hashlib
 import json
 import subprocess
 from collections import Counter, defaultdict
-from datetime import date
+from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -139,7 +139,7 @@ def main() -> int:
     payload = {
         "schema": SPLIT_SCHEMA,
         "set": args.set_name,
-        "frozenAt": date.today().isoformat(),
+        "frozenAt": datetime.now(tz=timezone.utc).date().isoformat(),
         "source": {
             "type": "dcml-distant-listening",
             "corpusRepository": "https://github.com/DCMLab/distant_listening_corpus",

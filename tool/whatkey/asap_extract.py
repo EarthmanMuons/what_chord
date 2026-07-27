@@ -29,7 +29,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import mido
-
 from reproducibility import (
     ANALYSIS_PROFILES,
     CANONICALIZATION,
@@ -266,6 +265,7 @@ def replay(
         capture_output=True,
         text=True,
         cwd=REPO_ROOT,
+        check=False,
     )
     if process.returncode:
         raise RuntimeError(process.stderr)

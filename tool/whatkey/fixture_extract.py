@@ -27,6 +27,7 @@ import re
 import subprocess
 import sys
 from datetime import datetime, timezone
+from itertools import pairwise
 from pathlib import Path
 from statistics import median
 
@@ -232,7 +233,7 @@ def load_when_in_rome(args: argparse.Namespace) -> tuple[list[dict], dict]:
         if not rows:
             continue
         offsets = [row["offset"] for row in rows]
-        gaps = [b - a for a, b in zip(offsets, offsets[1:]) if b > a]
+        gaps = [b - a for a, b in pairwise(offsets) if b > a]
         fallback = median(gaps) if gaps else 2.0
         events = []
         for index, row in enumerate(rows):
@@ -347,6 +348,7 @@ def attach_candidates(
         capture_output=True,
         text=True,
         cwd=REPO_ROOT,
+        check=False,
     )
     if process.returncode:
         raise RuntimeError(process.stderr)

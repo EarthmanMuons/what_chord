@@ -17,7 +17,6 @@ from pathlib import Path
 
 from chord_label_stats import choco_jams_files, iter_chord_observations, parse_label
 
-
 OUTPUT_PATH = Path("packages/whatchord/lib/analysis/choco_common_name_prior.dart")
 
 QUALITY_BASES = [

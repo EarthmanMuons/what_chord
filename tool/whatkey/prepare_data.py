@@ -18,7 +18,6 @@ from pathlib import Path
 
 from reproducibility import CANONICALIZATION, fixture_set_sha256
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_ROOT = REPO_ROOT / "build/whatkey-corpora"
 FIXTURE_ROOT = REPO_ROOT / "build/whatkey-fixtures"

@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-from pathlib import Path
 import subprocess
 import tempfile
+from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
-
 
 ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = ROOT / "docs/site/public/images/homepage_social.png"

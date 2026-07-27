@@ -345,6 +345,7 @@ def attach_candidates(
         capture_output=True,
         text=True,
         cwd=REPO_ROOT,
+        check=False,
     )
     if process.returncode:
         raise RuntimeError(process.stderr)

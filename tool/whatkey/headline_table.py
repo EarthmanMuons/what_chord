@@ -15,7 +15,6 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-
 DEFAULT_ROOT = Path("research/whatkey/results/test-split-2026-07-07")
 DEFAULT_MANIFEST = DEFAULT_ROOT / "MANIFEST.json"
 

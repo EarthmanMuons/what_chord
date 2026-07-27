@@ -52,6 +52,13 @@ def side(name: str) -> str:
     return "natural"
 
 
+def ambient_side(time_s: float, key_segments: list[tuple[float, float, str]]) -> str:
+    for start, duration, tonic in key_segments:
+        if start <= time_s < start + duration:
+            return side(tonic)
+    return "none"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--choco-root", type=Path, required=True)
@@ -100,12 +107,6 @@ def main() -> int:
                 entry[1] += duration
                 entry[2].add(track)
 
-        def ambient_side(time_s: float) -> str:
-            for start, duration, tonic in key_segments:
-                if start <= time_s < start + duration:
-                    return side(tonic)
-            return "none"
-
         for start, duration, root in chord_obs:
             pc = note_pc(root)
             if pc in AMBIGUOUS:
@@ -113,7 +114,7 @@ def main() -> int:
                 entry[0] += 1
                 entry[1] += duration
                 entry[2].add(track)
-                conditioned[(pc, ambient_side(start))][side(root)] += 1
+                conditioned[(pc, ambient_side(start, key_segments))][side(root)] += 1
 
     print(f"{len(files)} tracks")
     print("\nKEY annotations on ambiguous tonics:")

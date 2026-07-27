@@ -21,11 +21,10 @@ import shutil
 import subprocess
 import sys
 from collections import Counter
+from collections.abc import Iterable
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable
-
 
 NOTE_NAMES = ["C", "Db", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
 DEFAULT_ORACLES = ("music21", "tonal", "pychord")
@@ -139,7 +138,7 @@ class Music21Oracle(Oracle):
             if figure == "Chord Symbol Cannot Be Identified":
                 return OracleResult("ok")
             return OracleResult("ok", (figure,))
-        except Exception as error:  # pragma: no cover - depends on optional lib
+        except Exception as error:  # noqa: BLE001  # pragma: no cover
             return OracleResult(
                 "ok", detail=f"music21 chord symbol unavailable: {error}"
             )
@@ -161,7 +160,7 @@ class PychordOracle(Oracle):
 
             chords = find_chords_from_notes(list(_bass_first(notes, bass)))
             return OracleResult("ok", tuple(str(chord) for chord in chords))
-        except Exception as error:  # pragma: no cover - depends on optional lib
+        except Exception as error:  # noqa: BLE001  # pragma: no cover
             return OracleResult("error", detail=str(error))
 
 
@@ -339,8 +338,9 @@ def main() -> int:
             else:
                 results = list(
                     executor.map(
-                        lambda input_data: oracle.detect(*input_data),
-                        oracle_inputs,
+                        oracle.detect,
+                        (notes for notes, _ in oracle_inputs),
+                        (bass for _, bass in oracle_inputs),
                     )
                 )
             for case_results, result in zip(oracle_results_by_case, results):
@@ -853,9 +853,7 @@ def build_row(
     elif (
         len(comparable_primary_oracle_names) == 1
         and not single_oracle_optional_fifth_agreement
-    ):
-        review_flag = "insufficient-oracle-labels"
-    elif not whatchord_label and whatchord_key is None:
+    ) or (not whatchord_label and whatchord_key is None):
         review_flag = "insufficient-oracle-labels"
     elif (
         matching_oracles
@@ -1257,7 +1255,7 @@ def base_degrees(compact: str) -> set[str]:
         out = {"2", "5"}
     elif "sus" in compact:
         out = {"4", "5"}
-    elif compact.startswith("minmaj") or compact.startswith("mmaj"):
+    elif compact.startswith(("minmaj", "mmaj")):
         out = {"b3", "5", "7"}
     elif compact.startswith("min") or (
         compact.startswith("m") and not compact.startswith("maj")

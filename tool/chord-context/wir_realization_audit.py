@@ -32,7 +32,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from labels_common import classify_figure  # noqa: E402
+from labels_common import classify_figure
 
 LETTER_TPC = {"F": -1, "C": 0, "G": 1, "D": 2, "A": 3, "E": 4, "B": 5}
 DEGREE_FIFTHS = {
