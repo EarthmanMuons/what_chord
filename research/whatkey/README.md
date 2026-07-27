@@ -17,7 +17,7 @@ Start here, depending on what you want:
   reported number from pinned upstream sources.
 
 <p align="center">
-  <img src="../../docs/site/images/whatkey.webp" width="320"
+  <img src="../../docs/site/public/images/whatkey.webp" width="320"
     alt="WhatChord's automatic Key Signature indicator showing G major at 82%
     confidence on a circle-of-fifths display, with the recent chords that led
     there.">

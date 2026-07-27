@@ -1,0 +1,13 @@
+---
+import { getEntry, render } from "astro:content";
+
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+
+const article = await getEntry("articles", "why-chord-naming-is-hard");
+if (!article) throw new Error("Missing article: why-chord-naming-is-hard");
+const { Content } = await render(article);
+---
+
+<ArticleLayout article={article}>
+  <Content />
+</ArticleLayout>

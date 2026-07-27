@@ -2,6 +2,10 @@
 /articles /articles/ 301
 /articles/ /articles/index.html 200
 
+# Preserve the old sitemap URL; Astro emits sitemap-index.xml, which currently
+# lists sitemap-0.xml.
+/sitemap.xml /sitemap-index.xml 301
+
 # Permanent moves: articles renamed for clearer, more searchable slugs.
 /articles/under-the-hood.html /articles/chord-recognition-algorithm.html 301
 /articles/choco-chord-coverage.html /articles/million-chord-annotations.html 301

@@ -9,14 +9,15 @@ measurement changes.
 
 **What happened.**
 
-- **Algorithm article** (`docs/site/articles/chord-recognition-algorithm.html`,
-  required by the NOTE comments in the engine): the no-ghost-roots passage now
-  scopes itself to solo analysis and links to a new "Ensemble mode: implied
-  roots" section covering the failure mode, why the mode must be explicit, the
-  generation restrictions, the pricing changes, the hard-rule preference with
-  its off-idiom exception, the dominant tiebreak, and the measured numbers. The
-  tie-breaker list gains the implied-root dominant rule in its real position,
-  and the cache-key discussion now includes the playing mode.
+- **Algorithm article**
+  (`docs/site/src/content/articles/chord-recognition-algorithm.md`, required by
+  the NOTE comments in the engine): the no-ghost-roots passage now scopes itself
+  to solo analysis and links to a new "Ensemble mode: implied roots" section
+  covering the failure mode, why the mode must be explicit, the generation
+  restrictions, the pricing changes, the hard-rule preference with its off-idiom
+  exception, the dominant tiebreak, and the measured numbers. The tie-breaker
+  list gains the implied-root dominant rule in its real position, and the
+  cache-key discussion now includes the playing mode.
 - **/try page**: a Solo/Ensemble segmented control wired to the engine's new
   mode argument; the `mode=ensemble` URL parameter round-trips through the
   copy-link and open-in-app flows (matching the app's link grammar), the results
@@ -24,9 +25,9 @@ measurement changes.
   notes it in the description. The playing mode is deliberately not persisted on
   the web page; a fresh visit is solo.
 - **Release notes**: CHANGELOG entry under Added and the whatsnew bullets.
-- The web bundle (`docs/site/js/chord-id.js`) still needs regeneration from the
-  updated `tool/web/chord_id_main.dart` before release, per the usual build
-  flow.
+- The web bundle (`docs/site/public/js/chord-id.js`) still needs regeneration
+  from the updated `tool/web/chord_id_main.dart` before release, per the usual
+  build flow.
 
 **Decisions.**
 
