@@ -26,8 +26,10 @@ const related = await getEntries(article.data.related);
   <article>
     <div class="article-wrap">
       <header class="article-header">
-        <a class="article-back" href="/">← WhatChord</a>
-        <div class="article-tag">{article.data.tag}</div>
+        <div class="article-header-meta">
+          <a class="article-back" href="/articles/">← Articles</a>
+          <div class="article-tag">{article.data.tag}</div>
+        </div>
         <h1>{article.data.title}</h1>
         {
           article.data.decks.map((deck) => (
