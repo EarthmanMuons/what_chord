@@ -14,6 +14,13 @@ real capture path (reusing tool/whatkey/asap_extract.py), then each event is
 labeled with the analyst key of the score measure active at its start
 (performance downbeat -> downbeats_score_map -> measure -> RomanText key).
 
+For the performed-input identity benchmark (research/performed-input/), each
+fixture also carries the analyst harmony: the full RomanText chord-span
+timeline projected into performance time (downbeats anchor measures; beats
+interpolate linearly inside a measure), plus a per-event convenience label of
+the span active at the event start. Conversion of (key, figure) to expected
+chord content is a scoring-time decision and does not happen here.
+
 LICENSE GATE: ASAP is CC BY-NC-SA 4.0 and the When in Rome Beethoven-sonata
 analyses are not in our license-verified group set; fixtures stay under
 build/ and this tool refuses to write inside research/.
@@ -58,7 +65,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--asap-root", type=Path, required=True)
     parser.add_argument("--bench-root", type=Path, required=True)
-    parser.add_argument("--set", dest="set_name", default="asap-wir-nc-v1")
+    parser.add_argument("--set", dest="set_name", default="asap-wir-nc-v2")
     parser.add_argument("--out", type=Path, default=Path("build/whatkey-fixtures"))
     parser.add_argument("--context", default="C:maj")
     parser.add_argument(
@@ -113,6 +120,7 @@ def main() -> int:
         keys_by_measure = analyst_keys_by_measure(matches[0], cbench, wir)
         if not keys_by_measure:
             continue
+        harmony_spans = analyst_harmony_spans(matches[0], cbench, wir)
 
         perf = annotations[perf_path]
         if not isinstance(perf.get("downbeats_score_map"), list) or not perf.get(
@@ -140,6 +148,7 @@ def main() -> int:
                 "downbeats": downbeats,
                 "measures": measures,
                 "keys": keys_by_measure,
+                "harmonySpans": harmony_spans,
             }
         )
         print(
@@ -160,6 +169,10 @@ def main() -> int:
     set_dir.mkdir(parents=True, exist_ok=True)
     for piece in pieces:
         events = replayed[piece["id"]]
+        timeline = harmony_timeline(
+            piece["harmonySpans"], piece["downbeats"], piece["measures"]
+        )
+        timeline_times = [entry["timestampMs"] for entry in timeline]
         for event in events:
             time_s = event["timestampMs"] / 1000
             index = bisect.bisect_right(piece["downbeats"], time_s) - 1
@@ -168,11 +181,19 @@ def main() -> int:
                 "localKey": key_at(piece["keys"], measure),
                 "measure": measure,
             }
+            if timeline:
+                at = bisect.bisect_right(timeline_times, event["timestampMs"]) - 1
+                entry = timeline[max(at, 0)]
+                event["labels"]["harmony"] = {
+                    field: entry[field]
+                    for field in ("key", "figure", "measure", "beat")
+                }
         fixture = {
             "schema": asap_x.FIXTURE_SCHEMA,
             "id": piece["id"],
             "title": piece["title"],
             "labels": {"source": "asap+when-in-rome", "modeResolved": True},
+            "harmony": timeline,
             "events": events,
         }
         name = piece["id"].split("/")[-1]
@@ -208,6 +229,7 @@ def main() -> int:
         },
         "context": args.context,
         "analysisProfile": args.analysis_profile,
+        "harmonyLabeled": True,
         "contentHash": {
             "algorithm": "sha256",
             "canonicalization": CANONICALIZATION,
@@ -250,6 +272,84 @@ def analyst_keys_by_measure(analysis_path: Path, cbench, wir) -> dict[int, str]:
     if current is not None:
         keys.setdefault(last_measure, current)
     return keys
+
+
+def analyst_harmony_spans(analysis_path: Path, cbench, wir) -> list[dict]:
+    """RomanText -> chord spans as (measure, beat, key, figure), score order.
+
+    Beats are notated beat positions; `beats` is the measure's beat count
+    (compound meters count dotted beats: 6/8 -> 2), used to interpolate a
+    span's onset between performance downbeats.
+    """
+    spans = []
+    for measure, beat, key, figure, time_sig in cbench.parse_rntxt(analysis_path):
+        spans.append(
+            {
+                "measure": measure,
+                "beat": beat,
+                "key": wir.key_to_wire(key),
+                "figure": figure,
+                "beats": beat_count(time_sig),
+            }
+        )
+    spans.sort(key=lambda s: (s["measure"], s["beat"]))
+    return spans
+
+
+def beat_count(time_sig: str) -> int:
+    # When in Rome writes signatures like "slow 3/8" or "6/8"; unparseable
+    # ones fall back to 4 (only the within-measure interpolation cares).
+    match = re.search(r"(\d+)\s*/\s*\d+", time_sig)
+    if not match:
+        return 4
+    numerator = int(match.group(1))
+    if numerator > 3 and numerator % 3 == 0:
+        return numerator // 3
+    return numerator
+
+
+def harmony_timeline(
+    spans: list[dict], downbeats: list[float], measures: list[int]
+) -> list[dict]:
+    """Project analyst chord spans into performance milliseconds.
+
+    Each performance downbeat anchors the span active at its measure's start
+    (carried from earlier measures when a chord sustains across the barline,
+    which also keeps lookups correct across performed repeats), and spans
+    starting mid-measure are placed by linear beat interpolation between
+    downbeats. Entries keep the span's own (measure, beat) provenance.
+    """
+    if not spans:
+        return []
+    positions = [(s["measure"], s["beat"]) for s in spans]
+    timeline = []
+    interval_ms = 2000.0
+    for index, downbeat in enumerate(downbeats):
+        measure = measures[index]
+        start_ms = downbeat * 1000
+        if index + 1 < len(downbeats):
+            interval_ms = downbeats[index + 1] * 1000 - start_ms
+        at = bisect.bisect_right(positions, (measure, 1)) - 1
+        active = spans[max(at, 0)]
+        timeline.append(_timeline_entry(active, round(start_ms)))
+        lo = bisect.bisect_right(positions, (measure, 1))
+        hi = bisect.bisect_right(positions, (measure, float("inf")))
+        for span in spans[lo:hi]:
+            fraction = min(max((span["beat"] - 1) / span["beats"], 0.0), 1.0)
+            timeline.append(
+                _timeline_entry(span, round(start_ms + fraction * interval_ms))
+            )
+    return timeline
+
+
+def _timeline_entry(span: dict, timestamp_ms: int) -> dict:
+    return {
+        "timestampMs": timestamp_ms,
+        "measure": span["measure"],
+        "beat": span["beat"],
+        "key": span["key"],
+        "figure": span["figure"],
+    }
 
 
 def key_at(keys: dict[int, str], measure: int) -> str | None:
