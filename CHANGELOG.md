@@ -36,7 +36,8 @@ The format is based on [Keep a Changelog][1], and this project adheres to
   chord names keep up with modulations without making the visible key indicator
   more reactive. Manually selected keys continue to govern naming directly.
 - Recent Chords can revise the previous chord after a key change or resolution
-  clarifies its meaning, including ambiguous rootless flat-nine dominants.
+  clarifies its meaning, including ambiguous rootless flat-nine dominants. The
+  corrected chip flips to its new name in place.
 - The tonality bar uses a more compact key button and tighter scale-degree
   spacing on narrow screens.
 - Six-sharp keys are now labeled F♯ major instead of G♭ major, producing the

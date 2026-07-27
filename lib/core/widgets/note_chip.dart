@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../models/selection_colors.dart';
+import 'chip_flip_transition.dart';
 
 /// The visual state of a [NoteChip].
 ///
@@ -117,13 +118,13 @@ class NoteChip extends StatelessWidget {
             switchInCurve: Curves.easeOutCubic,
             switchOutCurve: Curves.easeInCubic,
             layoutBuilder: (currentChild, previousChildren) {
-              return _CurrentSizeSwitcherLayout(
+              return CurrentSizeSwitcherLayout(
                 currentChild: currentChild,
                 previousChildren: previousChildren,
               );
             },
             transitionBuilder: (child, animation) {
-              return _ChipFlipTransition(
+              return ChipFlipTransition(
                 animation: animation,
                 incoming: child.key == ValueKey(label),
                 child: child,
@@ -169,62 +170,5 @@ class NoteChip extends StatelessWidget {
       textScaler: MediaQuery.textScalerOf(context),
     )..layout();
     return painter.width;
-  }
-}
-
-class _ChipFlipTransition extends StatelessWidget {
-  const _ChipFlipTransition({
-    required this.animation,
-    required this.incoming,
-    required this.child,
-  });
-
-  final Animation<double> animation;
-  final bool incoming;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: animation,
-      child: child,
-      builder: (context, child) {
-        final value = animation.value;
-        final angle = (incoming ? 1 - value : value - 1) * (math.pi / 2);
-
-        return Transform(
-          alignment: Alignment.center,
-          transform: Matrix4.identity()
-            ..setEntry(3, 2, 0.001)
-            ..rotateX(angle),
-          child: child,
-        );
-      },
-    );
-  }
-}
-
-class _CurrentSizeSwitcherLayout extends StatelessWidget {
-  const _CurrentSizeSwitcherLayout({
-    required this.currentChild,
-    required this.previousChildren,
-  });
-
-  final Widget? currentChild;
-  final List<Widget> previousChildren;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      clipBehavior: Clip.hardEdge,
-      children: [
-        for (final child in previousChildren)
-          Positioned.fill(
-            child: Align(alignment: Alignment.center, child: child),
-          ),
-        ?currentChild,
-      ],
-    );
   }
 }
