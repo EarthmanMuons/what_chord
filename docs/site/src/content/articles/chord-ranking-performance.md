@@ -33,100 +33,68 @@ tag: "Technical deep-dive"
 title: "Optimizing an Algorithm That’s Quadratic by Design"
 ---
 
-<h2>What the engine is doing</h2>
+## What the engine is doing
 
-<p>
-  WhatChord is an app that watches the notes you play on a MIDI
-  keyboard and names the chord as you play it. Press C-E-G together
-  and it shows <span class="chord">C major</span>. That sounds like a
-  dictionary lookup, and for that example it nearly is. The trouble is
-  that real playing is rarely so tidy: the same notes can carry
-  several legitimate names depending on the surrounding music, players
-  leave notes out and add color tones, and a chord can get spread
-  across both hands. So the engine does not look chords up. It treats
-  naming as a <em>ranking</em> problem: list every plausible
-  interpretation, score how well each one fits, then put them in the
-  order a musician would expect to read.
-</p>
+WhatChord is an app that watches the notes you play on a MIDI keyboard and names
+the chord as you play it. Press C-E-G together and it shows
+<span class="chord">C major</span>. That sounds like a dictionary lookup, and
+for that example it nearly is. The trouble is that real playing is rarely so
+tidy: the same notes can carry several legitimate names depending on the
+surrounding music, players leave notes out and add color tones, and a chord can
+get spread across both hands. So the engine does not look chords up. It treats
+naming as a _ranking_ problem: list every plausible interpretation, score how
+well each one fits, then put them in the order a musician would expect to read.
 
-<p>Two terms worth explaining:</p>
+Two terms worth explaining:
 
-<ul>
-  <li>
-    A <strong>voicing</strong> is the specific set of notes being
-    played, including which one is lowest (the bass). “C-E-G” and
-    “E-G, then C an octave up” are two voicings of the same chord.
-  </li>
-  <li>
-    A <strong>candidate</strong> is one possible name for a voicing.
-    The four notes C-E-G-A can be read as
-    <span class="chord">C6</span> or <span class="chord">Am7</span>,
-    among others, so the engine produces many candidates per voicing
-    and has to choose and order them.
-  </li>
-</ul>
+- A **voicing** is the specific set of notes being played, including which one
+  is lowest (the bass). "C-E-G" and "E-G, then C an octave up" are two voicings
+  of the same chord.
+- A **candidate** is one possible name for a voicing. The four notes C-E-G-A can
+  be read as <span class="chord">C6</span> or <span class="chord">Am7</span>,
+  among others, so the engine produces many candidates per voicing and has to
+  choose and order them.
 
-<p>
-  This article is about the last step in the process, the ranking.
-  When we built a reproducible benchmark and measured where the engine
-  spends its time on a cache miss, the answer was lopsided:
-  <strong>ranking is roughly 99% of it; scoring is about 1%.</strong>
-  An uncached analysis of a common seventh chord takes a few
-  milliseconds, and nearly all of that time goes toward putting the
-  already-scored candidates in order.
-</p>
+This article is about the last step in the process, the ranking. When we built a
+reproducible benchmark and measured where the engine spends its time on a cache
+miss, the answer was lopsided: **ranking is roughly 99% of it; scoring is about
+1%.** An uncached analysis of a common seventh chord takes a few milliseconds,
+and nearly all of that time goes toward putting the already-scored candidates in
+order.
 
-<h2>Why ranking can’t use an ordinary sort</h2>
+## Why ranking can't use an ordinary sort
 
-<p>
-  To sort a list, you hand the language a <em>comparator</em>: a
-  function that takes two items and reports which should come first.
-  Every general-purpose sort assumes that function describes a
-  <a href="https://en.wikipedia.org/wiki/Weak_ordering"
-    >consistent ordering</a
-  >, and in particular that it is
-  <a href="https://en.wikipedia.org/wiki/Transitive_relation"
-    >transitive</a
-  >: if A belongs before B, and B before C, then A must belong before
-  C. Violate that and the sort’s result is undefined. It will not
-  usually crash, but it can drop items in nonsensical positions.
-</p>
+To sort a list, you hand the language a _comparator_: a function that takes two
+items and reports which should come first. Every general-purpose sort assumes
+that function describes a
+[consistent ordering](https://en.wikipedia.org/wiki/Weak_ordering), and in
+particular that it is
+[transitive](https://en.wikipedia.org/wiki/Transitive_relation): if A belongs
+before B, and B before C, then A must belong before C. Violate that and the
+sort's result is undefined. It will not usually crash, but it can drop items in
+nonsensical positions.
 
-<p>
-  WhatChord’s comparator is deliberately not transitive. Most of the
-  time it ranks two candidates by their fit score, but two kinds of
-  musical override can outrank the score:
-</p>
+WhatChord's comparator is deliberately not transitive. Most of the time it ranks
+two candidates by their fit score, but two kinds of musical override can outrank
+the score:
 
-<ul>
-  <li>
-    <strong>Hard rules</strong> are structural overrides for the cases
-    where the higher score is simply the wrong name (preferring, say,
-    an altered dominant chord over a diminished-slash respelling that
-    fits the raw notes but reads worse). A hard rule can promote a
-    lower-scoring reading over a higher-scoring one no matter how wide
-    the gap.
-  </li>
-  <li>
-    <strong>Tie-breakers</strong> apply only when two candidates score
-    within a small window of each other (0.20 points, a constant the
-    code calls <code>nearTieWindow</code>), capturing musical
-    heuristics that a single number can’t.
-  </li>
-</ul>
+- **Hard rules** are structural overrides for the cases where the higher score
+  is simply the wrong name (preferring, say, an altered dominant chord over a
+  diminished-slash respelling that fits the raw notes but reads worse). A hard
+  rule can promote a lower-scoring reading over a higher-scoring one no matter
+  how wide the gap.
+- **Tie-breakers** apply only when two candidates score within a small window of
+  each other (0.20 points, a constant the code calls `nearTieWindow`), capturing
+  musical heuristics that a single number can't.
 
-<p>
-  Because a hard rule ignores the size of the score gap, you can end
-  up with a cycle: A beats B, B beats C, and C beats A. No single
-  ordering satisfies all three at once, so there is nothing coherent
-  for a sort to return. Hand a cyclic comparator to a general sort and
-  the outcome can depend on the candidates’ starting order.
-</p>
+Because a hard rule ignores the size of the score gap, you can end up with a
+cycle: A beats B, B beats C, and C beats A. No single ordering satisfies all
+three at once, so there is nothing coherent for a sort to return. Hand a cyclic
+comparator to a general sort and the outcome can depend on the candidates'
+starting order.
 
-<p>
-  So the engine does not sort. It <em>linearizes</em> the relation,
-  turning the web of pairwise preferences into one ordered list:
-</p>
+So the engine does not sort. It _linearizes_ the relation, turning the web of
+pairwise preferences into one ordered list:
 
 <pre><code><span class="cm">// beats[i][j] == true  =&gt;  candidate i should rank above j.</span>
 <span class="cm">// The relation may contain cycles: a &gt; b &gt; c &gt; a.</span>
@@ -145,31 +113,21 @@ title: "Optimizing an Algorithm That’s Quadratic by Design"
   <span class="kw">return</span> result;
 }</code></pre>
 
-<p>
-  Two important points. First, to know whether a candidate is “beaten
-  by nothing remaining,” you need the full matrix of pairwise results:
-  every <code>beats[i][j]</code> combination. Building that matrix is
-  <code>n²</code> calls to the comparator, where <code>n</code> is the
-  number of candidates. Second, when a cycle blocks progress, the
-  tie-break borrows
-  <a href="https://en.wikipedia.org/wiki/Copeland%27s_method"
-    >Copeland’s method</a
-  >
-  from voting theory: count how many of the others each candidate
-  beats, and take the one that beats the most. That count is
-  <strong>global</strong>, summed over every remaining candidate. That
-  global count is why several appealing shortcuts are unsafe.
-</p>
+Two important points. First, to know whether a candidate is "beaten by nothing
+remaining," you need the full matrix of pairwise results: every `beats[i][j]`
+combination. Building that matrix is `n²` calls to the comparator, where `n` is
+the number of candidates. Second, when a cycle blocks progress, the tie-break
+borrows [Copeland's method](https://en.wikipedia.org/wiki/Copeland%27s_method)
+from voting theory: count how many of the others each candidate beats, and take
+the one that beats the most. That count is **global**, summed over every
+remaining candidate. That global count is why several appealing shortcuts are
+unsafe.
 
-<h2>The cost is real, and it grows with the chord</h2>
+## The cost is real, and it grows with the chord
 
-<p>
-  The engine builds a candidate for every
-  <a href="chord-recognition-algorithm.html"
-    >reasonable pairing of a root note with a chord shape it can find
-    in the voicing</a
-  >, so the candidate count climbs steeply as you add notes:
-</p>
+The engine builds a candidate for every
+[reasonable pairing of a root note with a chord shape it can find in the voicing](chord-recognition-algorithm.html),
+so the candidate count climbs steeply as you add notes:
 
 <table class="article-table">
   <thead>
@@ -218,52 +176,40 @@ title: "Optimizing an Algorithm That’s Quadratic by Design"
   </tbody>
 </table>
 
-<p>
-  Even a plain three-note triad produces 25 candidates. We keep a test
-  set of deliberately adversarial, ambiguous voicings (an “oracle
-  corpus,” so called because each case has a known-correct answer to
-  check against), and there the count runs a median of about 75
-  candidates and a maximum of 143. Building the pairwise matrix for 75
-  candidates means over 5,000 calls to the comparator, a function the
-  code calls <code>_decide</code>. Each call historically scanned all
-  21 hard rules before settling anything. Because the matrix pits
-  every candidate against every other, the work grows with the
-  <em>square</em> of the candidate count: it is
-  <a href="https://en.wikipedia.org/wiki/Big_O_notation">O(n²)</a>.
-  That is where the time went.
-</p>
+Even a plain three-note triad produces 25 candidates. We keep a test set of
+deliberately adversarial, ambiguous voicings (an "oracle corpus," so called
+because each case has a known-correct answer to check against), and there the
+count runs a median of about 75 candidates and a maximum of 143. Building the
+pairwise matrix for 75 candidates means over 5,000 calls to the comparator, a
+function the code calls `_decide`. Each call historically scanned all 21 hard
+rules before settling anything. Because the matrix pits every candidate against
+every other, the work grows with the _square_ of the candidate count: it is
+[O(n²)](https://en.wikipedia.org/wiki/Big_O_notation). That is where the time
+went.
 
-<p>
-  The goal was to cut that cost without changing the output. The
-  benchmark kept us honest by recording exact operation counts, such
-  as how many candidates were built and how many comparisons were run.
-  Those integers depend only on the input and the code, never on the
-  hardware, so an accidental algorithm change would show up as a
-  changed count instead of hiding inside noisy timings.
-</p>
+The goal was to cut that cost without changing the output. The benchmark kept us
+honest by recording exact operation counts, such as how many candidates were
+built and how many comparisons were run. Those integers depend only on the input
+and the code, never on the hardware, so an accidental algorithm change would
+show up as a changed count instead of hiding inside noisy timings.
 
-<h2>Win #1: gate the hard-rule scan</h2>
+## Win #1: gate the hard-rule scan
 
-<p>
-  The first observation is that almost none of the 21 hard rules can
-  possibly apply to a given pair. Each rule fires only for a specific
-  structural pairing (an altered-fifth dominant against a remote
-  spelling, a complete triad against a deficient inverted reading, and
-  so on), and crucially that condition is
-  <strong>candidate-local</strong>: it depends only on a single
-  candidate’s quality, extensions, or precomputed features, never on
-  the candidate it is being compared against.
-</p>
+The first observation is that almost none of the 21 hard rules can possibly
+apply to a given pair. Each rule fires only for a specific structural pairing
+(an altered-fifth dominant against a remote spelling, a complete triad against a
+deficient inverted reading, and so on), and crucially that condition is
+**candidate-local**: it depends only on a single candidate's quality,
+extensions, or precomputed features, never on the candidate it is being compared
+against.
 
-<p>
-  So each rule gets a <em>gate</em>: a quick test on a single
-  candidate that is guaranteed to say “yes” whenever the rule could
-  possibly apply. Once per candidate, we precompute a
-  <a href="https://en.wikipedia.org/wiki/Mask_(computing)">bitmask</a
-  >, an integer whose bits flag which rules that candidate is eligible
-  for. For a pair, the bitwise AND of their two masks is exactly the
-  set of rules both are eligible for, and we check only those.
-</p>
+So each rule gets a _gate_: a quick test on a single candidate that is
+guaranteed to say "yes" whenever the rule could possibly apply. Once per
+candidate, we precompute a
+[bitmask](<https://en.wikipedia.org/wiki/Mask_(computing)>), an integer whose
+bits flag which rules that candidate is eligible for. For a pair, the bitwise
+AND of their two masks is exactly the set of rules both are eligible for, and we
+check only those.
 
 <pre><code><span class="cm">// Precompute once per candidate: O(n * rules), not O(n^2).</span>
 <span class="kw">final</span> gateMasks = [<span class="kw">for</span> (<span class="kw">final</span> c <span class="kw">in</span> cands) <span class="fn">gateMaskFor</span>(c)];
@@ -273,126 +219,81 @@ title: "Optimizing an Algorithm That’s Quadratic by Design"
 <span class="kw">final</span> shared = gateMasks[i] &amp; gateMasks[j];
 <span class="kw">for</span> (<span class="kw">final</span> rule <span class="kw">in</span> <span class="fn">rulesIn</span>(shared)) { ... }</code></pre>
 
-<p>
-  A skipped rule would have returned null anyway, so this is
-  <strong>provably output-identical</strong>, not just empirically
-  validated. Candidate generation and scoring are untouched, the
-  generation counters stay byte-identical, and the ranking golden plus
-  the cycle and hard-rule unit tests pass unchanged. A too-narrow gate
-  would silently drop a real decision, so those test suites are the
-  safety net.
-</p>
+A skipped rule would have returned null anyway, so this is **provably
+output-identical**, not just empirically validated. Candidate generation and
+scoring are untouched, the generation counters stay byte-identical, and the
+ranking golden plus the cycle and hard-rule unit tests pass unchanged. A
+too-narrow gate would silently drop a real decision, so those test suites are
+the safety net.
 
-<p>
-  Result: timing for uncached analysis of the adversarial corpus
-  dropped about <strong>27%</strong>, and everyday voicings sped up
-  1.2 to 1.7x. This is a constant-factor win: the same pairwise work,
-  done faster. The algorithm is still O(n²).
-</p>
+Result: timing for uncached analysis of the adversarial corpus dropped about
+**27%**, and everyday voicings sped up 1.2 to 1.7x. This is a constant-factor
+win: the same pairwise work, done faster. The algorithm is still O(n²).
 
-<h2>What didn’t work, part 1: splitting the gate by role</h2>
+## What didn't work, part 1: splitting the gate by role
 
-<p>
-  That single combined gate is broad for rules whose “other” side is
-  common, like “any slash chord” or “any seventh chord.” One
-  refinement is to split each gate into two halves, a role A and a
-  role B, and fire a rule for a pair only when the two candidates fill
-  opposite roles:
-  <code>(maskA[i] &amp; maskB[j]) | (maskB[i] &amp; maskA[j])</code>.
-</p>
+That single combined gate is broad for rules whose "other" side is common, like
+"any slash chord" or "any seventh chord." One refinement is to split each gate
+into two halves, a role A and a role B, and fire a rule for a pair only when the
+two candidates fill opposite roles:
+`(maskA[i] & maskB[j]) | (maskB[i] & maskA[j])`.
 
-<p>
-  We implemented it across all 21 rules. It stayed output-identical,
-  with unchanged counters and passing tests. It delivered 1 to 3% on
-  typical voicings and roughly 0% on the dense corpus, inside
-  benchmark noise. We reverted it.
-</p>
+We implemented it across all 21 rules. It stayed output-identical, with
+unchanged counters and passing tests. It delivered 1 to 3% on typical voicings
+and roughly 0% on the dense corpus, inside benchmark noise. We reverted it.
 
-<p>
-  The combined gate had already captured the big win: skipping pairs
-  where <em>neither</em> candidate is eligible. Splitting roles only
-  trims pairs where both candidates are eligible in the same role, a
-  thin slice, and the second mask doubles the precompute. After the
-  combined gate, the bottleneck is no longer the hard-rule scan. It is
-  the O(n²) machinery itself: the pairwise matrix and the linearizing.
-</p>
+The combined gate had already captured the big win: skipping pairs where
+_neither_ candidate is eligible. Splitting roles only trims pairs where both
+candidates are eligible in the same role, a thin slice, and the second mask
+doubles the precompute. After the combined gate, the bottleneck is no longer the
+hard-rule scan. It is the O(n²) machinery itself: the pairwise matrix and the
+linearizing.
 
-<h2>Why candidate reduction broke ranking</h2>
+## Why candidate reduction broke ranking
 
-<p>
-  If 25 candidates for a triad feels wasteful, the direct move is to
-  generate or keep fewer of them. Shrinking the candidate set attacks
-  the n² term directly. Unfortunately, it is unsafe because the
-  Copeland count is global.
-</p>
+If 25 candidates for a triad feels wasteful, the direct move is to generate or
+keep fewer of them. Shrinking the candidate set attacks the n² term directly.
+Unfortunately, it is unsafe because the Copeland count is global.
 
-<ul>
-  <li>
-    <strong>Keeping the top N by score</strong> throws away
-    lower-scoring candidates before the ranking runs. But the
-    tie-break is a global Copeland count, so removing candidates
-    changes everyone else’s win total. That can reshuffle the
-    alternatives the app shows the user. This holds for any N and any
-    cutoff; the problem is that the dropped candidates were part of
-    what the survivors were measured against.
-  </li>
-  <li>
-    <strong>Dropping candidates earlier, at generation time,</strong>
-    has the identical problem. You might restrict which roots or chord
-    templates are allowed to produce candidates, but any candidate
-    removed before ranking is gone from everyone’s win total just the
-    same.
-  </li>
-  <li>
-    The only drop that is provably safe is a
-    <a href="https://en.wikipedia.org/wiki/Condorcet_loser_criterion"
-      >Condorcet loser</a
-    >: a candidate that loses to every other and beats none, with no
-    hard-rule win to its name. But finding one requires the full
-    pairwise comparison we were trying to avoid in the first place.
-  </li>
-</ul>
+- **Keeping the top N by score** throws away lower-scoring candidates before the
+  ranking runs. But the tie-break is a global Copeland count, so removing
+  candidates changes everyone else's win total. That can reshuffle the
+  alternatives the app shows the user. This holds for any N and any cutoff; the
+  problem is that the dropped candidates were part of what the survivors were
+  measured against.
+- **Dropping candidates earlier, at generation time,** has the identical
+  problem. You might restrict which roots or chord templates are allowed to
+  produce candidates, but any candidate removed before ranking is gone from
+  everyone's win total just the same.
+- The only drop that is provably safe is a
+  [Condorcet loser](https://en.wikipedia.org/wiki/Condorcet_loser_criterion): a
+  candidate that loses to every other and beats none, with no hard-rule win to
+  its name. But finding one requires the full pairwise comparison we were trying
+  to avoid in the first place.
 
-<p>
-  So candidate reduction looked like a dead end. We set it aside and
-  tried to compute the same full ranking faster.
-</p>
+So candidate reduction looked like a dead end. We set it aside and tried to
+compute the same full ranking faster.
 
-<h2>What didn’t work, part 2: the sorted-rank redesign</h2>
+## What didn't work, part 2: the sorted-rank redesign
 
-<p>
-  The next redesign kept the exact same output and tried to compute it
-  faster. Start from a cheap first guess at the order: sort by score,
-  breaking ties by root note. Call that the <em>seed order</em>. The
-  expensive comparator agrees with this cheap seed order on almost
-  every pair. It can only disagree in two situations:
-</p>
+The next redesign kept the exact same output and tried to compute it faster.
+Start from a cheap first guess at the order: sort by score, breaking ties by
+root note. Call that the _seed order_. The expensive comparator agrees with this
+cheap seed order on almost every pair. It can only disagree in two situations:
 
-<ul>
-  <li>
-    a hard rule fired, which can only happen between two candidates
-    the gate masks already flag as eligible; or
-  </li>
-  <li>
-    a tie-breaker overruled the score, which can only happen between
-    two candidates scoring within 0.20 of each other.
-  </li>
-</ul>
+- a hard rule fired, which can only happen between two candidates the gate masks
+  already flag as eligible; or
+- a tie-breaker overruled the score, which can only happen between two
+  candidates scoring within 0.20 of each other.
 
-<p>
-  Every other pair already matches the seed order by construction. The
-  theory was that simple voicings, the common live-play case, would
-  take a fast exit: check for out-of-order pairs only in the two
-  places one can hide, and if there are none, return the seed order
-  untouched, skipping the whole n² matrix. If any turn up, fall back
-  to the full linearizer.
-</p>
+Every other pair already matches the seed order by construction. The theory was
+that simple voicings, the common live-play case, would take a fast exit: check
+for out-of-order pairs only in the two places one can hide, and if there are
+none, return the seed order untouched, skipping the whole n² matrix. If any turn
+up, fall back to the full linearizer.
 
-<p>
-  Before building it, we profiled to confirm the redesign even targets
-  the right cost. Temporary phase timers inside ranking, over the
-  oracle corpus:
-</p>
+Before building it, we profiled to confirm the redesign even targets the right
+cost. Temporary phase timers inside ranking, over the oracle corpus:
 
 <table class="article-table">
   <thead>
@@ -425,42 +326,27 @@ title: "Optimizing an Algorithm That’s Quadratic by Design"
   </tbody>
 </table>
 
-<p>
-  Building the matrix is 97% of ranking, and within that the n² loop
-  of <code>_decide</code> calls is 99.8% (allocating the matrix itself
-  is 0.2%). Fewer comparisons were the right target.
-</p>
+Building the matrix is 97% of ranking, and within that the n² loop of `_decide`
+calls is 99.8% (allocating the matrix itself is 0.2%). Fewer comparisons were
+the right target.
 
-<p>
-  We built it with a safety harness that runs both the fast path and
-  the full algorithm during tests and asserts they produce the same
-  order (the check is compiled out of release builds). It was correct.
-  It also <strong>never triggered.</strong>
-</p>
+We built it with a safety harness that runs both the fast path and the full
+algorithm during tests and asserts they produce the same order (the check is
+compiled out of release builds). It was correct. It also **never triggered.**
 
-<p>
-  The fast path fired on
-  <strong
-    >zero of every voicing we measured, including a plain C major
-    triad.</strong
-  >
-  Every measured voicing has at least one near-tie pair somewhere down
-  its long candidate list that a tie-breaker flips, and a single
-  out-of-order pair forces the full fallback. The detection pass added
-  work without finding a usable fast path, for a net loss of about 1%.
-</p>
+The fast path fired on **zero of every voicing we measured, including a plain C
+major triad.** Every measured voicing has at least one near-tie pair somewhere
+down its long candidate list that a tie-breaker flips, and a single out-of-order
+pair forces the full fallback. The detection pass added work without finding a
+usable fast path, for a net loss of about 1%.
 
-<p>
-  We then tried to re-rank only the
-  <em>entangled</em> candidates rather than all n, the ones linked by
-  a near-tie or a shared hard rule. To find out how big those tangles
-  get, we grouped candidates into connected clusters with a
-  <a href="https://en.wikipedia.org/wiki/Disjoint-set_data_structure"
-    >union-find</a
-  >. The table below shows how much of each candidate set was in the
-  largest connected cluster. A value near 100% means the localized
-  fallback would still have to re-rank almost everything:
-</p>
+We then tried to re-rank only the _entangled_ candidates rather than all n, the
+ones linked by a near-tie or a shared hard rule. To find out how big those
+tangles get, we grouped candidates into connected clusters with a
+[union-find](https://en.wikipedia.org/wiki/Disjoint-set_data_structure). The
+table below shows how much of each candidate set was in the largest connected
+cluster. A value near 100% means the localized fallback would still have to
+re-rank almost everything:
 
 <table class="article-table">
   <thead>
@@ -494,22 +380,16 @@ title: "Optimizing an Algorithm That’s Quadratic by Design"
   </tbody>
 </table>
 
-<p>
-  The biggest tangle is essentially the whole candidate set. Scores
-  are packed closely enough that the within-0.20 near-tie links chain
-  through almost everything, so re-ranking just the tangle means
-  re-ranking nearly everything anyway. There is nothing small to
-  isolate.
-</p>
+The biggest tangle is essentially the whole candidate set. Scores are packed
+closely enough that the within-0.20 near-tie links chain through almost
+everything, so re-ranking just the tangle means re-ranking nearly everything
+anyway. There is nothing small to isolate.
 
-<h2>Win #2: make each comparison cheaper</h2>
+## Win #2: make each comparison cheaper
 
-<p>
-  Since n² is intrinsic (candidates cannot be safely dropped, the
-  relation has no locality), the only lever left is the cost of a
-  single <code>_decide</code> call. Measuring where pairs go, over a
-  corpus pass:
-</p>
+Since n² is intrinsic (candidates cannot be safely dropped, the relation has no
+locality), the only lever left is the cost of a single `_decide` call. Measuring
+where pairs go, over a corpus pass:
 
 <table class="article-table">
   <thead>
@@ -534,81 +414,54 @@ title: "Optimizing an Algorithm That’s Quadratic by Design"
   </tbody>
 </table>
 
-<p>
-  The tie-break scan is not the cost; only 5% of pairs reach it. The
-  bulk is the roughly 75% of pairs that are hard-rule-eligible but
-  beyond the tie window: they call <code>_decide</code>, run the gated
-  hard-rule loop, and then decide on score anyway. That loop still
-  iterated all 21 rules checking the mask bit even when one or two
-  bits were set, about 18 million wasted iterations per corpus pass.
-  Two output-identical fast paths address that:
-</p>
+The tie-break scan is not the cost; only 5% of pairs reach it. The bulk is the
+roughly 75% of pairs that are hard-rule-eligible but beyond the tie window: they
+call `_decide`, run the gated hard-rule loop, and then decide on score anyway.
+That loop still iterated all 21 rules checking the mask bit even when one or two
+bits were set, about 18 million wasted iterations per corpus pass. Two
+output-identical fast paths address that:
 
-<ul>
-  <li>
-    <strong>Score short-circuit:</strong> in the pairwise matrix loop,
-    when the shared gate mask is empty (no hard rule can fire) and the
-    score gap exceeds <code>nearTieWindow</code>, set the result
-    straight from score and skip <code>_decide</code> entirely, along
-    with its allocation.
-  </li>
-  <li>
-    <strong>Set-bit iteration:</strong> inside <code>_decide</code>,
-    walk only the set bits of the shared mask, lowest first to
-    preserve rule order, instead of scanning all 21 rules.
-  </li>
-</ul>
+- **Score short-circuit:** in the pairwise matrix loop, when the shared gate
+  mask is empty (no hard rule can fire) and the score gap exceeds
+  `nearTieWindow`, set the result straight from score and skip `_decide`
+  entirely, along with its allocation.
+- **Set-bit iteration:** inside `_decide`, walk only the set bits of the shared
+  mask, lowest first to preserve rule order, instead of scanning all 21 rules.
 
-<p>
-  Both are provably identical to the old output, carry none of the
-  Copeland reshuffle risk, and together bought about
-  <strong>4%</strong> on the adversarial corpus. One guess turned out
-  wrong along the way: we expected these comparisons to churn through
-  a lot of short-lived memory. But after the short-circuit removed
-  about 20% of the per-comparison allocations, total allocation barely
-  moved, so a fancier allocation-free version was not worth building.
-</p>
+Both are provably identical to the old output, carry none of the Copeland
+reshuffle risk, and together bought about **4%** on the adversarial corpus. One
+guess turned out wrong along the way: we expected these comparisons to churn
+through a lot of short-lived memory. But after the short-circuit removed about
+20% of the per-comparison allocations, total allocation barely moved, so a
+fancier allocation-free version was not worth building.
 
-<p>
-  That was the end of the safe per-pair wins. The gate-mask index and
-  the per-pair fast paths are bankable and provably identical, but the
-  residual is the n² iteration over densely-scored candidates. Under
-  the constraint we were holding, there was no lever left. Together,
-  the safe optimizations delivered roughly a 30% improvement.
-</p>
+That was the end of the safe per-pair wins. The gate-mask index and the per-pair
+fast paths are bankable and provably identical, but the residual is the n²
+iteration over densely-scored candidates. Under the constraint we were holding,
+there was no lever left. Together, the safe optimizations delivered roughly a
+30% improvement.
 
-<h2>The reframe: we were answering the wrong question</h2>
+## The reframe: we were answering the wrong question
 
-<p>
-  Every conclusion above, the dead-end pruning and the intrinsic n²,
-  is correct under one assumption:
-  <strong>byte-identical output.</strong> We had been protecting the
-  exact order of every candidate. That was stronger than what the app
-  needs.
-</p>
+Every conclusion above, the dead-end pruning and the intrinsic n², is correct
+under one assumption: **byte-identical output.** We had been protecting the
+exact order of every candidate. That was stronger than what the app needs.
 
-<p>The user-facing contract has exactly two guarantees:</p>
+The user-facing contract has exactly two guarantees:
 
-<ol>
-  <li>the chosen #1 chord is preserved;</li>
-  <li>the set of surfaced alternatives is preserved.</li>
-</ol>
+1. the chosen #1 chord is preserved;
+2. the set of surfaced alternatives is preserved.
 
-<p>
-  The <em>order</em> of alternatives #2 and beyond is not a guarantee.
-  Near-tie alternatives are often
-  <a href="https://en.wikipedia.org/wiki/Enharmonic_equivalence"
-    >enharmonic</a
-  >
-  respellings of one sound, the same notes written different ways, and
-  their relative order was already being settled by an arbitrary
-  fallback (sort by root note). So the Copeland reshuffle that the
-  dead-end argument treats as disqualifying only ever moves output
-  that was never pinned down in the first place. The earlier reasoning
-  answered “can we prune with byte-for-byte identical output?” (no).
-  The product question is “can we prune without breaking the promise
-  to the user?” (yes).
-</p>
+The _order_ of alternatives #2 and beyond is not a guarantee. Near-tie
+alternatives are often
+[enharmonic](https://en.wikipedia.org/wiki/Enharmonic_equivalence) respellings
+of one sound, the same notes written different ways, and their relative order
+was already being settled by an arbitrary fallback (sort by root note). So the
+Copeland reshuffle that the dead-end argument treats as disqualifying only ever
+moves output that was never pinned down in the first place. The earlier
+reasoning answered "can we prune with byte-for-byte identical output?" (no). The
+product question is "can we prune without breaking the promise to the user?"
+(yes).
 
 <div class="callout">
   <p>
@@ -626,41 +479,30 @@ title: "Optimizing an Algorithm That’s Quadratic by Design"
   </p>
 </div>
 
-<h2>Choosing the prune margin</h2>
+## Choosing the prune margin
 
-<p>
-  The prune keeps every candidate scoring within a fixed margin of the
-  top score (<code>rankingPruneMargin</code>) and drops the rest
-  before ranking. The catch is that this margin is a
-  <strong>correctness threshold, not a tuning knob</strong>. If it is
-  ever smaller than the gap at which a candidate could still have been
-  shown to the user, the prune deletes something the user was supposed
-  to see. That makes it a worst-case bound, so it would be a mistake
-  to set it from an average or a
-  <a href="https://en.wikipedia.org/wiki/Standard_deviation"
-    >standard deviation</a
-  >: a typical-case band would be most likely to fail on the rare
-  cases the margin is supposed to protect.
-</p>
+The prune keeps every candidate scoring within a fixed margin of the top score
+(`rankingPruneMargin`) and drops the rest before ranking. The catch is that this
+margin is a **correctness threshold, not a tuning knob**. If it is ever smaller
+than the gap at which a candidate could still have been shown to the user, the
+prune deletes something the user was supposed to see. That makes it a worst-case
+bound, so it would be a mistake to set it from an average or a
+[standard deviation](https://en.wikipedia.org/wiki/Standard_deviation): a
+typical-case band would be most likely to fail on the rare cases the margin is
+supposed to protect.
 
-<p>
-  How far below the top score can a still-shown candidate sit? Call
-  that the <em>surfaced gap</em>. Our first estimate was simple and
-  wrong: hard-rule reach plus the 0.20 near-tie window, about 1.8. But
-  the engine surfaces every candidate down to the lowest-ranked
-  near-tie one, and the linearizer is not strictly ordered by score,
-  so a deeper reading can be lifted into the shown band. The measured
-  surfaced gap is the binding number, not the reach.
-</p>
+How far below the top score can a still-shown candidate sit? Call that the
+_surfaced gap_. Our first estimate was simple and wrong: hard-rule reach plus
+the 0.20 near-tie window, about 1.8. But the engine surfaces every candidate
+down to the lowest-ranked near-tie one, and the linearizer is not strictly
+ordered by score, so a deeper reading can be lifted into the shown band. The
+measured surfaced gap is the binding number, not the reach.
 
-<p>
-  The three columns below separate the pieces: <em>reach</em> is how
-  far below the top score a hard rule can promote a winner, the
-  <em>alternatives band</em> is how far down the ranked list the
-  surfaced set extends, and the <em>surfaced gap</em> is the largest
-  score gap for any shown candidate. We measured all three on the
-  engine with pruning turned off:
-</p>
+The three columns below separate the pieces: _reach_ is how far below the top
+score a hard rule can promote a winner, the _alternatives band_ is how far down
+the ranked list the surfaced set extends, and the _surfaced gap_ is the largest
+score gap for any shown candidate. We measured all three on the engine with
+pruning turned off:
 
 <table class="article-table">
   <thead>
@@ -693,115 +535,77 @@ title: "Optimizing an Algorithm That’s Quadratic by Design"
   </tbody>
 </table>
 
-<p>
-  We expected dense 8-plus-note voicings, lacking any clean template
-  fit, to compress scores and keep the margin safe. The reach half of
-  that is right: it collapses from 1.28 to 0.48 as scores compress.
-  But reach is not the binding term. The alternative band moves the
-  opposite way, because more candidates and more hard-rule cycles let
-  the linearization pull deeper readings upward, so the surfaced gap
-  <em>grows</em> to 2.858 on dense clusters.
-</p>
+We expected dense 8-plus-note voicings, lacking any clean template fit, to
+compress scores and keep the margin safe. The reach half of that is right: it
+collapses from 1.28 to 0.48 as scores compress. But reach is not the binding
+term. The alternative band moves the opposite way, because more candidates and
+more hard-rule cycles let the linearization pull deeper readings upward, so the
+surfaced gap _grows_ to 2.858 on dense clusters.
 
-<p>
-  A multi-seed adversarial sweep (5,000+ dense voicings, sizes 7 to
-  12) held the ceiling at 2.858 (an 8-note cluster), with only four
-  voicings above 2.5. Performance was essentially flat across margins:
-  the oracle corpus kept about 10 candidates at margin 2.0, 15 at 3.0,
-  and 20 at 4.0, all a greater-than-94% reduction in n² pairs against
-  the roughly 86-candidate baseline. Speed did not pick the number;
-  correctness did. We took
-  <strong>3.0</strong>: it clears the 2.858 adversarial ceiling, keeps
-  every surfaced reading on all three corpora, and changes nothing a
-  musician sees.
-</p>
+A multi-seed adversarial sweep (5,000+ dense voicings, sizes 7 to 12) held the
+ceiling at 2.858 (an 8-note cluster), with only four voicings above 2.5.
+Performance was essentially flat across margins: the oracle corpus kept about 10
+candidates at margin 2.0, 15 at 3.0, and 20 at 4.0, all a greater-than-94%
+reduction in n² pairs against the roughly 86-candidate baseline. Speed did not
+pick the number; correctness did. We took **3.0**: it clears the 2.858
+adversarial ceiling, keeps every surfaced reading on all three corpora, and
+changes nothing a musician sees.
 
-<h2>Checking the golden failures</h2>
+## Checking the golden failures
 
-<p>
-  Pruning did break three of our <em>golden tests</em>, the cases
-  where we pin exact expected output. Before relying on “order is not
-  a contract,” we checked that those three changes were arbitrary
-  rather than musically meaningful, cross-checking against outside
-  references the way we do for naming questions.
-</p>
+Pruning did break three of our _golden tests_, the cases where we pin exact
+expected output. Before relying on "order is not a contract," we checked that
+those three changes were arbitrary rather than musically meaningful,
+cross-checking against outside references the way we do for naming questions.
 
-<p>
-  Each broken case had the same shape: the #1 pick was unchanged, and
-  the shuffle was between alternatives at <em>identical</em> scores
-  that
-  <a href="why-chord-naming-is-hard.html#enharmonic-spelling"
-    >spell the same sound two different ways</a
-  >
-  (for example
-  <span class="chord">A♭7♯5♯11</span> versus
-  <span class="chord">G♯7♭5♭13</span>), separated only by the
-  root-note fallback. There is no musically correct order between
-  them, so pinning one was over-specification. We loosened the goldens
-  at the source rather than case by case: the expected alternatives
-  assertion became an unordered containment check, so every expected
-  alternative must still surface, but its order is free.
-</p>
+Each broken case had the same shape: the #1 pick was unchanged, and the shuffle
+was between alternatives at _identical_ scores that
+[spell the same sound two different ways](why-chord-naming-is-hard.html#enharmonic-spelling)
+(for example <span class="chord">A♭7♯5♯11</span> versus
+<span class="chord">G♯7♭5♭13</span>), separated only by the root-note fallback.
+There is no musically correct order between them, so pinning one was
+over-specification. We loosened the goldens at the source rather than case by
+case: the expected alternatives assertion became an unordered containment check,
+so every expected alternative must still surface, but its order is free.
 
-<h2>Locking it in</h2>
+## Locking it in
 
-<p>
-  The bound is empirical, so we wrote two guards to keep the margin
-  honest:
-</p>
+The bound is empirical, so we wrote two guards to keep the margin honest:
 
-<ul>
-  <li>
-    A <code>candidatesRanked</code> counter makes the prune a
-    deterministic benchmark signal. Generation is unchanged because
-    the prune runs after it; without this counter, the largest
-    algorithmic change we have made would show up only in noisy time.
-    It falls from 11,983 to 2,120 on the oracle corpus.
-  </li>
-  <li>
-    A guard test raises the margin to infinity to recover the unpruned
-    ranking, measures the surfaced gap across the oracle corpus and a
-    dense sweep, and fails if it ever reaches the production margin. A
-    future scoring or ranking change that widens the gap past 3.0 then
-    fails CI instead of quietly dropping an alternative.
-  </li>
-</ul>
+- A `candidatesRanked` counter makes the prune a deterministic benchmark signal.
+  Generation is unchanged because the prune runs after it; without this counter,
+  the largest algorithmic change we have made would show up only in noisy time.
+  It falls from 11,983 to 2,120 on the oracle corpus.
+- A guard test raises the margin to infinity to recover the unpruned ranking,
+  measures the surfaced gap across the oracle corpus and a dense sweep, and
+  fails if it ever reaches the production margin. A future scoring or ranking
+  change that widens the gap past 3.0 then fails CI instead of quietly dropping
+  an alternative.
 
-<h2>Result</h2>
+## Result
 
-<p>
-  The #1 pick and the surfaced alternatives set stayed unchanged
-  across both real corpora. Only 6 oracle cases and 7 common cases
-  reordered alternatives #2 and beyond, the explicitly non-contract
-  part. Uncached ranking time dropped <strong>86.7%</strong> on the
-  oracle corpus and <strong>91.7%</strong> on the common pool; the
-  memory the analysis holds onto fell about 3.5%.
-</p>
+The #1 pick and the surfaced alternatives set stayed unchanged across both real
+corpora. Only 6 oracle cases and 7 common cases reordered alternatives #2 and
+beyond, the explicitly non-contract part. Uncached ranking time dropped
+**86.7%** on the oracle corpus and **91.7%** on the common pool; the memory the
+analysis holds onto fell about 3.5%.
 
-<p>
-  This does not reduce the O(n²) complexity. A dense voicing with no
-  clear winner still ranks a full set, because the prune cannot drop
-  candidates near the top score. It removes the long tail of
-  unsurfaceable readings that common and adversarial cases were paying
-  full ranking cost to order.
-</p>
+This does not reduce the O(n²) complexity. A dense voicing with no clear winner
+still ranks a full set, because the prune cannot drop candidates near the top
+score. It removes the long tail of unsurfaceable readings that common and
+adversarial cases were paying full ranking cost to order.
 
-<h2>The takeaway</h2>
+## The takeaway
 
-<p>
-  The most expensive constraint in this work was one we imposed on
-  ourselves and never stated: byte-identical output. Under that
-  constraint, the safe optimizations were constant-factor only. The
-  tenfold win did not come from a more clever algorithm. It came from
-  comparing the constraint to what the product promises.
-</p>
+The most expensive constraint in this work was one we imposed on ourselves and
+never stated: byte-identical output. Under that constraint, the safe
+optimizations were constant-factor only. The tenfold win did not come from a
+more clever algorithm. It came from comparing the constraint to what the product
+promises.
 
-<p>
-  The gate masks and per-pair fast paths are still in the engine,
-  still provably identical, and still earning their roughly 30% on
-  top. But the headline number came from removing a guarantee the app
-  did not actually need.
-</p>
+The gate masks and per-pair fast paths are still in the engine, still provably
+identical, and still earning their roughly 30% on top. But the headline number
+came from removing a guarantee the app did not actually need.
 
 <div class="article-cta">
   <h3>See the speed for yourself.</h3>

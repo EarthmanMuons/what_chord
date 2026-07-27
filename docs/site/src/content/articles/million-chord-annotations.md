@@ -39,71 +39,47 @@ tag: "Chord data"
 title: "What We Learned From 1 Million Chord Annotations"
 ---
 
-<h2>Why measure this at all?</h2>
+## Why measure this at all?
 
-<p>
-  A chord recognizer has to make user experience decisions that look
-  small on the surface but matter a lot in practice. Should a bare
-  fifth be treated as a chord, or as an interval? Which altered colors
-  deserve first-class names? Is it better to add more exotic
-  templates, or to improve the ranking and spelling of the common
-  ones?
-</p>
+A chord recognizer has to make user experience decisions that look small on the
+surface but matter a lot in practice. Should a bare fifth be treated as a chord,
+or as an interval? Which altered colors deserve first-class names? Is it better
+to add more exotic templates, or to improve the ranking and spelling of the
+common ones?
 
-<p>
-  Those questions cannot be answered by counting possible
-  <a href="https://en.wikipedia.org/wiki/Set_theory_(music)"
-    >pitch-class sets</a
-  >. There are only 4,096 possible sets in
-  <a href="https://en.wikipedia.org/wiki/12_equal_temperament"
-    >12-tone equal temperament</a
-  >
-  (12-TET), but most of them are not useful chord names. The more
-  relevant question is what chord labels musicians, transcribers, and
-  datasets actually use when describing real music.
-</p>
+Those questions cannot be answered by counting possible
+[pitch-class sets](<https://en.wikipedia.org/wiki/Set_theory_(music)>). There
+are only 4,096 possible sets in
+[12-tone equal temperament](https://en.wikipedia.org/wiki/12_equal_temperament)
+(12-TET), but most of them are not useful chord names. The more relevant
+question is what chord labels musicians, transcribers, and datasets actually use
+when describing real music.
 
-<p>
-  That is where engineering discipline helps. A recognition engine can
-  still be shaped by musical taste, but the roadmap should not depend
-  only on intuition. We wanted external validation: compare
-  WhatChord’s current chord vocabulary with a large collection of
-  existing chord annotations, then use the result to decide where more
-  work would actually help players.
-</p>
+That is where engineering discipline helps. A recognition engine can still be
+shaped by musical taste, but the roadmap should not depend only on intuition. We
+wanted external validation: compare WhatChord's current chord vocabulary with a
+large collection of existing chord annotations, then use the result to decide
+where more work would actually help players.
 
-<h2>The data source</h2>
+## The data source
 
-<p>
-  The comparison used
-  <a href="https://github.com/smashub/choco">ChoCo</a>, a large
-  linked-data chord corpus that gathers annotations from many existing
-  datasets and formats. It includes material derived from sources such
-  as Isophonics, RWC Pop, Weimar Jazz, USPop2002, Wikifonia, iReal
-  Pro, and others.
-</p>
+The comparison used [ChoCo](https://github.com/smashub/choco), a large
+linked-data chord corpus that gathers annotations from many existing datasets
+and formats. It includes material derived from sources such as Isophonics, RWC
+Pop, Weimar Jazz, USPop2002, Wikifonia, iReal Pro, and others.
 
-<p>
-  That mix is exactly what makes the corpus useful. It is not a
-  perfect model of what someone will play into a MIDI keyboard, and it
-  is not a benchmark for live recognition accuracy. It is a broad
-  snapshot of chord-symbol language across real annotated music.
-</p>
+That mix is exactly what makes the corpus useful. It is not a perfect model of
+what someone will play into a MIDI keyboard, and it is not a benchmark for live
+recognition accuracy. It is a broad snapshot of chord-symbol language across
+real annotated music.
 
-<p>
-  The analysis looked at converted
-  <a href="https://github.com/marl/jams">JAMS</a> (JSON Annotated
-  Music Specification) files from ChoCo and extracted
-  <a href="https://ismir2005.ismir.net/proceedings/1080.pdf"
-    >Harte-style</a
-  >
-  chord labels such as <span class="chord">C:maj</span>,
-  <span class="chord">D:min7</span>,
-  <span class="chord">G:7(b9)</span>, and
-  <span class="chord">F#:hdim7</span>. Then it removed the root from
-  each label, so C major, E-flat major, and F-sharp major all count as
-  the same chord body: major.
-</p>
+The analysis looked at converted [JAMS](https://github.com/marl/jams) (JSON
+Annotated Music Specification) files from ChoCo and extracted
+[Harte-style](https://ismir2005.ismir.net/proceedings/1080.pdf) chord labels
+such as <span class="chord">C:maj</span>, <span class="chord">D:min7</span>,
+<span class="chord">G:7(b9)</span>, and <span class="chord">F#:hdim7</span>.
+Then it removed the root from each label, so C major, E-flat major, and F-sharp
+major all count as the same chord body: major.
 
 <div class="callout">
   <p>
@@ -114,14 +90,11 @@ title: "What We Learned From 1 Million Chord Annotations"
   </p>
 </div>
 
-<h2>The headline result</h2>
+## The headline result
 
-<p>
-  After excluding labels for no chord, unknown harmony, and empty
-  values, the snapshot contained 1,097,701 chord observations. Those
-  observations collapsed to 350 distinct chord bodies after root
-  removal.
-</p>
+After excluding labels for no chord, unknown harmony, and empty values, the
+snapshot contained 1,097,701 chord observations. Those observations collapsed to
+350 distinct chord bodies after root removal.
 
 <table class="article-table">
   <thead>
@@ -150,10 +123,8 @@ title: "What We Learned From 1 Million Chord Annotations"
   </tbody>
 </table>
 
-<p>
-  Compared with WhatChord’s current templates and extension handling,
-  the result was encouraging:
-</p>
+Compared with WhatChord's current templates and extension handling, the result
+was encouraging:
 
 <table class="article-table">
   <thead>
@@ -180,22 +151,17 @@ title: "What We Learned From 1 Million Chord Annotations"
   </tbody>
 </table>
 
-<p>
-  In plain English: most of the chord language in this large mixed
-  corpus is already inside WhatChord’s recognition vocabulary. The
-  current set of supported chord families is broad enough to cover the
-  overwhelming majority of real annotated chord material.
-</p>
+In plain English: most of the chord language in this large mixed corpus is
+already inside WhatChord's recognition vocabulary. The current set of supported
+chord families is broad enough to cover the overwhelming majority of real
+annotated chord material.
 
-<h2>The common chords were the expected ones</h2>
+## The common chords were the expected ones
 
-<p>
-  The highest-frequency chord bodies were not surprising, which is a
-  good sign. Major, dominant seventh, minor, minor seventh, major
-  seventh, diminished, sixth, ninth, and altered dominant material all
-  appeared near the top. Those are exactly the chord families a
-  practical recognizer should handle well.
-</p>
+The highest-frequency chord bodies were not surprising, which is a good sign.
+Major, dominant seventh, minor, minor seventh, major seventh, diminished, sixth,
+ninth, and altered dominant material all appeared near the top. Those are
+exactly the chord families a practical recognizer should handle well.
 
 <table class="article-table">
   <thead>
@@ -249,24 +215,18 @@ title: "What We Learned From 1 Million Chord Annotations"
   </tbody>
 </table>
 
-<p>
-  This matters because development time is finite. A chord recognizer
-  can always grow a longer list of labels, but every new label affects
-  ranking. Add too many marginal templates and the app can become
-  worse at naming common voicings, especially when
-  <a href="why-chord-naming-is-hard.html"
-    >several chord readings share the same notes</a
-  >.
-</p>
+This matters because development time is finite. A chord recognizer can always
+grow a longer list of labels, but every new label affects ranking. Add too many
+marginal templates and the app can become worse at naming common voicings,
+especially when
+[several chord readings share the same notes](why-chord-naming-is-hard.html).
 
-<h2>The missing labels were instructive</h2>
+## The missing labels were instructive
 
-<p>
-  The most common unsupported bodies were not missing mainstream chord
-  families. They were mostly omitted-tone labels, fifth-only
-  sonorities, and root-only annotations. Those labels are meaningful
-  in a corpus, but they do not necessarily make good live chord names.
-</p>
+The most common unsupported bodies were not missing mainstream chord families.
+They were mostly omitted-tone labels, fifth-only sonorities, and root-only
+annotations. Those labels are meaningful in a corpus, but they do not
+necessarily make good live chord names.
 
 <table class="article-table">
   <thead>
@@ -300,75 +260,51 @@ title: "What We Learned From 1 Million Chord Annotations"
   </tbody>
 </table>
 
-<p>
-  This supports an existing WhatChord design choice: dyads are
-  reported as intervals rather than promoted into chord templates.
-  WhatChord previously supported a power-fifth chord label, but that
-  made ranking worse for a piano-focused app. The corpus result did
-  not argue for bringing it back. It argued for restraint.
-</p>
+This supports an existing WhatChord design choice: dyads are reported as
+intervals rather than promoted into chord templates. WhatChord previously
+supported a power-fifth chord label, but that made ranking worse for a
+piano-focused app. The corpus result did not argue for bringing it back. It
+argued for restraint.
 
-<p>
-  The first unsupported labels that looked more like candidate chord
-  qualities were minor sharp-five forms. They are real, but much rarer
-  than the common chord families that dominate the corpus.
-</p>
+The first unsupported labels that looked more like candidate chord qualities
+were minor sharp-five forms. They are real, but much rarer than the common chord
+families that dominate the corpus.
 
-<h2>What this means for WhatChord</h2>
+## What this means for WhatChord
 
-<p>
-  The practical lesson is not “the app is done.” It is that the next
-  highest-impact improvements are probably not a long list of new
-  chord templates.
-</p>
+The practical lesson is not "the app is done." It is that the next
+highest-impact improvements are probably not a long list of new chord templates.
 
-<p>The data points toward three priorities:</p>
+The data points toward three priorities:
 
-<ul>
-  <li>
-    Keep improving ranking for common ambiguous voicings, because
-    those are the cases players will hit most often.
-  </li>
-  <li>
-    Keep improving spelling and explanations, because the same
-    recognized chord can be more or less useful depending on whether
-    the symbol matches musical convention.
-  </li>
-  <li>
-    Track rare but real chord families, such as minor sharp-five,
-    without letting them disrupt the common cases.
-  </li>
-</ul>
+- Keep improving ranking for common ambiguous voicings, because those are the
+  cases players will hit most often.
+- Keep improving spelling and explanations, because the same recognized chord
+  can be more or less useful depending on whether the symbol matches musical
+  convention.
+- Track rare but real chord families, such as minor sharp-five, without letting
+  them disrupt the common cases.
 
-<p>
-  That balance is central to WhatChord’s approach. More recognition is
-  only better when it improves the answer a musician sees. Sometimes
-  the disciplined choice is to say no to a label, or at least not yet.
-</p>
+That balance is central to WhatChord's approach. More recognition is only better
+when it improves the answer a musician sees. Sometimes the disciplined choice is
+to say no to a label, or at least not yet.
 
-<h2>What the numbers do not prove</h2>
+## What the numbers do not prove
 
-<p>
-  Corpus coverage is not the same as live analyzer accuracy. A
-  supported chord body means WhatChord has the vocabulary to name that
-  kind of chord. It does not prove every voicing from the source
-  material would rank exactly the same way in the app.
-</p>
+Corpus coverage is not the same as live analyzer accuracy. A supported chord
+body means WhatChord has the vocabulary to name that kind of chord. It does not
+prove every voicing from the source material would rank exactly the same way in
+the app.
 
-<p>
-  The source material also mixes audio annotations, score-derived
-  annotations, lead sheets, and converted symbolic formats. That
-  breadth is useful, but it also means some labels encode conventions
-  from their original source rather than universal chord-symbol
-  practice.
-</p>
+The source material also mixes audio annotations, score-derived annotations,
+lead sheets, and converted symbolic formats. That breadth is useful, but it also
+means some labels encode conventions from their original source rather than
+universal chord-symbol practice.
 
-<p>
-  So the corpus is best understood as a reality check, not a product
-  spec. It helps keep the recognition roadmap grounded in music people
-  actually annotate and play, while leaving room for the musical
-  judgment that real-time chord naming still requires.
-</p>
+So the corpus is best understood as a reality check, not a product spec. It
+helps keep the recognition roadmap grounded in music people actually annotate
+and play, while leaving room for the musical judgment that real-time chord
+naming still requires.
 
 <div class="article-cta">
   <h3>Read the research note.</h3>

@@ -1,9 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "site:build": "astro build --root docs/site",
+    "site:build": "astro build --root docs/site && npm run site:links",
     "site:check": "astro check --root docs/site",
     "site:dev": "astro dev --root docs/site",
+    "site:links": "node tool/site/check_site_links.mjs docs/site/dist",
     "site:preview": "astro preview --root docs/site"
   },
   "devDependencies": {
