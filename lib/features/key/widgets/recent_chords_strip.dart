@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:whatchord_app/core/core.dart';
 import 'package:whatchord_app/features/history/history.dart';
 import 'package:whatchord_app/features/theory/theory.dart';
 
@@ -169,6 +170,25 @@ class _RecentChordsStripState extends ConsumerState<RecentChordsStrip> {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
     final eased = CurvedAnimation(parent: animation, curve: Curves.easeOut);
+    final symbol = ChordSymbolBuilder.formatIdentity(
+      identity: event.identity,
+      tonality: event.tonality,
+      notation: notation,
+    );
+    final disableAnimations =
+        MediaQuery.maybeOf(context)?.disableAnimations ??
+        WidgetsBinding
+            .instance
+            .platformDispatcher
+            .accessibilityFeatures
+            .disableAnimations;
+    final resizeDuration = disableAnimations
+        ? Duration.zero
+        : const Duration(milliseconds: 90);
+    final flipDuration = disableAnimations
+        ? Duration.zero
+        : const Duration(milliseconds: 340);
+
     return SizeTransition(
       sizeFactor: eased,
       axis: Axis.horizontal,
@@ -176,20 +196,45 @@ class _RecentChordsStripState extends ConsumerState<RecentChordsStrip> {
         opacity: eased,
         child: Padding(
           padding: const EdgeInsets.only(right: 6),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: cs.surfaceContainerLowest,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: cs.outlineVariant),
-            ),
-            child: Text(
-              ChordSymbolBuilder.formatIdentity(
-                identity: event.identity,
-                tonality: event.tonality,
-                notation: notation,
+          child: Semantics(
+            label: 'Recent chord $symbol',
+            child: ExcludeSemantics(
+              child: AnimatedSize(
+                duration: resizeDuration,
+                curve: Curves.easeOutCubic,
+                alignment: Alignment.centerLeft,
+                child: AnimatedSwitcher(
+                  duration: flipDuration,
+                  switchInCurve: Curves.easeOutCubic,
+                  switchOutCurve: Curves.easeInCubic,
+                  layoutBuilder: (currentChild, previousChildren) {
+                    return CurrentSizeSwitcherLayout(
+                      currentChild: currentChild,
+                      previousChildren: previousChildren,
+                    );
+                  },
+                  transitionBuilder: (child, animation) {
+                    return ChipFlipTransition(
+                      animation: animation,
+                      incoming: child.key == ValueKey(symbol),
+                      child: child,
+                    );
+                  },
+                  child: Container(
+                    key: ValueKey(symbol),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: cs.surfaceContainerLowest,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: cs.outlineVariant),
+                    ),
+                    child: Text(symbol, style: theme.textTheme.bodyMedium),
+                  ),
+                ),
               ),
-              style: theme.textTheme.bodyMedium,
             ),
           ),
         ),
@@ -200,8 +245,10 @@ class _RecentChordsStripState extends ConsumerState<RecentChordsStrip> {
   void _onHistory(List<ChordEvent>? previous, List<ChordEvent> next) {
     if (next.isEmpty) return; // reset handled via freshness
     if (previous != null &&
+        previous.length == next.length &&
         previous.isNotEmpty &&
         identical(previous.last, next.last)) {
+      _replaceChangedEvents(previous, next);
       return;
     }
     setState(() {
@@ -220,6 +267,30 @@ class _RecentChordsStripState extends ConsumerState<RecentChordsStrip> {
         duration: Duration.zero,
       );
     }
+  }
+
+  /// Reconciles record-only history corrections without treating them as new
+  /// chords. A replacement preserves its chronological slot, so matching each
+  /// locally displayed event back to the prior list identifies exactly which
+  /// chip should flip in place.
+  void _replaceChangedEvents(List<ChordEvent> previous, List<ChordEvent> next) {
+    final replacements = <int, ChordEvent>{};
+    for (var localIndex = 0; localIndex < _events.length; localIndex++) {
+      final previousIndex = previous.indexWhere(
+        (event) => identical(event, _events[localIndex]),
+      );
+      if (previousIndex >= 0 &&
+          !identical(previous[previousIndex], next[previousIndex])) {
+        replacements[localIndex] = next[previousIndex];
+      }
+    }
+    if (replacements.isEmpty) return;
+
+    setState(() {
+      for (final replacement in replacements.entries) {
+        _events[replacement.key] = replacement.value;
+      }
+    });
   }
 
   void _clear() {
