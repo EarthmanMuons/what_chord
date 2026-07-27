@@ -84,7 +84,7 @@ naturally point to <span class="chord">Cdim7</span>, the leading-tone diminished
 root position: the interpretation where the bass note is named as the root,
 which is a clear default when no surrounding harmony is available.
 
-<h2 id="inversions">Inversions: the bass note changes everything</h2>
+## Inversions: the bass note changes everything
 
 Inversion is one of the main reasons a chord name needs more than a pitch-class
 lookup. When the third is in the bass instead of the root, a major chord carries
@@ -182,7 +182,7 @@ treating the upper notes as unrelated chord roots. If the bass is itself a color
 tone, such as the ♯11, the result is kept in the dominant family rather than
 being treated as an unrelated root change.
 
-<h2 id="enharmonic-spelling">Enharmonic spelling</h2>
+## Enharmonic spelling
 
 C♯ and D♭ are the same key on a piano. They are the same MIDI note number, but
 they mean different things. Writing the wrong one in a chord symbol or lead
