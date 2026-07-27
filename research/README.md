@@ -43,6 +43,11 @@ and published methods.
   key-open admission with two narrow guards lifts held-out jazz naming from
   87.3% to 94.2% exact with zero regressed solos, and classical improves
   alongside.
+- [Performed Input](performed-input/): measuring chord identity on real
+  performances through the live causal pipeline, where every prior identity
+  number used clean synthesized voicings. Open: the flagship ruler crosses ASAP
+  performed MIDI with When in Rome harmony annotations, with further avenues
+  (prefix stability, frequency weighting, POP909) captured and ranked.
 
 Supporting code lives with the rest of the project: batch drivers and corpus
 tooling in `tool/`, performance benchmarks in `benchmark/`, and the engine
