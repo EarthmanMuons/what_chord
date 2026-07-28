@@ -10,8 +10,10 @@ that surface directly, and it captures the other unexplored angles on live
 accuracy as ranked avenues so they are tackled deliberately instead of
 opportunistically.
 
-Status: open. Avenue 1 complete and standing (ruler v1, frozen split, full
-attribution decomposition; log -12); avenue 2 proposed next.
+Status: open. Avenues 1 and 2 complete and standing (two frozen rulers with
+baselines, full attribution decomposition, display-policy frontier); avenue 4
+diligence done (POP909 admitted with caveats); avenue 5 scoped and shelved;
+next: stability replication on POP909, then avenue 3.
 
 ## Why now
 
@@ -62,10 +64,12 @@ silently dropped.
    exposure, and sample real observed voicings per label from the performed
    corpora instead of only canonical stacks, testing robustness to the doubling,
    omission, and register choices musicians actually make.
-4. **POP909 diligence**: piano MIDI for 909 pop songs with chord and key
-   annotations, which would complement classical DCML and jazz Weimar with the
-   domain where fixture coverage is thinnest. License and annotation quality
-   need diligence before any commitment.
+4. **POP909 diligence** (done, log 2026-07-28-01): piano MIDI for 909 pop songs
+   with chord and key annotations. Verdict: genuinely performance-flavored input
+   (pedal, expressive velocity and timing) admitted under ASAP-style gating for
+   the stability ruler and observed-voicing sampling; chord labels are
+   machine-extracted (0.88 independent content agreement), so identity use is
+   advisory-only, never headline ground truth.
 5. **Voicing-structure awareness** (added from the log -09 provenance split;
    scoped and shelved in log -16): the engine has no concept of a melodic voice
    riding above a held harmony, so sustained melody dwells rename the chord
