@@ -484,14 +484,14 @@ annotation targets, not a best smoothing value.
     legend: (position: bottom + right),
     lq.plot(
       (0, 12, 20, 32),
-      (0.52, 0.62, 0.64, 0.69),
+      (0.52, 0.62, 0.64, 0.68),
       mark: "s",
       color: fig-blue,
       label: [30 s memory (section-key)],
     ),
     lq.plot(
       (0, 12, 20, 32),
-      (0.60, 0.61, 0.62, 0.62),
+      (0.61, 0.62, 0.62, 0.62),
       mark: "o",
       color: fig-orange,
       label: [1 s memory (local-key)],
@@ -508,7 +508,7 @@ annotation targets, not a best smoothing value.
 Could the crossover instead reflect input noise, or some other difference
 between the corpora? Three controls say no. First, noise: on the evaluation-only
 overlap corpus, identical performed recordings scored against analyst local keys
-still prefer short memory (0.60 vs 0.52 exact on claims, the leftmost points of
+still prefer short memory (0.61 vs 0.52 exact on claims, the leftmost points of
 @fig-segment), matching the clean-score result. Second, corpus identity: the
 crossover reproduces *within* that single corpus when the same claims are
 re-scored by annotated segment length (@fig-segment); the long-memory
