@@ -177,4 +177,34 @@ void main() {
     expect(segmenter.pendingDeadline, isNull);
     expect(segmenter.flush(at(5000)), isEmpty);
   });
+
+  test('active tracks the accumulating chord from onset', () {
+    expect(segmenter.active, isNull);
+    expect(segmenter.activeSince, isNull);
+
+    final c = frameFor(cMajor);
+    segmenter.onFrame(c, at(0));
+    expect(segmenter.active?.identity, c.identity);
+    expect(segmenter.activeSince, at(0));
+
+    segmenter.onFrame(null, at(1000));
+    expect(segmenter.active, isNull);
+    expect(segmenter.activeSince, isNull);
+  });
+
+  test(
+    'active holds through a pending challenger and backdates on takeover',
+    () {
+      final c = frameFor(cMajor);
+      final f = frameFor(fMajor);
+      segmenter.onFrame(c, at(0));
+      segmenter.onFrame(f, at(500));
+      expect(segmenter.active?.identity, c.identity);
+      expect(segmenter.activeSince, at(0));
+
+      segmenter.resolveDue(at(500 + minDuration.inMilliseconds));
+      expect(segmenter.active?.identity, f.identity);
+      expect(segmenter.activeSince, at(500));
+    },
+  );
 }

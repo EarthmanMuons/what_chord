@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatchord/whatchord.dart';
 
 import '../../state/providers/analysis_context_provider.dart';
-import '../../state/providers/chord_candidates_providers.dart';
+import '../../state/providers/displayed_chord_provider.dart';
 import '../../state/providers/theory_preferences_notifier.dart';
 
 class AlternativeChordCandidatesList extends ConsumerStatefulWidget {
@@ -65,7 +65,7 @@ class _AlternativeChordCandidatesListState
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
     final alternatives = widget.enabled
-        ? ref.watch(alternativeChordCandidatesProvider)
+        ? ref.watch(displayedAlternativeCandidatesProvider)
         : const [];
 
     final tonality = ref.watch(

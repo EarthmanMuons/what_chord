@@ -12,9 +12,11 @@ final historyCapacityProvider = Provider<int>((ref) => 100);
 /// How long an identity must persist to count as real. Serves double duty:
 /// a challenger identity must outlive this to end the current chord
 /// (debounce), and a committed chord must have been held this long to be
-/// recorded. Split into separate providers if tuning ever needs them apart.
+/// recorded. The constant lives in theory
+/// ([chordStabilityMinDurationProvider]) because the display gate shares it;
+/// split providers if tuning ever needs capture and display apart.
 final historyMinChordDurationProvider = Provider<Duration>(
-  (ref) => const Duration(milliseconds: 200),
+  (ref) => ref.watch(chordStabilityMinDurationProvider),
 );
 
 /// Clock behind event timestamps and durations; injectable for tests.

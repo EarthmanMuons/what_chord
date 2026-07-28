@@ -20,6 +20,7 @@ export 'state/providers/chord_member_spellings_providers.dart';
 export 'state/providers/chord_analyzer_provider.dart';
 export 'state/providers/chord_presentation_provider.dart';
 export 'state/providers/detected_scale_degree_provider.dart';
+export 'state/providers/displayed_chord_provider.dart';
 export 'state/providers/ensemble_naming_tonality_provider.dart';
 export 'state/providers/identity_display_provider.dart';
 export 'state/providers/implied_root_notes_provider.dart';

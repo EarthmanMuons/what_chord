@@ -97,6 +97,30 @@ def gated_stream(events: list[dict]) -> list[tuple[int, tuple | None]]:
     return out
 
 
+def gated_live_stream(
+    raw: list[tuple[int, tuple | None]], stream_end: int
+) -> list[tuple[int, tuple | None]]:
+    """The segmenter's live active-chord semantics: a label is adopted
+    immediately when nothing is active (after a blank), while during an
+    active chord a different label takes over only after surviving
+    COMMIT_LAG_MS as a challenger. The immediate-onset variant of gating."""
+    out: list[tuple[int, tuple | None]] = []
+    current: tuple | None = None
+    for index, (start, label) in enumerate(raw):
+        end = raw[index + 1][0] if index + 1 < len(raw) else stream_end
+        if label is None:
+            if current is not None:
+                out.append((start, None))
+                current = None
+        elif current is None:
+            out.append((start, label))
+            current = label
+        elif label != current and end - start >= COMMIT_LAG_MS:
+            out.append((start + COMMIT_LAG_MS, label))
+            current = label
+    return out
+
+
 def stability(
     stream: list[tuple[int, tuple | None]], stream_end: int, flicker_ms: int
 ) -> tuple[float, float]:
@@ -173,7 +197,11 @@ def main() -> int:
             + [frames[-1]["timestampMs"] if frames else 0]
         )
         raw = raw_stream(frames)
-        candidates = {"raw": raw, "gated": gated_stream(events)}
+        candidates = {
+            "raw": raw,
+            "gated": gated_stream(events),
+            "gated-live": gated_live_stream(raw, stream_end),
+        }
         for dwell in DWELLS:
             candidates[f"dwell-{dwell}"] = dwell_stream(raw, dwell, stream_end)
         for policy, stream in candidates.items():
@@ -195,7 +223,7 @@ def main() -> int:
             row["missed"] += missed
             row["events"] += missed + len(lats)
 
-    order = ["raw", *[f"dwell-{d}" for d in DWELLS], "gated"]
+    order = ["raw", *[f"dwell-{d}" for d in DWELLS], "gated", "gated-live"]
     summary = {}
     print(
         f"{'policy':>10} {'flicker':>8} {'sw/min':>8} "

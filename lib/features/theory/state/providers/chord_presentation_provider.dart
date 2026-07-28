@@ -2,12 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatchord/whatchord.dart';
 
 import 'analysis_context_provider.dart';
-import 'chord_candidates_providers.dart';
+import 'displayed_chord_provider.dart';
 import 'theory_preferences_notifier.dart';
 
 final chordPresentationProvider = Provider<ChordPresentation?>((ref) {
   final identity = ref.watch(
-    bestChordCandidateProvider.select((candidate) => candidate?.identity),
+    displayedBestCandidateProvider.select((candidate) => candidate?.identity),
   );
   if (identity == null) return null;
 
