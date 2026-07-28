@@ -1,10 +1,10 @@
 # 2026-07-28: Pre-declaration for the held test-split spend
 
-**Status: DRAFT, pending review. Nothing in this entry has been run.** The test
-split is spent once (PROTOCOL, Binding now), so this entry fixes the result set,
-the predictions, and the interpretation rules before any test number exists.
-Once approved it is frozen, then the run happens, then the results land in a
-separate entry whatever they say.
+**Status: FROZEN 2026-07-28, approved in review. No test number existed when
+this entry was frozen.** The test split is spent once (PROTOCOL, Binding now),
+so this entry fixes the result set, the predictions, and the interpretation
+rules in advance. The results land in a separate entry whatever they say; this
+entry is not edited after the run.
 
 **What this spend is.** A generalization check on the shipped engine and the
 shipped display gate: do the development-split conclusions hold on twelve
