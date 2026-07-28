@@ -172,16 +172,16 @@ final class ChordAnalyzer {
   /// touching the shipped ranking.
   final double unexplainedToneCost;
 
-  /// Price of the flat seventh in a bare power-shell reading (root, fifth,
-  /// and flat seventh only: D-A-C as a D5-plus-flat-seven shell).
+  /// Price of the missing third when the bare flat-seven shell (root, fifth,
+  /// and flat seventh only: D-A-C) is read as a dominant seventh with its
+  /// third deliberately omitted, Brandt/Roemer's D7(omit 3).
   ///
-  /// Null (the app's setting) keeps the shipped behavior: a power reading
-  /// with any leftover tone is rejected outright. Research tooling
-  /// (research/tone-pricing/) may set a price to let the bare flat-seven
-  /// shell, and only it, enumerate. The major-seventh shell is excluded by
-  /// measurement: it evicts incumbent readings in the pool and steals
-  /// leaning-tone events on the ruler, and its honest missing-third name
-  /// already surfaces (log -12).
+  /// Null (the app's setting) keeps the shipped missing-third surcharge,
+  /// which prices the shell reading out of the surfaced band. Research
+  /// tooling (research/tone-pricing/) may set a price to surface it. The
+  /// major-seventh shell is excluded by measurement: it evicts incumbent
+  /// readings in the pool and steals leaning-tone events on the ruler, and
+  /// its honest missing-third name already surfaces (log -12).
   final double? shellSeventhCost;
 
   final LinkedHashMap<int, List<ChordCandidate>> _cache =
@@ -737,23 +737,14 @@ final class ChordAnalyzer {
     // named colors account for every sounding tone; a leftover tone means
     // some other harmony is in play. An implied-root reading is held to the
     // same bar: hypothesizing an unplayed root is only credible when the name
-    // fully explains what was played. The one research-only exception is the
-    // bare flat-seven shell (root, fifth, and flat seventh) when
-    // [shellSeventhCost] is set.
-    final isBareShell =
-        template.quality == ChordQuality.power &&
-        !impliedRoot &&
-        relMask == _bareShellFlatSevenMask;
-    final shellPrice = isBareShell ? shellSeventhCost : null;
+    // fully explains what was played.
     if (unexplainedMask != 0 &&
-        shellPrice == null &&
         (impliedRoot || template.quality == ChordQuality.power)) {
       return null;
     }
 
     if (unexplainedMask != 0) {
-      final unexplainedCost =
-          popCount(unexplainedMask) * (shellPrice ?? unexplainedToneCost);
+      final unexplainedCost = popCount(unexplainedMask) * unexplainedToneCost;
       cost += unexplainedCost;
       add(
         CostReasonLabel.penaltyTones,
@@ -765,10 +756,20 @@ final class ChordAnalyzer {
     }
 
     if (missingRequiredMask != 0) {
+      // Research-only shell repricing: the bare flat-seven shell (root, fifth,
+      // flat seventh; D-A-C) read as a dominant seventh with its third
+      // deliberately omitted, per Brandt/Roemer's D7(omit 3). The dial prices
+      // the whole missing-third charge for exactly this voicing.
+      final isDominantBareShell =
+          shellSeventhCost != null &&
+          template.quality == ChordQuality.dominant7 &&
+          relMask == _bareShellFlatSevenMask;
       var missingCost = 0.0;
       for (var interval = 1; interval < 12; interval++) {
         if ((missingRequiredMask & (1 << interval)) != 0) {
-          missingCost += _missingEssentialCost(interval);
+          missingCost += isDominantBareShell
+              ? shellSeventhCost!
+              : _missingEssentialCost(interval);
         }
       }
       cost += missingCost;
