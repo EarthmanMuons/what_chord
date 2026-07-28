@@ -470,6 +470,20 @@ void main() {
       expectedQuality: ChordQuality.sus2,
     ),
 
+    // The bare flat-seven shell in root position: the dominant reading
+    // carries the omitted-third marker (Brandt/Roemer's D7(omit 3)) and
+    // surfaces beside the complete-triad slash, never above it.
+    golden(
+      description: 'bare shell surfaces the omitted-third dominant reading',
+      expectedSymbol: 'Gm/C',
+      expectedAlternatives: ['C7(omit3)'],
+      pcs: ['C', 'G', 'Bb'],
+      bass: 'C',
+      expectedRoot: 'G',
+      expectedBass: 'C',
+      expectedQuality: ChordQuality.minor,
+    ),
+
     golden(
       description: 'major seventh suspended second',
       expectedSymbol: 'Cmaj7sus2',

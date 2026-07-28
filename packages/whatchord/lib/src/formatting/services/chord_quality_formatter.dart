@@ -11,6 +11,7 @@ class ChordQualityFormatter {
     required ChordNotationStyle notation,
     ChordQualityLabelForm? qualityFormOverride,
     bool rootEndsInSharpOrFlat = false,
+    bool omitThird = false,
   }) {
     final form = qualityFormOverride ?? _defaultQualityFormFor(notation);
 
@@ -19,6 +20,11 @@ class ChordQualityFormatter {
         form == ChordQualityLabelForm.textual;
 
     var base = textualMinorMajor ? 'm' : quality.coreLabel(form);
+
+    // Bare flat-seven shell: the omitted third is the identity information.
+    // Only the extensionless dominant seventh shell sets this, so the marker is
+    // the whole trailing group.
+    if (omitThird) return '$base(omit3)';
 
     // Canonical ordering.
     final ordered = extensions.toList()

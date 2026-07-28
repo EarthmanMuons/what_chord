@@ -36,6 +36,7 @@ class ChordSymbolBuilder {
       extensions: ChordDisplayConventions.displayedExtensions(identity),
       notation: notation,
       rootEndsInSharpOrFlat: endsInSharpOrFlat(root),
+      omitThird: ChordDisplayConventions.showsOmittedThird(identity),
     );
 
     return ChordSymbol(root: root, quality: quality, bass: bass);

@@ -10,6 +10,15 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- Bare shell voicings now offer an honest alternative reading. A root, fifth,
+  and flat seventh with no third (the jazz shell voicing D-A-C) still names as
+  the complete chord it contains (Am/D), and the identification now also
+  surfaces D7(omit3) beside it: the dominant seventh the shell functions as,
+  marked with the omitted third per Brandt and Roemer's copyist standard. The
+  chord symbol guide's Omissions section explains the reasoning.
+
 ### Changed
 
 - The live chord display now shows a chord once it has proven stable, using the

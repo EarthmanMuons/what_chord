@@ -174,14 +174,15 @@ final class ChordAnalyzer {
 
   /// Price of the missing third when the bare flat-seven shell (root, fifth,
   /// and flat seventh only: D-A-C) is read as a dominant seventh with its
-  /// third deliberately omitted, Brandt/Roemer's D7(omit 3).
+  /// third deliberately omitted.
   ///
-  /// Null (the app's setting) keeps the shipped missing-third surcharge,
-  /// which prices the shell reading out of the surfaced band. Research
-  /// tooling (research/tone-pricing/) may set a price to surface it. The
-  /// major-seventh shell is excluded by measurement: it evicts incumbent
-  /// readings in the pool and steals leaning-tone events on the ruler, and
-  /// its honest missing-third name already surfaces (log -12).
+  /// Null (the app's setting) uses [defaultShellMissingThirdCost] under the
+  /// current profile; the frozen whatKeyPaper2026 profile keeps the full
+  /// missing-third surcharge for byte-identical fixture reproduction.
+  /// Research tooling (research/tone-pricing/) may override the price. The
+  /// major-seventh shell stays at the full surcharge: it evicts incumbent
+  /// readings, and its honest missing-third name already surfaces
+  /// (research/tone-pricing/log/2026-07-28-12-shell-probe-sweep.md).
   final double? shellSeventhCost;
 
   final LinkedHashMap<int, List<ChordCandidate>> _cache =
@@ -257,6 +258,12 @@ final class ChordAnalyzer {
 
   static const _bareShellFlatSevenMask =
       1 | (1 << perfectFifthInterval) | (1 << minorSeventhInterval);
+
+  /// Missing-third price for the bare flat-seven shell under the current
+  /// profile: above the complete-triad slash reading (0.95) so the shell can
+  /// never outrank it on cost, inside the near-tie band so it surfaces as an
+  /// alternative.
+  static const defaultShellMissingThirdCost = 1.1;
 
   // Bass placement: root is free, conventional inversions are cheap, color
   // tones and especially suspended tones in the bass read awkwardly. An
@@ -756,19 +763,24 @@ final class ChordAnalyzer {
     }
 
     if (missingRequiredMask != 0) {
-      // Research-only shell repricing: the bare flat-seven shell (root, fifth,
-      // flat seventh; D-A-C) read as a dominant seventh with its third
-      // deliberately omitted, per Brandt/Roemer's D7(omit 3). The dial prices
-      // the whole missing-third charge for exactly this voicing.
+      // The bare flat-seven shell (root, fifth, flat seventh; D-A-C) read as
+      // a dominant seventh with its third deliberately omitted. The reduced
+      // price surfaces it as an alternative; the frozen paper profile keeps
+      // the full surcharge.
+      final shellPrice =
+          shellSeventhCost ??
+          (analysisProfile == ChordAnalysisProfile.current
+              ? defaultShellMissingThirdCost
+              : null);
       final isDominantBareShell =
-          shellSeventhCost != null &&
+          shellPrice != null &&
           template.quality == ChordQuality.dominant7 &&
           relMask == _bareShellFlatSevenMask;
       var missingCost = 0.0;
       for (var interval = 1; interval < 12; interval++) {
         if ((missingRequiredMask & (1 << interval)) != 0) {
           missingCost += isDominantBareShell
-              ? shellSeventhCost!
+              ? shellPrice
               : _missingEssentialCost(interval);
         }
       }

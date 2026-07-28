@@ -324,6 +324,31 @@ void main() {
       'G seven flat nine sharp eleven slash F',
     );
   });
+
+  test('bare flat-seven shell speaks its omitted third', () {
+    expect(
+      spoken(
+        _identity(
+          root: 'D',
+          quality: ChordQuality.dominant7,
+          intervals: const [0, 7, 10],
+        ),
+      ),
+      'D seven omit three',
+    );
+
+    // A complete dominant seventh keeps its plain name.
+    expect(
+      spoken(
+        _identity(
+          root: 'D',
+          quality: ChordQuality.dominant7,
+          intervals: const [0, 4, 7, 10],
+        ),
+      ),
+      'D seven',
+    );
+  });
 }
 
 ChordIdentity _identity({
