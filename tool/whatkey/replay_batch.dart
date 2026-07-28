@@ -33,11 +33,19 @@
 //     notes are dropped from the analyzed voicing when their key press was
 //     shorter than transientMs ("transient"), or additionally once any
 //     fresh attack lands after their release ("attack").
+//   "liveKeyHalfLifeSeconds": 30 | 4 | 1
+//     arm A1: the shipped HMM key detector runs in the loop with the given
+//     evidence half-life (the stable/balanced/reactive presets). Analysis
+//     starts from the fixed "context" and follows the detector's claimed
+//     key forward (sticky across abstentions), mirroring the app's live
+//     feedback of inferred key into analysis context. Mutually exclusive
+//     with contextTimeline and spanBoundaries.
 
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:whatchord/whatchord.dart';
+import 'package:whatkey/whatkey.dart' show HmmKeyDetector;
 
 import '../src/chord_id_engine.dart';
 
@@ -84,6 +92,14 @@ void main() {
       snapshots = _demotePedalTones(snapshots, demotion);
     }
     final boundaries = (request['spanBoundaries'] as List?)?.cast<int>();
+    final liveKeySeconds = request['liveKeyHalfLifeSeconds'] as int?;
+    if (liveKeySeconds != null &&
+        (boundaries != null || request['contextTimeline'] != null)) {
+      throw ArgumentError(
+        'liveKeyHalfLifeSeconds is mutually exclusive with '
+        'spanBoundaries and contextTimeline',
+      );
+    }
 
     final eventsJson = boundaries != null
         ? _spanEvents(
@@ -98,6 +114,11 @@ void main() {
             (request['segmenterMinMs'] as int?) ?? 200,
             contexts,
             profile,
+            liveKey: liveKeySeconds == null
+                ? null
+                : HmmKeyDetector(
+                    decayHalfLife: Duration(seconds: liveKeySeconds),
+                  ),
           );
 
     stdout.writeln(
@@ -189,8 +210,10 @@ class _ContextTimeline {
 
   static final _cache = <String, AnalysisContext>{};
 
-  static AnalysisContext _build(String wire) => _cache.putIfAbsent(wire, () {
-    final tonality = parseTonality(wire);
+  static AnalysisContext _build(String wire) =>
+      _cache.putIfAbsent(wire, () => forTonality(parseTonality(wire)));
+
+  static AnalysisContext forTonality(Tonality tonality) {
     final keySignature = KeySignature.fromTonality(tonality);
     return AnalysisContext(
       tonality: tonality,
@@ -199,7 +222,7 @@ class _ContextTimeline {
         preferFlats: keySignature.prefersFlats,
       ),
     );
-  });
+  }
 
   AnalysisContext at(int timestampMs) {
     while (_at + 1 < _switches.length &&
@@ -217,26 +240,38 @@ List<Map<String, Object?>> _segmenterEvents(
   List<_Snapshot> snapshots,
   int segmenterMinMs,
   _ContextTimeline contexts,
-  ChordAnalysisProfile profile,
-) {
+  ChordAnalysisProfile profile, {
+  HmmKeyDetector? liveKey,
+}) {
   final segmenter = ChordEventSegmenter(
     minChordDuration: Duration(milliseconds: segmenterMinMs),
   );
   final events = <ChordEvent>[];
+  var liveContext = liveKey == null ? null : contexts.at(0);
   var lastMs = 0;
+
+  void commit(Iterable<ChordEvent> committed) {
+    for (final event in committed) {
+      events.add(event);
+      if (liveKey == null) continue;
+      final claim = liveKey.onEvent(event).claim;
+      if (claim != null) {
+        liveContext = _ContextTimeline.forTonality(claim.tonality);
+      }
+    }
+  }
+
   for (final snapshot in snapshots) {
     lastMs = snapshot.timestampMs;
     final now = DateTime.fromMillisecondsSinceEpoch(lastMs);
-    events.addAll(
+    commit(
       segmenter.onFrame(
-        _frame(snapshot.midiNotes, contexts.at(lastMs), profile),
+        _frame(snapshot.midiNotes, liveContext ?? contexts.at(lastMs), profile),
         now,
       ),
     );
   }
-  events.addAll(
-    segmenter.flush(DateTime.fromMillisecondsSinceEpoch(lastMs + 1)),
-  );
+  commit(segmenter.flush(DateTime.fromMillisecondsSinceEpoch(lastMs + 1)));
   return [
     for (var index = 0; index < events.length; index++)
       _eventJson(index, events[index]),

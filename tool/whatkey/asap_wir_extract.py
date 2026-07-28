@@ -50,6 +50,9 @@ from wir_alignment_probe import analyst_chord
 
 REPO_ROOT = asap_x.REPO_ROOT
 
+# Arm A1 key-behavior presets: detector evidence half-life in seconds.
+LIVE_KEY_HALF_LIFE_SECONDS = {"stable": 30, "balanced": 4, "reactive": 1}
+
 # Beethoven sonata number -> When in Rome opus folder prefix.
 SONATA_OPUS = {
     1: "Op002_No1", 2: "Op002_No2", 3: "Op002_No3", 4: "Op007",
@@ -78,12 +81,18 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--arm",
-        choices=("A0", "B", "C", "BC"),
+        choices=("A0", "B", "C", "BC", "A1"),
         default="A0",
         help="Attribution arm (research/performed-input/PROTOCOL.md): A0 = "
         "app segmentation, neutral context; B = annotated analyst key as "
-        "context; C = annotation-boundary segmentation; BC = both. Arms "
-        "other than A0 append -arm<X> to the set name.",
+        "context; C = annotation-boundary segmentation; BC = both; A1 = "
+        "live inferred-key context (requires --behavior). Arms other than "
+        "A0 append -arm<X> to the set name.",
+    )
+    parser.add_argument(
+        "--behavior",
+        choices=sorted(LIVE_KEY_HALF_LIFE_SECONDS),
+        help="Arm A1 key-behavior preset; sets the detector half-life.",
     )
     parser.add_argument(
         "--span-note-threshold",
@@ -106,7 +115,11 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    if args.arm != "A0":
+    if (args.arm == "A1") != (args.behavior is not None):
+        raise SystemExit("--arm A1 and --behavior go together.")
+    if args.arm == "A1":
+        args.set_name = f"{args.set_name}-armA1-{args.behavior}"
+    elif args.arm != "A0":
         args.set_name = f"{args.set_name}-arm{args.arm}"
     if args.pedal_demotion != "off":
         args.set_name = f"{args.set_name}-pd-{args.pedal_demotion}"
@@ -291,6 +304,7 @@ def main() -> int:
             if args.pedal_demotion != "off"
             else {}
         ),
+        **({"behavior": args.behavior} if args.arm == "A1" else {}),
         "contentHash": {
             "algorithm": "sha256",
             "canonicalization": CANONICALIZATION,
@@ -392,6 +406,8 @@ def arm_extras(args: argparse.Namespace, timeline: list[dict], snapshots) -> dic
         extras["spanNoteThreshold"] = args.span_note_threshold
     if args.pedal_demotion != "off":
         extras["pedalDemotion"] = args.pedal_demotion
+    if args.arm == "A1":
+        extras["liveKeyHalfLifeSeconds"] = LIVE_KEY_HALF_LIFE_SECONDS[args.behavior]
     return extras
 
 
