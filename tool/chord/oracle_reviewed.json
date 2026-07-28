@@ -1401,7 +1401,7 @@
   },
   "0-2-9_b9": {
     "label": "context-dependent",
-    "note": "Amadd11 is defensible in root position because A-C is a direct minor-third sonority and D is conventional added-eleventh color. Music21's Dpower/AaddC instead hears D-A as a no-third fifth with A in the bass and C as flat-seventh color. That alternate is valid when D is established by context, but WhatChord's A-rooted label is the more complete context-free name within the current vocabulary."
+    "note": "Amadd11 is defensible in root position because A-C is a direct minor-third sonority and D is conventional added-eleventh color. Music21's Dpower/AaddC instead hears D-A as a no-third fifth with A in the bass and C as flat-seventh color. That alternate is valid when D is established by context, but WhatChord's A-rooted label is the more complete context-free name. As of 2026-07-28 the D-rooted shell names D7(omit3)/A and rises in the ranked list, but the bass penalty keeps it out of the surfaced band for this inversion, so the review stands."
   },
   "0-3-8_b0": {
     "label": "clearly-correct",

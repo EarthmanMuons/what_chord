@@ -51,8 +51,11 @@ and published methods.
 - [Tone Pricing](tone-pricing/): the engine-side descendant of Performed Input,
   treating superset absorption (an extra tone folded into a fancier name) and
   shell omission (no honest label for incomplete voicings) as one
-  explanation-cost tolerance dial. Open: scoping, sequenced before the
-  performed-input test-split spend.
+  explanation-cost tolerance dial. Complete: the absorption side was measured to
+  declination, every lever rejected by a guard or by arithmetic, while the
+  omission side shipped the bare flat-seven shell as D7(omit3), an alternative
+  reading that changed exactly one surfaced band in the evaluation pool and
+  nothing on the live ruler.
 
 Supporting code lives with the rest of the project: batch drivers and corpus
 tooling in `tool/`, performance benchmarks in `benchmark/`, and the engine
