@@ -92,6 +92,15 @@ def parse_args() -> argparse.Namespace:
         help="Arm C: a note enters a span's voicing when it sounds at least "
         "this fraction of the span.",
     )
+    parser.add_argument(
+        "--pedal-demotion",
+        choices=("off", "transient", "attack"),
+        default="off",
+        help="Pedal-blur prototype (performed-input log 2026-07-27-10): drop "
+        "sustained-only notes with sub-200ms presses (transient), or "
+        "additionally once fresh attacks land after their release (attack). "
+        "Appends -pd-<rule> to the set name.",
+    )
     return parser.parse_args()
 
 
@@ -99,6 +108,8 @@ def main() -> int:
     args = parse_args()
     if args.arm != "A0":
         args.set_name = f"{args.set_name}-arm{args.arm}"
+    if args.pedal_demotion != "off":
+        args.set_name = f"{args.set_name}-pd-{args.pedal_demotion}"
     if (REPO_ROOT / "research") in args.out.resolve().parents:
         raise SystemExit("License-gated fixtures: build/ only.")
 
@@ -162,7 +173,10 @@ def main() -> int:
         anchor = min(
             (0, 1), key=lambda d: abs(raw_measures[-1] + d - last_analysis_measure)
         )
-        snapshots = asap_x.sounding_snapshots(args.asap_root / perf_path)
+        snapshots = asap_x.sounding_snapshots(
+            args.asap_root / perf_path,
+            provenance=args.pedal_demotion != "off",
+        )
         offset, curve = calibrate_offset(
             harmony_spans, downbeats, raw_measures, snapshots, anchor
         )
@@ -272,6 +286,11 @@ def main() -> int:
             if args.arm in ("C", "BC")
             else {}
         ),
+        **(
+            {"pedalDemotion": args.pedal_demotion}
+            if args.pedal_demotion != "off"
+            else {}
+        ),
         "contentHash": {
             "algorithm": "sha256",
             "canonicalization": CANONICALIZATION,
@@ -371,6 +390,8 @@ def arm_extras(args: argparse.Namespace, timeline: list[dict], snapshots) -> dic
             boundaries.append(end)
         extras["spanBoundaries"] = boundaries
         extras["spanNoteThreshold"] = args.span_note_threshold
+    if args.pedal_demotion != "off":
+        extras["pedalDemotion"] = args.pedal_demotion
     return extras
 
 
