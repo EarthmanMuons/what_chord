@@ -51,6 +51,14 @@ def parse_args() -> argparse.Namespace:
         default=0,
         help="Also list the N lowest-overlap events per movement.",
     )
+    parser.add_argument(
+        "--windows",
+        type=int,
+        default=1,
+        help="Also report the shift response per time window (N windows), "
+        "distinguishing uniform shallowness (texture) from sectional drift "
+        "(piecewise misalignment, e.g. repeat-convention mismatches).",
+    )
     return parser.parse_args()
 
 
@@ -76,7 +84,9 @@ def event_pcs(event: dict) -> frozenset[int]:
     return frozenset(i for i in range(12) if event["pcMask"] >> i & 1)
 
 
-def shift_response(fixture: dict) -> list[float | None]:
+def shift_response(
+    fixture: dict, events: list[dict] | None = None
+) -> list[float | None]:
     spans = sorted(
         {(e["measure"], e["beat"], e["key"], e["figure"]) for e in fixture["harmony"]}
     )
@@ -84,7 +94,7 @@ def shift_response(fixture: dict) -> list[float | None]:
     response = []
     for shift in SHIFTS:
         overlaps = []
-        for event in fixture["events"]:
+        for event in events if events is not None else fixture["events"]:
             harmony = event["labels"].get("harmony")
             if not harmony:
                 continue
@@ -104,7 +114,7 @@ def shift_response(fixture: dict) -> list[float | None]:
     return response
 
 
-def inspect(name: str, fixture: dict, worst_n: int) -> None:
+def inspect(name: str, fixture: dict, worst_n: int, windows: int = 1) -> None:
     timeline = fixture["harmony"]
     events = fixture["events"]
     times = [entry["timestampMs"] for entry in timeline]
@@ -156,6 +166,27 @@ def inspect(name: str, fixture: dict, worst_n: int) -> None:
         for shift, value in zip(SHIFTS, response)
     )
     print("   shift response  " + "  ".join(cells))
+    if windows > 1:
+        labeled_events = [e for e in events if e["labels"].get("harmony")]
+        for index in range(windows):
+            chunk = labeled_events[
+                index * len(labeled_events) // windows : (index + 1)
+                * len(labeled_events)
+                // windows
+            ]
+            if not chunk:
+                continue
+            row = shift_response(fixture, chunk)
+            best = max(
+                (value, shift) for shift, value in zip(SHIFTS, row) if value is not None
+            )[1]
+            cells = "  ".join(
+                f"{shift:+d}: {value:.3f}" if value is not None else f"{shift:+d}: n/a"
+                for shift, value in zip(SHIFTS, row)
+            )
+            flag = "" if best == 0 else f"   <-- peaks at {best:+d}"
+            span = f"m{chunk[0]['labels']['measure']}-{chunk[-1]['labels']['measure']}"
+            print(f"   window {index + 1}/{windows} ({span}): {cells}{flag}")
     for overlap, measure, harmony, got in sorted(worst, key=lambda w: w[0])[:worst_n]:
         expected, _ = analyst_chord(harmony["figure"], harmony["key"])
         print(
@@ -174,7 +205,7 @@ def main() -> int:
     )
     for name in names:
         fixture = json.loads((args.set_dir / f"{name}.json").read_text())
-        inspect(name, fixture, args.worst)
+        inspect(name, fixture, args.worst, args.windows)
     return 0
 
 
