@@ -10,10 +10,13 @@ that surface directly, and it captures the other unexplored angles on live
 accuracy as ranked avenues so they are tackled deliberately instead of
 opportunistically.
 
-Status: open. Avenues 1 and 2 complete and standing (two frozen rulers with
-baselines, full attribution decomposition, display-policy frontier); avenue 4
-diligence done (POP909 admitted with caveats); avenue 5 scoped and shelved;
-next: stability replication on POP909, then avenue 3.
+Status: all avenues resolved. Avenues 1 and 2 complete and standing (two frozen
+rulers with baselines, full attribution decomposition, display-policy frontier
+replicated on POP909); avenue 3 closed (exposure weights shipped,
+observed-voicing expansion dismissed); avenue 4 diligence done; avenue 5 scoped
+and shelved. Remaining: the held ASAP test-split spend when a pre-declared
+confirmation set warrants it, and product follow-through on the display-policy
+frontier.
 
 ## Why now
 
@@ -59,11 +62,11 @@ silently dropped.
    time-to-final-label. Gives blast-radius measurement a second axis: a price
    change can leave whole-voicing accuracy flat while making partial voicings
    flap on the way to the same answer.
-3. **Frequency-weighted pool and observed voicings**: weight the oracle pool by
-   ChoCo/iReal chord-symbol frequency so disagreements rank by expected musical
-   exposure, and sample real observed voicings per label from the performed
-   corpora instead of only canonical stacks, testing robustness to the doubling,
-   omission, and register choices musicians actually make.
+3. **Frequency-weighted pool and observed voicings** (closed, logs 2026-07-28-03
+   through -05): exposure weighting shipped as measurement support (committed
+   POP909 weight table, weighted reporting in pool_diff and rule_ablation
+   alongside unweighted counts); observed-voicing pool expansion dismissed by
+   measurement (99.3% naming consistency across 7,834 real octave layouts).
 4. **POP909 diligence** (done, log 2026-07-28-01): piano MIDI for 909 pop songs
    with chord and key annotations. Verdict: genuinely performance-flavored input
    (pedal, expressive velocity and timing) admitted under ASAP-style gating for
