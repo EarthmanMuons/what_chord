@@ -37,6 +37,26 @@ gate is `tool/whatkey/wir_alignment_probe.py`.
    determined by its sonata. Movements enter only by passing the census gate
    (shift response peaking sharply at zero).
 
+## Stability ruler v1 (frozen)
+
+Frozen 2026-07-27 (log 2026-07-27-13 approved; baseline in log -14). Implemented
+by `tool/performed-input/stability_score.py` over the frames sidecars
+(`asap_wir_extract.py --emit-frames`).
+
+1. **Label stream.** The top-1 (root pitch class, quality) per sounding-set
+   change under A0 conditions (app segmentation, neutral context); a blank entry
+   when the display drops below three notes. Extensions are excluded from the v1
+   label; extension-only flicker is a recorded refinement.
+2. **Metrics** (per piece, mean per piece over the split): labeledShare;
+   switchesPerMin (transitions to a different non-null label per minute of
+   labeled time); flickerShare (labeled time in dwells under 500 ms, the primary
+   metric); settleMs per committed event (median and p90); churnPerEvent.
+3. **Split and adoption.** The frozen identity split applies unchanged, test
+   spent once and pre-declared. Adoption bar: paired per-piece improvement on
+   flickerShare with switchesPerMin and settleMs supporting, and the identity
+   ruler's exact tier as a non-regression check, so stability is never bought by
+   naming worse chords.
+
 ## Binding now
 
 - **Split before tuning.** A development/test split, frozen by piece (all
