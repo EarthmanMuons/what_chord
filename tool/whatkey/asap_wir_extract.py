@@ -197,10 +197,10 @@ def main() -> int:
             args.asap_root / perf_path,
             provenance=args.pedal_demotion != "off",
         )
-        offset, curve = calibrate_offset(
+        segments, curve = calibrate_offsets(
             harmony_spans, downbeats, raw_measures, snapshots, anchor
         )
-        measures = [m + offset for m in raw_measures]
+        measures = apply_segments(raw_measures, segments)
         timeline = harmony_timeline(harmony_spans, downbeats, measures)
         pieces.append(
             {
@@ -218,10 +218,11 @@ def main() -> int:
         curve_text = "  ".join(
             f"{candidate:+d}: {score:.3f}" for candidate, score in sorted(curve.items())
         )
+        segment_text = ", ".join(f"@{start}:{offset:+d}" for start, offset in segments)
         print(
             f"{perf_path}: {len(snapshots)} snapshots, "
             f"{len(keys_by_measure)} keyed measures, opens in "
-            f"{key_at(keys_by_measure, 1)}, offset {offset:+d} "
+            f"{key_at(keys_by_measure, 1)}, offsets [{segment_text}] "
             f"(anchor {anchor:+d}; {curve_text})",
             file=sys.stderr,
         )
@@ -394,7 +395,7 @@ def analyst_harmony_spans(analysis_path: Path, cbench, wir) -> list[dict]:
 
 
 def beat_count(time_sig: str) -> int:
-    # When in Rome writes signatures like "slow 3/8" or "6/8"; unparseable
+    # When in Rome writes signatures like "slow 3/8" or "6/8"; unparsable
     # ones fall back to 4 (only the within-measure interpolation cares).
     match = re.search(r"(\d+)\s*/\s*\d+", time_sig)
     if not match:
@@ -435,51 +436,128 @@ def arm_extras(args: argparse.Namespace, timeline: list[dict], snapshots) -> dic
     return extras
 
 
-def calibrate_offset(
+# Piecewise calibration: an added segment must earn this much mean-overlap
+# gain and span at least this many downbeats, so healthy movements keep a
+# single offset (performed-input log 2026-07-27-08: ending-convention
+# mismatches shift the offset by a constant at a structural boundary). The
+# segment cap only bounds the search; the gain threshold is the guardrail
+# (multi-section forms like Op110's Adagio/Arioso/Fuga alternation need
+# more than three regimes).
+CALIBRATION_GAIN_THRESHOLD = 0.02
+CALIBRATION_MIN_SEGMENT = 8
+CALIBRATION_MAX_SEGMENTS = 6
+
+
+def calibrate_offsets(
     spans: list[dict],
     downbeats: list[float],
     raw_measures: list[int],
     snapshots: list[dict],
     anchor: int,
-) -> tuple[int, dict[int, float]]:
-    """Pick the downbeat-map measure offset by analyst-chord agreement.
+) -> tuple[list[tuple[int, int]], dict[int, float]]:
+    """Piecewise-constant measure offsets chosen by analyst-chord agreement.
 
-    Scores each candidate offset within 2 of the last-measure anchor by the
+    Scores candidate offsets within 5 of the last-measure anchor by the
     time-weighted overlap between sounding pitch classes and the analyst
-    chord active at each snapshot. Correct alignments peak sharply (roughly
-    0.7-0.9 against 0.4-0.6 off-peak, see wir_alignment_probe.py), so the
-    argmax is effectively deterministic; verify regenerated sets with the
-    probe regardless.
+    chord, per downbeat, then splits into up to three constant-offset
+    segments where a split clears the gain threshold. Correct alignments
+    peak sharply, so the argmax is effectively deterministic; verify
+    regenerated sets with wir_alignment_probe.py regardless.
+
+    Returns ([(start_downbeat_index, offset)], single-offset curve).
     """
     if not spans or not snapshots:
-        return anchor, {}
-    curve = {}
-    for delta in range(-2, 3):
-        candidate = anchor + delta
-        timeline = harmony_timeline(
-            spans, downbeats, [m + candidate for m in raw_measures]
-        )
-        curve[candidate] = snapshot_overlap(snapshots, timeline)
-    return max(curve, key=lambda c: curve[c]), curve
+        return [(0, anchor)], {}
+    candidates = [anchor + delta for delta in range(-5, 6)]
+    scores, masses = _downbeat_scores(
+        spans, downbeats, raw_measures, snapshots, candidates
+    )
+    total_mass = sum(masses) or 1.0
+    curve = {c: sum(scores[c]) / total_mass for c in candidates}
+
+    count = len(downbeats)
+    prefix = {c: [0.0] * (count + 1) for c in candidates}
+    for c in candidates:
+        for index, value in enumerate(scores[c]):
+            prefix[c][index + 1] = prefix[c][index] + value
+
+    def segment_best(lo: int, hi: int) -> tuple[float, int]:
+        return max((prefix[c][hi] - prefix[c][lo], c) for c in candidates)
+
+    segments: list[tuple[int, int]] = [(0, segment_best(0, count)[1])]
+    while len(segments) < CALIBRATION_MAX_SEGMENTS:
+        best_gain = 0.0
+        best_split: tuple[int, int, int, int] | None = None
+        for si, (start, offset) in enumerate(segments):
+            end = segments[si + 1][0] if si + 1 < len(segments) else count
+            current = prefix[offset][end] - prefix[offset][start]
+            for cut in range(
+                start + CALIBRATION_MIN_SEGMENT,
+                end - CALIBRATION_MIN_SEGMENT + 1,
+            ):
+                left, left_off = segment_best(start, cut)
+                right, right_off = segment_best(cut, end)
+                gain = left + right - current
+                if gain > best_gain:
+                    best_gain = gain
+                    best_split = (si, cut, left_off, right_off)
+        if best_split is None or best_gain / total_mass < CALIBRATION_GAIN_THRESHOLD:
+            break
+        si, cut, left_off, right_off = best_split
+        start = segments[si][0]
+        segments[si : si + 1] = [(start, left_off), (cut, right_off)]
+
+    merged = [segments[0]]
+    for start, offset in segments[1:]:
+        if offset == merged[-1][1]:
+            continue
+        merged.append((start, offset))
+    return merged, curve
 
 
-def snapshot_overlap(snapshots: list[dict], timeline: list[dict]) -> float:
-    """Time-weighted mean overlap of sounding pcs with the analyst chord."""
-    times = [entry["timestampMs"] for entry in timeline]
-    weighted = total = 0.0
+def apply_segments(
+    raw_measures: list[int], segments: list[tuple[int, int]]
+) -> list[int]:
+    out = list(raw_measures)
+    for si, (start, offset) in enumerate(segments):
+        end = segments[si + 1][0] if si + 1 < len(segments) else len(out)
+        for index in range(start, min(end, len(out))):
+            out[index] = raw_measures[index] + offset
+    return out
+
+
+def _downbeat_scores(
+    spans: list[dict],
+    downbeats: list[float],
+    raw_measures: list[int],
+    snapshots: list[dict],
+    candidates: list[int],
+) -> tuple[dict[int, list[float]], list[float]]:
+    """Per-downbeat, per-candidate-offset overlap mass, plus snapshot mass."""
+    scores = {c: [0.0] * len(downbeats) for c in candidates}
+    masses = [0.0] * len(downbeats)
+    timelines = {}
+    times = {}
+    for c in candidates:
+        timelines[c] = harmony_timeline(spans, downbeats, [m + c for m in raw_measures])
+        times[c] = [entry["timestampMs"] for entry in timelines[c]]
     for current, following in pairwise(snapshots):
         pcs = {note % 12 for note in current["midiNotes"]}
         weight = following["timestampMs"] - current["timestampMs"]
         if not pcs or weight <= 0:
             continue
-        at = bisect.bisect_right(times, current["timestampMs"]) - 1
-        entry = timeline[max(at, 0)]
-        expected, _ = analyst_chord(entry["figure"], entry["key"])
-        if expected is None:
-            continue
-        weighted += weight * len(pcs & expected) / len(pcs)
-        total += weight
-    return weighted / total if total else 0.0
+        beat_index = max(
+            bisect.bisect_right(downbeats, current["timestampMs"] / 1000) - 1, 0
+        )
+        masses[beat_index] += weight
+        for c in candidates:
+            at = bisect.bisect_right(times[c], current["timestampMs"]) - 1
+            entry = timelines[c][max(at, 0)]
+            expected, _ = analyst_chord(entry["figure"], entry["key"])
+            if expected is None:
+                continue
+            scores[c][beat_index] += weight * len(pcs & expected) / len(pcs)
+    return scores, masses
 
 
 def harmony_timeline(

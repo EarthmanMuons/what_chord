@@ -28,12 +28,13 @@ SPLIT_SCHEMA = "performed-input-split/1"
 DEFAULT_SEED = "performed-input-asap-wir-nc-v2-split-2026-07-27"
 
 # Movements excluded by the alignment census gate (performed-input logs
-# 2026-07-27-02 and -04): the shift response must peak sharply at zero.
+# 2026-07-27-02, -04, and 2026-07-28-11): the shift response must peak
+# sharply at zero at a healthy level. Piecewise offset calibration rescued
+# 7-1, 7-4, and 12-1; 31-3_4's final third (the fugue's back half) drifts
+# beyond any piecewise-constant offset.
 GATE_EXCLUDED = {
-    "7-1": "sectional drift (two offset regimes, ending-convention mismatch)",
-    "7-4": "sectional drift (two offset regimes, ending-convention mismatch)",
-    "12-1": "sectional drift plus late-variation texture",
-    "31-3_4": "two movements in one folder; no offset fits",
+    "31-3_4": "final-third drift beyond piecewise-constant offsets "
+    "(0.62 at shift 0, healthy band starts at 0.70)",
 }
 
 
