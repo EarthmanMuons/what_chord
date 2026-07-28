@@ -174,7 +174,7 @@ class IdentityCard extends ConsumerWidget {
       }
 
       return AnimatedSwitcher(
-        duration: const Duration(milliseconds: 260),
+        duration: const Duration(milliseconds: 140),
         reverseDuration: const Duration(milliseconds: 90),
         switchInCurve: Curves.easeOutCubic,
         switchOutCurve: Curves.easeInCubic,
