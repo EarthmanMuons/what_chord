@@ -12,6 +12,9 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ### Added
 
+- A new website article, "We Can Measure Exactly How Wrong We Are," tours the
+  ideas WhatChord tested and declined, and explains why reproducible negative
+  results matter as much as features that ship.
 - Bare shell voicings now offer an honest alternative reading. A root, fifth,
   and flat seventh with no third (the jazz shell voicing D-A-C) still names as
   the complete chord it contains (Am/D), and the identification now also

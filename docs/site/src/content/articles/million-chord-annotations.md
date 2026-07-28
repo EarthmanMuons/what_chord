@@ -313,8 +313,8 @@ naming still requires.
     reproduction commands, and additional unsupported-label details.
   </p>
   <a
-    class="btn btn-ghost"
-    href="https://github.com/EarthmanMuons/whatchord/blob/main/docs/research/choco-chord-coverage.md"
+    class="btn btn-primary btn-external"
+    href="https://github.com/EarthmanMuons/whatchord/blob/main/research/choco-chord-coverage.md"
     >Open the full details</a
   >
   <p class="cta-secondary">
