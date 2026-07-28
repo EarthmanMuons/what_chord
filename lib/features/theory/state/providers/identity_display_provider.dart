@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatchord/whatchord.dart';
 
@@ -168,3 +170,41 @@ final identityDisplayProvider = Provider<IdentityDisplay?>((ref) {
       return null;
   }
 });
+
+final heldIdentityDisplayProvider =
+    NotifierProvider<HeldIdentityDisplayNotifier, IdentityDisplay?>(
+      HeldIdentityDisplayNotifier.new,
+    );
+
+/// [identityDisplayProvider] with warmup continuity: while notes sound, the
+/// last shown label holds through the display gate's stability window (the
+/// note to interval to chord transition would otherwise flash the waiting
+/// placeholder for the gate's duration), and it clears when nothing sounds.
+class HeldIdentityDisplayNotifier extends Notifier<IdentityDisplay?> {
+  @override
+  IdentityDisplay? build() {
+    ref.listen(identityDisplayProvider, (previous, next) => _refresh());
+    ref.listen(
+      soundingNoteNumbersSortedProvider,
+      (previous, next) => _refresh(),
+    );
+    return ref.read(identityDisplayProvider);
+  }
+
+  /// Deferred between passes like the display gate itself (the same-frame
+  /// rebuild rule): listeners fire while a refresh pass may still be
+  /// flushing.
+  void _refresh() {
+    scheduleMicrotask(() {
+      if (!ref.mounted) return;
+      final display = ref.read(identityDisplayProvider);
+      if (display != null) {
+        state = display;
+        return;
+      }
+      if (ref.read(soundingNoteNumbersSortedProvider).isEmpty) {
+        state = null;
+      }
+    });
+  }
+}

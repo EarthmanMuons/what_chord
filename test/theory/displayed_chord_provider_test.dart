@@ -144,6 +144,30 @@ void main() {
     expect(displayedRoot(container), 0);
   });
 
+  test('the held display bridges the note-dyad-chord warmup', () async {
+    final container = await makeContainer();
+    final held = container.listen(heldIdentityDisplayProvider, (_, _) {});
+    addTearDown(held.close);
+
+    await play(container, {60});
+    expect(held.read(), isA<NoteDisplay>());
+
+    await play(container, {60, 64});
+    expect(held.read(), isA<IntervalDisplay>());
+
+    // The third note enters chord mode; the interval label holds through the
+    // gate's warmup instead of flashing the waiting placeholder.
+    await play(container, cMajor);
+    expect(held.read(), isA<IntervalDisplay>());
+
+    advance(const Duration(milliseconds: 250));
+    await play(container, cMajorDoubled);
+    expect(held.read(), isA<ChordDisplay>());
+
+    await play(container, const <int>{});
+    expect(held.read(), isNull);
+  });
+
   test('lookup bypasses the gate for instant manual feedback', () async {
     final container = await makeContainer(
       overrides: [lookupModeProvider.overrideWith(_StubLookupNotifier.new)],

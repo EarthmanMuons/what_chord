@@ -17,8 +17,9 @@ The format is based on [Keep a Changelog][1], and this project adheres to
   Rolled chords, passing tones, and pedal-blurred transitions no longer flash
   intermediate names through the identity card, and what you see always matches
   what history records. This also makes screen-reader announcements far calmer,
-  since the displayed chord changes only when a new chord actually lands. Manual
-  lookup entry keeps its instant feedback.
+  since the displayed chord changes only when a new chord actually lands.
+  Building a chord note by note keeps the note and interval labels up until the
+  chord lands, and manual lookup entry keeps its instant feedback.
 
 ## [2026.7.27] - 2026-07-27
 
