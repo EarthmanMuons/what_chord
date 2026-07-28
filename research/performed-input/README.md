@@ -66,12 +66,15 @@ silently dropped.
    annotations, which would complement classical DCML and jazz Weimar with the
    domain where fixture coverage is thinnest. License and annotation quality
    need diligence before any commitment.
-5. **Voicing-structure awareness** (added from the log -09 provenance split):
-   the engine has no concept of a melodic voice riding above a held harmony, so
-   sustained melody dwells rename the chord underneath (a held C# over D minor
-   displays as Dm(maj7)). About 3.7% of displayed time on the avenue 1 ruler,
-   larger in user-visible weirdness; a structural research question (top-voice
-   versus harmonic block), not an input-layer filter.
+5. **Voicing-structure awareness** (added from the log -09 provenance split;
+   scoped and shelved in log -16): the engine has no concept of a melodic voice
+   riding above a held harmony, so sustained melody dwells rename the chord
+   underneath (a held C# over D minor displays as Dm(maj7)). Topology census:
+   only a quarter of the added-tone family has a separable top voice
+   (register-rule ceiling about 1.2% of displayed time); the majority of extra
+   tones are interior, so the honest version is polyphonic voice separation
+   through time, a substantial project priced against the roughly 3.7% of
+   displayed time it could recover.
 
 ## Contents
 
