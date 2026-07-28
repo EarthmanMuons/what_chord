@@ -1,9 +1,23 @@
 import '../../models/chord_extension.dart';
 import '../../models/chord_identity.dart';
 import '../../models/chord_tone_role.dart';
+import '../../services/interval_constants.dart';
 import '../../services/pitch_class.dart';
 
 abstract final class ChordDisplayConventions {
+  static const _bareShellIntervalsMask =
+      1 | (1 << perfectFifthInterval) | (1 << minorSeventhInterval);
+
+  /// True for the bare flat-seven shell (root, fifth, and flat seventh only)
+  /// read as a dominant seventh: the symbol carries an omitted-third marker
+  /// (D7(omit3)), because with no third sounding the omission is identity
+  /// information rather than voicing detail.
+  static bool showsOmittedThird(ChordIdentity identity) {
+    return identity.quality == ChordQuality.dominant7 &&
+        identity.extensions.isEmpty &&
+        identity.presentIntervalsMask == _bareShellIntervalsMask;
+  }
+
   /// True when a seventh-family chord carries a single natural extension
   /// (9, 11, or 13) and the slash bass is that extension, so the symbol drops
   /// it rather than restate the bass: "C9/D" -> "C7/D" and "Ab11/Db" ->

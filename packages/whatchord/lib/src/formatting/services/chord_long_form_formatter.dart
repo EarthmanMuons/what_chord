@@ -53,6 +53,10 @@ class ChordLongFormFormatter {
     // Base: "C major seventh", "F♯ half-diminished seventh", etc.
     var s = '$root $quality$extPhrase';
 
+    if (ChordDisplayConventions.showsOmittedThird(identity)) {
+      s = '$s, omitted third';
+    }
+
     if (identity.hasSlashBass && !identity.hasImpliedRoot) {
       final interval = (identity.bassPc - identity.rootPc) % 12;
       final role = identity.toneRolesByInterval[interval];

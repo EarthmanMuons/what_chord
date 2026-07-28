@@ -330,15 +330,30 @@ since the accidentals already mark where each modifier begins.
 
 ## Omissions
 
-Omission markers such as <code class="not-used">no5</code> and
-<code class="not-used">omit3</code> do appear in practice, but this guide avoids
-them. For the purpose of communicating an identity, they add visual noise
-without changing which chord is named.
+Omission markers such as <code class="not-used">no5</code> do appear in
+practice, but this guide avoids them as formatting. For the purpose of
+communicating an identity, they add visual noise without changing which chord is
+named. Commonly omitted tones, especially perfect fifths in extended chords,
+should be understood as part of that chord's identity rather than turned into a
+performance instruction.
 
-Commonly omitted tones, especially perfect fifths in extended chords, should be
-understood as part of that chord's identity rather than turned into a
-performance instruction. Dropping a structurally important tone, like the third,
-is a different matter: it weakens the reading instead of simplifying the symbol.
+Dropping the third is a different matter, because the third is much of what a
+name claims. A bare root, fifth, and flat seventh (the jazz shell voicing D-A-C)
+functions as a dominant seventh while sounding no third at all, and writing it
+as a plain <span class="chord">D7</span> would assert a major third that never
+sounded. Here the omission is the identity information rather than a performance
+instruction, so the marker earns its place:
+<span class="chord">D7(omit3)</span>.
+
+The spelling follows the copyist standard. Brandt and Roemer's _Standardized
+Chord Symbol Notation_ shows exactly this symbol and prefers "omit" over "no".
+The word "no" already carries a meaning in printed music, the abbreviation for
+"number" (Op. 59, No. 3), so <code class="not-used">no3</code> leaves a
+misreading available. "Omit" has one meaning, belongs to the same instruction
+vocabulary as tacet and simile, and reads without hesitation. The same standard
+also draws the boundary this guide keeps: once additional colors join a shell,
+the compound reading (a slash chord) communicates better than an omission
+symbol, so the marker stays reserved for the bare shell alone.
 
 ## Slash Bass
 

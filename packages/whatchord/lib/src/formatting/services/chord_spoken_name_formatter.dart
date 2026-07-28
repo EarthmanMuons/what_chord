@@ -34,6 +34,10 @@ class ChordSpokenNameFormatter {
     final qualityPart = qualityPhrase.isEmpty ? '' : ' $qualityPhrase';
     var s = '$root$qualityPart$extPhrase';
 
+    if (ChordDisplayConventions.showsOmittedThird(identity)) {
+      s = '$s omit three';
+    }
+
     if (identity.hasSlashBass && !identity.hasImpliedRoot) {
       final interval = (identity.bassPc - identity.rootPc) % 12;
       final role = identity.toneRolesByInterval[interval];

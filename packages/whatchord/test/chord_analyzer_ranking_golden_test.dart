@@ -1471,6 +1471,23 @@ void main() {
       expectedQuality: ChordQuality.dominant7sus4,
       expectedExtensions: {ChordExtension.thirteen},
     ),
+
+    // -------------------------------------------------------------------------
+    // Bare flat-seven shell: complete triad keeps the top, the omitted-third
+    // dominant reading surfaces beside it (research/tone-pricing/ log -13)
+    // -------------------------------------------------------------------------
+    golden(
+      description:
+          'complete minor triad slash keeps the top over the bare shell, '
+          'which surfaces as the omitted-third dominant alternative',
+      expectedSymbol: 'Am/D',
+      expectedAlternatives: ['D7(omit3)'],
+      pcs: ['C', 'D', 'A'],
+      bass: 'D',
+      expectedRoot: 'A',
+      expectedBass: 'D',
+      expectedQuality: ChordQuality.minor,
+    ),
   ];
 
   runChordAnalyzerGoldenCases(cases);

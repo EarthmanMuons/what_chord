@@ -1393,11 +1393,11 @@
   },
   "0-2-9_b0": {
     "label": "context-dependent",
-    "note": "Amadd11/C is defensible because A-C-D supplies a clear A minor-third sonority with D as added-eleventh color and C as the minor third in the bass. Music21's Dpower/C names the alternate D-A no-third fifth with C as flat-seventh color, which may be preferable in a context that establishes D as root. WhatChord does not currently emit no-third/power-chord vocabulary, and promoting the incomplete D7/C candidate would imply a missing third rather than naming the sparse sonority directly."
+    "note": "Amadd11/C is defensible because A-C-D supplies a clear A minor-third sonority with D as added-eleventh color and C as the minor third in the bass. Music21's Dpower/C names the alternate D-A no-third fifth with C as flat-seventh color, which may be preferable in a context that establishes D as root. As of 2026-07-28 the bare root-position shell names D7(omit3) as an alternative, but this seventh-in-bass variant keeps its A-rooted label: bass penalties hold the shell reading out of the band, and the review stands."
   },
   "0-2-9_b2": {
     "label": "context-dependent",
-    "note": "Am/D is a practical upper-structure spelling for A-C-D: A-C supplies the minor-third sonority while D sits in the bass as add-eleventh slash color. Music21's DpoweraddC reflects the competing D-rooted no-third fifth with C as flat-seventh color. The D bass makes that reading contextually plausible, but without D5(add♭7) or D7(no3) vocabulary the surfaced Am/D label is the clearer available chord symbol."
+    "note": "Am/D is a practical upper-structure spelling for A-C-D: A-C supplies the minor-third sonority while D sits in the bass as add-eleventh slash color. Music21's DpoweraddC reflects the competing D-rooted no-third fifth with C as flat-seventh color. Re-verdicted 2026-07-28 (tone-pricing log -14): the omitted-third vocabulary this note anticipated now exists. Am/D keeps the top and D7(omit3) surfaces beside it as the alternative (missing-third price 1.1), which is the outcome this review argued for. Still context-dependent: the D-rooted reading is the jazz-idiom hearing, the A-rooted one the context-free surface."
   },
   "0-2-9_b9": {
     "label": "context-dependent",

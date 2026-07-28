@@ -331,6 +331,25 @@ void main() {
     );
   });
 
+  test('marks the omitted third of a bare flat-seven shell', () {
+    final identity = _identity(
+      root: 'D',
+      quality: ChordQuality.dominant7,
+      intervals: const [0, 7, 10],
+    );
+
+    final presentation = ChordPresentationBuilder.fromIdentity(
+      identity: identity,
+      tonality: const Tonality(Tonic.c, TonalityMode.major),
+      notation: notation,
+    );
+
+    expect(presentation.symbol.toString(), 'D7(omit3)');
+    expect(presentation.longLabel, 'D dominant seventh, omitted third');
+    expect(presentation.members, ['D', 'A', 'C']);
+    expect(presentation.memberDegrees, ['1', '5', 'b7']);
+  });
+
   test('promotes symbolic major seventh sus ninths into the headline', () {
     final identity = _identity(
       root: 'C',
