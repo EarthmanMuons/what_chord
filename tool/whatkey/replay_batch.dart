@@ -22,11 +22,14 @@
 //   "contextTimeline": [{"timestampMs": 0, "context": "F:min"}, ...]
 //     switches the analysis context at the given times (arm B: annotated
 //     analyst key as context) instead of the fixed "context" value.
-//   "spanBoundaries": [ms, ...] with "spanNoteThreshold": 0.25
+//   "spanBoundaries": [ms, ...]
 //     replaces the segmenter with annotation-boundary segmentation (arm C):
-//     each adjacent boundary pair is one span, whose voicing is the notes
-//     sounding at least the threshold fraction of the span, still subject
-//     to the capture gate (fewer than three notes -> no event).
+//     each adjacent boundary pair is one span, whose voicing is the span's
+//     modal configuration, the longest-dwelling actually-simultaneous
+//     sounding set (tone-pricing log 2026-07-28-02; the earlier
+//     union-with-threshold construction combined tones that never sounded
+//     together). Still subject to the capture gate (fewer than three notes
+//     in the modal configuration -> no event).
 //   "pedalDemotion": "transient" | "attack"
 //     pedal-blur prototype (performed-input log 2026-07-27-10). Requires
 //     snapshots with a "held" list (provenance extraction). Sustained-only
@@ -112,13 +115,7 @@ void main() {
         ? <Map<String, Object?>>[]
         : null;
     final eventsJson = boundaries != null
-        ? _spanEvents(
-            snapshots,
-            boundaries,
-            (request['spanNoteThreshold'] as num?)?.toDouble() ?? 0.25,
-            contexts,
-            profile,
-          )
+        ? _spanEvents(snapshots, boundaries, contexts, profile)
         : _segmenterEvents(
             snapshots,
             (request['segmenterMinMs'] as int?) ?? 200,
@@ -310,11 +307,12 @@ List<Map<String, Object?>> _segmenterEvents(
 }
 
 /// Annotation-boundary segmentation (arm C): one candidate voicing per span,
-/// built from the notes sounding at least [threshold] of the span duration.
+/// the modal configuration: the actually-simultaneous sounding set with the
+/// longest total dwell inside the span. Unlike a union over time, every
+/// analyzed voicing is a sonority that genuinely sounded at once.
 List<Map<String, Object?>> _spanEvents(
   List<_Snapshot> snapshots,
   List<int> boundaries,
-  double threshold,
   _ContextTimeline contexts,
   ChordAnalysisProfile profile,
 ) {
@@ -329,7 +327,8 @@ List<Map<String, Object?>> _spanEvents(
         snapshots[cursor + 1].timestampMs <= spanStart) {
       cursor++;
     }
-    final soundedMs = <int, int>{};
+    final dwellMs = <String, int>{};
+    final configurations = <String, List<int>>{};
     for (var index = cursor; index < snapshots.length; index++) {
       final start = snapshots[index].timestampMs;
       if (start >= spanEnd) break;
@@ -340,16 +339,21 @@ List<Map<String, Object?>> _spanEvents(
           (end < spanEnd ? end : spanEnd) -
           (start > spanStart ? start : spanStart);
       if (overlap <= 0) continue;
-      for (final note in snapshots[index].midiNotes) {
-        soundedMs[note] = (soundedMs[note] ?? 0) + overlap;
-      }
+      final notes = snapshots[index].midiNotes;
+      if (notes.length < 3) continue;
+      final key = notes.join(',');
+      dwellMs[key] = (dwellMs[key] ?? 0) + overlap;
+      configurations[key] = notes;
     }
 
-    final minMs = threshold * (spanEnd - spanStart);
-    final voicing = [
-      for (final entry in soundedMs.entries)
-        if (entry.value >= minMs) entry.key,
-    ]..sort();
+    String? modal;
+    for (final entry in dwellMs.entries) {
+      if (modal == null || entry.value > dwellMs[modal]!) {
+        modal = entry.key;
+      }
+    }
+    if (modal == null) continue;
+    final voicing = configurations[modal]!;
     final frame = _frame(voicing, contexts.at(spanStart), profile);
     if (frame == null) continue;
     eventsJson.add({
