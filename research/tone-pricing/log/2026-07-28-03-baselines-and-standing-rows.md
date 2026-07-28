@@ -39,6 +39,13 @@ rows (`0-2-9`/`0-1-8` under other basses) the omission lever targets, with
 exposure shares attached. Re-read against every candidate lever; flips
 re-review.
 
+**Plain-English reading.** The scary-sounding fifth of playing time the chord
+catalog supposedly could not see turns out to be mostly octave doublings the app
+already names fine; truly dense note piles are under one percent of playing. The
+dense-behavior safety check now has its baseline number, and the thirteen
+judgment-call chords every pricing experiment must answer to are written down in
+one place with their real-world weight attached.
+
 **Next.** Build-order step 3: experiment-mechanism scoping, how pricing variants
 are prototyped (research analysis profile or debug pricing overrides) without
 touching shipped ranking.
