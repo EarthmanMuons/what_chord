@@ -391,22 +391,25 @@ def harmony_timeline(
             interval_ms = downbeats[index + 1] * 1000 - start_ms
         at = bisect.bisect_right(positions, (measure, 1)) - 1
         active = spans[max(at, 0)]
-        timeline.append(_timeline_entry(active, round(start_ms)))
+        timeline.append(_timeline_entry(active, round(start_ms), interval_ms))
         lo = bisect.bisect_right(positions, (measure, 1))
         hi = bisect.bisect_right(positions, (measure, float("inf")))
         for span in spans[lo:hi]:
             fraction = min(max((span["beat"] - 1) / span["beats"], 0.0), 1.0)
             timeline.append(
-                _timeline_entry(span, round(start_ms + fraction * interval_ms))
+                _timeline_entry(
+                    span, round(start_ms + fraction * interval_ms), interval_ms
+                )
             )
     return timeline
 
 
-def _timeline_entry(span: dict, timestamp_ms: int) -> dict:
+def _timeline_entry(span: dict, timestamp_ms: int, interval_ms: float) -> dict:
     return {
         "timestampMs": timestamp_ms,
         "measure": span["measure"],
         "beat": span["beat"],
+        "beatMs": round(interval_ms / span["beats"]),
         "key": span["key"],
         "figure": span["figure"],
     }
