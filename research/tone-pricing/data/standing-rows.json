@@ -1,0 +1,85 @@
+{
+ "frozenAt": "2026-07-28",
+ "note": "Standing evaluation rows (PROTOCOL.md): re-read against every candidate lever; flips re-review under review-on-flip. Sources: the top-exposure soft verdicts (performed-input log 2026-07-28-05 skim) plus the full shell-family rows the omission lever targets. Exposure shares from tool/chord/pop909_exposure_weights.json.",
+ "rows": [
+  {
+   "caseId": "0-1-3-8-10_b8",
+   "exposureShare": 0.01304,
+   "verdict": "genuine-ambiguity",
+   "why": "top-exposure soft verdict"
+  },
+  {
+   "caseId": "0-2-9_b2",
+   "exposureShare": 0.01143,
+   "verdict": "context-dependent",
+   "why": "top-exposure soft verdict"
+  },
+  {
+   "caseId": "0-1-5-8-10_b1",
+   "exposureShare": 0.00862,
+   "verdict": "genuine-ambiguity",
+   "why": "top-exposure soft verdict"
+  },
+  {
+   "caseId": "0-1-3-5-6-8-10_b5",
+   "exposureShare": 0.00529,
+   "verdict": "genuine-ambiguity",
+   "why": "top-exposure soft verdict"
+  },
+  {
+   "caseId": "0-1-3-5-6-8-10_b8",
+   "exposureShare": 0.00485,
+   "verdict": "genuine-ambiguity",
+   "why": "top-exposure soft verdict"
+  },
+  {
+   "caseId": "0-1-3-5-6-8-10_b1",
+   "exposureShare": 0.00478,
+   "verdict": "genuine-ambiguity",
+   "why": "top-exposure soft verdict"
+  },
+  {
+   "caseId": "0-1-3-5-6-8-10_b10",
+   "exposureShare": 0.00411,
+   "verdict": "genuine-ambiguity",
+   "why": "top-exposure soft verdict"
+  },
+  {
+   "caseId": "0-1-8_b1",
+   "exposureShare": 0.00389,
+   "verdict": "context-dependent",
+   "why": "top-exposure soft verdict"
+  },
+  {
+   "caseId": "0-2-9_b9",
+   "exposureShare": 0.0029,
+   "verdict": "context-dependent",
+   "why": "top-exposure soft verdict"
+  },
+  {
+   "caseId": "0-1-6-8-10_b6",
+   "exposureShare": 0.00282,
+   "verdict": "genuine-ambiguity",
+   "why": "top-exposure soft verdict"
+  },
+  {
+   "caseId": "0-1-8_b8",
+   "exposureShare": 0.00192,
+   "verdict": "context-dependent",
+   "why": "shell-family lever target"
+  },
+  {
+   "caseId": "0-2-9_b0",
+   "exposureShare": 0.00085,
+   "verdict": "context-dependent",
+   "why": "shell-family lever target"
+  },
+  {
+   "caseId": "0-1-8_b0",
+   "exposureShare": 0.00036,
+   "verdict": "context-dependent",
+   "why": "shell-family lever target"
+  }
+ ],
+ "schema": "tone-pricing-standing-rows/1"
+}
