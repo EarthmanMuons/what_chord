@@ -10,7 +10,8 @@ that surface directly, and it captures the other unexplored angles on live
 accuracy as ranked avenues so they are tackled deliberately instead of
 opportunistically.
 
-Status: open; scoping avenue 1.
+Status: open. Avenue 1 complete and standing (ruler v1, frozen split, full
+attribution decomposition; log -12); avenue 2 proposed next.
 
 ## Why now
 
@@ -40,16 +41,16 @@ Ranked by guessed priority and impact. Each avenue gets a scoping log entry
 before any engine work, and negative scoping verdicts are recorded rather than
 silently dropped.
 
-1. **Performed-input identity benchmark** (active): ASAP performed Beethoven
-   sonatas crossed with When in Rome harmony annotations, scored per annotated
-   chord span with a time-weighted, coverage-style metric rather than one-to-one
-   event pairing, because the segmenter's events will not align with annotation
-   spans and that mismatch is part of what is being measured. Run with
-   attribution arms from day one: live inferred key versus annotated key, and
-   the app's segmentation versus annotation-boundary segmentation, so residual
-   error decomposes into key context, segmentation, and analysis ranking. Only
-   the last bucket is engine work; the first two would be the first ruler the
-   input layer has ever had.
+1. **Performed-input identity benchmark** (complete and standing, logs -02
+   through -12): ASAP performed Beethoven sonatas crossed with When in Rome
+   harmony annotations, scored per annotated chord span with a time-weighted,
+   coverage-style metric rather than one-to-one event pairing, because the
+   segmenter's events will not align with annotation spans and that mismatch is
+   part of what is being measured. Run with attribution arms from day one: live
+   inferred key versus annotated key, and the app's segmentation versus
+   annotation-boundary segmentation, so residual error decomposes into key
+   context, segmentation, and analysis ranking. Only the last bucket is engine
+   work; the first two would be the first ruler the input layer has ever had.
 2. **Causal prefix stability**: live, the label is recomputed as notes arrive,
    so there is a stability dimension no current eval touches. Replay corpus
    voicings note by note in performed onset order and measure label churn and
