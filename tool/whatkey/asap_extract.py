@@ -254,6 +254,7 @@ def replay(
                 "segmenterMinMs": segmenter_min_ms,
                 "analysisProfile": analysis_profile,
                 "snapshots": p["snapshots"],
+                **p.get("replayExtras", {}),
             }
         )
         + "\n"

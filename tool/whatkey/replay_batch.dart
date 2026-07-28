@@ -16,6 +16,17 @@
 // ChordEventSegmenter (pending-challenger debounce, minimum duration), so
 // fixtures built here reflect real capture behavior on performed input,
 // finger rolls and pedal blur included.
+//
+// Two optional fields serve the performed-input attribution arms
+// (research/performed-input/PROTOCOL.md):
+//   "contextTimeline": [{"timestampMs": 0, "context": "F:min"}, ...]
+//     switches the analysis context at the given times (arm B: annotated
+//     analyst key as context) instead of the fixed "context" value.
+//   "spanBoundaries": [ms, ...] with "spanNoteThreshold": 0.25
+//     replaces the segmenter with annotation-boundary segmentation (arm C):
+//     each adjacent boundary pair is one span, whose voicing is the notes
+//     sounding at least the threshold fraction of the span, still subject
+//     to the capture gate (fewer than three notes -> no event).
 
 import 'dart:convert';
 import 'dart:io';
@@ -50,46 +61,170 @@ void main() {
     final profile = ChordAnalysisProfile.values.byName(
       _requireProfile(request),
     );
-    final tonality = parseTonality(request['context'] as String);
+    final contexts = _ContextTimeline(
+      request['context'] as String,
+      (request['contextTimeline'] as List?)?.cast<Map>(),
+    );
+    final snapshots = [
+      for (final raw in (request['snapshots'] as List).cast<Map>())
+        (
+          timestampMs: raw['timestampMs'] as int,
+          midiNotes: (raw['midiNotes'] as List).cast<int>()..sort(),
+        ),
+    ];
+    final boundaries = (request['spanBoundaries'] as List?)?.cast<int>();
+
+    final eventsJson = boundaries != null
+        ? _spanEvents(
+            snapshots,
+            boundaries,
+            (request['spanNoteThreshold'] as num?)?.toDouble() ?? 0.25,
+            contexts,
+            profile,
+          )
+        : _segmenterEvents(
+            snapshots,
+            (request['segmenterMinMs'] as int?) ?? 200,
+            contexts,
+            profile,
+          );
+
+    stdout.writeln(
+      jsonEncode(<String, Object?>{'id': request['id'], 'events': eventsJson}),
+    );
+  });
+}
+
+typedef _Snapshot = ({int timestampMs, List<int> midiNotes});
+
+/// The analysis context active at a timestamp: the fixed request context, or
+/// the latest contextTimeline entry at or before the timestamp (arm B).
+class _ContextTimeline {
+  _ContextTimeline(String fixed, List<Map>? timeline)
+    : _switches = [
+        (timestampMs: 0, context: _build(fixed)),
+        if (timeline != null)
+          for (final entry in timeline)
+            (
+              timestampMs: entry['timestampMs'] as int,
+              context: _build(entry['context'] as String),
+            ),
+      ];
+
+  final List<({int timestampMs, AnalysisContext context})> _switches;
+  var _at = 0;
+
+  static final _cache = <String, AnalysisContext>{};
+
+  static AnalysisContext _build(String wire) => _cache.putIfAbsent(wire, () {
+    final tonality = parseTonality(wire);
     final keySignature = KeySignature.fromTonality(tonality);
-    final context = AnalysisContext(
+    return AnalysisContext(
       tonality: tonality,
       keySignature: keySignature,
       spellingPolicy: NoteSpellingPolicy(
         preferFlats: keySignature.prefersFlats,
       ),
     );
+  });
 
-    final segmenter = ChordEventSegmenter(
-      minChordDuration: Duration(
-        milliseconds: (request['segmenterMinMs'] as int?) ?? 200,
+  AnalysisContext at(int timestampMs) {
+    while (_at + 1 < _switches.length &&
+        _switches[_at + 1].timestampMs <= timestampMs) {
+      _at++;
+    }
+    while (_at > 0 && _switches[_at].timestampMs > timestampMs) {
+      _at--;
+    }
+    return _switches[_at].context;
+  }
+}
+
+List<Map<String, Object?>> _segmenterEvents(
+  List<_Snapshot> snapshots,
+  int segmenterMinMs,
+  _ContextTimeline contexts,
+  ChordAnalysisProfile profile,
+) {
+  final segmenter = ChordEventSegmenter(
+    minChordDuration: Duration(milliseconds: segmenterMinMs),
+  );
+  final events = <ChordEvent>[];
+  var lastMs = 0;
+  for (final snapshot in snapshots) {
+    lastMs = snapshot.timestampMs;
+    final now = DateTime.fromMillisecondsSinceEpoch(lastMs);
+    events.addAll(
+      segmenter.onFrame(
+        _frame(snapshot.midiNotes, contexts.at(lastMs), profile),
+        now,
       ),
     );
-    final events = <ChordEvent>[];
-    var lastMs = 0;
-    for (final raw in (request['snapshots'] as List).cast<Map>()) {
-      final snapshot = raw.cast<String, dynamic>();
-      lastMs = snapshot['timestampMs'] as int;
-      final now = DateTime.fromMillisecondsSinceEpoch(lastMs);
-      final midiNotes = (snapshot['midiNotes'] as List).cast<int>()..sort();
-      events.addAll(
-        segmenter.onFrame(_frame(midiNotes, context, profile), now),
-      );
-    }
-    events.addAll(
-      segmenter.flush(DateTime.fromMillisecondsSinceEpoch(lastMs + 1)),
-    );
+  }
+  events.addAll(
+    segmenter.flush(DateTime.fromMillisecondsSinceEpoch(lastMs + 1)),
+  );
+  return [
+    for (var index = 0; index < events.length; index++)
+      _eventJson(index, events[index]),
+  ];
+}
 
-    stdout.writeln(
-      jsonEncode(<String, Object?>{
-        'id': request['id'],
-        'events': [
-          for (var index = 0; index < events.length; index++)
-            _eventJson(index, events[index]),
-        ],
-      }),
-    );
-  });
+/// Annotation-boundary segmentation (arm C): one candidate voicing per span,
+/// built from the notes sounding at least [threshold] of the span duration.
+List<Map<String, Object?>> _spanEvents(
+  List<_Snapshot> snapshots,
+  List<int> boundaries,
+  double threshold,
+  _ContextTimeline contexts,
+  ChordAnalysisProfile profile,
+) {
+  final eventsJson = <Map<String, Object?>>[];
+  var cursor = 0;
+  for (var span = 0; span + 1 < boundaries.length; span++) {
+    final spanStart = boundaries[span];
+    final spanEnd = boundaries[span + 1];
+    if (spanEnd <= spanStart) continue;
+
+    while (cursor + 1 < snapshots.length &&
+        snapshots[cursor + 1].timestampMs <= spanStart) {
+      cursor++;
+    }
+    final soundedMs = <int, int>{};
+    for (var index = cursor; index < snapshots.length; index++) {
+      final start = snapshots[index].timestampMs;
+      if (start >= spanEnd) break;
+      final end = index + 1 < snapshots.length
+          ? snapshots[index + 1].timestampMs
+          : spanEnd;
+      final overlap =
+          (end < spanEnd ? end : spanEnd) -
+          (start > spanStart ? start : spanStart);
+      if (overlap <= 0) continue;
+      for (final note in snapshots[index].midiNotes) {
+        soundedMs[note] = (soundedMs[note] ?? 0) + overlap;
+      }
+    }
+
+    final minMs = threshold * (spanEnd - spanStart);
+    final voicing = [
+      for (final entry in soundedMs.entries)
+        if (entry.value >= minMs) entry.key,
+    ]..sort();
+    final frame = _frame(voicing, contexts.at(spanStart), profile);
+    if (frame == null) continue;
+    eventsJson.add({
+      'index': eventsJson.length,
+      'timestampMs': spanStart,
+      'durationMs': spanEnd - spanStart,
+      'midiNotes': voicing,
+      'pcMask': frame.input.pcMask,
+      'bassPc': frame.input.bassPc,
+      'noteCount': frame.input.noteCount,
+      'candidates': _candidatesJson(frame.candidates),
+    });
+  }
+  return eventsJson;
 }
 
 /// Mirrors `_captureFrameProvider`: null below three sounding notes, else the
@@ -134,17 +269,19 @@ Map<String, Object?> _eventJson(int index, ChordEvent event) => {
   'pcMask': event.input.pcMask,
   'bassPc': event.input.bassPc,
   'noteCount': event.input.noteCount,
-  'candidates': [
-    for (final candidate in event.candidates)
-      <String, Object?>{
-        'rootPc': candidate.identity.rootPc,
-        'bassPc': candidate.identity.bassPc,
-        'quality': candidate.identity.quality.name,
-        'extensions': [
-          for (final extension in candidate.identity.extensions) extension.name,
-        ],
-        'presentIntervalsMask': candidate.identity.presentIntervalsMask,
-        'cost': candidate.cost,
-      },
-  ],
+  'candidates': _candidatesJson(event.candidates),
 };
+
+List<Map<String, Object?>> _candidatesJson(List<ChordCandidate> candidates) => [
+  for (final candidate in candidates)
+    <String, Object?>{
+      'rootPc': candidate.identity.rootPc,
+      'bassPc': candidate.identity.bassPc,
+      'quality': candidate.identity.quality.name,
+      'extensions': [
+        for (final extension in candidate.identity.extensions) extension.name,
+      ],
+      'presentIntervalsMask': candidate.identity.presentIntervalsMask,
+      'cost': candidate.cost,
+    },
+];
