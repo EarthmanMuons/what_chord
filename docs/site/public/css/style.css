@@ -1108,12 +1108,14 @@ footer {
    beside the read-more label so the card's column layout cannot push it onto
    another line. Internal cross-links are relative (no http scheme) so they stay
    clean; buttons, heading anchors, and image links (store badges in the CTA)
-   opt out. The mark is a currentColor mask, so it tracks the link color on
-   hover. Scoped to screen: print already appends the full URL in parentheses
-   (see the print block) and owns this ::after. */
+   opt out unless a button explicitly uses btn-external. The mark is a
+   currentColor mask, so it tracks the link color on hover. Scoped to screen:
+   print already appends the full URL in parentheses (see the print block) and
+   owns this ::after. */
 @media screen {
   .article-card-external .read-more::after,
   .article-deck a[href^="http"]::after,
+  .article-body a.btn-external::after,
   .article-body
     a[href^="http"]:not(
       .btn,

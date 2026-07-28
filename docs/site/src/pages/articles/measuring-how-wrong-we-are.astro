@@ -1,0 +1,13 @@
+---
+import { getEntry, render } from "astro:content";
+
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+
+const article = await getEntry("articles", "measuring-how-wrong-we-are");
+if (!article) throw new Error("Missing article: measuring-how-wrong-we-are");
+const { Content } = await render(article);
+---
+
+<ArticleLayout article={article}>
+  <Content />
+</ArticleLayout>
