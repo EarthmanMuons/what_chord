@@ -62,6 +62,15 @@ class ChordEventSegmenter {
   /// pending. The app notifier schedules its timer against this.
   DateTime? get pendingDeadline => _pendingSince?.add(minChordDuration);
 
+  /// The chord currently accumulating (not yet committed), or null when
+  /// nothing eligible sounds. A challenger takeover backdates this to the
+  /// challenger's onset, so after a takeover its age already exceeds
+  /// [minChordDuration].
+  CaptureFrame? get active => _current;
+
+  /// When [active] began, or null when nothing is active.
+  DateTime? get activeSince => _startedAt;
+
   void reset() {
     _startedAt = null;
     _current = null;

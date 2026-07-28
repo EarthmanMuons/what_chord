@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatchord_app/features/input/input.dart';
 
 import 'analysis_mode_provider.dart';
-import 'chord_candidates_providers.dart';
+import 'displayed_chord_provider.dart';
 
 /// The nearest key with [rootPc] strictly below [bassMidi]: where a covering
 /// bassist would sound an ensemble reading's implied root.
@@ -19,7 +19,7 @@ final impliedRootNoteNumbersProvider = Provider<Set<int>>((ref) {
     return const <int>{};
   }
 
-  final identity = ref.watch(bestChordCandidateProvider)?.identity;
+  final identity = ref.watch(displayedBestCandidateProvider)?.identity;
   if (identity == null || !identity.hasImpliedRoot) return const <int>{};
 
   final midis = ref.watch(soundingNoteNumbersSortedProvider);

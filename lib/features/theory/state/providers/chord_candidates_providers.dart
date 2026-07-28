@@ -1,10 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatchord/whatchord.dart';
 
+import 'package:whatchord_app/features/lookup/lookup.dart';
+
 import 'analysis_context_provider.dart';
 import 'analysis_mode_provider.dart';
 import 'chord_analyzer_provider.dart';
 import 'chord_input_provider.dart';
+import 'displayed_chord_provider.dart';
 
 const _rankingDetailsCandidateLimit = 5;
 
@@ -36,14 +39,19 @@ final alternativeChordCandidatesProvider = Provider<List<ChordCandidate>>((
 final rankedChordCandidateDebugProvider = Provider<List<ExplainedCandidate>>((
   ref,
 ) {
-  final input = ref.watch(chordInputProvider);
-  if (input == null) return const <ExplainedCandidate>[];
-
   final mode = ref.watch(analysisModeProvider);
   if (mode != AnalysisMode.chord) return const <ExplainedCandidate>[];
 
+  // Explain the chord the user is looking at: the display gate's frame for
+  // live play, the raw live input for lookup's untimed manual entry.
+  final lookup = ref.watch(lookupActiveProvider);
+  final frame = lookup ? null : ref.watch(displayedChordProvider);
+  if (!lookup && frame == null) return const <ExplainedCandidate>[];
+  final input = lookup ? ref.watch(chordInputProvider) : frame!.input;
+  final voicing = lookup ? ref.watch(observedVoicingProvider) : frame!.voicing;
+  if (input == null || voicing == null) return const <ExplainedCandidate>[];
+
   final context = ref.watch(analysisContextProvider);
-  final voicing = ref.watch(observedVoicingProvider);
   return ref
       .watch(chordAnalyzerProvider)
       .explain(

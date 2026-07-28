@@ -10,6 +10,16 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- The live chord display now shows a chord once it has proven stable, using the
+  same judgment as chord history, instead of re-labeling on every note change.
+  Rolled chords, passing tones, and pedal-blurred transitions no longer flash
+  intermediate names through the identity card, and what you see always matches
+  what history records. This also makes screen-reader announcements far calmer,
+  since the displayed chord changes only when a new chord actually lands. Manual
+  lookup entry keeps its instant feedback.
+
 ## [2026.7.27] - 2026-07-27
 
 ### Added

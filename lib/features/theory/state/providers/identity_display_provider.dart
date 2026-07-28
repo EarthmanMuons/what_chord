@@ -8,8 +8,8 @@ import '../../presentation/models/identity_display.dart';
 import '../../presentation/services/analysis_details_formatter.dart';
 import 'analysis_context_provider.dart';
 import 'analysis_mode_provider.dart';
-import 'chord_candidates_providers.dart';
 import 'chord_presentation_provider.dart';
+import 'displayed_chord_provider.dart';
 import 'theory_preferences_notifier.dart';
 
 final identityDisplayProvider = Provider<IdentityDisplay?>((ref) {
@@ -101,7 +101,7 @@ final identityDisplayProvider = Provider<IdentityDisplay?>((ref) {
         final id = presentation.identity;
         final notation = ref.watch(chordNotationStyleProvider);
         final alternatives = ref
-            .watch(alternativeChordCandidatesProvider)
+            .watch(displayedAlternativeCandidatesProvider)
             .map(
               (c) => chordSymbolTextLabel(
                 ChordSymbolBuilder.fromIdentity(
