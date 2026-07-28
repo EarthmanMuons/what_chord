@@ -102,6 +102,13 @@ def parse_args() -> argparse.Namespace:
         "files stay byte-identical, so frozen split hashes hold.",
     )
     parser.add_argument(
+        "--unexplained-tone-cost",
+        type=float,
+        help="Tone-pricing research override for the analyzer's "
+        "unexplained-tone price (research/tone-pricing/; shipped default "
+        "2.0). Appends -utc<value> to the set name.",
+    )
+    parser.add_argument(
         "--pedal-demotion",
         choices=("off", "transient", "attack"),
         default="off",
@@ -123,6 +130,8 @@ def main() -> int:
         args.set_name = f"{args.set_name}-arm{args.arm}"
     if args.pedal_demotion != "off":
         args.set_name = f"{args.set_name}-pd-{args.pedal_demotion}"
+    if args.unexplained_tone_cost is not None:
+        args.set_name = f"{args.set_name}-utc{args.unexplained_tone_cost:g}"
     if (REPO_ROOT / "research") in args.out.resolve().parents:
         raise SystemExit("License-gated fixtures: build/ only.")
 
@@ -316,6 +325,11 @@ def main() -> int:
             if args.pedal_demotion != "off"
             else {}
         ),
+        **(
+            {"unexplainedToneCost": args.unexplained_tone_cost}
+            if args.unexplained_tone_cost is not None
+            else {}
+        ),
         **({"behavior": args.behavior} if args.arm == "A1" else {}),
         "contentHash": {
             "algorithm": "sha256",
@@ -417,6 +431,8 @@ def arm_extras(args: argparse.Namespace, timeline: list[dict], snapshots) -> dic
         extras["spanBoundaries"] = boundaries
     if args.pedal_demotion != "off":
         extras["pedalDemotion"] = args.pedal_demotion
+    if args.unexplained_tone_cost is not None:
+        extras["unexplainedToneCost"] = args.unexplained_tone_cost
     if args.arm == "A1":
         extras["liveKeyHalfLifeSeconds"] = LIVE_KEY_HALF_LIFE_SECONDS[args.behavior]
     if args.emit_frames:

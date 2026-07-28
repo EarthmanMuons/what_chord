@@ -142,6 +142,7 @@ final class ChordAnalyzer {
     this.cacheCapacity = 512,
     this.rankingPruneMargin = 2.0,
     this.analysisProfile = ChordAnalysisProfile.current,
+    this.unexplainedToneCost = defaultUnexplainedToneCost,
   });
 
   /// Maximum cached analysis results (LRU eviction). Configurable so the
@@ -162,6 +163,13 @@ final class ChordAnalyzer {
   /// The app leaves this at [ChordAnalysisProfile.current]. Research tooling
   /// may request a frozen policy when rebuilding published fixtures.
   final ChordAnalysisProfile analysisProfile;
+
+  /// Price of a sounding tone the name cannot account for at all.
+  ///
+  /// The app uses [defaultUnexplainedToneCost]; research tooling may override
+  /// it to prototype tolerance levers (research/tone-pricing/) without
+  /// touching the shipped ranking.
+  final double unexplainedToneCost;
 
   final LinkedHashMap<int, List<ChordCandidate>> _cache =
       LinkedHashMap<int, List<ChordCandidate>>();
@@ -232,7 +240,7 @@ final class ChordAnalyzer {
   static const _missingRootCost = 0.25;
 
   // A sounding tone the name cannot account for at all.
-  static const _unexplainedToneCost = 2.0;
+  static const defaultUnexplainedToneCost = 2.0;
 
   // Bass placement: root is free, conventional inversions are cheap, color
   // tones and especially suspended tones in the bass read awkwardly. An
@@ -720,7 +728,7 @@ final class ChordAnalyzer {
     }
 
     if (unexplainedMask != 0) {
-      final unexplainedCost = popCount(unexplainedMask) * _unexplainedToneCost;
+      final unexplainedCost = popCount(unexplainedMask) * unexplainedToneCost;
       cost += unexplainedCost;
       add(
         CostReasonLabel.penaltyTones,

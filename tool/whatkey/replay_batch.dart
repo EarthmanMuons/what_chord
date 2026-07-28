@@ -85,6 +85,15 @@ void main() {
     final profile = ChordAnalysisProfile.values.byName(
       _requireProfile(request),
     );
+    // Tone-pricing research override (research/tone-pricing/); absent means
+    // the shipped price, via the shared per-profile analyzer cache.
+    final priceOverride = (request['unexplainedToneCost'] as num?)?.toDouble();
+    final analyzer = priceOverride == null
+        ? _analyzers[profile]!
+        : ChordAnalyzer(
+            analysisProfile: profile,
+            unexplainedToneCost: priceOverride,
+          );
     final contexts = _ContextTimeline(
       request['context'] as String,
       (request['contextTimeline'] as List?)?.cast<Map>(),
@@ -115,12 +124,12 @@ void main() {
         ? <Map<String, Object?>>[]
         : null;
     final eventsJson = boundaries != null
-        ? _spanEvents(snapshots, boundaries, contexts, profile)
+        ? _spanEvents(snapshots, boundaries, contexts, analyzer)
         : _segmenterEvents(
             snapshots,
             (request['segmenterMinMs'] as int?) ?? 200,
             contexts,
-            profile,
+            analyzer,
             liveKey: liveKeySeconds == null
                 ? null
                 : HmmKeyDetector(
@@ -252,7 +261,7 @@ List<Map<String, Object?>> _segmenterEvents(
   List<_Snapshot> snapshots,
   int segmenterMinMs,
   _ContextTimeline contexts,
-  ChordAnalysisProfile profile, {
+  ChordAnalyzer analyzer, {
   HmmKeyDetector? liveKey,
   List<Map<String, Object?>>? frames,
 }) {
@@ -281,7 +290,7 @@ List<Map<String, Object?>> _segmenterEvents(
     final frame = _frame(
       snapshot.midiNotes,
       liveContext ?? contexts.at(lastMs),
-      profile,
+      analyzer,
     );
     if (frames != null) {
       final identity = frame?.candidates.first.identity;
@@ -314,7 +323,7 @@ List<Map<String, Object?>> _spanEvents(
   List<_Snapshot> snapshots,
   List<int> boundaries,
   _ContextTimeline contexts,
-  ChordAnalysisProfile profile,
+  ChordAnalyzer analyzer,
 ) {
   final eventsJson = <Map<String, Object?>>[];
   var cursor = 0;
@@ -354,7 +363,7 @@ List<Map<String, Object?>> _spanEvents(
     }
     if (modal == null) continue;
     final voicing = configurations[modal]!;
-    final frame = _frame(voicing, contexts.at(spanStart), profile);
+    final frame = _frame(voicing, contexts.at(spanStart), analyzer);
     if (frame == null) continue;
     eventsJson.add({
       'index': eventsJson.length,
@@ -375,7 +384,7 @@ List<Map<String, Object?>> _spanEvents(
 CaptureFrame? _frame(
   List<int> midiNotes,
   AnalysisContext context,
-  ChordAnalysisProfile profile,
+  ChordAnalyzer analyzer,
 ) {
   if (midiNotes.length < 3) return null;
 
@@ -389,11 +398,7 @@ CaptureFrame? _frame(
     noteCount: midiNotes.length,
   );
   final voicing = ObservedVoicing.fromMidi(midiNotes);
-  final ranked = _analyzers[profile]!.analyze(
-    input,
-    context: context,
-    voicing: voicing,
-  );
+  final ranked = analyzer.analyze(input, context: context, voicing: voicing);
   if (ranked.isEmpty) return null;
 
   return CaptureFrame(
