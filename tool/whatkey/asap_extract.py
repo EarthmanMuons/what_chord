@@ -104,7 +104,7 @@ def main() -> int:
     set_dir.mkdir(parents=True, exist_ok=True)
     fixtures_meta = []
     for piece in pieces:
-        events = replayed[piece["id"]]
+        events = replayed[piece["id"]]["events"]
         for event in events:
             event["labels"] = labels_at(piece["keySignatures"], event["timestampMs"])
         fixture = {
@@ -287,13 +287,13 @@ def replay(
     )
     if process.returncode:
         raise RuntimeError(process.stderr)
-    out: dict[str, list[dict]] = {}
+    out: dict[str, dict] = {}
     for line in process.stdout.splitlines():
         line = line.strip()
         if not line.startswith("{"):
             continue
         result = json.loads(line)
-        out[result["id"]] = result["events"]
+        out[result["id"]] = result
     return out
 
 
