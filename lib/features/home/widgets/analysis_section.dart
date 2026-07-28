@@ -21,7 +21,7 @@ class AnalysisSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final identity = ref.watch(identityDisplayProvider);
+    final identity = ref.watch(heldIdentityDisplayProvider);
     final showIdle = ref.watch(inputIdleEligibleProvider);
     final demoEnabled = ref.watch(demoModeProvider);
     final demoVariant = ref.watch(demoModeVariantProvider);

@@ -19,7 +19,7 @@ class DetailsSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final identity = ref.watch(identityDisplayProvider);
+    final identity = ref.watch(heldIdentityDisplayProvider);
     final tourKeys = ref.watch(demoTourKeysProvider);
 
     final sectionPadding = config.tightenForStatusBar
