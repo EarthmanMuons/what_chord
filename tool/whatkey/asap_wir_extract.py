@@ -95,13 +95,6 @@ def parse_args() -> argparse.Namespace:
         help="Arm A1 key-behavior preset; sets the detector half-life.",
     )
     parser.add_argument(
-        "--span-note-threshold",
-        type=float,
-        default=0.25,
-        help="Arm C: a note enters a span's voicing when it sounds at least "
-        "this fraction of the span.",
-    )
-    parser.add_argument(
         "--emit-frames",
         action="store_true",
         help="Also write per-snapshot display-label change points to "
@@ -317,11 +310,7 @@ def main() -> int:
         "analysisProfile": args.analysis_profile,
         "harmonyLabeled": True,
         "arm": args.arm,
-        **(
-            {"spanNoteThreshold": args.span_note_threshold}
-            if args.arm in ("C", "BC")
-            else {}
-        ),
+        **({"spanVoicing": "modal-configuration"} if args.arm in ("C", "BC") else {}),
         **(
             {"pedalDemotion": args.pedal_demotion}
             if args.pedal_demotion != "off"
@@ -426,7 +415,6 @@ def arm_extras(args: argparse.Namespace, timeline: list[dict], snapshots) -> dic
         if boundaries and end > boundaries[-1]:
             boundaries.append(end)
         extras["spanBoundaries"] = boundaries
-        extras["spanNoteThreshold"] = args.span_note_threshold
     if args.pedal_demotion != "off":
         extras["pedalDemotion"] = args.pedal_demotion
     if args.arm == "A1":

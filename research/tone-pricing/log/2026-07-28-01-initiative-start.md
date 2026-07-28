@@ -28,6 +28,20 @@ Two protocol decisions from the opening review:
   re-read against every candidate change rather than revisited on a calendar;
   any that flip re-review under the rule above.
 
+**History, recorded from review.** The shell question was dismissed twice
+before, both times on principled grounds that examined the wrong half of it. The
+chord-symbols guide (docs/site, Omissions section) rejects omission markers as
+notation noise, which is right when the omission does not change which chord is
+named. The ChoCo coverage research (million-chord-annotations article) read the
+omitted-tone label family as voicing descriptions rather than missing
+vocabulary, which was right for the corpus question it asked. Neither examined
+omission-as-identity: a shell voicing whose honest reading is a different root
+entirely (D-A-C as a D7 shell versus Am/D). The live data closed that gap.
+Design constraint carried forward: the guide's anti-omission-marker stance
+argues for 5-based display forms (D5add(b7), extending the shipped power
+vocabulary) over no3-style markers, or the guide itself gets revisited as part
+of any shell adoption.
+
 **Plain-English reading.** The measurement program told us the engine's one
 remaining live-input conversation is about tolerance: when an extra note should
 be absorbed into a fancier name, and when a missing note should be forgiven at
