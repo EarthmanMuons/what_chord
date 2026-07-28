@@ -24,10 +24,11 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+from exposure_weights import load_weights, mass_share
 from oracle_compare import generate_cases, run_whatchord_batch
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-CHORD_BATCH = REPO_ROOT / "tool" / "chord_oracle_batch.dart"
+CHORD_BATCH = REPO_ROOT / "tool" / "chord" / "oracle_batch.dart"
 DEFAULT_TOP = 5
 
 
@@ -88,9 +89,10 @@ def surfaced(case: dict) -> list:
 
 def diff_snapshots(
     before: dict, after: dict, *, example_limit: int
-) -> tuple[Counter, list]:
+) -> tuple[Counter, list, dict[str, list[str]]]:
     counts: Counter = Counter()
     examples = []
+    flipped: dict[str, list[str]] = {"top1": [], "surfaced-set": [], "order-only": []}
     for case_id, b in before["cases"].items():
         a = after["cases"].get(case_id)
         if a is None:
@@ -110,9 +112,10 @@ def diff_snapshots(
             kind = "order-only"
         counts[kind] += 1
         counts[f"{kind}/{note_count(case_id)}n"] += 1
+        flipped[kind].append(case_id)
         if kind != "order-only" and len(examples) < example_limit:
             examples.append((case_id, kind, b_surfaced, a_surfaced))
-    return counts, examples
+    return counts, examples, flipped
 
 
 def cmd_snapshot(args: argparse.Namespace) -> None:
@@ -129,11 +132,17 @@ def cmd_diff(args: argparse.Namespace) -> None:
     after = json.load(args.after.open())
     if before["meta"] != after["meta"]:
         print(f"warning: snapshot settings differ: {before['meta']} vs {after['meta']}")
-    counts, examples = diff_snapshots(before, after, example_limit=args.examples)
+    counts, examples, flipped = diff_snapshots(
+        before, after, example_limit=args.examples
+    )
     total = len(before["cases"])
+    weights = load_weights()
     for kind in ("top1", "surfaced-set", "order-only"):
         strata = "  ".join(f"{n}n:{counts[f'{kind}/{n}n']}" for n in range(3, 8))
-        print(f"{kind:>12}: {counts[kind]:5d} / {total}   {strata}")
+        exposure = (
+            f"   exposure {mass_share(weights, flipped[kind]):.4f}" if weights else ""
+        )
+        print(f"{kind:>12}: {counts[kind]:5d} / {total}   {strata}{exposure}")
     if counts["missing"]:
         print(f"{'missing':>12}: {counts['missing']:5d}")
     for case_id, kind, b, a in examples:
@@ -147,10 +156,21 @@ def cmd_census(args: argparse.Namespace) -> None:
     counter = Counter(
         case["rule"] for case in snapshot["cases"].values() if case["rule"]
     )
+    weights = load_weights()
+    by_rule: dict[str, list[str]] = {}
+    if weights:
+        for case_id, case in snapshot["cases"].items():
+            if case["rule"]:
+                by_rule.setdefault(case["rule"], []).append(case_id)
     total = len(snapshot["cases"])
     print(f"top-pair deciders over {total} cases:")
     for rule, n in counter.most_common():
-        print(f"{n:6d}  {rule}")
+        exposure = (
+            f"  exposure {mass_share(weights, by_rule.get(rule, ())):.4f}"
+            if weights
+            else ""
+        )
+        print(f"{n:6d}  {rule}{exposure}")
 
 
 def main() -> None:

@@ -27,10 +27,11 @@ import re
 import sys
 from pathlib import Path
 
+from exposure_weights import load_weights, mass_share
 from oracle_compare import generate_cases, run_whatchord_batch
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-CHORD_BATCH = REPO_ROOT / "tool" / "chord_oracle_batch.dart"
+CHORD_BATCH = REPO_ROOT / "tool" / "chord" / "oracle_batch.dart"
 RULES_PATH = REPO_ROOT / "packages/whatchord/lib/analysis/ranking_rules.dart"
 HARD_DECL = "final List<NamedRule> hardRules = <NamedRule>["
 TIE_DECL = "final List<NamedRule> tieBreakerRules = <NamedRule>["
@@ -121,9 +122,10 @@ def run_pool(*, all_transpositions: bool, top: int, key: str) -> dict[str, dict]
 
 def diff_counts(
     ref: dict[str, dict], snap: dict[str, dict]
-) -> tuple[int, int, int, list]:
+) -> tuple[int, int, int, list, list[str]]:
     top1 = surfaced = order = 0
     examples = []
+    changed_ids = []
     for case_id, ref_case in ref.items():
         snap_case = snap.get(case_id, {})
         ref_symbols = ref_case.get("symbols") or []
@@ -134,13 +136,15 @@ def diff_counts(
             continue
         if ref_symbols[:1] != snap_symbols[:1]:
             top1 += 1
+            changed_ids.append(case_id)
             examples.append((case_id, ref_surfaced, snap_surfaced))
         elif set(ref_surfaced) != set(snap_surfaced):
             surfaced += 1
+            changed_ids.append(case_id)
             examples.append((case_id, ref_surfaced, snap_surfaced))
         else:
             order += 1
-    return top1, surfaced, order, examples[:5]
+    return top1, surfaced, order, examples[:5], changed_ids
 
 
 def main() -> None:
@@ -183,17 +187,24 @@ def main() -> None:
     batches = [targets] if args.joint else [[name] for name in targets]
     results = {}
     try:
+        weights = load_weights()
         for batch in batches:
             RULES_PATH.write_text(remove_rules(original, batch, decl_by_name))
             snap = run_pool(**pool_args)
-            top1, surfaced, order, examples = diff_counts(ref, snap)
+            top1, surfaced, order, examples, changed_ids = diff_counts(ref, snap)
             label = " + ".join(batch) if args.joint else batch[0]
+            exposure = mass_share(weights, changed_ids) if weights else None
             results[label] = {
                 "top1": top1,
                 "surfaced_set": surfaced,
                 "order_only": order,
+                **({"exposure": exposure} if exposure is not None else {}),
             }
-            print(f"{top1:4d} top1  {surfaced:4d} set  {order:4d} order  | {label}")
+            exposure_text = f"  exp {exposure:.4f}" if exposure is not None else ""
+            print(
+                f"{top1:4d} top1  {surfaced:4d} set  {order:4d} order"
+                f"{exposure_text}  | {label}"
+            )
             for case_id, before, after in examples:
                 print(f"        {case_id}: {before} -> {after}")
     finally:
