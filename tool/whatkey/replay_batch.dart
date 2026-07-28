@@ -40,6 +40,13 @@
 //     key forward (sticky across abstentions), mirroring the app's live
 //     feedback of inferred key into analysis context. Mutually exclusive
 //     with contextTimeline and spanBoundaries.
+//   "emitFrames": true
+//     prefix-stability measurement (performed-input avenue 2): the output
+//     additionally carries "frames", the per-snapshot display-label change
+//     points. An entry {timestampMs, rootPc, quality} marks the top-1
+//     label changing to that identity; {timestampMs} alone marks the
+//     display going blank (fewer than three notes or no candidates).
+//     Segmenter path only.
 
 import 'dart:convert';
 import 'dart:io';
@@ -101,6 +108,9 @@ void main() {
       );
     }
 
+    final frames = (request['emitFrames'] as bool?) ?? false
+        ? <Map<String, Object?>>[]
+        : null;
     final eventsJson = boundaries != null
         ? _spanEvents(
             snapshots,
@@ -119,10 +129,15 @@ void main() {
                 : HmmKeyDetector(
                     decayHalfLife: Duration(seconds: liveKeySeconds),
                   ),
+            frames: frames,
           );
 
     stdout.writeln(
-      jsonEncode(<String, Object?>{'id': request['id'], 'events': eventsJson}),
+      jsonEncode(<String, Object?>{
+        'id': request['id'],
+        'events': eventsJson,
+        'frames': ?frames,
+      }),
     );
   });
 }
@@ -242,6 +257,7 @@ List<Map<String, Object?>> _segmenterEvents(
   _ContextTimeline contexts,
   ChordAnalysisProfile profile, {
   HmmKeyDetector? liveKey,
+  List<Map<String, Object?>>? frames,
 }) {
   final segmenter = ChordEventSegmenter(
     minChordDuration: Duration(milliseconds: segmenterMinMs),
@@ -249,6 +265,7 @@ List<Map<String, Object?>> _segmenterEvents(
   final events = <ChordEvent>[];
   var liveContext = liveKey == null ? null : contexts.at(0);
   var lastMs = 0;
+  (int, String)? displayed;
 
   void commit(Iterable<ChordEvent> committed) {
     for (final event in committed) {
@@ -264,12 +281,26 @@ List<Map<String, Object?>> _segmenterEvents(
   for (final snapshot in snapshots) {
     lastMs = snapshot.timestampMs;
     final now = DateTime.fromMillisecondsSinceEpoch(lastMs);
-    commit(
-      segmenter.onFrame(
-        _frame(snapshot.midiNotes, liveContext ?? contexts.at(lastMs), profile),
-        now,
-      ),
+    final frame = _frame(
+      snapshot.midiNotes,
+      liveContext ?? contexts.at(lastMs),
+      profile,
     );
+    if (frames != null) {
+      final identity = frame?.candidates.first.identity;
+      final label = identity == null
+          ? null
+          : (identity.rootPc, identity.quality.name);
+      if (label != displayed) {
+        frames.add({
+          'timestampMs': lastMs,
+          if (label != null) 'rootPc': label.$1,
+          if (label != null) 'quality': label.$2,
+        });
+        displayed = label;
+      }
+    }
+    commit(segmenter.onFrame(frame, now));
   }
   commit(segmenter.flush(DateTime.fromMillisecondsSinceEpoch(lastMs + 1)));
   return [

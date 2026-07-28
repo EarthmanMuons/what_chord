@@ -102,6 +102,13 @@ def parse_args() -> argparse.Namespace:
         "this fraction of the span.",
     )
     parser.add_argument(
+        "--emit-frames",
+        action="store_true",
+        help="Also write per-snapshot display-label change points to "
+        "<set>/frames/<name>.json (performed-input avenue 2). Fixture "
+        "files stay byte-identical, so frozen split hashes hold.",
+    )
+    parser.add_argument(
         "--pedal-demotion",
         choices=("off", "transient", "attack"),
         default="off",
@@ -229,7 +236,22 @@ def main() -> int:
     set_dir = args.out / args.set_name
     set_dir.mkdir(parents=True, exist_ok=True)
     for piece in pieces:
-        events = replayed[piece["id"]]
+        events = replayed[piece["id"]]["events"]
+        if args.emit_frames:
+            frames_dir = set_dir / "frames"
+            frames_dir.mkdir(parents=True, exist_ok=True)
+            name = piece["id"].split("/")[-1]
+            (frames_dir / f"{name}.json").write_text(
+                json.dumps(
+                    {
+                        "id": piece["id"],
+                        "frames": replayed[piece["id"]]["frames"],
+                    },
+                    indent=2,
+                    sort_keys=True,
+                )
+                + "\n"
+            )
         timeline = piece["timeline"]
         timeline_times = [entry["timestampMs"] for entry in timeline]
         for event in events:
@@ -408,6 +430,8 @@ def arm_extras(args: argparse.Namespace, timeline: list[dict], snapshots) -> dic
         extras["pedalDemotion"] = args.pedal_demotion
     if args.arm == "A1":
         extras["liveKeyHalfLifeSeconds"] = LIVE_KEY_HALF_LIFE_SECONDS[args.behavior]
+    if args.emit_frames:
+        extras["emitFrames"] = True
     return extras
 
 
