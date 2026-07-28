@@ -46,6 +46,9 @@ extend-ignore-re = [
   # "mis-" prefix coinages (e.g. "mis-key"); the checker splits on the hyphen
   # and flags the bare "mis" fragment
   "\\bmis-[a-z]+",
+
+  # chord symbols with an added tone (e.g. "Aadd#9", "Aadd♯9")
+  "\\b[A-G](?:[#b♯♭])?add[#b♯♭]?\\d+\\b",
 ]
 
 [type.readme]
