@@ -109,6 +109,13 @@ def parse_args() -> argparse.Namespace:
         "2.0). Appends -utc<value> to the set name.",
     )
     parser.add_argument(
+        "--shell-seventh-cost",
+        type=float,
+        help="Tone-pricing research override pricing the bare power-shell "
+        "seventh (research/tone-pricing/ log -11; shipped behavior rejects "
+        "shells). Appends -shell<value> to the set name.",
+    )
+    parser.add_argument(
         "--pedal-demotion",
         choices=("off", "transient", "attack"),
         default="off",
@@ -132,6 +139,8 @@ def main() -> int:
         args.set_name = f"{args.set_name}-pd-{args.pedal_demotion}"
     if args.unexplained_tone_cost is not None:
         args.set_name = f"{args.set_name}-utc{args.unexplained_tone_cost:g}"
+    if args.shell_seventh_cost is not None:
+        args.set_name = f"{args.set_name}-shell{args.shell_seventh_cost:g}"
     if (REPO_ROOT / "research") in args.out.resolve().parents:
         raise SystemExit("License-gated fixtures: build/ only.")
 
@@ -330,6 +339,11 @@ def main() -> int:
             if args.unexplained_tone_cost is not None
             else {}
         ),
+        **(
+            {"shellSeventhCost": args.shell_seventh_cost}
+            if args.shell_seventh_cost is not None
+            else {}
+        ),
         **({"behavior": args.behavior} if args.arm == "A1" else {}),
         "contentHash": {
             "algorithm": "sha256",
@@ -433,6 +447,8 @@ def arm_extras(args: argparse.Namespace, timeline: list[dict], snapshots) -> dic
         extras["pedalDemotion"] = args.pedal_demotion
     if args.unexplained_tone_cost is not None:
         extras["unexplainedToneCost"] = args.unexplained_tone_cost
+    if args.shell_seventh_cost is not None:
+        extras["shellSeventhCost"] = args.shell_seventh_cost
     if args.arm == "A1":
         extras["liveKeyHalfLifeSeconds"] = LIVE_KEY_HALF_LIFE_SECONDS[args.behavior]
     if args.emit_frames:

@@ -88,11 +88,14 @@ void main() {
     // Tone-pricing research override (research/tone-pricing/); absent means
     // the shipped price, via the shared per-profile analyzer cache.
     final priceOverride = (request['unexplainedToneCost'] as num?)?.toDouble();
-    final analyzer = priceOverride == null
+    final shellOverride = (request['shellSeventhCost'] as num?)?.toDouble();
+    final analyzer = priceOverride == null && shellOverride == null
         ? _analyzers[profile]!
         : ChordAnalyzer(
             analysisProfile: profile,
-            unexplainedToneCost: priceOverride,
+            unexplainedToneCost:
+                priceOverride ?? ChordAnalyzer.defaultUnexplainedToneCost,
+            shellSeventhCost: shellOverride,
           );
     final contexts = _ContextTimeline(
       request['context'] as String,

@@ -20,7 +20,12 @@ import 'package:whatchord/whatchord.dart';
 import '../chord_debug.dart';
 import '../src/chord_id_engine.dart';
 
-final _analyzer = ChordAnalyzer();
+final _analyzers = <double?, ChordAnalyzer>{null: ChordAnalyzer()};
+
+ChordAnalyzer _analyzerFor(double? shellSeventhCost) => _analyzers.putIfAbsent(
+  shellSeventhCost,
+  () => ChordAnalyzer(shellSeventhCost: shellSeventhCost),
+);
 
 void main() {
   stdin.transform(utf8.decoder).transform(const LineSplitter()).listen((line) {
@@ -57,7 +62,10 @@ void main() {
       return;
     }
 
-    final results = _analyzer.explain(
+    final analyzer = _analyzerFor(
+      (request['shellSeventhCost'] as num?)?.toDouble(),
+    );
+    final results = analyzer.explain(
       prepared.input,
       context: context,
       take: top,
