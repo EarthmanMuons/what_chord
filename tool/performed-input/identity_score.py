@@ -63,6 +63,8 @@ QUALITY_INTERVALS = {
     "dominant7Flat5": (0, 4, 6, 10),
     "major7Sharp5": (0, 4, 8, 11),
     "major7Flat5": (0, 4, 6, 11),
+    "minorSharp5": (0, 3, 8),
+    "minor7Sharp5": (0, 3, 8, 10),
 }
 
 EXTENSION_INTERVALS = {
