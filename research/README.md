@@ -45,9 +45,11 @@ and published methods.
   alongside.
 - [Performed Input](performed-input/): measuring chord identity on real
   performances through the live causal pipeline, where every prior identity
-  number used clean synthesized voicings. Open: the flagship ruler crosses ASAP
-  performed MIDI with When in Rome harmony annotations, with further avenues
-  (prefix stability, frequency weighting, POP909) captured and ranked.
+  number used clean synthesized voicings. Complete: the flagship ruler crosses
+  ASAP performed MIDI with When in Rome harmony annotations, the stability ruler
+  and display-policy frontier drove the shipped display gate, and the
+  pre-declared holdout spend puts held-out live identity at 0.551 exact against
+  0.602 on development, with the gate's dominance confirmed on unseen music.
 - [Tone Pricing](tone-pricing/): the engine-side descendant of Performed Input,
   treating superset absorption (an extra tone folded into a fancier name) and
   shell omission (no honest label for incomplete voicings) as one

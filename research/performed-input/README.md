@@ -10,13 +10,20 @@ that surface directly, and it captures the other unexplored angles on live
 accuracy as ranked avenues so they are tackled deliberately instead of
 opportunistically.
 
-Status: all avenues resolved. Avenues 1 and 2 complete and standing (two frozen
-rulers with baselines, full attribution decomposition, display-policy frontier
-replicated on POP909); avenue 3 closed (exposure weights shipped,
-observed-voicing expansion dismissed); avenue 4 diligence done; avenue 5 scoped
-and shelved. Remaining: the held ASAP test-split spend when a pre-declared
-confirmation set warrants it, and product follow-through on the display-policy
-frontier.
+Status: complete. All avenues resolved (avenues 1 and 2 standing with two frozen
+rulers, full attribution decomposition, and the display-policy frontier
+replicated on POP909; avenue 3 closed; avenue 4 diligence done; avenue 5
+shelved), and the held ASAP test split is spent, pre-declared and reported in
+logs -12 and -13.
+
+Headline, held-out performed input: **0.551 exact** on twelve unseen Beethoven
+movements, against 0.602 on development, which should now be described as the
+development figure rather than the accuracy of the app. The display gate's
+structural claim reproduced cleanly on held-out music, which was the spend's
+main purpose. Roughly half the identity shortfall is harder-to-name content and
+roughly half is engine-actionable, concentrated in the superset-absorption
+bucket that [Tone Pricing](../tone-pricing/README.md) measured and declined to
+change. Nothing was tuned in response, per the pre-declared rule.
 
 ## Why now
 
