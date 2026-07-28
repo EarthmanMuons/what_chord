@@ -48,6 +48,11 @@ and published methods.
   number used clean synthesized voicings. Open: the flagship ruler crosses ASAP
   performed MIDI with When in Rome harmony annotations, with further avenues
   (prefix stability, frequency weighting, POP909) captured and ranked.
+- [Tone Pricing](tone-pricing/): the engine-side descendant of Performed Input,
+  treating superset absorption (an extra tone folded into a fancier name) and
+  shell omission (no honest label for incomplete voicings) as one
+  explanation-cost tolerance dial. Open: scoping, sequenced before the
+  performed-input test-split spend.
 
 Supporting code lives with the rest of the project: batch drivers and corpus
 tooling in `tool/`, performance benchmarks in `benchmark/`, and the engine
