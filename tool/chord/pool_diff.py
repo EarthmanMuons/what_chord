@@ -41,7 +41,13 @@ def surfaced_symbols(candidates: list[dict]) -> list[str | None]:
     ]
 
 
-def take_snapshot(*, all_transpositions: bool, top: int, key: str) -> dict:
+def take_snapshot(
+    *,
+    all_transpositions: bool,
+    top: int,
+    key: str,
+    shell_seventh_cost: float | None = None,
+) -> dict:
     cases = list(
         generate_cases(
             min_notes=3,
@@ -51,7 +57,12 @@ def take_snapshot(*, all_transpositions: bool, top: int, key: str) -> dict:
         )
     )
     payloads = run_whatchord_batch(
-        CHORD_BATCH, cases, top=top, repo_root=REPO_ROOT, key=key
+        CHORD_BATCH,
+        cases,
+        top=top,
+        repo_root=REPO_ROOT,
+        key=key,
+        shell_seventh_cost=shell_seventh_cost,
     )
     snapshot_cases = {}
     for case, payload in zip(cases, payloads):
@@ -68,6 +79,7 @@ def take_snapshot(*, all_transpositions: bool, top: int, key: str) -> dict:
             "all_transpositions": all_transpositions,
             "top": top,
             "key": key,
+            "shellSeventhCost": shell_seventh_cost,
         },
         "cases": snapshot_cases,
     }
@@ -120,7 +132,10 @@ def diff_snapshots(
 
 def cmd_snapshot(args: argparse.Namespace) -> None:
     snapshot = take_snapshot(
-        all_transpositions=args.all_transpositions, top=args.top, key=args.key
+        all_transpositions=args.all_transpositions,
+        top=args.top,
+        key=args.key,
+        shell_seventh_cost=args.shell_seventh_cost,
     )
     args.out.parent.mkdir(parents=True, exist_ok=True)
     json.dump(snapshot, args.out.open("w"))
@@ -182,6 +197,7 @@ def main() -> None:
     snap.add_argument("--all-transpositions", action="store_true")
     snap.add_argument("--top", type=int, default=DEFAULT_TOP)
     snap.add_argument("--key", default="C:maj")
+    snap.add_argument("--shell-seventh-cost", type=float, default=None)
     snap.set_defaults(func=cmd_snapshot)
 
     diff = sub.add_parser("diff", help="compare two snapshots by severity")

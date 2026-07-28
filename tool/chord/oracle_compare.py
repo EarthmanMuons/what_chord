@@ -690,6 +690,7 @@ def run_whatchord_batch(
     top: int,
     repo_root: Path,
     key: str = "C:maj",
+    shell_seventh_cost: float | None = None,
 ) -> list[dict]:
     """Analyze every case in a single warm Dart VM.
 
@@ -706,6 +707,11 @@ def run_whatchord_batch(
                 "bass": case.bass,
                 "top": top,
                 "key": key,
+                **(
+                    {"shellSeventhCost": shell_seventh_cost}
+                    if shell_seventh_cost is not None
+                    else {}
+                ),
             }
         )
         + "\n"

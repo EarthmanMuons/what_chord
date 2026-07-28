@@ -143,6 +143,7 @@ final class ChordAnalyzer {
     this.rankingPruneMargin = 2.0,
     this.analysisProfile = ChordAnalysisProfile.current,
     this.unexplainedToneCost = defaultUnexplainedToneCost,
+    this.shellSeventhCost,
   });
 
   /// Maximum cached analysis results (LRU eviction). Configurable so the
@@ -170,6 +171,18 @@ final class ChordAnalyzer {
   /// it to prototype tolerance levers (research/tone-pricing/) without
   /// touching the shipped ranking.
   final double unexplainedToneCost;
+
+  /// Price of the flat seventh in a bare power-shell reading (root, fifth,
+  /// and flat seventh only: D-A-C as a D5-plus-flat-seven shell).
+  ///
+  /// Null (the app's setting) keeps the shipped behavior: a power reading
+  /// with any leftover tone is rejected outright. Research tooling
+  /// (research/tone-pricing/) may set a price to let the bare flat-seven
+  /// shell, and only it, enumerate. The major-seventh shell is excluded by
+  /// measurement: it evicts incumbent readings in the pool and steals
+  /// leaning-tone events on the ruler, and its honest missing-third name
+  /// already surfaces (log -12).
+  final double? shellSeventhCost;
 
   final LinkedHashMap<int, List<ChordCandidate>> _cache =
       LinkedHashMap<int, List<ChordCandidate>>();
@@ -241,6 +254,9 @@ final class ChordAnalyzer {
 
   // A sounding tone the name cannot account for at all.
   static const defaultUnexplainedToneCost = 2.0;
+
+  static const _bareShellFlatSevenMask =
+      1 | (1 << perfectFifthInterval) | (1 << minorSeventhInterval);
 
   // Bass placement: root is free, conventional inversions are cheap, color
   // tones and especially suspended tones in the bass read awkwardly. An
@@ -721,14 +737,23 @@ final class ChordAnalyzer {
     // named colors account for every sounding tone; a leftover tone means
     // some other harmony is in play. An implied-root reading is held to the
     // same bar: hypothesizing an unplayed root is only credible when the name
-    // fully explains what was played.
+    // fully explains what was played. The one research-only exception is the
+    // bare flat-seven shell (root, fifth, and flat seventh) when
+    // [shellSeventhCost] is set.
+    final isBareShell =
+        template.quality == ChordQuality.power &&
+        !impliedRoot &&
+        relMask == _bareShellFlatSevenMask;
+    final shellPrice = isBareShell ? shellSeventhCost : null;
     if (unexplainedMask != 0 &&
+        shellPrice == null &&
         (impliedRoot || template.quality == ChordQuality.power)) {
       return null;
     }
 
     if (unexplainedMask != 0) {
-      final unexplainedCost = popCount(unexplainedMask) * unexplainedToneCost;
+      final unexplainedCost =
+          popCount(unexplainedMask) * (shellPrice ?? unexplainedToneCost);
       cost += unexplainedCost;
       add(
         CostReasonLabel.penaltyTones,
