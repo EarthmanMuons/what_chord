@@ -1,11 +1,41 @@
 # Performed-Input Evaluation Protocol
 
-Status: DRAFT. The measurement discipline below is binding now; the ruler
-definition freezes with the avenue 1 scoping entries, before any engine tuning
-against it. This protocol inherits the frozen chord-context protocol
+Status: FROZEN 2026-07-27 (ruler v1, log 2026-07-27-04 approved; baseline in log
+2026-07-27-05). This protocol inherits the frozen chord-context protocol
 (`research/chord-context/PROTOCOL.md`): split discipline, label isolation,
 ground-truth rules, statistics conventions, and the performance budget apply as
 written there. This document records only what is specific to this initiative.
+
+## Ruler v1 (frozen)
+
+Implemented by `tool/performed-input/identity_score.py`; the alignment census
+gate is `tool/whatkey/wir_alignment_probe.py`.
+
+1. **Scoring unit.** Time-weighted agreement over the union of event display
+   intervals ([timestampMs, +durationMs]) intersected with the analyst harmony
+   timeline. Coverage is the displayed share of analyst-labeled time; tiers are
+   reported on displayed time only (the coverage/accuracy-on-claimed pairing).
+2. **Agreement tiers** between the app's top-ranked candidate and the analyst
+   chord (music21 conversion of key+figure): _exact_ = root pitch class and
+   quality family match, where family is (third, fifth, seventh) classified from
+   the member interval set identically on both sides (headline); _root_ = root
+   pitch class matches; _members_ = chord-tone sets match regardless of root.
+   Augmented-sixth figures score by member set at every tier.
+3. **Boundary tolerance.** Within one interpolated beat (`beatMs`) of an analyst
+   span boundary, agreement with either neighboring span counts.
+4. **Attribution arms**, in build order: A0 = app segmentation with neutral
+   analysis context (the committed fixtures); B = annotated analyst key as
+   context; C = annotation-boundary segmentation; A1 = live inferred-key
+   context. A0, B, and C are key-behavior-mode-free by construction (no detector
+   in the loop); A1 reports all three behavior presets (stable, balanced,
+   reactive), since the preset changes the context stream the analyzer sees.
+   Headline numbers always ship with their decomposition.
+5. **Split.** By sonata number, seeded hash over all 32 sonatas
+   (`tool/performed-input/freeze_split.py`, frozen manifest in
+   `data/splits/asap-wir-nc-v2.json`): every movement and performance of a work
+   shares a side, and the side of any later-rescued movement is already
+   determined by its sonata. Movements enter only by passing the census gate
+   (shift response peaking sharply at zero).
 
 ## Binding now
 
@@ -38,11 +68,10 @@ written there. This document records only what is specific to this initiative.
   the canonical pool (`tool/chord/pool_diff.py`) with zero flips on
   `clearly-correct` reviewed entries as a hard constraint.
 
-## Adoption bar
+## Adoption bar (frozen)
 
-To be frozen with the ruler. The intended shape, recorded so the freeze is a
-confirmation rather than an invention: paired per-piece improvement on the
-development split of the primary metric (bootstrap CI95 excluding zero and
-Wilcoxon p < 0.05 via the `tool/whatkey/compare.py` conventions), guards green,
-and the attribution arms confirming the change moves the bucket it claims to
-move.
+Paired per-piece improvement on the development split of the exact tier
+(bootstrap CI95 excluding zero and Wilcoxon p < 0.05 via the
+`tool/whatkey/compare.py` conventions), guards green, and the attribution arms
+confirming the change moves the bucket it claims to move. The test split is
+spent once, on a pre-declared result set.
