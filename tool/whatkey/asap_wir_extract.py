@@ -76,11 +76,29 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_ANALYSIS_PROFILE,
         help="Chord-ranking policy used before capture segmentation.",
     )
+    parser.add_argument(
+        "--arm",
+        choices=("A0", "B", "C", "BC"),
+        default="A0",
+        help="Attribution arm (research/performed-input/PROTOCOL.md): A0 = "
+        "app segmentation, neutral context; B = annotated analyst key as "
+        "context; C = annotation-boundary segmentation; BC = both. Arms "
+        "other than A0 append -arm<X> to the set name.",
+    )
+    parser.add_argument(
+        "--span-note-threshold",
+        type=float,
+        default=0.25,
+        help="Arm C: a note enters a span's voicing when it sounds at least "
+        "this fraction of the span.",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
+    if args.arm != "A0":
+        args.set_name = f"{args.set_name}-arm{args.arm}"
     if (REPO_ROOT / "research") in args.out.resolve().parents:
         raise SystemExit("License-gated fixtures: build/ only.")
 
@@ -149,6 +167,7 @@ def main() -> int:
             harmony_spans, downbeats, raw_measures, snapshots, anchor
         )
         measures = [m + offset for m in raw_measures]
+        timeline = harmony_timeline(harmony_spans, downbeats, measures)
         pieces.append(
             {
                 "id": f"{args.set_name}/{folder}",
@@ -158,6 +177,8 @@ def main() -> int:
                 "measures": measures,
                 "keys": keys_by_measure,
                 "harmonySpans": harmony_spans,
+                "timeline": timeline,
+                "replayExtras": arm_extras(args, timeline, snapshots),
             }
         )
         curve_text = "  ".join(
@@ -182,9 +203,7 @@ def main() -> int:
     set_dir.mkdir(parents=True, exist_ok=True)
     for piece in pieces:
         events = replayed[piece["id"]]
-        timeline = harmony_timeline(
-            piece["harmonySpans"], piece["downbeats"], piece["measures"]
-        )
+        timeline = piece["timeline"]
         timeline_times = [entry["timestampMs"] for entry in timeline]
         for event in events:
             time_s = event["timestampMs"] / 1000
@@ -205,7 +224,11 @@ def main() -> int:
             "schema": asap_x.FIXTURE_SCHEMA,
             "id": piece["id"],
             "title": piece["title"],
-            "labels": {"source": "asap+when-in-rome", "modeResolved": True},
+            "labels": {
+                "source": "asap+when-in-rome",
+                "modeResolved": True,
+                "arm": args.arm,
+            },
             "harmony": timeline,
             "events": events,
         }
@@ -243,6 +266,12 @@ def main() -> int:
         "context": args.context,
         "analysisProfile": args.analysis_profile,
         "harmonyLabeled": True,
+        "arm": args.arm,
+        **(
+            {"spanNoteThreshold": args.span_note_threshold}
+            if args.arm in ("C", "BC")
+            else {}
+        ),
         "contentHash": {
             "algorithm": "sha256",
             "canonicalization": CANONICALIZATION,
@@ -319,6 +348,30 @@ def beat_count(time_sig: str) -> int:
     if numerator > 3 and numerator % 3 == 0:
         return numerator // 3
     return numerator
+
+
+def arm_extras(args: argparse.Namespace, timeline: list[dict], snapshots) -> dict:
+    """replay_batch.dart request fields for the selected attribution arm."""
+    extras: dict = {}
+    if args.arm in ("B", "BC"):
+        switches: list[dict] = []
+        for entry in timeline:
+            if not switches or switches[-1]["context"] != entry["key"]:
+                switches.append(
+                    {"timestampMs": entry["timestampMs"], "context": entry["key"]}
+                )
+        extras["contextTimeline"] = switches
+    if args.arm in ("C", "BC"):
+        boundaries: list[int] = []
+        for entry in timeline:
+            if not boundaries or entry["timestampMs"] > boundaries[-1]:
+                boundaries.append(entry["timestampMs"])
+        end = snapshots[-1]["timestampMs"] if snapshots else 0
+        if boundaries and end > boundaries[-1]:
+            boundaries.append(end)
+        extras["spanBoundaries"] = boundaries
+        extras["spanNoteThreshold"] = args.span_note_threshold
+    return extras
 
 
 def calibrate_offset(
