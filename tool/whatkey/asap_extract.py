@@ -199,24 +199,41 @@ def select_performances(
     return selected
 
 
-def sounding_snapshots(midi_path: Path) -> list[dict]:
-    """Pedal-aware sounding sets at every change, timestamped in ms."""
+def sounding_snapshots(midi_path: Path, provenance: bool = False) -> list[dict]:
+    """Pedal-aware sounding sets at every change, timestamped in ms.
+
+    With provenance, each snapshot also carries "held": the physically held
+    subset of midiNotes (the rest sound only through the sustain pedal).
+    Off by default, leaving existing consumers byte-identical.
+    """
     held: set[int] = set()
     sustained: set[int] = set()
     pedal_down = False
     snapshots: list[dict] = []
     last_emitted: frozenset[int] = frozenset()
+    last_held: frozenset[int] = frozenset()
     clock = 0.0
 
     def emit(at_ms: int) -> None:
-        nonlocal last_emitted
+        nonlocal last_emitted, last_held
         sounding = frozenset(held | sustained)
-        if sounding == last_emitted:
+        # Without provenance, a release under the pedal leaves the sounding
+        # union unchanged and is deduplicated; with it, the held/sustained
+        # transition is the signal, so those snapshots must be emitted.
+        if sounding == last_emitted and (
+            not provenance or frozenset(held) == last_held
+        ):
             return
+        last_held = frozenset(held)
         if snapshots and snapshots[-1]["timestampMs"] == at_ms:
             snapshots[-1]["midiNotes"] = sorted(sounding)
+            if provenance:
+                snapshots[-1]["held"] = sorted(held)
         else:
-            snapshots.append({"timestampMs": at_ms, "midiNotes": sorted(sounding)})
+            snapshot = {"timestampMs": at_ms, "midiNotes": sorted(sounding)}
+            if provenance:
+                snapshot["held"] = sorted(held)
+            snapshots.append(snapshot)
         last_emitted = sounding
 
     for message in mido.MidiFile(midi_path):

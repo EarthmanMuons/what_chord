@@ -27,6 +27,12 @@
 //     each adjacent boundary pair is one span, whose voicing is the notes
 //     sounding at least the threshold fraction of the span, still subject
 //     to the capture gate (fewer than three notes -> no event).
+//   "pedalDemotion": "transient" | "attack"
+//     pedal-blur prototype (performed-input log 2026-07-27-10). Requires
+//     snapshots with a "held" list (provenance extraction). Sustained-only
+//     notes are dropped from the analyzed voicing when their key press was
+//     shorter than transientMs ("transient"), or additionally once any
+//     fresh attack lands after their release ("attack").
 
 import 'dart:convert';
 import 'dart:io';
@@ -65,13 +71,18 @@ void main() {
       request['context'] as String,
       (request['contextTimeline'] as List?)?.cast<Map>(),
     );
-    final snapshots = [
+    var snapshots = [
       for (final raw in (request['snapshots'] as List).cast<Map>())
         (
           timestampMs: raw['timestampMs'] as int,
           midiNotes: (raw['midiNotes'] as List).cast<int>()..sort(),
+          held: (raw['held'] as List?)?.cast<int>(),
         ),
     ];
+    final demotion = request['pedalDemotion'] as String?;
+    if (demotion != null) {
+      snapshots = _demotePedalTones(snapshots, demotion);
+    }
     final boundaries = (request['spanBoundaries'] as List?)?.cast<int>();
 
     final eventsJson = boundaries != null
@@ -95,7 +106,69 @@ void main() {
   });
 }
 
-typedef _Snapshot = ({int timestampMs, List<int> midiNotes});
+typedef _Snapshot = ({int timestampMs, List<int> midiNotes, List<int>? held});
+
+const _transientPressMs = 200;
+
+/// Pedal-blur demotion prototype: rewrites each snapshot's voicing so that
+/// sustained-only notes (in midiNotes but not held) are dropped when their
+/// press was shorter than [_transientPressMs], and under the "attack" rule
+/// additionally once any fresh attack lands after their release. Physically
+/// held notes always pass through.
+List<_Snapshot> _demotePedalTones(List<_Snapshot> snapshots, String rule) {
+  final heldSince = <int, int>{};
+  final releasedAt = <int, int>{};
+  final pressMs = <int, int>{};
+  var lastAttackMs = -1;
+  var previousHeld = const <int>{};
+  final rewritten = <_Snapshot>[];
+  for (final snapshot in snapshots) {
+    final held = (snapshot.held ?? const <int>[]).toSet();
+    final now = snapshot.timestampMs;
+    for (final note in held) {
+      if (!previousHeld.contains(note)) {
+        heldSince[note] = now;
+        releasedAt.remove(note);
+        pressMs.remove(note);
+        lastAttackMs = now;
+      }
+    }
+    final sounding = snapshot.midiNotes.toSet();
+    for (final note in previousHeld) {
+      if (!held.contains(note) && sounding.contains(note)) {
+        releasedAt[note] = now;
+        pressMs[note] = now - (heldSince[note] ?? now);
+      }
+    }
+    heldSince.removeWhere((note, _) => !sounding.contains(note));
+    releasedAt.removeWhere((note, _) => !sounding.contains(note));
+    pressMs.removeWhere((note, _) => !sounding.contains(note));
+    previousHeld = held;
+
+    final voicing = [
+      for (final note in snapshot.midiNotes)
+        if (held.contains(note) ||
+            !_demoted(note, rule, releasedAt, pressMs, lastAttackMs))
+          note,
+    ];
+    rewritten.add((timestampMs: now, midiNotes: voicing, held: snapshot.held));
+  }
+  return rewritten;
+}
+
+bool _demoted(
+  int note,
+  String rule,
+  Map<int, int> releasedAt,
+  Map<int, int> pressMs,
+  int lastAttackMs,
+) {
+  final released = releasedAt[note];
+  if (released == null) return false;
+  if ((pressMs[note] ?? _transientPressMs) < _transientPressMs) return true;
+  if (rule == 'attack' && lastAttackMs > released) return true;
+  return false;
+}
 
 /// The analysis context active at a timestamp: the fixed request context, or
 /// the latest contextTimeline entry at or before the timestamp (arm B).
