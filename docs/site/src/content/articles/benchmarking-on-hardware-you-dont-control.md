@@ -22,7 +22,7 @@ pageTitle: "Benchmarking on Hardware You Don’t Control | WhatChord"
 related:
   - "chord-ranking-performance"
   - "chord-recognition-algorithm"
-  - "million-chord-annotations"
+  - "measuring-how-wrong-we-are"
 socialDescription:
   "Wall-clock time isn’t comparable across machines. A toolkit for trustworthy
   benchmarks anyway: deterministic operation counters, a reference-workload

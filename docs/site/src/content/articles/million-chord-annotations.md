@@ -23,14 +23,7 @@ pageTitle: "What We Learned From 1 Million Chord Annotations | WhatChord"
 related:
   - "why-chord-naming-is-hard"
   - "chord-recognition-algorithm"
-relatedExternal:
-  - description:
-      "The research project behind automatic key detection: a frozen evaluation
-      protocol, external baselines, dated experiment logs, and held-out results."
-    href: "https://github.com/EarthmanMuons/whatchord/tree/main/research/whatkey"
-    readMore: "Read the research notes"
-    tag: "Key Detection"
-    title: "Streaming Key Estimation Research"
+  - "measuring-how-wrong-we-are"
 socialDescription:
   "A look at how real-world chord annotations help keep WhatChord’s recognition
   roadmap grounded in music people actually write and play."
