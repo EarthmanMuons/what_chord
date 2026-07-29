@@ -11,10 +11,6 @@ decks:
 description:
   "How a large public chord corpus helped validate WhatChord’s chord vocabulary
   and guide future recognition priorities."
-featuredDescription:
-  "How a large public chord corpus helped validate WhatChord’s chord vocabulary
-  and guide future recognition priorities with evidence rather than guesswork."
-featuredOrder: 2
 group: "technical"
 image: "/images/homepage_social.jpg"
 imageAlt: "WhatChord: Identify chords. Understand harmony."

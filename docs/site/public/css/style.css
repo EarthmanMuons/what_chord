@@ -1414,7 +1414,8 @@ a.heading-anchor svg {
   color: var(--text-2);
 }
 
-.article-cta .cta-secondary {
+.article-cta .cta-secondary,
+.try-teaser-card .cta-secondary {
   margin: 4px 0 0;
   font-size: 0.9rem;
 }
