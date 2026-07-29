@@ -28,6 +28,10 @@ import 'key_space.dart';
 /// [fifthsDecay] per step of key-signature distance on the circle of fifths
 /// (relative keys are at distance zero) and discounted by [modeSwitchFactor]
 /// when the mode changes.
+///
+/// NOTE: https://whatchord.earthmanmuons.com/articles/key-detection-algorithm.html
+/// documents this model in detail. Update the article when the update loop,
+/// the transition parameters, or the shipped constants change.
 class HmmKeyDetector implements KeyDetector {
   /// The emission memory selects which timescale of key structure the
   /// detector reports (log entry 2026-07-07-16): one-second, effectively

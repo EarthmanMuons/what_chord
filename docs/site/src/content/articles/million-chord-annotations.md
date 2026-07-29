@@ -14,7 +14,7 @@ description:
 group: "technical"
 image: "/images/homepage_social.jpg"
 imageAlt: "WhatChord: Identify chords. Understand harmony."
-indexOrder: 7
+indexOrder: 8
 pageTitle: "What We Learned From 1 Million Chord Annotations | WhatChord"
 related:
   - "why-chord-naming-is-hard"

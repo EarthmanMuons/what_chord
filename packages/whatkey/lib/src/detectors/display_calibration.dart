@@ -18,6 +18,10 @@ import '../models/key_estimate.dart';
 /// number is calibrated to section-scale correctness on pop material, the
 /// question the key indicator answers; against local-scale analyst
 /// labels it remains overconfident by design (the timescale trade).
+///
+/// NOTE: https://whatchord.earthmanmuons.com/articles/key-detection-algorithm.html
+/// explains this step and quotes the raw-versus-calibrated gap. Update the
+/// article when the temperature is refit or the scaling changes.
 abstract final class DisplayCalibration {
   /// Temperature fitted on the held-out split for the shipped section-scale
   /// configuration.

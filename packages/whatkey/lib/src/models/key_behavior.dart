@@ -5,6 +5,10 @@ import '../detectors/hmm_key_detector.dart';
 /// the shipped detector with a per-mode emission half-life, paired with the
 /// display calibration temperature fitted for that timescale. Every other
 /// detector knob measured best at its default at all three timescales.
+///
+/// NOTE: https://whatchord.earthmanmuons.com/articles/key-detection-algorithm.html
+/// tabulates these presets. Update the article when a preset's half-life or
+/// display temperature changes, or when a knob stops being shared.
 enum KeyBehavior {
   /// Section-scale reading: names the song's key and absorbs brief detours.
   /// The shipped configuration.

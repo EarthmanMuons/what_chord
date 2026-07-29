@@ -25,7 +25,7 @@ pageTitle: "Building a Real-Time Chord Recognizer | WhatChord"
 related:
   - "chord-ranking-performance"
   - "benchmarking-on-hardware-you-dont-control"
-  - "million-chord-annotations"
+  - "key-detection-algorithm"
 socialDescription:
   "A detailed look at the bitmasks, templates, implied roots, explanation costs,
   ranking heuristics, and LRU cache that power real-time chord identification."
@@ -879,6 +879,21 @@ The 512-entry capacity was chosen from benchmarks across random inputs,
 exhaustive inputs, tonal progressions, and simulated live note transitions.
 Realistic playing showed high reuse, and larger caches produced no material
 improvement.
+
+## Where the key in the context comes from
+
+The analysis context carries a key, and several ranking rules lean on it:
+preferring diatonic chords, preferring the tonic, choosing between a
+half-diminished 7th and the major 7th a semitone below. That key can be set by
+hand, but by default it is
+[inferred live from the chords you have been playing](key-detection-algorithm.html)
+and written back into the context. So the analyzer itself is memoryless, while
+the context it runs against is not: temporal information reaches chord naming
+through the key, and only through the key.
+
+That routing is deliberate. Feeding the previous chord into ranking directly was
+measured against a baseline that already knew the key, and it added nothing: the
+key carries essentially everything the recent past has to offer.
 
 ## What the algorithm does not handle
 
