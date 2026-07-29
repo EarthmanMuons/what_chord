@@ -18,7 +18,7 @@ reproduction commands, the corrections, and the ideas that did not work.
   only one written up as a paper. Its
   [plain-English companion](whatkey/CONTRIBUTION.md) explains what it claims and
   why it is worth reading.
-- **Hit an unfamiliar term?** The [glossary](whatkey/GLOSSARY.md) defines the
+- **Hit an unfamiliar term?** The [glossary](GLOSSARY.md) defines the
   measurement vocabulary in plain English: coverage, held-out split, paired
   statistics, exact versus MIREX, and the rest.
 

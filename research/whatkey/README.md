@@ -59,7 +59,7 @@ and minor keys, updates it from recent chord evidence, and abstains when the
 leading candidates are too close. The detector ranks keys and decides when to
 abstain using its raw probabilities; the number shown to users passes through a
 display-only calibration step. The measurement terms used below are defined in
-the [glossary](GLOSSARY.md).
+the [glossary](../GLOSSARY.md).
 
 On a held-out set of pop songs, it held its own against standard offline
 [music21](https://www.music21.org/) key finders that read the whole song before
@@ -119,8 +119,8 @@ paper results.
   (`mise research:whatkey-paper` rebuilds it from `paper/main.typ`).
 - [CONTRIBUTION.md](CONTRIBUTION.md): a plain-English overview of what the work
   contributes.
-- [GLOSSARY.md](GLOSSARY.md): plain-English definitions of the measurement
-  terms.
+- [../GLOSSARY.md](../GLOSSARY.md): plain-English definitions of the measurement
+  terms, shared across the whole research archive.
 - [PROTOCOL.md](PROTOCOL.md): how results are evaluated; frozen, with dated
   amendments.
 - [log/](log/): dated experiment entries with exact commands, results, and

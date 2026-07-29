@@ -75,7 +75,7 @@ correctly. A two-chorus blues fixture would test the realistic looping case, but
 the behavioral suite is pinned by the protocol freeze, so that addition is
 deferred to a pop-jazz-v2 fixture set with an amendment.
 
-**Plain-English reading** (terms in [../GLOSSARY.md](../GLOSSARY.md)):
+**Plain-English reading** (terms in [../../GLOSSARY.md](../../GLOSSARY.md)):
 
 - The new layer listens for the grammar of harmony (this chord _resolving_ to
   that one) instead of just which notes are common. Grammar is rare but very

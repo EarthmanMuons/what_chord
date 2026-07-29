@@ -1,9 +1,10 @@
-# WhatKey Glossary
+# Glossary
 
-Plain-English definitions of the measurement terms used across the log entries
-and reports. PROTOCOL.md is the normative source; this file explains, it does
-not define. Log entries should link here rather than re-explain terms, and keep
-their own plain-English sections for interpreting specific results.
+Plain-English definitions of the measurement and engineering terms used across
+the research archive. Each initiative's PROTOCOL.md is the normative source for
+its own rules; this file explains, it does not define. Log entries should link
+here rather than re-explain terms, and keep their own plain-English sections for
+interpreting specific results.
 
 Each term is a heading so it can be linked directly from logs, reports, and pull
 requests.
@@ -30,14 +31,27 @@ Of the events where the detector was willing to name a key, the fraction it got
 right. Always reported together with coverage; either number alone is
 meaningless, because a detector can trade one for the other.
 
+## Adoption bar
+
+The threshold a proposed change must clear before it can ship, written into the
+initiative's PROTOCOL.md before any result is seen. Usually a significant
+[paired](#paired-statistics) win on the primary [ruler](#ruler), no significant
+regression on the others, and a clean behavioral suite.
+
+## Attribution arm
+
+A rerun of the same evaluation with one source of error removed, so a residual
+can be split into causes instead of reported as one lump. Comparing an arm
+against the live baseline says how much of the error belonged to the thing that
+arm took away.
+
 ## Bayesian online changepoint detection (BOCPD)
 
 An adaptive-memory alternative to the HMM's fixed decay: instead of letting
 evidence fade on a fixed half-life, it maintains a belief about where the
-current musical section started and pools evidence back to that point. Built and
-measured for the 24-key space; it catches more key changes but makes more false
-switches on the section-key task, so it was not adopted (log entry
-2026-07-07-26).
+current musical section started and pools evidence back to that point. It
+catches more key changes at the cost of more false switches; not adopted
+([log entry 2026-07-07-26](whatkey/log/2026-07-07-26-bocpd-negative.md)).
 
 ## Bootstrap CI95
 
@@ -76,9 +90,9 @@ speak. Every metric scores the claim; the rest of the ranked list is diagnostic.
 ## Confidence weighting
 
 Weighting each chord event by how sure the chord recognizer was about its
-reading, so confidently identified chords would count more than ambiguous ones.
-Tested repeatedly across detectors and timescales and never helped; the logs
-record it as a no-op, permanently off.
+reading, so confidently identified chords count more than ambiguous ones.
+Measured as a no-op across every detector and timescale tried; off by default
+([log entry 2026-07-07-20](whatkey/log/2026-07-07-20-reflex-scale-ablation.md)).
 
 ## Coverage
 
@@ -104,8 +118,7 @@ used for tuning and is no longer a clean held-out test.
 ## Duration weighting
 
 Weighting each chord event by how long it was held, so a whole-note chord
-influences the key estimate more than a passing eighth. The one ingredient that
-measured as helpful on every ruler tested; on by default.
+influences the key estimate more than a passing eighth. On by default.
 
 ## Emission
 
@@ -126,15 +139,18 @@ How much recent context the emission scorer integrates when judging "the chords
 we just heard": pitch-class evidence decays exponentially with this half-life.
 Short memory makes each emission a snapshot of the immediate harmony, quick to
 see excursions; long memory makes it a summary of the current section. Log
-entries 2026-07-07-16/17 found this dial selects which timescale of key
-structure the detector reports (see Section-key vs. local-key annotations).
+entries [2026-07-07-16](whatkey/log/2026-07-07-16-isophonics-timescale.md) and
+[2026-07-07-17](whatkey/log/2026-07-07-17-section-scale-default.md) found this
+dial selects which timescale of key structure the detector reports (see
+Section-key vs. local-key annotations).
 
 ## Event
 
 One committed chord from live play: the chord the player held, with the
-recognizer's ranked readings of it, its voicing, timing, and duration. The unit
-everything is scored over, each counting once regardless of how long it was
-held.
+recognizer's ranked readings of it, its voicing, timing, and duration. Committed
+by the [segmenter](#segmenter), which decides where one chord ends and the next
+begins. The unit everything is scored over, each counting once regardless of how
+long it was held.
 
 ## Exact vs. MIREX-weighted
 
@@ -151,6 +167,12 @@ one candidate chord reading; lower is better, and every event carries its ranked
 candidates with their costs. The gap between the best and second-best cost is
 the recognizer-confidence signal that confidence weighting tried, and failed, to
 exploit.
+
+## Exposure weighting
+
+Ranking a proposed change by how much real playing time it touches rather than
+by how many catalog rows it flips, using a weight table built from recorded
+performances. The two orderings frequently disagree.
 
 ## Filtered posterior (forward algorithm)
 
@@ -171,9 +193,9 @@ dataset because fixtures embed engine output.
 
 Mixes a second signal into the emission: instead of only asking which key's
 scale the notes fit, it also asks which key the chord would have a familiar job
-in (a V7 wants to be the dominant of somewhere). Valuable when the target is
-tracking brief excursions, harmful when it is naming the section's key, and it
-misreads blues harmony, so the shipped configuration leaves it at zero.
+in (a V7 wants to be the dominant of somewhere). Helps when the target is
+tracking brief excursions, hurts when it is naming the section's key; the
+shipped configuration leaves it at zero.
 
 ## Global vs. local key
 
@@ -183,6 +205,13 @@ modulation tracking is about. This is a different distinction from annotation
 granularity; a moment-by-moment detector can still report either kind of key
 described under
 [Section-key vs. local-key annotations](#section-key-vs-local-key-annotations).
+
+## Golden test
+
+A pinned case: one specific voicing with the expected output chosen in advance
+by musical judgment. Goldens encode naming conventions that corpus frequency
+cannot see, which makes them a veto on a change that scores well on a
+[ruler](#ruler). They are curated judgments rather than ground truth.
 
 ## Hidden Markov model (HMM)
 
@@ -196,10 +225,10 @@ momentary contradictions but yields to sustained ones.
 
 A rule that makes the detector wait for repeated evidence before changing its
 answer, like a thermostat that will not flip the furnace on and off for every
-draft. In WhatKey's early experiments, claim hysteresis meant "do not adopt a
-new key until it has appeared for several consecutive claiming events." It can
-reduce flicker, but it also delays real modulations; the logs record it as a
-mostly negative result for this detector.
+draft. Claim hysteresis here means "do not adopt a new key until it has appeared
+for several consecutive claiming events." It reduces flicker at the cost of
+delaying real modulations; not adopted
+([log entry 2026-07-07-07](whatkey/log/2026-07-07-07-decay-and-hysteresis.md)).
 
 ## Margin floor
 
@@ -221,8 +250,8 @@ A per-event nudge within one parallel pair of keys (same tonic, major vs.
 minor): when the chord just played is rooted on that tonic and is clearly major
 or clearly minor, some probability shifts toward the matching twin. The pair's
 total is preserved, so the tilt can pick between a key's twins but can never
-favor a different tonic, which is why it avoids the problems that got its
-broader ancestors removed (log entry 2026-07-07-23).
+favor a different tonic. Adopted
+([log entry 2026-07-07-23](whatkey/log/2026-07-07-23-mode-tilt.md)).
 
 ## Modulation lag
 
@@ -232,6 +261,13 @@ events pass before the detector's claim arrives in the new key. Reported as
 median and p90 (the [90th percentile](https://en.wikipedia.org/wiki/Percentile),
 the value only the worst tenth of cases exceed), with censored modulations
 counted separately.
+
+## Near-tie window
+
+The score gap inside which two competing chord readings count as close enough
+that musical tie-breaker rules decide the order, rather than the raw score
+alone. Readings further apart than the window are ordered on score, and the
+tie-breaker rules never run.
 
 ## One-shot evaluation
 
@@ -287,6 +323,14 @@ the whole probability distribution; lower is better. This is different from the
 coverage-accuracy curve: abstentions can be useful even when the raw posterior
 probabilities are overconfident.
 
+## Pre-declaration
+
+Writing down what will be measured, and what will count as success, before
+running it. Applied most strictly to a
+[held-out split](#development-split-and-held-out-split), where the full result
+set is named in a dated log entry before the split is touched, so no number can
+be quietly reframed once it arrives.
+
 ## Prior
 
 The detector's probabilities before the newest chord event is used. In the HMM,
@@ -302,19 +346,27 @@ strongly each scale degree characterizes a key. The profile-correlation detector
 tries the pair at every tonic in both modes (24 candidate keys) and asks which
 best matches the recent pitch histogram by
 [Pearson correlation](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient).
-The choice of pair measurably matters on the bare profile floor, though it
-washed out inside the full detector (log entry 2026-07-07-09). The published
-sources for each pair are cited in the
-[design doc's references](temporal-context-key-detection.md#references), and
-their values are verified against reference implementations (log entry
-2026-07-06-08).
+The shipped detector uses the Albrecht-Shanahan pair
+([log entry 2026-07-07-09](whatkey/log/2026-07-07-09-profile-revisit.md)). The
+published sources for each pair are cited in the
+[design doc's references](whatkey/temporal-context-key-detection.md#references),
+and their values are verified against reference implementations
+([log entry 2026-07-06-08](whatkey/log/2026-07-06-08-profile-provenance.md)).
 
 ## Progression blend
 
 Mixes cadence patterns into the emission: short chord-to-chord moves (like V7 to
-I) vote for the key they resolve into. It helped an older detector's abstention
-decisions but measured as a wash under the HMM, so the shipped configuration
-leaves it at zero.
+I) vote for the key they resolve into. A wash under the HMM; the shipped
+configuration leaves it at zero.
+
+## Ruler
+
+A frozen benchmark: a fixed corpus plus the exact rules for scoring against it.
+Rulers are versioned and frozen so results stay comparable across months of
+work, and changing one produces a new ruler rather than an edit to the old. "The
+live ruler", "the classical ruler", and "the stability ruler" each name a
+different corpus-and-scoring pair, so numbers measured on different rulers are
+not comparable with each other.
 
 ## Section-key vs. local-key annotations
 
@@ -325,8 +377,18 @@ measures an analyst marks as V-of, a tonicization, or the relative minor. Corpus
 labels come at different granularities (Isophonics song keys and ASAP key
 signatures are section-key; When in Rome analyst local keys are local-key), so
 accuracy numbers are only comparable against the same ruler. WhatChord ships the
-section-key setting (log entry 2026-07-07-17). Older logs sometimes call the
-local-key setting "tonicization-scale" or "reflex-scale."
+section-key setting
+([log entry 2026-07-07-17](whatkey/log/2026-07-07-17-section-scale-default.md)).
+Older logs sometimes call the local-key setting "tonicization-scale" or
+"reflex-scale."
+
+## Segmenter
+
+The component that decides where one chord ends and the next begins in a stream
+of live MIDI. It enforces a minimum duration, holds notes through the sustain
+pedal, and debounces a pending challenger before committing, which is what turns
+continuous playing into the discrete [events](#event) everything else is scored
+over. Its judgment also drives what the app puts on screen.
 
 ## Self-transition
 
@@ -336,6 +398,14 @@ change its mind: the principled version of the persistence that decay tuning and
 claim hysteresis approximated. The remaining probability spreads over other
 keys, nearer ones on the circle of fifths getting more.
 
+## Shell omission
+
+A voicing that leaves out a tone its chord name implies, most often the third,
+so no complete name honestly fits it. The counterpart to
+[superset absorption](#superset-absorption): one case has a note too many for
+the name, the other a note too few, and both are governed by the same
+[explanation-cost](#explanation-cost) tolerance.
+
 ## Spurious switch
 
 A key switch the annotation gives no reason for: the labeled key did not change
@@ -343,19 +413,43 @@ between the detector's previous claim and this one, and the new claim does not
 land on the labeled key. The stability metric counts these per piece; a lagged
 catch-up switch onto the annotated key is not spurious.
 
+## Stability metrics
+
+What the display does over time, rather than whether it is right. Flicker share
+is the fraction of labeled time spent on names that live under half a second;
+switches per minute counts how often the shown name changes; settle time is how
+long after a chord starts before its final name arrives. Measured because a name
+can be correct and still unreadable.
+
+## Superset absorption
+
+The ranker folding an extra sounding note into a larger chord name instead of
+naming the base chord and leaving that note unexplained. A held melody note over
+a triad turning the display into an extended chord is the usual shape. See
+[shell omission](#shell-omission) for the opposite case.
+
 ## Temperature scaling
 
 The one-knob calibration fix: raise every probability to 1/T and renormalize. T
 above 1 flattens an overconfident distribution toward honesty without ever
 reordering the candidates, so rankings, claims, and abstention are untouched.
-WhatKey applies it only to displayed probabilities (fit in log entry
-2026-07-08-03); the detector's internal numbers stay raw.
+WhatKey applies it only to displayed probabilities (fit in
+[log entry 2026-07-08-03](whatkey/log/2026-07-08-03-display-calibration.md));
+the detector's internal numbers stay raw.
 
 ## Time to first claim
 
 How many events pass before the detector commits to any key at all. Trades off
 against stability and lag, which is why all three are reported and never
 blended.
+
+## Top-1 exact
+
+For chord naming, the fraction of events where the app's first-ranked name
+matches the reference exactly, in both root and quality. The naming counterpart
+to [accuracy on claimed events](#accuracy-on-claimed-events), and the number
+most initiative headlines quote. Like every such figure it means nothing without
+the [ruler](#ruler) it was measured on.
 
 ## Transition model
 
@@ -378,8 +472,11 @@ systems only as caveated anchors).
 ## Warmup
 
 The `minEvents` rule: the detector abstains until it has seen a minimum number
-of events (currently 3), regardless of confidence, so it never guesses a key
-from one chord.
+of events, regardless of confidence, so it never guesses a key from one chord.
+The shipped HMM sets it to 1, leaving the [margin floor](#margin-floor) to
+decide whether the evidence is strong enough. The paper recipes pin 3 so the
+frozen results reproduce, and the older pre-HMM detectors default to 3
+([log entry 2026-07-26-14](whatkey-local/log/2026-07-26-14-warmup-gate-and-full-cold-start.md)).
 
 ## Wilcoxon signed-rank test
 
