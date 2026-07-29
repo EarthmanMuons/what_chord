@@ -240,11 +240,15 @@ WhatChord is not trying to pretend that chord names are objective facts. It
 tries to make the same practical judgment a good player would make first, while
 still showing plausible alternatives when the notes support more than one name.
 
-Today, each snapshot of sounding notes is evaluated independently, using the
-current key signature setting as context. Progressions, key changes, voice
-leading, and ensemble-aware interpretation are all interesting avenues for
-future development. That is the larger point: chord naming is harder than it
-looks because the notes are only the beginning.
+Each snapshot of sounding notes is evaluated on its own, but not in isolation.
+The app follows the key from the chords you have been playing and reads the next
+one against it, so a change of key changes how what comes after it is named.
+Ensemble mode supplies the other kind of context, naming the chord a pianist
+means when a bassist is covering the root. What it cannot do yet is follow
+individual melodic lines through time, so a melody note held over a chord can
+still pull the name toward something more elaborate than you meant. That is the
+larger point: chord naming is harder than it looks because the notes are only
+the beginning.
 
 If you want to see how that musical judgment is represented in code,
 [the underlying algorithm](chord-recognition-algorithm.html) is described in
