@@ -14,6 +14,11 @@ description:
   "A plain-English tour of WhatChord’s negative research results, and why
   reproducible experiments that stop bad ideas are as valuable as positive
   findings."
+featuredDescription:
+  "A frozen protocol, held-out music, and a dated log of every idea that failed:
+  the discipline that keeps WhatChord’s analysis grounded in measurement rather
+  than intuition."
+featuredOrder: 2
 group: "technical"
 image: "/images/homepage_social.jpg"
 imageAlt: "WhatChord: Identify chords. Understand harmony."
