@@ -15,7 +15,7 @@ description:
 featuredDescription:
   "A detailed look at the bitmasks, chord-quality templates, explanation costs,
   ranking heuristics, and LRU cache that power real-time chord identification in
-  a Flutter app."
+  a standalone Dart engine."
 featuredOrder: 1
 group: "technical"
 image: "/images/homepage_social.jpg"
@@ -914,11 +914,12 @@ counterexamples help improve them.
 
 ## The codebase
 
-WhatChord is written in [Dart](https://dart.dev/) using the
-[Flutter](https://flutter.dev/) framework. The chord analysis engine lives
-entirely in a handful of files with no platform dependencies and a unit test
-suite that verifies known-correct outputs across major, minor, dominant,
-altered, extended, and ambiguous chord types.
+The analysis engine is written in [Dart](https://dart.dev/) and lives in
+[`packages/whatchord/`](https://github.com/EarthmanMuons/whatchord/tree/main/packages/whatchord),
+a standalone package with no framework dependencies; only the app around it is
+[Flutter](https://flutter.dev/). It carries a unit test suite that verifies
+known-correct outputs across major, minor, dominant, altered, extended, and
+ambiguous chord types.
 
 The project is open source and released under the Zero Clause BSD License, which
 means you are free to use, modify, and share the code however you like.

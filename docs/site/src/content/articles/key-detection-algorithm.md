@@ -5,9 +5,8 @@ cardDescription:
 cardTitle: "Building a Streaming Key Detector"
 decks:
   - "Naming the chord you are playing is one problem. Working out what key you
-    are in, while you are still playing, from a stream of recognized chords
-    rather than a finished score, is a different one. This is the model that
-    does it: 24 competing hypotheses, evidence that fades, and a rule for
+    are in, while you are still playing, is a different one. This is the model
+    that does it: 24 competing hypotheses, evidence that fades, and a rule for
     staying quiet when the answer is not clear yet."
 description:
   "A technical deep-dive into the hidden Markov model, profile-correlation
@@ -116,15 +115,17 @@ Everything below is one of those boxes.
 
 ## The state space
 
-Twenty-four states: twelve tonics times two modes. The belief is a plain array
-of 24 probabilities that sums to 1, initialized uniform at `1/24` each.
+Twenty-four states: twelve tonics times two modes, where _mode_ means major or
+minor. The belief is a plain array of 24 probabilities that sums to 1,
+initialized uniform at `1/24` each.
 
 <pre><code><span class="kw">final</span> List&lt;<span class="kw">double</span>&gt; _posterior = <span class="kw">List</span>.<span class="fn">filled</span>(<span class="nu">24</span>, <span class="nu">1</span> / <span class="nu">24</span>);</code></pre>
 
-That is the entire state. There is no history buffer, no ring of recent chords,
-no growing structure. Whatever the detector knows about everything it has ever
-heard is compressed into those 24 numbers, which is what makes the per-event
-cost constant regardless of how long you have been playing.
+One more fixed array sits alongside it, holding the decaying evidence described
+below, and that is the whole of the detector's memory: two arrays of 24 numbers.
+Nothing grows. The app does keep a list of the chords you have played, for the
+history view and for relabeling, but the detector never reads it, so the cost of
+an update is the same on the first chord and the thousandth.
 
 ## Predict: what the key is likely to do next
 
@@ -164,7 +165,10 @@ Three parameters build the matrix:
     <tr>
       <td class="mono">modeSwitchFactor</td>
       <td class="mono">0.5</td>
-      <td>Additional discount when the destination changes mode</td>
+      <td>
+        Additional discount when the destination flips major to minor
+        or back
+      </td>
     </tr>
   </tbody>
 </table>
@@ -178,11 +182,11 @@ separate filter.
 
 ### Cadences get a discount
 
-One addition modifies the prediction step. When the incoming chord completes a
-cadence into some key, meaning the previous event was a dominant seventh rooted
-a fifth above and this chord is a tonic-quality chord in the target, the
-transition mass into that key is multiplied by a boost, and the row is
-renormalized so the total stays a probability distribution.
+One addition modifies the prediction step. Some chord pairs are the musical
+equivalent of an arrival: a particular two-chord move that says "we have landed
+somewhere new." When the detector sees one, it relaxes the persistence for that
+one destination, multiplying the transition mass into the arrival key by a boost
+and renormalizing the row so the total is still a probability distribution.
 
 <pre><code><span class="cm">// Ordinary row: mass spreads by distance.</span>
 <span class="cm">// Cadence row: the target's weight is boosted, then renormalized.</span>
@@ -198,12 +202,12 @@ licenses a key change, while ordinary drifting still pays the full switch cost.
 Because each row renormalizes, a cadence in the key you are already in
 stabilizes that key rather than leaking mass outward.
 
-Two exclusions keep the trigger honest. A plain major triad does not count as
-the dominant, because two root-position major triads a fifth apart are the same
-pattern as a tonic moving to its subdominant, and only the seventh disambiguates
-the direction. And a dominant-quality chord does not count as a resolution
-target, because a blues progression moving from I7 to IV7 would otherwise read
-as a cadence into the subdominant key.
+The pattern has to be matched narrowly, because two chords that look like an
+arrival are not always one. The signal only fires on a stricter version of the
+pattern that cannot be confused with ordinary movement inside a key, and it
+refuses to treat the destination as an arrival if that chord is itself the kind
+that usually leads somewhere else. Without those two restrictions a plain blues
+progression reads as a key change every few bars.
 
 ## Score the evidence
 
@@ -212,8 +216,11 @@ recently heard match each of the 24 keys?
 
 Each key has a **profile**, a 12-number template describing how strongly each
 scale degree characterizes it. Several published pairs exist; this engine uses
-Albrecht-Shanahan. Scoring rotates the recent pitch-class histogram against each
-tonic in both modes and takes the
+the corpus-trained pair from
+[Albrecht and Shanahan (2013)](https://online.ucpress.edu/mp/article-abstract/31/1/59/62597/The-Use-of-Large-Corpora-to-Train-a-New-Type-of),
+which performs notably better in minor keys than the older probe-tone profiles.
+Scoring rotates the recent pitch-class histogram against each tonic in both
+modes and takes the
 [Pearson correlation](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient),
 which gives 24 raw scores.
 
@@ -221,8 +228,7 @@ Two things shape that histogram before it is scored.
 
 **Duration weighting.** Each event contributes in proportion to how long it was
 held, so a whole-note chord counts for more than a passing eighth. It is on by
-default: of the options for shaping the evidence, it is the one that helps
-consistently across every corpus the detector is scored on.
+default.
 
 **A decaying window.** Evidence does not accumulate forever; it fades
 exponentially on a half-life. This dial turns out to be the single most
@@ -231,10 +237,10 @@ short half-life makes each observation a snapshot of the immediate harmony,
 which tracks brief excursions closely. A long one makes it a summary of the
 current section, which absorbs those excursions and reports the settled key.
 
-Neither is more accurate in the abstract. They answer different questions, and
-each wins when scored against annotations that mean what it reports. A key
-indicator you glance at wants the settled answer, so the shipped default is a
-30-second half-life.
+Neither is more accurate in the abstract. Each is right about a different
+question, and which one you want is a product decision rather than a correctness
+one. The app ships a four-second half-life by default and exposes the choice as
+a setting.
 
 ### Turning scores into a distribution
 
@@ -328,16 +334,18 @@ detector can afford to be braver exactly there.
 
 ## The behavior presets
 
-The app exposes Stable, Balanced, and Reactive. They are not three accuracy
-tiers, and describing them that way would be dishonest: they differ in exactly
-two values.
+The app exposes three key detection behaviors as a user setting: Stable,
+Balanced, and Reactive. They are not three accuracy tiers, and describing them
+that way would be dishonest: they differ in exactly two detector values, the
+half-life above and a second number covered in the next section that keeps the
+displayed percentage honest at that timescale.
 
 <table class="article-table">
   <thead>
     <tr>
       <th>Preset</th>
       <th>Evidence half-life</th>
-      <th>Display temperature</th>
+      <th>Confidence softening</th>
     </tr>
   </thead>
   <tbody>
@@ -364,10 +372,13 @@ emission temperature, and the margin floor can each be set independently, but
 every one of them reproduces the same responsiveness trade-off less cleanly than
 the half-life already does, so all three presets run a single value.
 
-What the presets buy is responsiveness. Reactive catches substantially more real
-key changes with near-zero lag; it also abstains more often and switches more
-often on music that never left. That is the trade the setting advertises, and it
-is the honest description of it.
+What the presets trade is responsiveness against steadiness, not accuracy
+against inaccuracy. Reactive catches substantially more real key changes and
+catches them sooner. The same short memory that lets it react also lets a
+colorful passage look like a new key, so it changes its answer more often on
+music that never actually left, and it abstains more often while the evidence is
+thin. Those are the same property seen from two sides, and picking a preset is
+choosing which side you would rather have.
 
 ## Making the confidence number honest
 
@@ -413,42 +424,65 @@ strength they simply inform each other.
   none, gets the best single-key description of it, though the margin floor
   means genuinely keyless passages tend to produce abstention rather than a
   confident wrong answer.
-- **Non-Western and microtonal scales.** The state space is twelve tonics times
-  two modes. Modal centers beyond major and minor are not represented as states;
-  a Dorian vamp is scored against the 24 keys it most resembles, and usually
-  abstained on.
-- **Retroactive correction of the display.** The detector is causal by
+- **Modes beyond major and minor.** Dorian, Mixolydian, and the rest have no
+  state of their own, so a modal passage is scored against whichever of the 24
+  keys it most resembles. In practice the margin rarely opens on one, and the
+  detector stays quiet instead of picking.
+- **Anything outside twelve-tone equal temperament.** Microtonal intervals and
+  just-intonation distinctions have no representation in the pitch-class model
+  the evidence is built from.
+- **Retroactive correction of the live display.** The detector is causal by
   requirement, so an opening that only makes sense in hindsight stays as first
-  displayed. History entries are relabeled once the following chord arrives, but
-  the live indicator does not rewrite itself.
+  shown. Entries in the chord history are re-named once the following chord
+  resolves the ambiguity, but that is the chord list catching up, not the key
+  indicator rewriting itself.
 
 ## The codebase
 
-The detector lives in
-[`packages/whatkey/`](https://github.com/EarthmanMuons/whatchord/tree/main/packages/whatkey),
-a pure Dart package with no framework dependencies, alongside the alternative
-detectors it was measured against. It consumes the chord-event model from
-`packages/whatchord/`. The evaluation harness, corpus extractors, and paired
-statistics live in `tool/whatkey/`.
+The detector is written in [Dart](https://dart.dev/) and lives in
+[`packages/whatkey/`](https://github.com/EarthmanMuons/whatchord/tree/main/packages/whatkey).
+It consumes the chord-event model from
+[`packages/whatchord/`](https://github.com/EarthmanMuons/whatchord/tree/main/packages/whatchord),
+the engine described in the companion article. Both are standalone packages with
+no framework dependencies; only the app around them is
+[Flutter](https://flutter.dev/). The evaluation harness, corpus extractors, and
+paired statistics live in
+[`tool/whatkey/`](https://github.com/EarthmanMuons/whatchord/tree/main/tool/whatkey).
 
-The work is written up as a preprint, and the research archive holds the frozen
-evaluation protocol, the dated experiment logs, the data splits, and the
-held-out results.
+The project is open source under the Zero Clause BSD License, so you are free to
+use, modify, and share it however you like.
 
 <div class="article-cta">
-  <h3>Read the research behind it.</h3>
+  <h3>Watch it follow along.</h3>
   <p>
-    The full record includes the evaluation protocol, external
-    baselines, dated experiment logs, reproduction instructions, and
-    the held-out evaluation declared before it was run.
+    WhatChord names chords and tracks the key as you play, on-device.
+    Free for iOS and Android, with no subscription and no ads.
   </p>
-  <a
-    class="btn btn-primary btn-external"
-    href="https://github.com/EarthmanMuons/whatchord/tree/main/research/whatkey"
-    >Open the research notes</a
-  >
+  <div class="store-badges store-badges-spaced">
+    <a
+      href="https://apps.apple.com/us/app/whatchord-midi/id6758409779"
+    >
+      <img
+        class="store-badge"
+        src="../images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
+        alt="Download on the App Store"
+      />
+    </a>
+    <a
+      href="https://play.google.com/store/apps/details?id=com.earthmanmuons.whatchord"
+    >
+      <img
+        class="store-badge"
+        src="../images/GetItOnGooglePlay_Badge_Web_color_English.svg"
+        alt="Get it on Google Play"
+      />
+    </a>
+  </div>
   <p class="cta-secondary">
-    Prefer to just play?
-    <a href="/try">Try identifying chords in your browser →</a>
+    Want the evidence?
+    <a
+      href="https://github.com/EarthmanMuons/whatchord/tree/main/research/whatkey"
+      >Read the research notes</a
+    >
   </p>
 </div>
