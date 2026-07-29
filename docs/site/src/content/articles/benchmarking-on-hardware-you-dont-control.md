@@ -17,7 +17,7 @@ description:
 group: "technical"
 image: "/images/homepage_social.jpg"
 imageAlt: "WhatChord: Identify chords. Understand harmony."
-indexOrder: 6
+indexOrder: 7
 pageTitle: "Benchmarking on Hardware You Don’t Control | WhatChord"
 related:
   - "chord-ranking-performance"

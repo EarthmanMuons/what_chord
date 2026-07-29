@@ -22,7 +22,7 @@ featuredOrder: 2
 group: "technical"
 image: "/images/homepage_social.jpg"
 imageAlt: "WhatChord: Identify chords. Understand harmony."
-indexOrder: 8
+indexOrder: 9
 pageTitle: "We Can Measure Exactly How Wrong We Are | WhatChord"
 related:
   - "million-chord-annotations"

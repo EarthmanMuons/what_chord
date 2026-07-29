@@ -18,7 +18,7 @@ description:
 group: "technical"
 image: "/images/homepage_social.jpg"
 imageAlt: "WhatChord: Identify chords. Understand harmony."
-indexOrder: 5
+indexOrder: 6
 pageTitle: "Optimizing an Algorithm That’s Quadratic by Design | WhatChord"
 related:
   - "chord-recognition-algorithm"
