@@ -2,9 +2,12 @@
 
 Plain-English definitions of the measurement and engineering terms used across
 the research archive. Each initiative's PROTOCOL.md is the normative source for
-its own rules; this file explains, it does not define. Log entries should link
-here rather than re-explain terms, and keep their own plain-English sections for
-interpreting specific results.
+its own rules; this file explains, it does not define. READMEs and log entries
+should link here rather than re-explain terms, and keep their own plain-English
+sections for interpreting specific results.
+
+Link a term once per document, at its first substantive use in body prose: not
+in headings, table headers, or file lists, and not again on every later mention.
 
 Each term is a heading so it can be linked directly from logs, reports, and pull
 requests.

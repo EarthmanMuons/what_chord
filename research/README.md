@@ -58,9 +58,9 @@ inherits.
 the brief key changes inside a piece, and what chasing them costs in the
 steadiness a glanceable indicator needs.
 
-Two changes shipped: key changes now weigh cadences, and an arbitrary rule that
-kept the detector silent for its first three chords turned out to be
-unnecessary. Seven other mechanisms were measured and closed.
+Four changes shipped, two of them headline: key changes now weigh cadences, and
+an arbitrary rule that kept the detector silent for its first three chords
+turned out to be unnecessary. Seven other mechanisms were measured and closed.
 
 ### Naming the chord
 

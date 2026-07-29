@@ -20,7 +20,7 @@ project's reasoning without combing through git history.
 - Negative results and dead ends get entries too; they are the part git history
   is worst at preserving.
 - Link measurement terms to [../../GLOSSARY.md](../../GLOSSARY.md) instead of
-  re-defining them.
+  re-defining them, following the linking rule stated there.
 - When an entry leans on heavy technical jargon, statistics, or math, include a
   **Plain-English reading** section (after Results/Reading, before Decisions)
   that interprets that entry's specific numbers for a reader without the

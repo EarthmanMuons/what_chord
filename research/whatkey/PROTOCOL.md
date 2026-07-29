@@ -203,9 +203,9 @@ The MIREX weighting comes from the
 whose evaluation table is stable across task years. The paired test is the
 [Wilcoxon signed-rank test](https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test)
 (implemented in `tool/whatkey/compare.py`; plain-English explanation in
-[GLOSSARY.md](../GLOSSARY.md)). Every other system, profile set, and corpus named
-here (Krumhansl-Schmuckler variants and their profile pairs, justkeydding, When
-in Rome, RomanText, ASAP) is cited with links in the
+[GLOSSARY.md](../GLOSSARY.md)). Every other system, profile set, and corpus
+named here (Krumhansl-Schmuckler variants and their profile pairs, justkeydding,
+When in Rome, RomanText, ASAP) is cited with links in the
 [design doc's references](temporal-context-key-detection.md#references).
 
 ## Amendments
