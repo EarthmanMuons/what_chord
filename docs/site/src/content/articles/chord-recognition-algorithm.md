@@ -888,10 +888,6 @@ A few things are known limitations or non-goals:
   [Petrushka chord](https://en.wikipedia.org/wiki/Petrushka_chord), an F♯ major
   triad over a C major triad) are not modeled. The algorithm will find the best
   single-chord description of the combined note set.
-- **Temporal context.** Each snapshot of sounding notes is analyzed
-  independently. The algorithm does not track what chord came before and does
-  not use progression history to inform interpretation. Using temporal context
-  to further increase accuracy is a natural direction for future improvement.
 - **Non-12-TET tuning.** This engine is built around 12 pitch classes and
   standard MIDI note numbers. Microtonal intervals, quarter tones, and
   [just-intonation](https://en.wikipedia.org/wiki/Just_intonation) distinctions
