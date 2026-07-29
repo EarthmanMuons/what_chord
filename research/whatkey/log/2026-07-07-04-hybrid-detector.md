@@ -57,7 +57,7 @@ or the 2e pattern layer) must not cost corpus accuracy.
 
 **Plain-English reading.** Unpacking the headline claim, "+0.096 exact per
 piece, CI95 [+0.044, +0.150], Wilcoxon p = 0.003, 32/18/6, at higher coverage"
-(terms in [../GLOSSARY.md](../GLOSSARY.md)):
+(terms in [../../GLOSSARY.md](../../GLOSSARY.md)):
 
 - **+0.096 exact per piece**: on an average piece, the hybrid names the
   analyst's exact key about 10 percentage points more often than the floor does,

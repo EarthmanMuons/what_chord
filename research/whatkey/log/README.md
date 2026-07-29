@@ -19,7 +19,7 @@ project's reasoning without combing through git history.
   self-documenting. "It worked better" without numbers and pins is not an entry.
 - Negative results and dead ends get entries too; they are the part git history
   is worst at preserving.
-- Link measurement terms to [../GLOSSARY.md](../GLOSSARY.md) instead of
+- Link measurement terms to [../../GLOSSARY.md](../../GLOSSARY.md) instead of
   re-defining them.
 - When an entry leans on heavy technical jargon, statistics, or math, include a
   **Plain-English reading** section (after Results/Reading, before Decisions)
