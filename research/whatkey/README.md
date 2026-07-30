@@ -1,5 +1,7 @@
 # WhatKey
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21322675.svg)](https://doi.org/10.5281/zenodo.21322675)
+
 WhatKey is a streaming key-estimation system for [WhatChord](../../README.md),
 pictured below as the app's automatic Key Signature indicator. It listens to the
 recent chords you play, keeps track of which keys best explain them, and only
