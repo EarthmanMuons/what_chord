@@ -31,28 +31,30 @@ title: "Building a Streaming Key Detector"
 
 ## The problem is not a histogram
 
+A _pitch class_ is a note's position within an octave, ignoring which octave it
+is in. Middle C, the C above it, and the C three octaves below therefore belong
+to the same pitch class. There are twelve pitch classes in all.
+
 The textbook approach to key detection is a correlation. Count how much of each
-of the twelve pitch classes a piece contains, treating every C as the same note
-regardless of octave. Compare that histogram against a published template for
-each of the 24 major and minor keys, then return the closest match. It is a good
-algorithm and about fifty lines of code. For answering "what key is this song
-in" after the song has finished, it works well enough that several standard
-implementations ship it.
+pitch class a piece contains, compare that histogram against a published
+template for each of the 24 major and minor keys, then return the closest match.
+It is a good algorithm and about fifty lines of code. For answering "what key is
+this song in" after the song has finished, it works well enough that several
+standard implementations ship it.
 
 Three constraints make it insufficient on its own.
 
-**The answer has to arrive while the music is still happening.** The detector
-sees the past and only the past. It cannot read ahead to the cadence that would
-have explained an ambiguous opening, and it cannot go back to revise a past
-answer after later chords arrive. That rules out the entire family of offline
-techniques that decode a best path over a complete sequence.
+**The answer has to arrive while the music is still happening.** Our detector
+sees the past and only the past. It cannot read ahead to the musical resolution
+that would have explained an ambiguous opening, and it cannot go back to revise
+a past answer after later chords arrive. That rules out the entire family of
+offline techniques that decode a best path over a complete sequence.
 
 **The input is not raw MIDI.** It is the output of
 [the chord recognizer](chord-recognition-algorithm.html): a stream of committed
-chord events containing the pitch classes that sounded, the chosen chord
-identity, meaning the chord name the recognizer selected, and how long the chord
-lasted. The upstream stage has already made judgment calls, and it is sometimes
-wrong.
+chord events containing the pitch classes that sounded, the chord identity
+selected by our recognizer, and how long the chord lasted. The upstream stage
+has already made judgment calls, and it is sometimes wrong.
 
 **Sometimes there is no answer, and saying so is correct.** A repeating chord
 pattern may have a clear home note without behaving like any of the 24 major and
@@ -71,7 +73,7 @@ knows how sure it is.
 The detector is a
 [hidden Markov model](https://en.wikipedia.org/wiki/Hidden_Markov_model) over 24
 states, one per key. It never observes the key directly; it observes chords, and
-maintains 24 competing explanations for which key is generating them. Each
+maintains competing explanations for which key is generating them. Each
 explanation gets a share of the total probability. One chord event goes in, one
 updated distribution comes out.
 
@@ -121,17 +123,17 @@ Everything below is one of those boxes.
 
 ## The state space
 
-Twenty-four states: twelve tonics, or home notes, times two modes, where _mode_
-means major or minor. The belief is a plain array of 24 probabilities that sums
-to 1, initialized uniformly at `1/24` each.
+Twenty-four states: twelve tonics (home notes) times two modes (major and
+minor). The belief is a plain array of 24 probabilities that sums to 1,
+initialized uniformly at `1/24` each.
 
 <pre><code><span class="kw">final</span> List&lt;<span class="kw">double</span>&gt; _posterior = <span class="kw">List</span>.<span class="fn">filled</span>(<span class="nu">24</span>, <span class="nu">1</span> / <span class="nu">24</span>);</code></pre>
 
 Alongside it is a 12-number pitch-class histogram holding the decaying evidence
 described below. The detector also remembers the previous recognized chord, an
 event count, and enough timing information to fade old evidence. All of that
-state is fixed in size. The app does keep a growing list of the chords you have
-played for its history view, but the detector never reads it, so the cost of an
+state is fixed in size. The app separately keeps the 100 most recent chords for
+its history view, but the detector never reads that list, so the cost of an
 update is the same on the first chord and the thousandth.
 
 ## Predict: what the key is likely to do next
@@ -143,7 +145,8 @@ with nearer ones favored.
 
 Here, "nearer" means having a similar key signature. C major is closer to G
 major than to F-sharp major because G major adds just one sharp while F-sharp
-major has six. This distance is conventionally arranged on the circle of fifths.
+major has six. This distance is conventionally arranged on the
+[circle of fifths](https://en.wikipedia.org/wiki/Circle_of_fifths).
 
 Three parameters turn that idea into a 24-by-24 matrix:
 
@@ -217,10 +220,11 @@ The pattern has to be matched narrowly because not every tense-to-stable chord
 pair marks a new key. The first must be a dominant-seventh chord or a close
 relative, a tense kind of chord that strongly points toward a particular
 destination. A plain major chord is not enough. A chord's root is the note its
-name starts from; the next chord must have the expected root and sound settled
-in major or minor rather than like another chord asking to move onward. Without
-those restrictions, ordinary movement inside a key can read as a key change
-every few bars. A plain blues progression is especially vulnerable.
+name starts from. The next chord must have the expected root and sound like a
+stable major or minor destination, not another dominant chord that usually
+points somewhere else. Without those restrictions, ordinary movement inside a
+key can read as a key change every few bars. A plain blues progression is
+especially vulnerable.
 
 ## Score the evidence
 
@@ -228,13 +232,11 @@ The observation side asks a narrower question: how well does what we have
 recently heard match each of the 24 keys?
 
 Each key has a **profile**, a 12-number template describing how strongly each
-pitch class supports that key relative to its proposed home note. Several
-published pairs exist; this engine uses the pair from
-[Albrecht and Shanahan (2013)](https://online.ucpress.edu/mp/article-abstract/31/1/59/62597/The-Use-of-Large-Corpora-to-Train-a-New-Type-of),
-which was learned from a large collection of written music and performs notably
-better in minor keys than older profiles derived from listener ratings. Scoring
-aligns the recent pitch-class histogram with each possible home note in both
-major and minor, then takes the
+pitch class supports that key relative to its proposed home note. This engine
+uses profiles derived from a large collection of written music and published by
+[Albrecht and Shanahan (2013)](https://online.ucpress.edu/mp/article-abstract/31/1/59/62597/The-Use-of-Large-Corpora-to-Train-a-New-Type-of).
+Scoring aligns the recent pitch-class histogram with each possible home note in
+both major and minor, then takes the
 [Pearson correlation](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient),
 a standard measure of how closely two numerical patterns share the same shape.
 That gives 24 raw scores.
@@ -243,8 +245,7 @@ Two things shape that histogram before it is scored.
 
 **Duration weighting.** Each event contributes in proportion to how long it was
 held. A chord held for two seconds counts twice as much as one held for a
-second, so a sustained harmony matters more than a passing chord. It is on by
-default.
+second, so a sustained harmony matters more than a passing chord.
 
 **A decaying window.** Evidence does not accumulate forever; it fades
 exponentially on a half-life. This dial turns out to be the single most
@@ -262,9 +263,9 @@ a setting.
 ### Turning scores into a distribution
 
 The 24 correlations are not probabilities. A
-[softmax](https://en.wikipedia.org/wiki/Softmax_function) converts them, with a
-temperature controlling how strongly the best-matching profile can pull away
-from the rest:
+[softmax](https://en.wikipedia.org/wiki/Softmax_function) converts them into a
+probability distribution, with an **emission temperature** controlling how
+strongly the best-matching profile can pull away from the rest:
 
 <pre><code><span class="kw">final</span> top = scores.<span class="fn">reduce</span>(math.max);
 <span class="kw">for</span> (<span class="kw">var</span> k = <span class="nu">0</span>; k &lt; <span class="nu">24</span>; k++) {
@@ -278,17 +279,17 @@ from the rest:
 At the shipped temperature of `0.25` the distribution is fairly sharp: a
 well-matched key pulls hard. Raising it flattens the evidence so no single event
 can move the belief much. It therefore affects responsiveness in much the same
-way as the half-life, so only the half-life is exposed as a user setting. This
-temperature is part of the detector's evidence scoring; it is separate from the
-display calibration discussed below.
+way as the half-life. This is why only the half-life is exposed as a user
+setting.
 
 ### Choosing major or minor
 
 A prominent residual error in this detector is reporting the wrong mode: C minor
 instead of C major. A single rule addresses it. When a clearly major or minor
 chord arrives, its root also names a pair of possible keys. A C major chord, for
-example, is direct evidence in the choice between C major and C minor. The rule
-moves probability toward the member of that pair whose mode matches the chord.
+example, is direct evidence in the choice between the C major and C minor keys.
+The rule moves probability toward the member of that pair whose mode matches the
+chord.
 
 The containment matters more than the rule. The shift keeps the pair's total
 probability unchanged: whatever major gains, minor loses.
@@ -342,10 +343,6 @@ At every event the detector ranks all 24 keys. It speaks only if the leader is
 ahead of the runner-up by at least a **margin floor**, shipped at `0.3` on the
 model's zero-to-one scale.
 
-For example, a leader at `0.55` and runner-up at `0.20` produce a gap of `0.35`,
-so the detector claims the leader. Values of `0.45` and `0.30` produce a gap of
-only `0.15`, so it abstains even though `0.45` is still the largest value.
-
 This is not a confidence display threshold. It decides whether there is an
 answer at all. On a modal vamp, several major-or-minor interpretations may
 explain the notes similarly well, so the gap opens less often and the detector
@@ -370,12 +367,12 @@ one-number correction. Raise every probability to `1/T`, then scale the results
 so they add back up to 1. When `T` is above 1, this lowers the leader and shares
 more probability with the alternatives.
 
-The value of `T` is chosen against labeled development music, where the correct
-key is known. The transformation preserves the candidates' order, so the
-first-place key remains first. More importantly, it is applied only after the
-detector has decided whether to claim or abstain. The detector's internal
-arithmetic still runs on the raw values, so calibration changes the percentage
-shown to the user without changing any answer.
+The value of `T` was fitted using development music with human-authored key
+labels. The transformation preserves the candidates' order, so the first-place
+key remains first. More importantly, it is applied only after the detector has
+decided whether to claim or abstain. The detector's internal arithmetic still
+runs on the raw values, so calibration changes the percentage shown to the user
+without changing any answer.
 
 ## The behavior presets
 
@@ -460,21 +457,25 @@ records the alternatives that failed as well as the settings that shipped.
 
 The detected key does not stay in the key indicator. In Auto mode, once the
 visible detector makes the same claim on two consecutive chord events, that key
-becomes the app's current key context. It enters the analysis context that
-[the chord recognizer](chord-recognition-algorithm.html) runs against, where
-several ranking rules consult it. They can prefer readings whose notes naturally
-belong to the key, prefer the chord built on the key's home note, and choose
-between two chord names that account for the same sounding notes.
+becomes the app's current key. It is then passed to
+[the chord recognizer](chord-recognition-algorithm.html), whose ranking rules
+can prefer readings that naturally belong to the key, prefer the chord built on
+its home note, and choose between two chord names that account for the same
+sounding notes.
 
-The app also runs a second copy of the detector behind the scenes. It is always
-set to Reactive, regardless of the behavior chosen for the visible key
-indicator, because chord naming benefits from a faster-moving hint than the
-display necessarily should. In Auto mode, that internal key helps Ensemble mode
-choose among plausible readings, including chords whose root is implied rather
-than actually played. In every mode, it can also help re-rank the immediately
-preceding history entry after the next chord arrives. That one-event look-ahead
-is how the chord history can resolve a brief ambiguity without pretending that
-the live key display knew the future.
+The app runs a second copy of the detector because the key indicator and chord
+naming need different behavior. The visible copy follows the user's Stable,
+Balanced, or Reactive setting and may deliberately favor a steady section-level
+answer. The internal copy never appears on screen and is always Reactive, so it
+can follow shorter local key changes. That faster response is reserved for two
+narrow tasks.
+
+In Auto mode, the internal key helps Ensemble mode choose among plausible
+readings, including chords whose root is implied rather than actually played. In
+every mode, it can also help re-rank the immediately preceding history entry
+after the next chord arrives. That one-event look-ahead is how the chord history
+can resolve a brief ambiguity without pretending that the live key display knew
+the future.
 
 This history correction serves a different purpose from feeding the detected key
 into live chord naming. A new chord can reveal which of two earlier names makes
@@ -501,22 +502,15 @@ other's mistakes; at this strength they simply inform each other.
   none, gets the best single-key description of it, though the margin floor
   means genuinely keyless passages tend to produce abstention rather than a
   confident wrong answer.
-- **Modes beyond major and minor.** Scale patterns such as Dorian and Mixolydian
-  have no state of their own, so a modal passage is scored against whichever of
-  the 24 major or minor keys it most resembles. In practice the margin opens
-  less often, so the detector is more likely to abstain than it is on music that
-  fits the model's vocabulary.
+- **Diatonic modes beyond major and minor.** Dorian, Mixolydian, and the other
+  diatonic modes have no state of their own, so a modal passage is scored
+  against whichever of the 24 major or minor keys it most resembles. In practice
+  the margin opens less often, so the detector is more likely to abstain than it
+  is on music that fits the model's vocabulary.
 - **Anything outside twelve-tone equal temperament.** Microtonal intervals and
   fine pitch differences between tuning systems have no representation in the
   standard system of twelve equally spaced notes per octave used by MIDI and by
   this pitch-class model.
-- **Retroactive correction of the live display.** The detector is causal by
-  requirement: it never sees the future. An opening that only makes sense in
-  hindsight therefore stays as first shown. The immediately preceding
-  chord-history entry may be re-ranked once after the next chord arrives, when
-  the internal key has moved or the new chord resolves a narrowly defined
-  ambiguity. That is the chord list catching up, not the key indicator rewriting
-  itself.
 
 ## The codebase
 
