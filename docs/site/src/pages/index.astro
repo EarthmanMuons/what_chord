@@ -2,10 +2,8 @@
 import { getCollection } from "astro:content";
 
 import ArticleCard from "../components/ArticleCard.astro";
-import ExternalArticleCard from "../components/ExternalArticleCard.astro";
 import MotionMedia from "../components/MotionMedia.astro";
 import StoreBadges from "../components/StoreBadges.astro";
-import { whatKeyResearchProject } from "../data/researchProjects";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const featuredArticles = (await getCollection("articles"))
@@ -272,11 +270,6 @@ const featuredArticles = (await getCollection("articles"))
               <ArticleCard article={article} featured showTag />
             ))
           }
-          <ExternalArticleCard
-            {...whatKeyResearchProject}
-            tag="Key Detection"
-            title="Streaming Key Estimation Research"
-          />
         </div>
       </div>
     </section>

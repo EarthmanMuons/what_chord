@@ -32,7 +32,7 @@ featuredDescription:
   "A frozen protocol, held-out music, and a dated log of every idea that failed:
   the discipline that keeps WhatChord’s analysis grounded in measurement rather
   than intuition."
-featuredOrder: 2
+featuredOrder: 3
 group: "technical"
 indexOrder: 9
 related:

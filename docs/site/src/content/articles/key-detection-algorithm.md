@@ -21,6 +21,11 @@ description:
   "A technical deep-dive into the hidden Markov model, profile matching, fading
   evidence, key-change predictions, and abstention rule behind WhatChord's live
   key detection."
+featuredDescription:
+  "A detailed look at how a 24-state hidden Markov model turns the chord
+  recognizer’s output into live key estimates, while staying quiet when the
+  evidence is thin."
+featuredOrder: 2
 group: "technical"
 indexOrder: 5
 related:
