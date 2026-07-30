@@ -12,6 +12,12 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ### Added
 
+- A new website technical deep-dive, "Building a Streaming Key Detector,"
+  explains the 24-state hidden Markov model, fading musical evidence, and
+  confidence rules behind WhatChord's live key estimates.
+- A new website technical deep-dive, "Turning Live MIDI Into Chord Events,"
+  explains the pending-challenger segmenter and the measurements behind its 200
+  ms stability window.
 - A new website article, "We Can Measure Exactly How Wrong We Are," tours the
   ideas WhatChord tested and declined, and explains why reproducible negative
   results matter as much as features that ship.

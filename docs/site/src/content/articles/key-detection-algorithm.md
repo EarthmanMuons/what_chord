@@ -14,9 +14,9 @@ cta:
   title: "Watch it follow along."
 decks:
   - "Naming the chord you are playing is one problem. Working out what key you
-    are in, while you are still playing, is a different one. This is the model
-    that does it: 24 competing hypotheses, evidence that fades, and a rule for
-    staying quiet when the answer is not clear yet."
+    are in, while you are still playing, is a different one. WhatChord’s key
+    detector maintains 24 competing hypotheses, lets old evidence fade, and
+    stays quiet when the answer is not clear yet."
 description:
   "A technical deep-dive into the hidden Markov model, profile matching, fading
   evidence, key-change predictions, and abstention rule behind WhatChord's live
@@ -27,11 +27,11 @@ featuredDescription:
   evidence is thin."
 featuredOrder: 2
 group: "technical"
-indexOrder: 5
+indexOrder: 6
 related:
   - "chord-recognition-algorithm"
+  - "turning-live-midi-into-chord-events"
   - "measuring-how-wrong-we-are"
-  - "why-chord-naming-is-hard"
 socialDescription:
   "24 competing hypotheses, evidence that fades on a half-life, and a rule for
   staying quiet: how WhatChord decides what key you are playing in, live."
@@ -63,9 +63,10 @@ offline techniques that decode a best path over a complete sequence.
 
 **The input is not raw MIDI.** It is the output of
 [the chord recognizer](chord-recognition-algorithm.html): a stream of committed
-chord events containing the pitch classes that sounded, the chord identity
-selected by our recognizer, and how long the chord lasted. The upstream stage
-has already made judgment calls, and it is sometimes wrong.
+[chord events](turning-live-midi-into-chord-events.html) containing the pitch
+classes that sounded, the chord identity selected by our recognizer, and how
+long the chord lasted. The upstream stages have already made judgment calls, and
+they are sometimes wrong.
 
 **Sometimes there is no answer, and saying so is correct.** A repeating chord
 pattern may have a clear home note without behaving like any of the 24 major and

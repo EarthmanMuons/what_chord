@@ -30,7 +30,7 @@ description:
   ordinary sort. Why WhatChord’s ranking is quadratic by design, and how we made
   it an order of magnitude faster without changing the answer a musician sees."
 group: "technical"
-indexOrder: 6
+indexOrder: 7
 related:
   - "chord-recognition-algorithm"
   - "benchmarking-on-hardware-you-dont-control"
