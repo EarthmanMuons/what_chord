@@ -9,6 +9,8 @@ import 'key_detector.dart';
 import 'key_profiles.dart';
 import 'key_space.dart';
 
+/// **App status: Shipped.**
+///
 /// Hidden Markov key detection (design plan section 2c): the key is a hidden
 /// state over the 24-key space, observed through the hybrid detector's
 /// per-key scores.
@@ -49,6 +51,8 @@ class HmmKeyDetector implements KeyDetector {
   /// default.
   static const double defaultMarginFloor = 0.3;
 
+  /// **App status: Disabled.**
+  ///
   /// Emission blends for the shipped section-scale configuration (log entry
   /// 2026-07-07-18): the ablation factorial showed the functional and
   /// progression terms vote for exactly the tonicization-scale excursions
@@ -58,9 +62,13 @@ class HmmKeyDetector implements KeyDetector {
   /// work; these constants configure only the HMM's emissions.
   static const double defaultEmissionFunctionalBlend = 0;
 
+  /// **App status: Disabled.**
+  ///
   /// See [defaultEmissionFunctionalBlend].
   static const double defaultEmissionProgressionBlend = 0;
 
+  /// **App status: Disabled.**
+  ///
   /// See [defaultEmissionFunctionalBlend].
   static const bool defaultEmissionConfidenceWeighted = false;
 
@@ -77,6 +85,8 @@ class HmmKeyDetector implements KeyDetector {
   /// genre; strengths 2-4 are a plateau, so the gentlest plateau value ships.
   static const double defaultModeTilt = 2;
 
+  /// **App status: Disabled.**
+  ///
   /// Log-odds tilts within the relative pair of the event chord's home key
   /// (same key signature, so neither can add evidence for any other
   /// signature; the relative analog of [modeTilt], design plan mode
@@ -85,12 +95,18 @@ class HmmKeyDetector implements KeyDetector {
   /// chord quality is weak evidence; each variant gates on a sharper cue.
   /// [relativeTilt] fires when the chord's root is also its bass;
   /// [relativeCadenceTilt] fires when the previous event was a
-  /// dominant-quality chord a fifth above (a cadential resolution).
+  /// dominant-quality chord a fifth above (a cadential resolution). Neither
+  /// variant met the adoption bar, so both remain disabled in the app and are
+  /// retained only for research reproduction (log entry 2026-07-07-24).
   static const double defaultRelativeTilt = 0;
 
+  /// **App status: Disabled.**
+  ///
   /// See [defaultRelativeTilt].
   static const double defaultRelativeCadenceTilt = 0;
 
+  /// **App status: Disabled.**
+  ///
   /// Log-odds tilt toward the major twin of each relative pair on events
   /// that carry no minor-defining evidence for that pair's minor key: the
   /// minor key's raised seventh is not sounding and the event chord is not a
@@ -104,15 +120,19 @@ class HmmKeyDetector implements KeyDetector {
   /// relative minor, while minor-specific content votes hard against the
   /// major twin. The result is relative confusion that leans claimed-minor
   /// against a major truth. This tilt supplies the missing vote in the one
-  /// direction the profiles cannot. Default off pending measurement.
+  /// direction the profiles cannot. This is a research-only option, disabled
+  /// in the app pending measurement.
   static const double defaultRelativeEvidenceTilt = 0;
 
+  /// **App status: Disabled.**
+  ///
   /// How many recent events (including the current one) the
   /// [relativeEvidenceTilt] gate looks across. At 1 the gate is per-event,
   /// which punishes genuine minor passages between cadences (the raised
   /// seventh sounds at cadences, not in every chord); a wider window tests
   /// the actual structural claim, that sustained content without the raised
-  /// seventh is major evidence.
+  /// seventh is major evidence. It has no effect in the app while
+  /// [relativeEvidenceTilt] is disabled.
   static const int defaultRelativeEvidenceWindow = 1;
 
   /// Log-space boost on transition mass into a key whose cadence the incoming
@@ -138,6 +158,8 @@ class HmmKeyDetector implements KeyDetector {
   /// ones (full matrix in that entry).
   static const double defaultCadenceBoost = 4;
 
+  /// **App status: Disabled.**
+  ///
   /// Log-space boost for the plain-triad variant of the cadence trigger: the
   /// previous event is a plain major triad a fifth above a tonic-quality
   /// current chord, and the event before that was predominant-functioned in
@@ -146,32 +168,43 @@ class HmmKeyDetector implements KeyDetector {
   /// root-position major triads a fifth apart are the same bigram as I moving
   /// to IV, but ii-V-I and IV-V-I trigrams are directional. Independent of
   /// [cadenceBoost] and mutually exclusive with it per event (a
-  /// dominant-seventh previous chord takes the main trigger). Default off
-  /// pending measurement.
+  /// dominant-seventh previous chord takes the main trigger). Measurement found
+  /// the trigger inert, with no additional matched modulations, so it remains
+  /// disabled and is retained for research reproduction (whatkey-local log
+  /// 2026-07-26-04).
   static const double defaultCadenceTriadBoost = 0;
 
+  /// **App status: Disabled.**
+  ///
   /// Multiplier on the claim margin floor for the event that fires the
   /// cadence trigger. The residual after the cadence boost is
   /// boundary-shaped: nearly half of all abstentions sit within two events
   /// of an annotated key change (whatkey-local log 2026-07-26-12), and the
   /// cadence event is the one moment a trusted signal has just moved the
   /// posterior, so the gate can afford to be braver exactly there. 1 keeps
-  /// the shipped floor.
+  /// the shipped floor unchanged. This experimental adjustment is therefore
+  /// neutral in the app and retained for research evaluation.
   static const double defaultCadenceMarginFactor = 1;
 
+  /// **App status: Disabled.**
+  ///
   /// Log-space boost applied once, on the first event after a reset, to the
   /// key that reads that chord as its tonic (mode from the chord quality,
   /// per [KeySpace.tonicQualities]). Musicians usually start on or near the
   /// tonic; a uniform prior wastes that. Targets warmup, about a fifth of
-  /// abstentions (whatkey-local log 2026-07-26-12). Default off.
+  /// abstentions (whatkey-local log 2026-07-26-12). This is a research-only
+  /// option and is disabled in the app.
   static const double defaultColdStartTonicPrior = 0;
 
+  /// **App status: Disabled.**
+  ///
   /// Multiplier on transition weight between relative major/minor twins.
   /// The kernel places relative pairs at signature distance zero, so a
   /// relative switch is the cheapest move in the space and relative
   /// confusion is 8.6% of claims on the DCML diagnostic (chord-context log
   /// 2026-07-20-18). Values below 1 make the twin pay more than its
-  /// signature distance suggests; 1 preserves the shipped kernel.
+  /// signature distance suggests. This experimental adjustment is neutral at
+  /// 1 in the app and retained for research evaluation.
   static const double defaultRelativeSwitchFactor = 1;
 
   final HybridKeyDetector _emissions;
@@ -250,6 +283,10 @@ class HmmKeyDetector implements KeyDetector {
     Duration? decayHalfLife = const Duration(
       seconds: defaultEmissionHalfLifeSeconds,
     ),
+    // App status: Disabled.
+    //
+    // Retained to reproduce the event-count decay ablation. The app leaves
+    // this null and uses elapsed-time behavior presets.
     double? decayHalfLifeEvents,
     bool confidenceWeighted = defaultEmissionConfidenceWeighted,
     double functionalBlend = defaultEmissionFunctionalBlend,

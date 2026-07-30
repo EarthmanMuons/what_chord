@@ -3,6 +3,13 @@ import 'package:whatchord/whatchord.dart';
 import '../models/key_estimate.dart';
 import 'key_detector.dart';
 
+/// **App status: Research-only.**
+///
+/// Requiring repeated winning claims reduced some brief switches but delayed
+/// real key changes, so the shipped HMM is not wrapped in this detector. It
+/// remains implemented, tested, and available to the research harness for
+/// reproducibility (research log 2026-07-07-07).
+///
 /// Claim-level hysteresis around any detector: a different key must win for
 /// [minStreak] consecutive claiming frames before the output claim switches.
 ///

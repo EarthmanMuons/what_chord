@@ -7,8 +7,11 @@
 /// verified against reference implementations (music21, justkeydding), see
 /// research/whatkey/log/2026-07-06-08-profile-provenance.md.
 enum KeyProfilePair {
+  /// **App status: Disabled.**
+  ///
   /// Krumhansl & Kessler probe-tone ratings (Krumhansl 1990). The historical
-  /// baseline; known to underperform in minor.
+  /// baseline; known to underperform in minor. Retained for research
+  /// comparison, not selected by the app.
   krumhanslKessler(
     major: [
       6.35, 2.23, 3.48, 2.33, 4.38, 4.09, //
@@ -20,12 +23,14 @@ enum KeyProfilePair {
     ],
   ),
 
+  /// **App status: Disabled.**
+  ///
   /// Temperley's 1999 revision ("What's Key for Key?").
   ///
   /// Not the same as the Temperley Kostka-Payne probability profiles (2007)
   /// that music21's TemperleyKostkaPayne and justkeydding's "temperley" use;
   /// name the profile pair precisely when comparing against external
-  /// baselines.
+  /// baselines. Retained for research comparison, not selected by the app.
   temperley(
     major: [
       5.0, 2.0, 3.5, 2.0, 4.5, 4.0, //
@@ -37,9 +42,12 @@ enum KeyProfilePair {
     ],
   ),
 
+  /// **App status: Disabled.**
+  ///
   /// Temperley's Kostka-Payne probability profiles (_Music and Probability_,
   /// 2007), the refined pair that modern implementations settled on: this is
   /// what music21's TemperleyKostkaPayne and justkeydding's "temperley" use.
+  /// Retained for research comparison, not selected by the app.
   temperleyKostkaPayne(
     major: [
       0.748, 0.060, 0.488, 0.082, 0.670, 0.460, //
@@ -51,8 +59,10 @@ enum KeyProfilePair {
     ],
   ),
 
+  /// **App status: Shipped.**
+  ///
   /// Albrecht & Shanahan (2013) corpus-trained profiles; notably better in
-  /// minor and the recommended default.
+  /// minor and selected by the shipped detector.
   albrechtShanahan(
     major: [
       0.238, 0.006, 0.111, 0.006, 0.137, 0.094, //

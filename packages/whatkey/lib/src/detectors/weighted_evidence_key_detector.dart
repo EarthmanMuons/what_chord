@@ -5,6 +5,13 @@ import 'detector_support.dart';
 import 'key_detector.dart';
 import 'key_space.dart';
 
+/// **App status: Disabled.**
+///
+/// The app does not use this as a standalone detector. The shipped HMM's
+/// `HybridKeyDetector` still evaluates this component, but gives its score zero
+/// blend weight, so it cannot affect the result. It remains implemented and
+/// tested for research reproduction and ablation.
+///
 /// Weighted evidence key detection (design plan section 2d): the first model
 /// that uses chord identities and recognizer confidence rather than pitch
 /// classes alone.
@@ -66,10 +73,12 @@ class WeightedEvidenceKeyDetector implements KeyDetector {
   /// Score half-life; null disables decay.
   final Duration? decayHalfLife;
 
+  /// **App status: Disabled.**
+  ///
   /// Event-count half-life: when set, scores decay by a fixed factor per
   /// event instead of on elapsed wall-clock time, normalizing the memory
-  /// dial across corpora with different event rates (log entry
-  /// 2026-07-07-15).
+  /// dial across corpora with different event rates (log entry 2026-07-07-15).
+  /// The app leaves it null.
   final double? decayHalfLifeEvents;
 
   /// Events required before the detector may claim a key.
