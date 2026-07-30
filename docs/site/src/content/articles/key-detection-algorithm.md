@@ -73,7 +73,7 @@ minor keys the detector knows. Musicians call that kind of pattern a modal vamp.
 Two chords into a piece there may not be enough evidence for any answer. A
 detector that must always name something will name something wrong, and a key
 indicator that confidently flickers between wrong answers is worse than one that
-stays blank.
+waits for clearer evidence before changing its mind.
 
 What that combination needs is not a better histogram. It is a model that
 carries a _belief_ forward through time, updates it as evidence arrives, and
@@ -548,26 +548,22 @@ can prefer readings that naturally belong to the key, prefer the chord built on
 its home note, and choose between two chord names that account for the same
 sounding notes.
 
-The app runs a second copy of the detector because the key indicator and chord
-naming need different behavior. The visible copy follows the user's Stable,
-Balanced, or Reactive setting and may deliberately favor a steady section-level
-answer. The internal copy never appears on screen and is always Reactive, so it
-can follow shorter local key changes. In Auto mode, it helps Ensemble mode
-choose among plausible readings, including chords whose root is implied rather
-than played. In every mode, it can also re-rank the immediately preceding
-history entry after the next chord supplies evidence that one earlier name makes
-better sense. Only the immediately preceding entry can change. That correction
-improves the user-facing history only. Live Ensemble naming uses the internal
-key directly; the corrected entry is not fed into either detector or used to
-name later chords.
+The app uses a second, hidden detector for chord naming. It always runs in
+Reactive mode, so it can follow shorter local key changes even when the visible
+detector is set to Stable or Balanced. In Auto mode, Ensemble uses that internal
+key to choose among plausible chord names, including names whose root note was
+implied rather than played.
 
-Chord recognition produces the events key detection consumes, and key detection
-supplies context that chord recognition may rank under. The live chord analyzer
-remains memoryless. The visible-key side of this cycle is deliberately weak:
-adopting the displayed key changes the chosen chord name on roughly 0.4% of
-events, and feeding those changed names back has no measurable effect on key
-detection. Tighter coupling would risk the two engines reinforcing each other's
-mistakes.
+The app may also use the next chord to reconsider the previous history entry.
+Only that entry can change, and the correction is for display only. It never
+feeds either detector or influences later chord names.
+
+The connection remains deliberately weak. Chord recognition supplies events to
+key detection, and key detection supplies context for chord ranking, but the
+live analyzer still judges each new chord independently. In practice, the
+displayed key changes only about 0.4% of chord names, and feeding those changes
+back does not measurably improve key detection. Keeping the connection weak
+reduces the risk that the engines reinforce each other's mistakes.
 
 ## How the numbers were chosen
 
