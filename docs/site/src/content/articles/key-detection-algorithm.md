@@ -119,7 +119,7 @@ updated distribution comes out.
   </div>
 </div>
 
-Everything below is one of those boxes.
+The next sections unpack those boxes.
 
 ## The state space
 
@@ -216,15 +216,11 @@ model a credible reason to move at that moment, while ordinary drifting still
 pays the full switch cost. If the cadence lands in the key the model already
 favors, it reinforces that key instead.
 
-The pattern has to be matched narrowly because not every tense-to-stable chord
-pair marks a new key. The first must be a dominant-seventh chord or a close
-relative, a tense kind of chord that strongly points toward a particular
-destination. A plain major chord is not enough. A chord's root is the note its
-name starts from. The next chord must have the expected root and sound like a
-stable major or minor destination, not another dominant chord that usually
-points somewhere else. Without those restrictions, ordinary movement inside a
-key can read as a key change every few bars. A plain blues progression is
-especially vulnerable.
+The shipped pattern is deliberately narrow. A tense dominant-seventh chord or
+close relative must point toward the next chord's root (the note its name starts
+from), and the destination must sound like a stable major or minor chord rather
+than another dominant. A plain major chord is not enough. These restrictions
+keep ordinary movement, especially blues, from looking like a key change.
 
 ## Score the evidence
 
@@ -243,9 +239,8 @@ That gives 24 raw scores.
 
 Two things shape that histogram before it is scored.
 
-**Duration weighting.** Each event contributes in proportion to how long it was
-held. A chord held for two seconds counts twice as much as one held for a
-second, so a sustained harmony matters more than a passing chord.
+**Duration weighting.** Each event is weighted by how long it was held, giving
+sustained harmonies more influence than passing chords.
 
 **A decaying window.** Evidence does not accumulate forever; it fades
 exponentially on a half-life. This dial turns out to be the single most
@@ -263,9 +258,10 @@ a setting.
 ### Turning scores into a distribution
 
 The 24 correlations are not probabilities. A
-[softmax](https://en.wikipedia.org/wiki/Softmax_function) converts them into a
-probability distribution, with an **emission temperature** controlling how
-strongly the best-matching profile can pull away from the rest:
+[softmax](https://en.wikipedia.org/wiki/Softmax_function) converts them into an
+**emission**, the probability distribution representing the evidence at this
+event across all 24 keys. An **emission temperature** controls how strongly the
+best-matching profile can pull away from the rest:
 
 <pre><code><span class="kw">final</span> top = scores.<span class="fn">reduce</span>(math.max);
 <span class="kw">for</span> (<span class="kw">var</span> k = <span class="nu">0</span>; k &lt; <span class="nu">24</span>; k++) {
@@ -278,8 +274,7 @@ strongly the best-matching profile can pull away from the rest:
 
 At the shipped temperature of `0.25` the distribution is fairly sharp: a
 well-matched key pulls hard. Raising it flattens the evidence so no single event
-can move the belief much. It therefore affects responsiveness in much the same
-way as the half-life. This is why only the half-life is exposed as a user
+can move the belief as much. The value is fixed rather than exposed as a user
 setting.
 
 ### Choosing major or minor
@@ -330,12 +325,9 @@ single most probable key sequence over a complete piece and would let the ending
 explain the beginning. That can produce a more coherent retrospective analysis,
 but it is unusable here because the future does not exist yet.
 
-Statisticians call the result a **posterior**: the probability distribution
-after combining the previous belief with the new evidence. It is not an
-arbitrary score squashed into a zero-to-one range, but it still describes the
-model's belief under its own assumptions. It needs the calibration described
-below before it can be read as a real-world estimate of how often the leading
-answer is correct.
+The result is a **posterior**: a model probability rather than an arbitrary
+score. It still needs calibration before it can be displayed as real-world
+confidence.
 
 ## Claim or abstain
 
@@ -377,8 +369,7 @@ without changing any answer.
 ## The behavior presets
 
 The app exposes three key detection behaviors as a user setting: Stable,
-Balanced, and Reactive. They are not three accuracy tiers, and describing them
-that way would be dishonest. The half-life is the one value that changes the
+Balanced, and Reactive. The half-life is the one value that changes the
 detector's arithmetic. Each preset also has its own confidence correction and a
 stale interval, which controls how long an idle result remains current-looking
 before the interface dims it.
@@ -435,6 +426,37 @@ truly left, and it abstains more often while the evidence is thin. Those are the
 same property seen from two sides. Picking a preset means choosing which side
 matters more to you.
 
+## Closing the loop
+
+The detected key does not stay in the key indicator. In Auto mode, once the
+visible detector makes the same claim on two consecutive chord events, that key
+becomes the app's current key. It is then passed to
+[the chord recognizer](chord-recognition-algorithm.html), whose ranking rules
+can prefer readings that naturally belong to the key, prefer the chord built on
+its home note, and choose between two chord names that account for the same
+sounding notes.
+
+The app runs a second copy of the detector because the key indicator and chord
+naming need different behavior. The visible copy follows the user's Stable,
+Balanced, or Reactive setting and may deliberately favor a steady section-level
+answer. The internal copy never appears on screen and is always Reactive, so it
+can follow shorter local key changes. In Auto mode, it helps Ensemble mode
+choose among plausible readings, including chords whose root is implied rather
+than played. In every mode, it can also re-rank the immediately preceding
+history entry after the next chord supplies evidence that one earlier name makes
+better sense. Only the immediately preceding entry can change. That correction
+improves the user-facing history only. Live Ensemble naming uses the internal
+key directly; the corrected entry is not fed into either detector or used to
+name later chords.
+
+Chord recognition produces the events key detection consumes, and key detection
+supplies context that chord recognition may rank under. The live chord analyzer
+remains memoryless. The visible-key side of this cycle is deliberately weak:
+adopting the displayed key changes the chosen chord name on roughly 0.4% of
+events, and feeding those changed names back has no measurable effect on key
+detection. Tighter coupling would risk the two engines reinforcing each other's
+mistakes.
+
 ## How the numbers were chosen
 
 The constants above were not chosen arbitrarily. They began as reasonable
@@ -453,64 +475,18 @@ look far more general than it is. The
 [research archive](https://github.com/EarthmanMuons/whatchord/tree/main/research)
 records the alternatives that failed as well as the settings that shipped.
 
-## Closing the loop
-
-The detected key does not stay in the key indicator. In Auto mode, once the
-visible detector makes the same claim on two consecutive chord events, that key
-becomes the app's current key. It is then passed to
-[the chord recognizer](chord-recognition-algorithm.html), whose ranking rules
-can prefer readings that naturally belong to the key, prefer the chord built on
-its home note, and choose between two chord names that account for the same
-sounding notes.
-
-The app runs a second copy of the detector because the key indicator and chord
-naming need different behavior. The visible copy follows the user's Stable,
-Balanced, or Reactive setting and may deliberately favor a steady section-level
-answer. The internal copy never appears on screen and is always Reactive, so it
-can follow shorter local key changes. That faster response is reserved for two
-narrow tasks.
-
-In Auto mode, the internal key helps Ensemble mode choose among plausible
-readings, including chords whose root is implied rather than actually played. In
-every mode, it can also help re-rank the immediately preceding history entry
-after the next chord arrives. That one-event look-ahead is how the chord history
-can resolve a brief ambiguity without pretending that the live key display knew
-the future.
-
-This history correction serves a different purpose from feeding the detected key
-into live chord naming. A new chord can reveal which of two earlier names makes
-better sense in the progression, evidence that the live analyzer could not have
-had at the time. Such cases are rare, but revisiting one history entry improves
-the record without making live analysis stateful or feeding the revised entry
-back into either detector.
-
-So the engines form a deliberately limited cycle. Chord recognition produces the
-events key detection consumes; key detection supplies context that chord
-recognition may rank under. The live chord analyzer itself remains memoryless,
-while the history correction is explicitly bounded to one event.
-
-The visible-key side of that loop is deliberately weak. Measured directly,
-adopting the displayed key changes the chosen chord name on roughly 0.4% of
-events. Feeding those changed names back has no measurable effect on key
-detection. A tighter coupling would risk the two engines reinforcing each
-other's mistakes; at this strength they simply inform each other.
-
 ## What it does not handle
 
 - **Polytonality and atonality.** The model assumes one key at a time from a
-  fixed vocabulary of 24. Music that is genuinely in two keys at once, or in
-  none, gets the best single-key description of it, though the margin floor
-  means genuinely keyless passages tend to produce abstention rather than a
-  confident wrong answer.
+  fixed vocabulary of 24, so it cannot represent music that is genuinely in two
+  keys at once, or in none.
 - **Diatonic modes beyond major and minor.** Dorian, Mixolydian, and the other
   diatonic modes have no state of their own, so a modal passage is scored
-  against whichever of the 24 major or minor keys it most resembles. In practice
-  the margin opens less often, so the detector is more likely to abstain than it
-  is on music that fits the model's vocabulary.
+  against whichever of the 24 major or minor keys it most resembles.
 - **Anything outside twelve-tone equal temperament.** Microtonal intervals and
   fine pitch differences between tuning systems have no representation in the
-  standard system of twelve equally spaced notes per octave used by MIDI and by
-  this pitch-class model.
+  standard system of twelve equally spaced notes per octave used by this
+  pitch-class model.
 
 ## The codebase
 
