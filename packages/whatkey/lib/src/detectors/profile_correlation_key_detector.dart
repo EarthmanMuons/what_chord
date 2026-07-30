@@ -27,6 +27,9 @@ import 'rotated_correlation.dart';
 /// correlation margin between the best and second-best key falls below
 /// [marginFloor]. Estimate confidence is the correlation coefficient.
 class ProfileCorrelationKeyDetector implements KeyDetector {
+  static const int _researchBaselineMinEvents = 3;
+  static const double _researchBaselineMarginFloor = 0.05;
+
   /// Pitch-class profiles the histogram correlates against.
   final KeyProfilePair profiles;
 
@@ -59,19 +62,39 @@ class ProfileCorrelationKeyDetector implements KeyDetector {
     halfLifeEvents: decayHalfLifeEvents,
   );
 
-  /// **App status: Reproduction default.**
+  /// **App status: Shipped.**
   ///
-  /// The constructor defaults retain the standalone research baseline. The
-  /// shipped HMM overrides the claim gate and supplies the app's behavior
-  /// preset.
+  /// Defaults to the scorer configuration used inside the shipped HMM. Use
+  /// [ProfileCorrelationKeyDetector.researchBaseline] for the standalone
+  /// profile detector used in research comparisons.
   ProfileCorrelationKeyDetector({
     this.profiles = KeyProfilePair.albrechtShanahan,
     this.durationWeighted = true,
     this.decayHalfLife = const Duration(seconds: 30),
     this.decayHalfLifeEvents,
-    this.minEvents = 3,
-    this.marginFloor = 0.05,
+    this.minEvents = 1,
+    this.marginFloor = 0,
   });
+
+  /// **App status: Reproduction default.**
+  ///
+  /// The standalone profile-correlation baseline used in research comparisons.
+  /// Prefer the unnamed constructor for current app-path behavior.
+  factory ProfileCorrelationKeyDetector.researchBaseline({
+    KeyProfilePair profiles = KeyProfilePair.albrechtShanahan,
+    bool durationWeighted = true,
+    Duration? decayHalfLife = const Duration(seconds: 30),
+    double? decayHalfLifeEvents,
+    int minEvents = _researchBaselineMinEvents,
+    double marginFloor = _researchBaselineMarginFloor,
+  }) => ProfileCorrelationKeyDetector(
+    profiles: profiles,
+    durationWeighted: durationWeighted,
+    decayHalfLife: decayHalfLife,
+    decayHalfLifeEvents: decayHalfLifeEvents,
+    minEvents: minEvents,
+    marginFloor: marginFloor,
+  );
 
   @override
   String get name => 'profile-correlation';

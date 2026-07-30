@@ -117,8 +117,14 @@ void main() {
       _event(7, [7, 11, 2, 5], ChordQuality.dominant7),
       _event(8, [0, 4, 7, 10], ChordQuality.dominant7),
     ];
-    final without = _run(HybridKeyDetector(progressionBlend: 0), blues);
-    final with_ = _run(HybridKeyDetector(progressionBlend: 0.1), blues);
+    final without = _run(
+      HybridKeyDetector(functionalBlend: 0.1, progressionBlend: 0),
+      blues,
+    );
+    final with_ = _run(
+      HybridKeyDetector(functionalBlend: 0.1, progressionBlend: 0.1),
+      blues,
+    );
 
     final withoutClaim = without.last.claim;
     final withClaim = with_.last.claim;

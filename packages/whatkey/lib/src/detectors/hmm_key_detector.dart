@@ -58,19 +58,22 @@ class HmmKeyDetector implements KeyDetector {
   /// progression terms vote for exactly the tonicization-scale excursions
   /// the product absorbs, and removing them is a significant paired win on
   /// section-scale labels (and what finally fixed blues). The hybrid
-  /// detector keeps its own nonzero blend defaults for tonicization-scale
-  /// work; these constants configure only the HMM's emissions.
-  static const double defaultEmissionFunctionalBlend = 0;
+  /// detector's named research baseline keeps the earlier nonzero blends for
+  /// tonicization-scale work; its unnamed defaults match these shipped values.
+  static const double defaultEmissionFunctionalBlend =
+      HybridKeyDetector.defaultFunctionalBlend;
 
   /// **App status: Disabled.**
   ///
   /// See [defaultEmissionFunctionalBlend].
-  static const double defaultEmissionProgressionBlend = 0;
+  static const double defaultEmissionProgressionBlend =
+      HybridKeyDetector.defaultProgressionBlend;
 
   /// **App status: Disabled.**
   ///
   /// See [defaultEmissionFunctionalBlend].
-  static const bool defaultEmissionConfidenceWeighted = false;
+  static const bool defaultEmissionConfidenceWeighted =
+      HybridKeyDetector.defaultConfidenceWeighted;
 
   /// Log-odds tilt applied within the parallel-key pair rooted on the event's
   /// chord when that chord has a home quality ([KeySpace.tonicQualities]):
