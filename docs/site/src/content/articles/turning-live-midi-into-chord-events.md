@@ -104,9 +104,12 @@ usually shows:
 </div>
 
 A **chord event** is more than a name. It records when the chord began, how long
-it lasted, which pitch classes and bass note sounded, the actual MIDI voicing,
-the recognizer’s selected identity, and the nearby alternative readings
-available at that moment. The history stays in memory only. The
+it lasted, which pitch classes sounded, which one was in the bass, the exact
+MIDI voicing, the recognizer’s selected identity, and the nearby alternative
+readings available at that moment. It also preserves the tonality and playing
+context used for ranking, along with how far apart the candidates scored.
+Downstream code can therefore interpret the original decision and measure its
+ambiguity without rerunning recognition. The history stays in memory only. The
 [streaming key detector](key-detection-algorithm.html) consumes these events
 rather than the much noisier stream of raw note changes.
 
@@ -117,14 +120,16 @@ currently requires at least three sounding notes.
 ## Segment identities, not note changes
 
 The segmenter follows the recognizer’s selected **chord identity**: the root,
-bass, quality, and represented chord tones that make one reading distinct from
-another. It does not start a new event merely because the sounding MIDI notes
-changed.
+bass, quality, extensions, and which chord tones are actually present. Together,
+these make one reading distinct from another. The segmenter does not start a new
+event merely because the sounding MIDI notes changed.
 
 Adding another C to a held C major chord changes the voicing but not its
 identity, so the event continues. The same is true when a doubled note is
-released. This keeps one held harmony from becoming several artificial events
-just because the player redistributed it between octaves.
+released. This keeps octave doubling above the bass from turning one held
+harmony into several artificial events. Changing the lowest note can instead
+change the chord’s inversion, which is a different identity and receives its own
+event.
 
 An event snapshots its musical data when that identity first appears.
 Same-identity changes do not rewrite the snapshot later. That makes the record
@@ -143,8 +148,8 @@ one uninterrupted event. A brief added note can therefore produce a fleeting
 <span class="chord">C major</span> chord in two.
 
 If the challenger does survive, it becomes the current chord and the previous
-one is committed. Crucially, the boundary is placed at the challenger’s original
-onset, not 200 ms later:
+one is committed if it lasted long enough. Crucially, the boundary is placed at
+the challenger’s original onset, not 200 ms later:
 
 <table class="article-table">
   <thead>
@@ -167,7 +172,7 @@ onset, not 200 ms later:
     </tr>
     <tr>
       <td class="mono">1,000 ms</td>
-      <td>F major</td>
+      <td>(No change; timer fires)</td>
       <td>F major is accepted; C major ends at 800 ms</td>
     </tr>
   </tbody>
@@ -175,33 +180,152 @@ onset, not 200 ms later:
 
 The decision arrives at 1,000 ms, but the stored history still says the musical
 change happened at 800 ms. Waiting for stability adds display and commit
-latency; it does not move the measured beat or shorten the accepted chord.
+latency; it does not move the recorded timing or shorten the accepted chord.
 
 A release, a drop below three notes, or another loss of a valid chord candidate
-closes capture immediately rather than waiting for a timer. The current chord
-ends then unless a pending challenger had already appeared. In that case, it
-ends at the challenger’s onset and the unproven challenger is discarded. Events
-that never lasted 200 ms are dropped. If one pending challenger is replaced by
-another, the new challenger starts its own clock.
+closes capture immediately rather than waiting for another timer. Before
+handling any observation, including a release, the segmenter first promotes a
+challenger whose deadline has passed. A release after that deadline can
+therefore commit two events: the old chord through the challenger’s onset, then
+the newly accepted chord through the release. If the challenger is still inside
+its window, the old chord ends at the challenger’s onset and the unresolved
+challenger is discarded. Events that never lasted 200 ms are dropped.
 
-In compact pseudocode, the central rule is:
-
-```text
-same identity:
-  keep the current chord and discard any challenger
-
-different identity:
-  start or continue a pending challenger
-
-challenger survives 200 ms:
-  commit the current chord through the challenger's onset
-  promote the challenger, preserving that onset
-
-release:
-  end the current chord at the challenger's onset, or at release if none
-  commit it if it lasted at least 200 ms
-  discard any unresolved challenger
-```
+<!-- prettier-ignore -->
+<figure class="segmenter-state-diagram">
+  <div class="state-priority-rule">
+    <strong>Before every observation:</strong> promote any challenger whose 200
+    ms deadline has passed.
+  </div>
+  <div
+    class="state-diagram-scroll"
+    role="group"
+    aria-label="Scrollable chord-event state machine diagram"
+    tabindex="0"
+  >
+    <svg
+      viewBox="0 0 780 490"
+      role="img"
+      aria-labelledby="segmenter-state-title segmenter-state-desc"
+    >
+      <title id="segmenter-state-title">
+        The chord-event segmenter’s three states
+      </title>
+      <desc id="segmenter-state-desc">
+        An eligible chord moves the segmenter from no active chord to tracking
+        the current chord. A different identity becomes a pending challenger.
+        If the original returns before 200 milliseconds, the challenger is
+        discarded. If the deadline passes, the current chord ends at the
+        challenger’s onset, is committed if it lasted long enough, and the
+        challenger is promoted. Release commits the current chord if it lasted
+        long enough, while release before a challenger’s deadline discards that
+        challenger.
+      </desc>
+      <defs>
+        <marker
+          id="segmenter-arrow"
+          viewBox="0 0 10 10"
+          refX="9"
+          refY="5"
+          markerWidth="7"
+          markerHeight="7"
+          orient="auto-start-reverse"
+        >
+          <path class="state-arrowhead" d="M 0 0 L 10 5 L 0 10 z"></path>
+        </marker>
+      </defs>
+      <g class="state-nodes">
+        <rect class="state-node" x="35" y="190" width="190" height="76" rx="14">
+        </rect>
+        <text class="state-node-title" x="130" y="220">No active chord</text>
+        <text class="state-node-subtitle" x="130" y="244">
+          Waiting for eligible input
+        </text>
+        <rect class="state-node" x="295" y="190" width="190" height="76" rx="14">
+        </rect>
+        <text class="state-node-title" x="390" y="220">
+          Tracking current chord
+        </text>
+        <text class="state-node-subtitle" x="390" y="244">
+          Identity A
+        </text>
+        <rect class="state-node" x="555" y="190" width="190" height="76" rx="14">
+        </rect>
+        <text class="state-node-title" x="650" y="220">
+          Testing challenger
+        </text>
+        <text class="state-node-subtitle" x="650" y="244">
+          Identity B
+        </text>
+      </g>
+      <g class="state-transitions">
+        <path
+          class="state-transition"
+          d="M 225 211 L 295 211"
+          marker-end="url(#segmenter-arrow)"
+        ></path>
+        <text class="state-transition-label" x="260" y="174">
+          Eligible chord
+        </text>
+        <path
+          class="state-transition"
+          d="M 295 249 L 225 249"
+          marker-end="url(#segmenter-arrow)"
+        ></path>
+        <text class="state-transition-label" x="260" y="285">Release</text>
+        <text class="state-transition-action" x="260" y="303">
+          Commit if long enough
+        </text>
+        <path
+          class="state-transition"
+          d="M 485 211 L 555 211"
+          marker-end="url(#segmenter-arrow)"
+        ></path>
+        <text class="state-transition-label" x="520" y="174">
+          Different identity
+        </text>
+        <path
+          class="state-transition"
+          d="M 555 249 L 485 249"
+          marker-end="url(#segmenter-arrow)"
+        ></path>
+        <text class="state-transition-label" x="520" y="285">
+          A returns before 200 ms
+        </text>
+        <text class="state-transition-action" x="520" y="303">
+          Discard B
+        </text>
+        <path
+          class="state-transition state-transition-emphasis"
+          d="M 650 190 C 650 85, 390 85, 390 190"
+          marker-end="url(#segmenter-arrow)"
+        ></path>
+        <text class="state-transition-label" x="520" y="58">
+          B reaches its deadline
+        </text>
+        <text class="state-transition-action" x="520" y="78">
+          Commit A at B’s onset if long enough; promote B
+        </text>
+        <path
+          class="state-transition"
+          d="M 650 266 C 650 410, 130 410, 130 266"
+          marker-end="url(#segmenter-arrow)"
+        ></path>
+        <text class="state-transition-label" x="390" y="442">
+          Release before B’s deadline
+        </text>
+        <text class="state-transition-action" x="390" y="462">
+          Commit A at B’s onset if long enough; discard B
+        </text>
+      </g>
+    </svg>
+  </div>
+  <figcaption>
+    Matching observations leave the state unchanged. A third identity replaces
+    the pending challenger and restarts its clock. Because an overdue challenger
+    is promoted first, a later observation may cause more than one transition.
+  </figcaption>
+</figure>
 
 ## One threshold, several jobs
 
@@ -210,10 +334,8 @@ duration of a committed chord. Those jobs could become separate settings if
 research ever gives them different answers, but so far one threshold keeps the
 model simple and the behavior easy to reason about.
 
-The same 200 ms decision also governs the visible chord name. A new name has to
-survive the stability window, while the previous stable name remains on screen
-as the challenger proves itself. That keeps the display, history, and key
-detector in agreement about what counted as a chord.
+The same 200 ms decision also governs the visible chord name. Its behavior and
+measured effect are covered below.
 
 <div class="callout">
   <p>
@@ -226,66 +348,73 @@ detector in agreement about what counted as a chord.
 
 ## Why 200 milliseconds?
 
-The original 200 ms value was an engineering judgment. It shipped with chord
-history before the key detector or its performed-input fixtures existed: long
-enough to reject many finger rolls, short enough to feel like part of the
-gesture. The responsible next question was whether that plausible number held up
-once it could be measured.
+The original 200 ms value was an engineering judgment. It shipped with the first
+version of chord history, before there were any recorded performances to test it
+against: long enough to reject many finger rolls, short enough to feel like part
+of the gesture. The responsible next question was whether that plausible number
+held up once it could be measured.
 
-It did, but not because 200 ms emerged as a magical optimum.
+It did, but not because 200 ms emerged as a clear optimum.
 
 The segmenter was extracted into pure, clock-independent Dart so recorded MIDI
 performances could pass through the exact state machine used by the app. We then
 replayed 50 recorded piano performances with stability windows from 50 to 800
-ms. This was a controlled comparison, not an estimate of overall app accuracy.
-Every row used the same reference labels, so the question was simply whether
-changing the window improved the key detector’s result. The last column reports
-how often the detector’s answers matched either the major key or relative minor
-represented by the score’s written key signature.
+ms. This controlled comparison asks whether changing the window improves key
+detection, not how accurate the app is overall. Only events with an answer are
+included; either the signature’s major key or its relative minor counts as
+agreement. Reactive halved the weight of old evidence every second; Stable did
+so every 30 seconds.
 
 <table class="article-table">
   <thead>
     <tr>
       <th scope="col">Stability window</th>
       <th scope="col">Committed events</th>
-      <th scope="col">Key-signature agreement</th>
+      <th scope="col">Reactive agreement (1 s half-life)</th>
+      <th scope="col">Stable agreement (30 s half-life)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td class="mono">50 ms</td>
       <td class="mono">31,107</td>
+      <td class="mono">52%</td>
       <td class="mono">67%</td>
     </tr>
     <tr>
       <td class="mono">100 ms</td>
       <td class="mono">23,334</td>
+      <td class="mono">53%</td>
       <td class="mono">68%</td>
     </tr>
     <tr>
       <td class="mono">200 ms</td>
       <td class="mono">15,407</td>
+      <td class="mono">55%</td>
       <td class="mono">68%</td>
     </tr>
     <tr>
       <td class="mono">400 ms</td>
       <td class="mono">8,216</td>
+      <td class="mono">57%</td>
       <td class="mono">69%</td>
     </tr>
     <tr>
       <td class="mono">800 ms</td>
       <td class="mono">3,699</td>
+      <td class="mono">55%</td>
       <td class="mono">63%</td>
     </tr>
   </tbody>
 </table>
 
 Shortening the window from 200 to 50 ms doubled the number of events without
-improving the result. The extra events were mostly transition noise that the key
-detector did not need. Raising the window to 400 ms discarded nearly half the
-events for a one-point difference that was not established as a real
-improvement. At 800 ms, only about a quarter as many events remained as at 200
-ms, and key agreement fell.
+helping the Stable result, while Reactive agreement fell from 55% to 52%. The
+extra events were mostly transition noise that the key detector did not need.
+Raising the window to 400 ms discarded nearly half the events for changes of
+only one or two points, neither of which was established as a real improvement.
+At 800 ms, only about a quarter as many events remained as at 200 ms. Stable
+agreement fell five points, while Reactive did no better than at 200 ms.
 
 That is the useful conclusion: 200 ms sits comfortably on the flat part of the
 curve. It filters a large amount of transient input without pretending that
@@ -294,33 +423,43 @@ detector still needs its own fading memory. A sustain-pedal blur can last much
 longer than any sensible segmentation window; it is sustained ambiguous
 evidence, not a quick mistake.
 
-## The display supplied a second test
+## The display needed the same gate
 
-History and key detection used the segmenter first. The chord card originally
-did not. It showed the recognizer’s answer after every change to the sounding
-notes, even when that answer would never survive long enough to enter history.
+History and key detection used the segmenter first. The main chord display
+originally did not. It showed the recognizer’s answer after every change to the
+sounding notes, even when that answer would never survive long enough to enter
+history.
+
+That display now uses the same stability judgment. If a player builds a C major
+chord one note at a time, the display first shows the single C note, then a
+major third interval after E is added. When G completes the chord, that interval
+remains visible while C major proves itself. After 200 ms, the display changes
+to C major. The last useful label remains while any notes sound and clears only
+on silence, so it never blinks empty during that progression.
 
 We measured **flicker share**, the portion of labeled display time occupied by
 names that lasted less than half a second, along with how often the name
-changed. We then replayed the same performances with the display following the
-segmenter’s decisions.
+changed. We then simulated the display following the segmenter’s decisions over
+the same recorded performances.
 
 <table class="article-table">
   <thead>
     <tr>
       <th scope="col">Music</th>
       <th scope="col">Flicker share, raw → gated</th>
-      <th scope="col">Name changes per minute, raw → gated</th>
+      <th scope="col">
+        Name changes per labeled minute, raw → gated
+      </th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>Classical music</td>
+      <td>Classical piano (12 unseen movements)</td>
       <td class="mono">44.6% → 6.1%</td>
       <td class="mono">292.3 → 38.9</td>
     </tr>
     <tr>
-      <td>Pop music</td>
+      <td>Pop piano (101 songs)</td>
       <td class="mono">18.7% → 8.2%</td>
       <td class="mono">95.3 → 51.3</td>
     </tr>
@@ -335,9 +474,9 @@ shipped.
 
 Every stability policy chooses what not to represent. WhatChord will omit an
 intentional chord held for less than 200 ms. Fast ornaments and dense runs are
-more likely to disappear from chord history altogether. This is a precision
-trade: the app would rather record fewer defensible chords than preserve every
-intermediate guess as though it were equally meaningful.
+more likely to disappear from chord history altogether. This trades recall for
+precision: the app would rather record fewer defensible chords than preserve
+every intermediate guess as though it were equally meaningful.
 
 The segmenter also cannot separate a melody from an accompaniment, infer an
 unsounded harmony, or clean up a pedal wash that persists beyond the gate. Those
