@@ -9,7 +9,7 @@
 #import "@preview/lilaq:0.4.0" as lq
 
 // Bump for committed/shareable paper drafts; use +1, +2 for same-day drafts.
-#let draft-version = "v2026.7.15"
+#let draft-version = "v2026.7.30"
 
 // Override without editing: typst compile --input anonymous=true main.typ
 #let anonymous = sys.inputs.at("anonymous", default: "false") == "true"
