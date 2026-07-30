@@ -44,8 +44,9 @@ title: "Turning Live MIDI Into Chord Events"
 Press C, E, and G on a keyboard and the musical idea may be one
 <span class="chord">C major</span> chord. The MIDI connection reports three
 separate note-on messages. They may arrive a few milliseconds apart, or much
-farther apart if the chord is rolled. Releases arrive separately too, while the
-sustain pedal can keep old notes sounding underneath the next harmony.
+farther apart if the chord is played as an arpeggio. Releases arrive separately
+too, while the sustain pedal can keep old notes sounding underneath the next
+harmony.
 
 During one ordinary gesture, the sounding-note state might pass through C alone,
 then C-E, then C-E-G, then C-E-G-D, and finally C-E-G again. Once enough notes
@@ -59,10 +60,10 @@ Recognition and segmentation answer different questions:
 - The segmenter asks, “Did that reading last long enough to count as something
   the player meant?”
 
-Without the second question, chord history would fill with finger rolls and
-passing shapes. The key detector would treat every one as fresh harmonic
-evidence, and the chord name on screen would flicker through interpretations
-that no musician intended to hold.
+Without the second question, chord history would fill with brief in-between
+shapes. The key detector would treat every one as fresh harmonic evidence, and
+the chord name on screen would flicker through interpretations that no musician
+intended to hold.
 
 ## From snapshots to events
 
@@ -207,15 +208,12 @@ release:
 For event capture, 200 ms serves both as the challenger window and the minimum
 duration of a committed chord. Those jobs could become separate settings if
 research ever gives them different answers, but so far one threshold keeps the
-model simpler and the behavior easier to reason about.
+model simple and the behavior easy to reason about.
 
-The visible chord name uses a separate copy of the same state machine. It also
-waits for a new chord to survive 200 ms and keeps the previous stable name while
-a challenger is pending. The display and history copies share the algorithm and
-the threshold, but not their internal state. That distinction lets demo playback
-use the real display behavior while keeping demo chords out of live history.
-Manual chord lookup bypasses the gate because clicking notes on a pad has no
-performance timing to interpret.
+The same 200 ms decision also governs the visible chord name. A new name has to
+survive the stability window, while the previous stable name remains on screen
+as the challenger proves itself. That keeps the display, history, and key
+detector in agreement about what counted as a chord.
 
 <div class="callout">
   <p>
@@ -239,10 +237,11 @@ It did, but not because 200 ms emerged as a magical optimum.
 The segmenter was extracted into pure, clock-independent Dart so recorded MIDI
 performances could pass through the exact state machine used by the app. We then
 replayed 50 recorded piano performances with stability windows from 50 to 800
-ms. The table shows how many chord events reached a key detector with long,
-section-level memory. “Key-signature agreement” means the detector chose either
-the major key or relative minor represented by the score’s written key signature
-among the times it gave an answer.
+ms. This was a controlled comparison, not an estimate of overall app accuracy.
+Every row used the same reference labels, so the question was simply whether
+changing the window improved the key detector’s result. The last column reports
+how often the detector’s answers matched either the major key or relative minor
+represented by the score’s written key signature.
 
 <table class="article-table">
   <thead>
@@ -303,9 +302,8 @@ notes, even when that answer would never survive long enough to enter history.
 
 We measured **flicker share**, the portion of labeled display time occupied by
 names that lasted less than half a second, along with how often the name
-changed. Then we replayed the same performances through several display
-policies. Reusing the segmenter’s judgment was the only approach that
-substantially reduced flicker without hiding committed chords.
+changed. We then replayed the same performances with the display following the
+segmenter’s decisions.
 
 <table class="article-table">
   <thead>
@@ -317,38 +315,21 @@ substantially reduced flicker without hiding committed chords.
   </thead>
   <tbody>
     <tr>
-      <td>Classical development</td>
-      <td class="mono">46.6% → 6.4%</td>
-      <td class="mono">321.8 → 40.6</td>
-    </tr>
-    <tr>
-      <td>Pop replication</td>
-      <td class="mono">18.7% → 8.2%</td>
-      <td class="mono">95.3 → 51.3</td>
-    </tr>
-    <tr>
-      <td>Held-out classical music</td>
+      <td>Classical music</td>
       <td class="mono">44.6% → 6.1%</td>
       <td class="mono">292.3 → 38.9</td>
+    </tr>
+    <tr>
+      <td>Pop music</td>
+      <td class="mono">18.7% → 8.2%</td>
+      <td class="mono">95.3 → 51.3</td>
     </tr>
   </tbody>
 </table>
 
-In all three sets, the segmenter-gated display missed no committed chords. A
-simpler rule that merely waited for each raw name to remain unchanged became
-destructive beyond 200 ms. At 300 ms it missed about a third of the committed
-chords in the classical music and about a sixth in the pop music.
-
-The pending challenger model keeps the previous stable chord on screen while it
-decides. If the challenger survives, the model remembers when it first appeared
-rather than treating the confirmation time as its onset. That lets the display
-show every chord the capture rules accept without flashing the guesses they
-reject.
-
-The held-out result mattered most. Twelve classical performances that had not
-been used to choose the policy reproduced the same structure: less flicker,
-fewer name changes, and no committed chord hidden. The display gate therefore
-shipped on evidence rather than feel alone.
+In both sets, the segmenter-gated display sharply reduced flicker and name
+changes without missing any committed chords. That is why the display gate
+shipped.
 
 ## What the segmenter deliberately gives up
 
