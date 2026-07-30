@@ -4,30 +4,15 @@ import type { CollectionEntry } from "astro:content";
 interface Props {
   article: CollectionEntry<"articles">;
   featured?: boolean;
-  first?: boolean;
-  following?: boolean;
   showTag?: boolean;
 }
 
-const {
-  article,
-  featured = false,
-  first = false,
-  following = false,
-  showTag = false,
-} = Astro.props;
-const classes = [
-  "article-card",
-  first && "article-card-first",
-  following && "article-card-following",
-]
-  .filter(Boolean)
-  .join(" ");
+const { article, featured = false, showTag = false } = Astro.props;
 ---
 
-<a class={classes} href={`/articles/${article.id}.html`}>
+<a class="article-card" href={`/articles/${article.id}.html`}>
   {showTag && <div class="article-tag">{article.data.tag}</div>}
-  <h3>{article.data.cardTitle}</h3>
+  <h3>{article.data.title}</h3>
   <p>
     {
       featured && article.data.featuredDescription

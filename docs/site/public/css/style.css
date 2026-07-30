@@ -1441,11 +1441,7 @@ a.heading-anchor svg {
   letter-spacing: 0.09em;
 }
 
-.article-related .article-card-first {
-  margin-top: 0;
-}
-
-.article-related .article-card-following {
+.article-related .article-card + .article-card {
   margin-top: 20px;
 }
 

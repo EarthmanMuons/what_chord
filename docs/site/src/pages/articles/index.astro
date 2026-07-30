@@ -2,6 +2,9 @@
 import { getCollection } from "astro:content";
 
 import ArticleCard from "../../components/ArticleCard.astro";
+import ExternalArticleCard from "../../components/ExternalArticleCard.astro";
+import StoreBadges from "../../components/StoreBadges.astro";
+import { researchProjects } from "../../data/researchProjects";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const articles = (await getCollection("articles")).sort(
@@ -65,90 +68,11 @@ const technicalArticles = articles.filter(
             developed and versioned in the source repository.
           </p>
           <div class="article-group-grid">
-            <a
-              class="article-card article-card-external"
-              href="https://github.com/EarthmanMuons/whatchord/tree/main/research/whatkey"
-            >
-              <h3>WhatKey</h3>
-              <p>
-                Naming the key while the music is still playing, from the chord
-                recognizer’s output rather than a finished score, and staying
-                quiet when the evidence is too thin to call.
-              </p>
-              <span class="read-more">Read the research notes</span>
-            </a>
-            <a
-              class="article-card article-card-external"
-              href="https://github.com/EarthmanMuons/whatchord/tree/main/research/whatkey-local"
-            >
-              <h3>WhatKey Local</h3>
-              <p>
-                How closely that detector should follow the brief key changes
-                inside a piece, and what chasing them costs in the steadiness a
-                glanceable indicator needs.
-              </p>
-              <span class="read-more">Read the research notes</span>
-            </a>
-            <a
-              class="article-card article-card-external"
-              href="https://github.com/EarthmanMuons/whatchord/tree/main/research/chord-context"
-            >
-              <h3>Chord Context</h3>
-              <p>
-                Whether recently played chords, and the key they imply, sharpen
-                live chord naming, tested against a strong baseline on two
-                annotated classical corpora.
-              </p>
-              <span class="read-more">Read the research notes</span>
-            </a>
-            <a
-              class="article-card article-card-external"
-              href="https://github.com/EarthmanMuons/whatchord/tree/main/research/ensemble-mode"
-            >
-              <h3>Ensemble Mode</h3>
-              <p>
-                A comping mode for the voicings a pianist plays over a bass
-                player, where the root is deliberately absent and the engine
-                previously had no name for the chord at all.
-              </p>
-              <span class="read-more">Read the research notes</span>
-            </a>
-            <a
-              class="article-card article-card-external"
-              href="https://github.com/EarthmanMuons/whatchord/tree/main/research/ensemble-tiebreak"
-            >
-              <h3>Ensemble Tiebreak</h3>
-              <p>
-                Closing the naming errors that survive when the key is already
-                correct, measured on a jazz comping benchmark built from the
-                Weimar Jazz Database.
-              </p>
-              <span class="read-more">Read the research notes</span>
-            </a>
-            <a
-              class="article-card article-card-external"
-              href="https://github.com/EarthmanMuons/whatchord/tree/main/research/performed-input"
-            >
-              <h3>Performed Input</h3>
-              <p>
-                Scoring chord identity on real recorded performances through the
-                app’s own input path, where every earlier accuracy number had
-                rested on clean synthesized voicings.
-              </p>
-              <span class="read-more">Read the research notes</span>
-            </a>
-            <a
-              class="article-card article-card-external"
-              href="https://github.com/EarthmanMuons/whatchord/tree/main/research/tone-pricing"
-            >
-              <h3>Tone Pricing</h3>
-              <p>
-                What a chord name should pay for a tone it cannot explain, and
-                what discount an honest incomplete reading deserves: one cost
-                dial viewed from both sides.
-              </p>
-              <span class="read-more">Read the research notes</span>
-            </a>
+            {
+              researchProjects.map((project) => (
+                <ExternalArticleCard {...project} />
+              ))
+            }
           </div>
         </div>
       </div>
@@ -163,24 +87,7 @@ const technicalArticles = articles.filter(
             Available for iOS and Android, with no subscription, no ads, and
             every analysis running on-device.
           </p>
-          <div class="store-badges store-badges-spaced">
-            <a href="https://apps.apple.com/us/app/whatchord-midi/id6758409779">
-              <img
-                class="store-badge"
-                src="../images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
-                alt="Download on the App Store"
-              />
-            </a>
-            <a
-              href="https://play.google.com/store/apps/details?id=com.earthmanmuons.whatchord"
-            >
-              <img
-                class="store-badge"
-                src="../images/GetItOnGooglePlay_Badge_Web_color_English.svg"
-                alt="Get it on Google Play"
-              />
-            </a>
-          </div>
+          <StoreBadges spaced />
           <p class="cta-secondary">
             Prefer not to install?{" "}
             <a href="/try">Try identifying chords in your browser →</a>
@@ -189,5 +96,4 @@ const technicalArticles = articles.filter(
       </div>
     </section>
   </main>
-  <script is:inline src="/js/site.js" slot="scripts"></script>
 </BaseLayout>

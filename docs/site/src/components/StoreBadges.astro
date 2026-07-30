@@ -1,0 +1,26 @@
+---
+interface Props {
+  spaced?: boolean;
+}
+
+const { spaced = false } = Astro.props;
+---
+
+<div class:list={["store-badges", spaced && "store-badges-spaced"]}>
+  <a href="https://apps.apple.com/us/app/whatchord-midi/id6758409779">
+    <img
+      class="store-badge"
+      src="/images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
+      alt="Download on the App Store"
+    />
+  </a>
+  <a
+    href="https://play.google.com/store/apps/details?id=com.earthmanmuons.whatchord"
+  >
+    <img
+      class="store-badge"
+      src="/images/GetItOnGooglePlay_Badge_Web_color_English.svg"
+      alt="Get it on Google Play"
+    />
+  </a>
+</div>

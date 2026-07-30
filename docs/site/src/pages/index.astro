@@ -2,6 +2,10 @@
 import { getCollection } from "astro:content";
 
 import ArticleCard from "../components/ArticleCard.astro";
+import ExternalArticleCard from "../components/ExternalArticleCard.astro";
+import MotionMedia from "../components/MotionMedia.astro";
+import StoreBadges from "../components/StoreBadges.astro";
+import { whatKeyResearchProject } from "../data/researchProjects";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const featuredArticles = (await getCollection("articles"))
@@ -34,24 +38,7 @@ const featuredArticles = (await getCollection("articles"))
           and connects it to chord structures, scales, and key context.
           Available on iOS and Android.
         </p>
-        <div class="store-badges">
-          <a href="https://apps.apple.com/us/app/whatchord-midi/id6758409779">
-            <img
-              class="store-badge"
-              src="images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
-              alt="Download on the App Store"
-            />
-          </a>
-          <a
-            href="https://play.google.com/store/apps/details?id=com.earthmanmuons.whatchord"
-          >
-            <img
-              class="store-badge"
-              src="images/GetItOnGooglePlay_Badge_Web_color_English.svg"
-              alt="Get it on Google Play"
-            />
-          </a>
-        </div>
+        <StoreBadges />
       </div>
     </section>
 
@@ -72,50 +59,11 @@ const featuredArticles = (await getCollection("articles"))
                 for instance).
               </p>
             </div>
-            <div class="feature-img-wrap motion-media" data-motion-media>
-              <video
-                class="motion-video"
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                aria-hidden="true"
-                data-motion-video
-              >
-                <source src="images/real_time.mp4" type="video/mp4" />
-              </video>
-              <img
-                class="motion-fallback"
-                src="images/real_time.webp"
-                alt="WhatChord identifying G7/B in real time, showing the chord name and piano keyboard"
-              />
-              <button
-                class="motion-toggle"
-                type="button"
-                aria-label="Pause animation"
-                data-motion-toggle
-                hidden
-              >
-                <svg
-                  class="motion-toggle-pause"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path d="M8 5h3v14H8z"></path>
-                  <path d="M13 5h3v14h-3z"></path>
-                </svg>
-                <svg
-                  class="motion-toggle-play"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path d="M8 5v14l11-7z"></path>
-                </svg>
-              </button>
-            </div>
+            <MotionMedia
+              alt="WhatChord identifying G7/B in real time, showing the chord name and piano keyboard"
+              fallbackSrc="/images/real_time.webp"
+              videoSrc="/images/real_time.mp4"
+            />
           </div>
 
           <!-- Feature 2: Automatic key detection -->
@@ -151,50 +99,11 @@ const featuredArticles = (await getCollection("articles"))
                 something you can see and hear.
               </p>
             </div>
-            <div class="feature-img-wrap motion-media" data-motion-media>
-              <video
-                class="motion-video"
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                aria-hidden="true"
-                data-motion-video
-              >
-                <source src="images/explore_modes.mp4" type="video/mp4" />
-              </video>
-              <img
-                class="motion-fallback"
-                src="images/explore_modes.webp"
-                alt="WhatChord switching between Explore Chords and Explore Scales modes on the piano keyboard"
-              />
-              <button
-                class="motion-toggle"
-                type="button"
-                aria-label="Pause animation"
-                data-motion-toggle
-                hidden
-              >
-                <svg
-                  class="motion-toggle-pause"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path d="M8 5h3v14H8z"></path>
-                  <path d="M13 5h3v14h-3z"></path>
-                </svg>
-                <svg
-                  class="motion-toggle-play"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path d="M8 5v14l11-7z"></path>
-                </svg>
-              </button>
-            </div>
+            <MotionMedia
+              alt="WhatChord switching between Explore Chords and Explore Scales modes on the piano keyboard"
+              fallbackSrc="/images/explore_modes.webp"
+              videoSrc="/images/explore_modes.mp4"
+            />
           </div>
 
           <!-- Feature 4: Musically informed -->
@@ -363,22 +272,13 @@ const featuredArticles = (await getCollection("articles"))
               <ArticleCard article={article} featured showTag />
             ))
           }
-          <a
-            class="article-card article-card-external"
-            href="https://github.com/EarthmanMuons/whatchord/tree/main/research/whatkey"
-          >
-            <div class="article-tag">Key Detection</div>
-            <h3>Streaming Key Estimation Research</h3>
-            <p>
-              Naming the key while the music is still playing, from the chord
-              recognizer’s output rather than a finished score, and staying
-              quiet when the evidence is too thin to call.
-            </p>
-            <span class="read-more">Read the research notes</span>
-          </a>
+          <ExternalArticleCard
+            {...whatKeyResearchProject}
+            tag="Key Detection"
+            title="Streaming Key Estimation Research"
+          />
         </div>
       </div>
     </section>
   </main>
-  <script is:inline src="/js/site.js" slot="scripts"></script>
 </BaseLayout>

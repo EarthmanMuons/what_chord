@@ -2,7 +2,21 @@
 cardDescription:
   "Reference-normalized time, deterministic operation counters, and a calibrated
   noise model: how we measured engine changes reproducibly on shared CI runners."
-cardTitle: "Benchmarking on Hardware You Don’t Control"
+cta:
+  action:
+    href: "https://github.com/EarthmanMuons/whatchord"
+    icon: "github"
+    label: "View source on GitHub"
+    variant: "ghost"
+  description:
+    "WhatChord identifies chords in real time, on-device. Free for iOS and
+    Android, with no subscription and no ads."
+  secondary:
+    href: "/try"
+    label: "Try identifying chords in your browser →"
+    lead: "Prefer not to install?"
+  storeBadges: true
+  title: "See the engine behind the numbers."
 decks:
   - "You cannot optimize what you cannot measure. And a hot code path is hard to
     measure on the shared cloud machines that run your tests, where you control
@@ -15,10 +29,7 @@ description:
   control: normalize time to a fixed reference workload, lean on exact operation
   counts, and model the run-to-run noise."
 group: "technical"
-image: "/images/homepage_social.jpg"
-imageAlt: "WhatChord: Identify chords. Understand harmony."
 indexOrder: 7
-pageTitle: "Benchmarking on Hardware You Don’t Control | WhatChord"
 related:
   - "chord-ranking-performance"
   - "chord-recognition-algorithm"
@@ -384,49 +395,3 @@ win and an 87% pruning win were both visible and both trustworthy, and the dead
 ends were provably dead because the counters said the work had not budged and
 the golden tests said the output had not either. None of it needed hardware we
 control, which was the point.
-
-<div class="article-cta">
-  <h3>See the engine behind the numbers.</h3>
-  <p>
-    WhatChord identifies chords in real time, on-device. Free for iOS
-    and Android, with no subscription and no ads.
-  </p>
-  <div class="store-badges store-badges-spaced">
-    <a
-      href="https://apps.apple.com/us/app/whatchord-midi/id6758409779"
-    >
-      <img
-        class="store-badge"
-        src="../images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
-        alt="Download on the App Store"
-      />
-    </a>
-    <a
-      href="https://play.google.com/store/apps/details?id=com.earthmanmuons.whatchord"
-    >
-      <img
-        class="store-badge"
-        src="../images/GetItOnGooglePlay_Badge_Web_color_English.svg"
-        alt="Get it on Google Play"
-      />
-    </a>
-  </div>
-  <a
-    class="btn btn-ghost"
-    href="https://github.com/EarthmanMuons/whatchord"
-    ><svg
-      class="github-icon"
-      viewBox="0 0 16 16"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path
-        d="M6.766 11.328c-2.063-.25-3.516-1.734-3.516-3.656 0-.781.281-1.625.75-2.188-.203-.515-.172-1.609.063-2.062.625-.078 1.468.25 1.968.703.594-.187 1.219-.281 1.985-.281.765 0 1.39.094 1.953.265.484-.437 1.344-.765 1.969-.687.218.422.25 1.515.046 2.047.5.593.766 1.39.766 2.203 0 1.922-1.453 3.375-3.547 3.64.531.344.89 1.094.89 1.954v1.625c0 .468.391.734.86.547C13.781 14.359 16 11.53 16 8.03 16 3.61 12.406 0 7.984 0 3.563 0 0 3.61 0 8.031a7.88 7.88 0 0 0 5.172 7.422c.422.156.828-.125.828-.547v-1.25c-.219.094-.5.156-.75.156-1.031 0-1.64-.562-2.078-1.609-.172-.422-.36-.672-.719-.719-.187-.015-.25-.093-.25-.187 0-.188.313-.328.625-.328.453 0 .844.281 1.25.86.313.452.64.655 1.031.655s.641-.14 1-.5c.266-.265.47-.5.657-.656"
-      /></svg
-    ><span>View source on GitHub</span></a
-  >
-  <p class="cta-secondary">
-    Prefer not to install?
-    <a href="/try">Try identifying chords in your browser →</a>
-  </p>
-</div>
