@@ -596,20 +596,20 @@ class _Options {
     final decay = decayHalfLifeEvents != null || seconds == 0
         ? null
         : Duration(seconds: seconds);
-    // Blend/weighting defaults are per detector: the hybrid's identity keeps
-    // its validated blends, while the HMM's shipped emissions run pure
-    // profile correlation (log entry 2026-07-07-18).
+    // The HMM follows current app defaults. Selecting the standalone hybrid
+    // explicitly keeps the historical research baseline used by pre-recipe
+    // experiment commands (log entries 2026-07-07-04 and -08).
     final hmmDefaults = detectorName == 'hmm';
     final effectiveFunctional =
         functionalBlend ??
         (hmmDefaults
             ? HmmKeyDetector.defaultEmissionFunctionalBlend
-            : HybridKeyDetector.defaultFunctionalBlend);
+            : HybridKeyDetector.researchBaselineFunctionalBlend);
     final effectiveProgression =
         progressionBlend ??
         (hmmDefaults
             ? HmmKeyDetector.defaultEmissionProgressionBlend
-            : HybridKeyDetector.defaultProgressionBlend);
+            : HybridKeyDetector.researchBaselineProgressionBlend);
     final effectiveConfidence =
         confidenceWeighted ??
         (hmmDefaults ? HmmKeyDetector.defaultEmissionConfidenceWeighted : true);

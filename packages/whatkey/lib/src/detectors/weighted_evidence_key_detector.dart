@@ -5,12 +5,11 @@ import 'detector_support.dart';
 import 'key_detector.dart';
 import 'key_space.dart';
 
-/// **App status: Disabled.**
+/// **App status: Research-only.**
 ///
-/// The app does not use this as a standalone detector. The shipped HMM's
-/// `HybridKeyDetector` still evaluates this component, but gives its score zero
-/// blend weight, so it cannot affect the result. It remains implemented and
-/// tested for research reproduction and ablation.
+/// The app does not construct this detector. `HybridKeyDetector` creates it only
+/// when a research configuration explicitly supplies a nonzero functional
+/// blend. It remains implemented and tested for reproduction and ablation.
 ///
 /// Weighted evidence key detection (design plan section 2d): the first model
 /// that uses chord identities and recognizer confidence rather than pitch

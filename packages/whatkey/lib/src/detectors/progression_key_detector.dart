@@ -5,12 +5,11 @@ import 'detector_support.dart';
 import 'key_detector.dart';
 import 'key_space.dart';
 
-/// **App status: Disabled.**
+/// **App status: Research-only.**
 ///
-/// The app does not use this as a standalone detector. The shipped HMM's
-/// `HybridKeyDetector` still evaluates this component, but gives its score zero
-/// blend weight, so it cannot affect the result. It remains implemented and
-/// tested for research reproduction and ablation.
+/// The app does not construct this detector. `HybridKeyDetector` creates it only
+/// when a research configuration explicitly supplies a nonzero progression
+/// blend. It remains implemented and tested for reproduction and ablation.
 ///
 /// Progression-pattern key detection (design plan section 2e): scores chord
 /// _transitions_ instead of chord contents, because motion between functions

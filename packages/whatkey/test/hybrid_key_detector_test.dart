@@ -48,18 +48,15 @@ void main() {
   ];
 
   test('claims C major for a C major cadence', () {
-    final frames = _run(HybridKeyDetector(), cCadence);
+    final frames = _run(HybridKeyDetector.researchBaseline(), cCadence);
     final claim = frames.last.claim;
     expect(claim, isNotNull);
     expect(claim!.tonality.tonicPitchClass, 0);
     expect(claim.tonality.isMajor, isTrue);
   });
 
-  test('zero blends rank identically to pure profile correlation', () {
-    final hybridFrames = _run(
-      HybridKeyDetector(functionalBlend: 0, progressionBlend: 0),
-      cCadence,
-    );
+  test('shipped hybrid defaults rank identically to profile scoring', () {
+    final hybridFrames = _run(HybridKeyDetector(), cCadence);
     final profileFrames = _run(ProfileCorrelationKeyDetector(), cCadence);
     for (var i = 0; i < cCadence.length; i++) {
       final hybrid = hybridFrames[i].ranked;
@@ -72,8 +69,40 @@ void main() {
     }
   });
 
+  test('hybrid defaults stay aligned with the shipped HMM emissions', () {
+    expect(
+      HybridKeyDetector.defaultFunctionalBlend,
+      HmmKeyDetector.defaultEmissionFunctionalBlend,
+    );
+    expect(
+      HybridKeyDetector.defaultProgressionBlend,
+      HmmKeyDetector.defaultEmissionProgressionBlend,
+    );
+    expect(
+      HybridKeyDetector.defaultConfidenceWeighted,
+      HmmKeyDetector.defaultEmissionConfidenceWeighted,
+    );
+    final configuration = HybridKeyDetector().configuration;
+    expect(configuration, contains('evidence: disabled'));
+    expect(configuration, contains('progression: disabled'));
+  });
+
+  test('named research baseline preserves the historical configuration', () {
+    final configuration = HybridKeyDetector.researchBaseline().configuration;
+
+    expect(
+      configuration,
+      contains('functionalBlend=0.1 progressionBlend=0.02'),
+    );
+    expect(configuration, contains('minEvents=3 marginFloor=0.05'));
+    expect(configuration, contains('evidence: points='));
+    expect(configuration, contains('confidenceWeighted=true'));
+    expect(configuration, isNot(contains('evidence: disabled')));
+    expect(configuration, isNot(contains('progression: disabled')));
+  });
+
   test('claims A minor for a harmonic-minor cadence with E7', () {
-    final frames = _run(HybridKeyDetector(), [
+    final frames = _run(HybridKeyDetector.researchBaseline(), [
       _event(0, [9, 0, 4], ChordQuality.minor),
       _event(1, [2, 5, 9], ChordQuality.minor),
       _event(2, [4, 8, 11, 2], ChordQuality.dominant7),
@@ -86,7 +115,7 @@ void main() {
   });
 
   test('claims C major on the diatonic pop loop where evidence alone ties', () {
-    final frames = _run(HybridKeyDetector(), [
+    final frames = _run(HybridKeyDetector.researchBaseline(), [
       for (var repeat = 0; repeat < 2; repeat++) ...[
         _event(repeat * 4, [0, 4, 7], ChordQuality.major),
         _event(repeat * 4 + 1, [7, 11, 2], ChordQuality.major),
@@ -101,7 +130,7 @@ void main() {
   });
 
   test('ranked list covers all 24 keys exactly once', () {
-    final frames = _run(HybridKeyDetector(), cCadence);
+    final frames = _run(HybridKeyDetector.researchBaseline(), cCadence);
     final ranked = frames.last.ranked;
     expect(ranked, hasLength(24));
     final distinct = {

@@ -13,7 +13,7 @@ import 'weighted_evidence_key_detector.dart';
 ///
 /// Used inside `HmmKeyDetector` as its emission-scoring container. The shipped
 /// HMM supplies zero functional and progression blends, so only the
-/// profile-correlation term from this container reaches the HMM.
+/// profile-correlation term from this container is constructed or evaluated.
 ///
 /// Hybrid key detection: profile correlation as the base score with the
 /// weighted evidence model's functional points, and optionally the
@@ -34,20 +34,38 @@ import 'weighted_evidence_key_detector.dart';
 /// reduces exactly to pure profile correlation, the ablation anchor; each
 /// term toggles independently per the protocol's ablation rules.
 class HybridKeyDetector implements KeyDetector {
+  /// **App status: Disabled.**
+  ///
+  /// Current app-path default: functional evidence does not contribute.
+  static const double defaultFunctionalBlend = 0;
+
+  /// **App status: Disabled.**
+  ///
+  /// See [defaultFunctionalBlend].
+  static const double defaultProgressionBlend = 0;
+
+  /// **App status: Disabled.**
+  ///
+  /// See [defaultFunctionalBlend].
+  static const bool defaultConfidenceWeighted = false;
+
   /// **App status: Reproduction default.**
   ///
-  /// These standalone defaults were selected before the HMM ablation (log
-  /// entries 2026-07-07-04 and -08). The harness parse defaults reference them
-  /// so historical recipes remain reproducible. `HmmKeyDetector` overrides both
-  /// blends with zero for the shipped configuration.
-  static const double defaultFunctionalBlend = 0.1;
+  /// Standalone hybrid baseline selected before the HMM ablation (research log
+  /// entries 2026-07-07-04 and -08).
+  static const double researchBaselineFunctionalBlend = 0.1;
 
-  /// See [defaultFunctionalBlend].
-  static const double defaultProgressionBlend = 0.02;
+  /// **App status: Reproduction default.**
+  ///
+  /// See [researchBaselineFunctionalBlend].
+  static const double researchBaselineProgressionBlend = 0.02;
+
+  static const int _researchBaselineMinEvents = 3;
+  static const double _researchBaselineMarginFloor = 0.05;
 
   final ProfileCorrelationKeyDetector _profile;
-  final WeightedEvidenceKeyDetector _evidence;
-  final ProgressionKeyDetector _progression;
+  final WeightedEvidenceKeyDetector? _evidence;
+  final ProgressionKeyDetector? _progression;
 
   /// Weight of one functional point per weighted event, in correlation units.
   final double functionalBlend;
@@ -65,10 +83,12 @@ class HybridKeyDetector implements KeyDetector {
 
   int _eventCount = 0;
 
-  /// **App status: Reproduction default.**
+  /// **App status: Shipped.**
   ///
-  /// The constructor defaults reproduce the standalone hybrid research
-  /// configuration. The shipped HMM overrides its non-shipped settings.
+  /// Defaults to the emission-scoring configuration used by the app. Disabled
+  /// component scorers are not constructed. Use
+  /// [HybridKeyDetector.researchBaseline] for the earlier standalone research
+  /// configuration.
   HybridKeyDetector({
     KeyProfilePair profiles = KeyProfilePair.albrechtShanahan,
     bool durationWeighted = true,
@@ -78,18 +98,11 @@ class HybridKeyDetector implements KeyDetector {
     // Retained for the event-count decay ablation. The app leaves this null
     // and uses elapsed-time behavior presets.
     double? decayHalfLifeEvents,
-    // The standalone research configuration weights recognizer confidence.
-    // The shipped HMM explicitly disables it.
-    bool confidenceWeighted = true,
-    // Selected on the development split: the blend sweep plateaus at
-    // 0.1-0.15 and the paired test against the profile floor is decisive
-    // there (log entry 2026-07-07-04).
+    bool confidenceWeighted = defaultConfidenceWeighted,
     this.functionalBlend = defaultFunctionalBlend,
-    // Selected on the development split: paired coverage win at unchanged
-    // accuracy, plus more modulations matched (log entry 2026-07-07-08).
     this.progressionBlend = defaultProgressionBlend,
-    this.minEvents = 3,
-    this.marginFloor = 0.05,
+    this.minEvents = 1,
+    this.marginFloor = 0,
   }) : _profile = ProfileCorrelationKeyDetector(
          profiles: profiles,
          durationWeighted: durationWeighted,
@@ -98,22 +111,47 @@ class HybridKeyDetector implements KeyDetector {
          minEvents: 1,
          marginFloor: 0,
        ),
-       _evidence = WeightedEvidenceKeyDetector(
-         durationWeighted: durationWeighted,
-         decayHalfLife: decayHalfLife,
-         decayHalfLifeEvents: decayHalfLifeEvents,
-         confidenceWeighted: confidenceWeighted,
-         minEvents: 1,
-         marginFloor: 0,
-       ),
-       _progression = ProgressionKeyDetector(
-         durationWeighted: durationWeighted,
-         decayHalfLife: decayHalfLife,
-         decayHalfLifeEvents: decayHalfLifeEvents,
-         confidenceWeighted: confidenceWeighted,
-         minEvents: 1,
-         marginFloor: 0,
-       );
+       _evidence = functionalBlend == 0
+           ? null
+           : WeightedEvidenceKeyDetector(
+               durationWeighted: durationWeighted,
+               decayHalfLife: decayHalfLife,
+               decayHalfLifeEvents: decayHalfLifeEvents,
+               confidenceWeighted: confidenceWeighted,
+               minEvents: 1,
+               marginFloor: 0,
+             ),
+       _progression = progressionBlend == 0
+           ? null
+           : ProgressionKeyDetector(
+               durationWeighted: durationWeighted,
+               decayHalfLife: decayHalfLife,
+               decayHalfLifeEvents: decayHalfLifeEvents,
+               confidenceWeighted: confidenceWeighted,
+               minEvents: 1,
+               marginFloor: 0,
+             );
+
+  /// **App status: Reproduction default.**
+  ///
+  /// The standalone hybrid configuration selected before the HMM ablation.
+  /// Prefer the unnamed constructor for current app-path behavior.
+  factory HybridKeyDetector.researchBaseline({
+    KeyProfilePair profiles = KeyProfilePair.albrechtShanahan,
+    bool durationWeighted = true,
+    Duration? decayHalfLife = const Duration(seconds: 30),
+    double? decayHalfLifeEvents,
+  }) => HybridKeyDetector(
+    profiles: profiles,
+    durationWeighted: durationWeighted,
+    decayHalfLife: decayHalfLife,
+    decayHalfLifeEvents: decayHalfLifeEvents,
+    confidenceWeighted: true,
+    functionalBlend: researchBaselineFunctionalBlend,
+    progressionBlend: researchBaselineProgressionBlend,
+    minEvents: _researchBaselineMinEvents,
+    marginFloor: _researchBaselineMarginFloor,
+  );
 
   @override
   String get name => 'hybrid';
@@ -123,22 +161,22 @@ class HybridKeyDetector implements KeyDetector {
       'functionalBlend=$functionalBlend progressionBlend=$progressionBlend '
       'minEvents=$minEvents marginFloor=$marginFloor '
       '| profile: ${_profile.configuration} '
-      '| evidence: ${_evidence.configuration} '
-      '| progression: ${_progression.configuration}';
+      '| evidence: ${_evidence?.configuration ?? 'disabled'} '
+      '| progression: ${_progression?.configuration ?? 'disabled'}';
 
   @override
   void reset() {
     _profile.reset();
-    _evidence.reset();
-    _progression.reset();
+    _evidence?.reset();
+    _progression?.reset();
     _eventCount = 0;
   }
 
   @override
   KeyEstimateFrame onEvent(ChordEvent event) {
     final profileFrame = _profile.onEvent(event);
-    final evidenceFrame = _evidence.onEvent(event);
-    final progressionFrame = _progression.onEvent(event);
+    final evidenceFrame = _evidence?.onEvent(event);
+    final progressionFrame = _progression?.onEvent(event);
     _eventCount += 1;
 
     final combined = <int, double>{};
@@ -156,8 +194,12 @@ class HybridKeyDetector implements KeyDetector {
       }
     }
 
-    blend(evidenceFrame.ranked, functionalBlend);
-    blend(progressionFrame.ranked, progressionBlend);
+    if (evidenceFrame != null) {
+      blend(evidenceFrame.ranked, functionalBlend);
+    }
+    if (progressionFrame != null) {
+      blend(progressionFrame.ranked, progressionBlend);
+    }
     if (combined.isEmpty) return const KeyEstimateFrame.abstain([]);
 
     final ranked = [
