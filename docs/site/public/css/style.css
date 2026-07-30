@@ -1618,7 +1618,7 @@ a.heading-anchor svg {
 .state-diagram-scroll svg {
   display: block;
   width: 100%;
-  min-width: 720px;
+  min-width: 700px;
   height: auto;
 }
 
