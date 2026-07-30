@@ -10,6 +10,13 @@ import 'key_profiles.dart';
 import 'key_space.dart';
 import 'rotated_correlation.dart';
 
+/// **App status: Research-only.**
+///
+/// This alternative was built and measured but did not beat the HMM at the
+/// shipped stability target. It remains implemented, tested, and available to
+/// the research harness so the negative result can be reproduced (research log
+/// 2026-07-07-26).
+///
 /// Bayesian online changepoint detection over the 24-key space (Adams &
 /// MacKay 2007, arXiv:0710.3742; design plan, future model directions):
 /// maintains a posterior over the current key section's run length, so

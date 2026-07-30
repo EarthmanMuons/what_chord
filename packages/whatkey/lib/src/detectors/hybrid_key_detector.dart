@@ -9,6 +9,12 @@ import 'profile_correlation_key_detector.dart';
 import 'progression_key_detector.dart';
 import 'weighted_evidence_key_detector.dart';
 
+/// **App status: Shipped.**
+///
+/// Used inside `HmmKeyDetector` as its emission-scoring container. The shipped
+/// HMM supplies zero functional and progression blends, so only the
+/// profile-correlation term from this container reaches the HMM.
+///
 /// Hybrid key detection: profile correlation as the base score with the
 /// weighted evidence model's functional points, and optionally the
 /// progression detector's transition points, as adjustments.
@@ -28,9 +34,12 @@ import 'weighted_evidence_key_detector.dart';
 /// reduces exactly to pure profile correlation, the ablation anchor; each
 /// term toggles independently per the protocol's ablation rules.
 class HybridKeyDetector implements KeyDetector {
-  /// Champion defaults, selected on the development split (log entries
-  /// 2026-07-07-04 and -08). The harness parse defaults reference these
-  /// constants so the CLI cannot silently diverge from the class defaults.
+  /// **App status: Reproduction default.**
+  ///
+  /// These standalone defaults were selected before the HMM ablation (log
+  /// entries 2026-07-07-04 and -08). The harness parse defaults reference them
+  /// so historical recipes remain reproducible. `HmmKeyDetector` overrides both
+  /// blends with zero for the shipped configuration.
   static const double defaultFunctionalBlend = 0.1;
 
   /// See [defaultFunctionalBlend].
@@ -56,11 +65,21 @@ class HybridKeyDetector implements KeyDetector {
 
   int _eventCount = 0;
 
+  /// **App status: Reproduction default.**
+  ///
+  /// The constructor defaults reproduce the standalone hybrid research
+  /// configuration. The shipped HMM overrides its non-shipped settings.
   HybridKeyDetector({
     KeyProfilePair profiles = KeyProfilePair.albrechtShanahan,
     bool durationWeighted = true,
     Duration? decayHalfLife = const Duration(seconds: 30),
+    // App status: Disabled.
+    //
+    // Retained for the event-count decay ablation. The app leaves this null
+    // and uses elapsed-time behavior presets.
     double? decayHalfLifeEvents,
+    // The standalone research configuration weights recognizer confidence.
+    // The shipped HMM explicitly disables it.
     bool confidenceWeighted = true,
     // Selected on the development split: the blend sweep plateaus at
     // 0.1-0.15 and the paired test against the profile floor is decisive

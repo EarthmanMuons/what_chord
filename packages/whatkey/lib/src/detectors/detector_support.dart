@@ -12,10 +12,16 @@ import '../models/key_estimate.dart';
 ///
 /// With [halfLifeEvents] set, state decays by a fixed factor per event,
 /// normalizing the memory dial across corpora with different event rates
-/// (log entry 2026-07-07-15). Otherwise [halfLife] decays on elapsed
+/// (log entry 2026-07-07-15). That mode is retained for research reproduction
+/// and is not selected by the app. Otherwise [halfLife] decays on elapsed
 /// wall-clock time; null disables decay.
 class DecayClock {
   final Duration? halfLife;
+
+  /// **App status: Disabled.**
+  ///
+  /// Event-count decay is retained for research reproduction. The app leaves
+  /// this null and uses elapsed-time behavior presets.
   final double? halfLifeEvents;
   DateTime? _last;
 

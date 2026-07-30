@@ -7,6 +7,12 @@ import 'key_profiles.dart';
 import 'key_space.dart';
 import 'rotated_correlation.dart';
 
+/// **App status: Shipped.**
+///
+/// This supplies the pitch-class scores used by the shipped HMM through
+/// `HybridKeyDetector`. The app lets `HmmKeyDetector` apply the posterior,
+/// abstention rule, and behavior preset.
+///
 /// Profile-correlation key detection (Krumhansl-Schmuckler family): the floor
 /// every later model must beat.
 ///
@@ -30,10 +36,13 @@ class ProfileCorrelationKeyDetector implements KeyDetector {
   /// Histogram half-life; null disables decay.
   final Duration? decayHalfLife;
 
+  /// **App status: Disabled.**
+  ///
   /// Event-count half-life: when set, the histogram decays by a fixed factor
   /// per event instead of on elapsed wall-clock time, normalizing the memory
   /// dial across corpora with different event rates (log entry
-  /// 2026-07-07-15).
+  /// 2026-07-07-15). The app leaves it null and uses elapsed-time behavior
+  /// presets.
   final double? decayHalfLifeEvents;
 
   /// Events required before the detector may claim a key.
@@ -50,6 +59,11 @@ class ProfileCorrelationKeyDetector implements KeyDetector {
     halfLifeEvents: decayHalfLifeEvents,
   );
 
+  /// **App status: Reproduction default.**
+  ///
+  /// The constructor defaults retain the standalone research baseline. The
+  /// shipped HMM overrides the claim gate and supplies the app's behavior
+  /// preset.
   ProfileCorrelationKeyDetector({
     this.profiles = KeyProfilePair.albrechtShanahan,
     this.durationWeighted = true,
