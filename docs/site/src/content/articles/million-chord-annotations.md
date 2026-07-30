@@ -25,7 +25,7 @@ description:
   "How a large public chord corpus helped validate WhatChord’s chord vocabulary
   and guide future recognition priorities."
 group: "technical"
-indexOrder: 8
+indexOrder: 9
 related:
   - "why-chord-naming-is-hard"
   - "chord-recognition-algorithm"

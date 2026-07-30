@@ -34,7 +34,7 @@ group: "technical"
 indexOrder: 4
 related:
   - "chord-ranking-performance"
-  - "benchmarking-on-hardware-you-dont-control"
+  - "turning-live-midi-into-chord-events"
   - "key-detection-algorithm"
 socialDescription:
   "A detailed look at the bitmasks, templates, implied roots, explanation costs,
@@ -69,7 +69,9 @@ musical judgment when costs are close.
 
 Before diving into each component, here is the overall shape of the algorithm. A
 snapshot of sounding notes and its analysis context enter at the top; a ranked
-list of chord interpretations comes out at the bottom.
+list of chord interpretations comes out at the bottom. A separate
+[segmentation stage](turning-live-midi-into-chord-events.html) decides which
+live snapshots become stable chord events.
 
 <div class="pipeline-flow">
   <div class="pf-endpoint">

@@ -29,7 +29,7 @@ description:
   control: normalize time to a fixed reference workload, lean on exact operation
   counts, and model the run-to-run noise."
 group: "technical"
-indexOrder: 7
+indexOrder: 8
 related:
   - "chord-ranking-performance"
   - "chord-recognition-algorithm"
