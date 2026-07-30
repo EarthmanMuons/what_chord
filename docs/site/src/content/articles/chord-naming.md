@@ -2,7 +2,15 @@
 cardDescription:
   "How to move from notes to a chord name using default interval qualities,
   degree formulas, spelling, and candidate roots."
-cardTitle: "Chord Naming Guide"
+cta:
+  action:
+    href: "/try"
+    label: "Try it in your browser →"
+    variant: "primary"
+  description:
+    "Enter any notes and WhatChord identifies the strongest chord names,
+    including close alternatives when the voicing is genuinely ambiguous."
+  title: "Try the process on your own notes."
 decks:
   - "A chord name is a compact explanation of how a set of notes behaves: which
     note is the root, which intervals define the quality, which tones are
@@ -18,10 +26,7 @@ description:
   stacks, enharmonic spelling, candidate roots, and how WhatChord chooses a
   readable chord symbol."
 group: "musicians"
-image: "/images/homepage_social.jpg"
-imageAlt: "WhatChord: Identify chords. Understand harmony."
 indexOrder: 1
-pageTitle: "How to Name Chords | WhatChord"
 related:
   - "why-chord-naming-is-hard"
   - "chord-symbols"
@@ -482,13 +487,3 @@ This guide was inspired in part by discussion with
 clarifying default interval qualities behind chord symbols, and
 [u/65TwinReverbRI](https://www.reddit.com/user/65TwinReverbRI), whose examples
 helped motivate the focus on tertian spelling and systematic root checking.
-
-<div class="article-cta">
-  <h3>Try the process on your own notes.</h3>
-  <p>
-    Enter any notes and WhatChord identifies the strongest chord
-    names, including close alternatives when the voicing is genuinely
-    ambiguous.
-  </p>
-  <a class="btn btn-primary" href="/try">Try it in your browser →</a>
-</div>

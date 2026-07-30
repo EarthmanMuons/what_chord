@@ -2,7 +2,15 @@
 cardDescription:
   "The inversions, extensions, altered tones, and enharmonic ambiguities behind
   real chord recognition, and how WhatChord handles them."
-cardTitle: "Why Chord Naming Is Harder Than It Looks"
+cta:
+  description:
+    "Free for iOS and Android. No subscription, no ads, no internet required."
+  secondary:
+    href: "/try"
+    label: "Try identifying chords in your browser →"
+    lead: "Prefer not to install?"
+  storeBadges: true
+  title: "Try it on your own keyboard."
 decks:
   - "Inversions, extensions, altered tones, and enharmonic ambiguities make real
     chord recognition a hard musical problem. Here is how WhatChord handles
@@ -15,10 +23,7 @@ featuredDescription:
   real chord recognition, and how WhatChord handles them."
 featuredOrder: 0
 group: "musicians"
-image: "/images/homepage_social.jpg"
-imageAlt: "WhatChord: Identify chords. Understand harmony."
 indexOrder: 0
-pageTitle: "Why Chord Naming Is Harder Than It Looks | WhatChord"
 related:
   - "chord-naming"
   - "chord-symbols"
@@ -253,35 +258,3 @@ the beginning.
 If you want to see how that musical judgment is represented in code,
 [the underlying algorithm](chord-recognition-algorithm.html) is described in
 more technical depth.
-
-<div class="article-cta">
-  <h3>Try it on your own keyboard.</h3>
-  <p>
-    Free for iOS and Android. No subscription, no ads, no internet
-    required.
-  </p>
-  <div class="store-badges store-badges-spaced">
-    <a
-      href="https://apps.apple.com/us/app/whatchord-midi/id6758409779"
-    >
-      <img
-        class="store-badge"
-        src="../images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
-        alt="Download on the App Store"
-      />
-    </a>
-    <a
-      href="https://play.google.com/store/apps/details?id=com.earthmanmuons.whatchord"
-    >
-      <img
-        class="store-badge"
-        src="../images/GetItOnGooglePlay_Badge_Web_color_English.svg"
-        alt="Get it on Google Play"
-      />
-    </a>
-  </div>
-  <p class="cta-secondary">
-    Prefer not to install?
-    <a href="/try">Try identifying chords in your browser →</a>
-  </p>
-</div>

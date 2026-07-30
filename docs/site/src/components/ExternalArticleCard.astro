@@ -1,0 +1,24 @@
+---
+interface Props {
+  description: string;
+  href: string;
+  readMore?: string;
+  tag?: string;
+  title: string;
+}
+
+const {
+  description,
+  href,
+  readMore = "Read the research notes",
+  tag,
+  title,
+} = Astro.props;
+---
+
+<a class="article-card article-card-external" href={href}>
+  {tag && <div class="article-tag">{tag}</div>}
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <span class="read-more">{readMore}</span>
+</a>

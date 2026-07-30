@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+import GitHubIcon from "./GitHubIcon.astro";
+import StoreBadges from "./StoreBadges.astro";
+
+interface Props {
+  cta: CollectionEntry<"articles">["data"]["cta"];
+}
+
+const { cta } = Astro.props;
+---
+
+<div class="article-cta">
+  <h3>{cta.title}</h3>
+  <p>{cta.description}</p>
+  {cta.storeBadges && <StoreBadges spaced />}
+  {
+    cta.action && (
+      <a
+        class:list={[
+          "btn",
+          cta.action.variant === "ghost" ? "btn-ghost" : "btn-primary",
+          cta.action.external && "btn-external",
+        ]}
+        href={cta.action.href}
+      >
+        {cta.action.icon === "github" ? (
+          <>
+            <GitHubIcon class="github-icon" />
+            <span>{cta.action.label}</span>
+          </>
+        ) : (
+          cta.action.label
+        )}
+      </a>
+    )
+  }
+  {
+    cta.secondary && (
+      <p class="cta-secondary">
+        {cta.secondary.lead}{" "}
+        <a href={cta.secondary.href}>{cta.secondary.label}</a>
+      </p>
+    )
+  }
+</div>

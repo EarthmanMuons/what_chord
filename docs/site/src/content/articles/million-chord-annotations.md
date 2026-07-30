@@ -2,7 +2,20 @@
 cardDescription:
   "How a large public chord corpus helped validate WhatChord’s chord vocabulary
   and guide future recognition priorities."
-cardTitle: "What We Learned From 1 Million Chord Annotations"
+cta:
+  action:
+    external: true
+    href: "https://github.com/EarthmanMuons/whatchord/blob/main/research/choco-chord-coverage.md"
+    label: "Open the full details"
+    variant: "primary"
+  description:
+    "The longer write-up includes the extraction method, source paths,
+    reproduction commands, and additional unsupported-label details."
+  secondary:
+    href: "/try"
+    label: "Try identifying chords in your browser →"
+    lead: "Curious how it names them?"
+  title: "Read the research note."
 decks:
   - "WhatChord is built around musical judgment, but judgment still needs
     evidence. In May 2026, we checked the app’s chord vocabulary against a large
@@ -12,10 +25,7 @@ description:
   "How a large public chord corpus helped validate WhatChord’s chord vocabulary
   and guide future recognition priorities."
 group: "technical"
-image: "/images/homepage_social.jpg"
-imageAlt: "WhatChord: Identify chords. Understand harmony."
 indexOrder: 8
-pageTitle: "What We Learned From 1 Million Chord Annotations | WhatChord"
 related:
   - "why-chord-naming-is-hard"
   - "chord-recognition-algorithm"
@@ -294,20 +304,3 @@ So the corpus is best understood as a reality check, not a product spec. It
 helps keep the recognition roadmap grounded in music people actually annotate
 and play, while leaving room for the musical judgment that real-time chord
 naming still requires.
-
-<div class="article-cta">
-  <h3>Read the research note.</h3>
-  <p>
-    The longer write-up includes the extraction method, source paths,
-    reproduction commands, and additional unsupported-label details.
-  </p>
-  <a
-    class="btn btn-primary btn-external"
-    href="https://github.com/EarthmanMuons/whatchord/blob/main/research/choco-chord-coverage.md"
-    >Open the full details</a
-  >
-  <p class="cta-secondary">
-    Curious how it names them?
-    <a href="/try">Try identifying chords in your browser →</a>
-  </p>
-</div>

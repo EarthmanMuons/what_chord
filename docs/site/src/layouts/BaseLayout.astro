@@ -87,5 +87,6 @@ const socialImage = new URL(image, Astro.site);
     <slot />
     {footer && <SiteFooter />}
     <slot name="scripts" />
+    {!simpleNav && <script is:inline src="/js/site.js" />}
   </body>
 </html>

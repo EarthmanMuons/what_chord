@@ -2,7 +2,15 @@
 cardDescription:
   "How WhatChord formats chord symbols: extensions, added tones, alterations,
   parentheses, and slash bass, with the reasoning behind each choice."
-cardTitle: "Chord Symbol Guide"
+cta:
+  action:
+    href: "/try"
+    label: "Try it in your browser →"
+    variant: "primary"
+  description:
+    "Enter any notes and WhatChord identifies the chord and formats its symbol
+    using these conventions, without downloading a thing."
+  title: "See these symbols on real chords."
 decks:
   - 'A chord symbol is a concise name for a harmonic identity, not an exhaustive
     inventory of the notes being played. It describes a chord’s quality,
@@ -23,10 +31,7 @@ description:
   alterations, parentheses, omissions, and slash bass, with the reasoning behind
   each choice."
 group: "musicians"
-image: "/images/homepage_social.jpg"
-imageAlt: "WhatChord: Identify chords. Understand harmony."
 indexOrder: 2
-pageTitle: "How to Format Chord Symbols | WhatChord"
 related:
   - "why-chord-naming-is-hard"
   - "chord-naming"
@@ -415,12 +420,3 @@ clarity principles consistently across every displayed chord.
 This guide was sharpened by the careful reading, edits, and suggestions of
 [u/65TwinReverbRI](https://www.reddit.com/user/65TwinReverbRI), whose feedback
 shaped much of how these conventions are explained.
-
-<div class="article-cta">
-  <h3>See these symbols on real chords.</h3>
-  <p>
-    Enter any notes and WhatChord identifies the chord and formats its
-    symbol using these conventions, without downloading a thing.
-  </p>
-  <a class="btn btn-primary" href="/try">Try it in your browser →</a>
-</div>

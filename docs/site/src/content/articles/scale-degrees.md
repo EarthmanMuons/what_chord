@@ -2,7 +2,17 @@
 cardDescription:
   "How notes are numbered from the tonic, what each degree is called, and how
   scales produce chords and Roman numerals."
-cardTitle: "Scale Degree Guide"
+cta:
+  description:
+    "WhatChord highlights the Roman numeral when a chord fits the current key
+    you’re playing in. Free for iOS and Android. No subscription, no ads, no
+    internet required."
+  secondary:
+    href: "/try"
+    label: "Name chords in a key in your browser →"
+    lead: "Prefer not to install?"
+  storeBadges: true
+  title: "Watch the degrees as you play."
 decks:
   - "A scale degree is a note’s position within a scale, counted up from the
     tonic, the scale’s home note. It names a note by its role in a key rather
@@ -17,10 +27,7 @@ description:
   "Learn how scale degrees number notes from the tonic, how flats and sharps
   shape scale formulas, and how scales produce chords and Roman numerals."
 group: "musicians"
-image: "/images/homepage_social.jpg"
-imageAlt: "WhatChord: Identify chords. Understand harmony."
 indexOrder: 3
-pageTitle: "How Scale Degrees Work | WhatChord"
 related:
   - "why-chord-naming-is-hard"
   - "chord-naming"
@@ -515,36 +522,3 @@ appropriate, its resolution tendency.
 
 Thinking in degrees is what makes harmony portable: a note, a chord, or a
 progression keeps its meaning as you move it from key to key.
-
-<div class="article-cta">
-  <h3>Watch the degrees as you play.</h3>
-  <p>
-    WhatChord highlights the Roman numeral when a chord fits the
-    current key you’re playing in. Free for iOS and Android. No
-    subscription, no ads, no internet required.
-  </p>
-  <div class="store-badges store-badges-spaced">
-    <a
-      href="https://apps.apple.com/us/app/whatchord-midi/id6758409779"
-    >
-      <img
-        class="store-badge"
-        src="../images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
-        alt="Download on the App Store"
-      />
-    </a>
-    <a
-      href="https://play.google.com/store/apps/details?id=com.earthmanmuons.whatchord"
-    >
-      <img
-        class="store-badge"
-        src="../images/GetItOnGooglePlay_Badge_Web_color_English.svg"
-        alt="Get it on Google Play"
-      />
-    </a>
-  </div>
-  <p class="cta-secondary">
-    Prefer not to install?
-    <a href="/try">Name chords in a key in your browser →</a>
-  </p>
-</div>

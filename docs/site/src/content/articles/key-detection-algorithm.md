@@ -2,7 +2,16 @@
 cardDescription:
   "The 24-state hidden Markov model, fading musical evidence, and abstention
   rule behind live key detection."
-cardTitle: "Building a Streaming Key Detector"
+cta:
+  description:
+    "WhatChord names chords and tracks the key as you play, on-device. Free for
+    iOS and Android, with no subscription and no ads."
+  secondary:
+    href: "https://github.com/EarthmanMuons/whatchord/tree/main/research"
+    label: "Read the research notes"
+    lead: "Want the evidence?"
+  storeBadges: true
+  title: "Watch it follow along."
 decks:
   - "Naming the chord you are playing is one problem. Working out what key you
     are in, while you are still playing, is a different one. This is the model
@@ -13,10 +22,7 @@ description:
   evidence, key-change predictions, and abstention rule behind WhatChord's live
   key detection."
 group: "technical"
-image: "/images/homepage_social.jpg"
-imageAlt: "WhatChord: Identify chords. Understand harmony."
 indexOrder: 5
-pageTitle: "Building a Streaming Key Detector | WhatChord"
 related:
   - "chord-recognition-algorithm"
   - "measuring-how-wrong-we-are"
@@ -502,38 +508,3 @@ importers, and tools that compare detector versions on the same pieces live in
 
 The project is open source under the Zero Clause BSD License, so you are free to
 use, modify, and share it however you like.
-
-<div class="article-cta">
-  <h3>Watch it follow along.</h3>
-  <p>
-    WhatChord names chords and tracks the key as you play, on-device.
-    Free for iOS and Android, with no subscription and no ads.
-  </p>
-  <div class="store-badges store-badges-spaced">
-    <a
-      href="https://apps.apple.com/us/app/whatchord-midi/id6758409779"
-    >
-      <img
-        class="store-badge"
-        src="../images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"
-        alt="Download on the App Store"
-      />
-    </a>
-    <a
-      href="https://play.google.com/store/apps/details?id=com.earthmanmuons.whatchord"
-    >
-      <img
-        class="store-badge"
-        src="../images/GetItOnGooglePlay_Badge_Web_color_English.svg"
-        alt="Get it on Google Play"
-      />
-    </a>
-  </div>
-  <p class="cta-secondary">
-    Want the evidence?
-    <a
-      href="https://github.com/EarthmanMuons/whatchord/tree/main/research"
-      >Read the research notes</a
-    >
-  </p>
-</div>

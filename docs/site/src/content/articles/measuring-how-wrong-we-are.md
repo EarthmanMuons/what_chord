@@ -2,7 +2,21 @@
 cardDescription:
   "A tour of WhatChord’s well-measured bad ideas, and why reproducible negative
   results are as valuable as the experiments that become features."
-cardTitle: "We Can Measure Exactly How Wrong We Are"
+cta:
+  action:
+    external: true
+    href: "https://github.com/EarthmanMuons/whatchord/tree/main/research"
+    label: "Explore the research archive"
+    variant: "primary"
+  description:
+    "The open research archive contains the protocols, dated experiment logs,
+    frozen data splits, reproduction instructions, corrections, and results
+    behind these decisions."
+  secondary:
+    href: "/try"
+    label: "Try identifying chords in your browser →"
+    lead: "Curious what survived?"
+  title: "Inspect the evidence, including the inconvenient parts."
 decks:
   - "We have a lot of ideas about how WhatChord ought to work. This would be
     more impressive if the data agreed with us on more of them."
@@ -20,10 +34,7 @@ featuredDescription:
   than intuition."
 featuredOrder: 2
 group: "technical"
-image: "/images/homepage_social.jpg"
-imageAlt: "WhatChord: Identify chords. Understand harmony."
 indexOrder: 9
-pageTitle: "We Can Measure Exactly How Wrong We Are | WhatChord"
 related:
   - "million-chord-annotations"
   - "benchmarking-on-hardware-you-dont-control"
@@ -367,21 +378,3 @@ the premise, add a better corpus, or show that a once-useless mechanism now has
 a job. Until then, we know more than "it felt wrong."
 
 We know exactly how wrong we were. Within a 95% confidence interval.
-
-<div class="article-cta">
-  <h3>Inspect the evidence, including the inconvenient parts.</h3>
-  <p>
-    The open research archive contains the protocols, dated experiment
-    logs, frozen data splits, reproduction instructions, corrections, and
-    results behind these decisions.
-  </p>
-  <a
-    class="btn btn-primary btn-external"
-    href="https://github.com/EarthmanMuons/whatchord/tree/main/research"
-    >Explore the research archive</a
-  >
-  <p class="cta-secondary">
-    Curious what survived?
-    <a href="/try">Try identifying chords in your browser →</a>
-  </p>
-</div>
