@@ -1583,6 +1583,102 @@ a.heading-anchor svg {
   color: var(--text-3);
 }
 
+/* ─── Segmenter state diagram ────────────────────────────────── */
+
+.segmenter-state-diagram {
+  margin: 30px 0;
+  color: var(--text-2);
+  text-align: center;
+}
+
+.state-priority-rule {
+  max-width: 650px;
+  padding: 10px 16px;
+  margin: 0 auto 12px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: rgb(77 136 212 / 10%);
+  border: 1px solid rgb(77 136 212 / 34%);
+  border-radius: var(--r);
+}
+
+.state-diagram-scroll {
+  overflow-x: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--r-lg);
+}
+
+.state-diagram-scroll:focus-visible {
+  outline: 3px solid var(--accent-light);
+  outline-offset: 2px;
+}
+
+.state-diagram-scroll svg {
+  display: block;
+  width: 100%;
+  min-width: 720px;
+  height: auto;
+}
+
+.segmenter-state-diagram .state-node {
+  fill: #14141d;
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+}
+
+.segmenter-state-diagram .state-node-title {
+  font-size: 15px;
+  font-weight: 700;
+  text-anchor: middle;
+  fill: var(--text);
+}
+
+.segmenter-state-diagram .state-node-subtitle {
+  font-size: 12px;
+  text-anchor: middle;
+  fill: currentcolor;
+}
+
+.segmenter-state-diagram .state-transition {
+  fill: none;
+  stroke: var(--text-3);
+  stroke-width: 1.5;
+}
+
+.segmenter-state-diagram .state-transition-emphasis {
+  stroke: var(--accent-light);
+  stroke-width: 2;
+}
+
+.segmenter-state-diagram .state-arrowhead {
+  fill: var(--text-3);
+}
+
+.segmenter-state-diagram .state-transition-label,
+.segmenter-state-diagram .state-transition-action {
+  text-anchor: middle;
+  fill: currentcolor;
+}
+
+.segmenter-state-diagram .state-transition-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.segmenter-state-diagram .state-transition-action {
+  font-size: 11px;
+}
+
+.segmenter-state-diagram figcaption {
+  max-width: 650px;
+  margin: 10px auto 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
 /* ─── Key-profile chart ──────────────────────────────────────── */
 
 .key-profile-chart {
@@ -1958,9 +2054,56 @@ a.heading-anchor svg {
 
   .article-page .symbol-parts,
   .article-page .pipeline-flow,
+  .article-page .segmenter-state-diagram,
   .article-page .key-profile-chart,
   .article-page .member-stack-scroll {
     break-inside: avoid;
+  }
+
+  .article-page .state-priority-rule {
+    color: #111;
+    background: #f5f7fa;
+    border-color: #aaa;
+    border-radius: 0;
+  }
+
+  .article-page .state-diagram-scroll {
+    overflow: visible;
+    background: #fff;
+    border-color: #aaa;
+    border-radius: 0;
+  }
+
+  .article-page .state-diagram-scroll svg {
+    min-width: 0;
+  }
+
+  .article-page .segmenter-state-diagram .state-node {
+    fill: #fff;
+    stroke: #777;
+  }
+
+  .article-page .segmenter-state-diagram .state-node-title {
+    fill: #111;
+  }
+
+  .article-page .segmenter-state-diagram .state-node-subtitle,
+  .article-page .segmenter-state-diagram .state-transition-label,
+  .article-page .segmenter-state-diagram .state-transition-action {
+    fill: #333;
+  }
+
+  .article-page .segmenter-state-diagram .state-transition,
+  .article-page .segmenter-state-diagram .state-transition-emphasis {
+    stroke: #555;
+  }
+
+  .article-page .segmenter-state-diagram .state-arrowhead {
+    fill: #555;
+  }
+
+  .article-page .segmenter-state-diagram figcaption {
+    color: #333;
   }
 
   .article-page .key-profile-chart {
