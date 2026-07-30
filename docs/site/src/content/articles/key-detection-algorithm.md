@@ -53,7 +53,7 @@ It is a good algorithm and about fifty lines of code. For answering "what key is
 this song in" after the song has finished, it works well enough that several
 standard implementations ship it.
 
-Three constraints make it insufficient on its own.
+Three constraints make it insufficient on its own for our use case.
 
 **The answer has to arrive while the music is still happening.** Our detector
 sees the past and only the past. It cannot read ahead to the musical resolution
@@ -238,17 +238,9 @@ keep ordinary movement, especially blues, from looking like a key change.
 The observation side asks a narrower question: how well does what we have
 recently heard match each of the 24 keys?
 
-Each key has a **profile**, a 12-number template describing how strongly each
-pitch class supports that key relative to its proposed home note. This engine
-uses profiles derived from a large collection of written music and published by
-[Albrecht and Shanahan (2013)](https://online.ucpress.edu/mp/article-abstract/31/1/59/62597/The-Use-of-Large-Corpora-to-Train-a-New-Type-of).
-Scoring aligns the recent pitch-class histogram with each possible home note in
-both major and minor, then takes the
-[Pearson correlation](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient),
-a standard measure of how closely two numerical patterns share the same shape.
-That gives 24 raw scores.
-
-Two things shape that histogram before it is scored.
+The detector first turns the recent music into a 12-number pitch-class
+histogram. Each position collects how much of one pitch class has sounded
+recently. Two things shape that histogram.
 
 **Duration weighting.** Each event is weighted by how long it was held, giving
 sustained harmonies more influence than passing chords.
@@ -265,6 +257,118 @@ Neither is more accurate in the abstract. Each is right about a different
 question, and which one you want is a design decision rather than a correctness
 one. The app ships a four-second half-life by default and exposes the choice as
 a setting.
+
+For scoring, each key supplies a **profile**: a 12-number reference template
+describing how strongly each pitch class supports that key relative to its
+proposed home note. This engine uses profiles derived from a large collection of
+written music and published by
+[Albrecht and Shanahan (2013)](https://online.ucpress.edu/mp/article-abstract/31/1/59/62597/The-Use-of-Large-Corpora-to-Train-a-New-Type-of).
+
+<!-- prettier-ignore -->
+<figure class="key-profile-chart">
+  <svg
+    viewBox="0 0 680 420"
+    role="img"
+    aria-labelledby="profile-chart-title profile-chart-desc"
+  >
+    <title id="profile-chart-title">
+      Albrecht and Shanahan pitch-class profiles for C major and C minor
+    </title>
+    <desc id="profile-chart-desc">
+      Two aligned bar charts compare the relative weight of all twelve pitch
+      classes. Both profiles give the greatest weight to C and G. The major
+      profile also emphasizes E, while the minor profile emphasizes E-flat.
+    </desc>
+    <text class="profile-axis-title" transform="translate(18 208) rotate(-90)">
+      Relative profile weight
+    </text>
+    <text class="profile-title" x="60" y="38">C major profile</text>
+    <text class="profile-title" x="60" y="238">C minor profile</text>
+    <g class="profile-grid">
+      <path d="M60 98 H660 M60 138 H660" />
+      <path d="M60 278 H660 M60 318 H660" />
+    </g>
+    <g class="profile-baseline">
+      <path d="M60 178 H660 M60 358 H660" />
+    </g>
+    <g class="profile-tick-labels">
+      <text x="50" y="102">.2</text>
+      <text x="50" y="142">.1</text>
+      <text x="50" y="282">.2</text>
+      <text x="50" y="322">.1</text>
+    </g>
+    <!-- Albrecht-Shanahan major profile, scaled at 400 SVG units per weight. -->
+    <g class="profile-bars">
+      <rect x="69"  y="82.8"  width="28" height="95.2" rx="3" />
+      <rect x="119" y="175.6" width="28" height="2.4"  rx="1.2" />
+      <rect x="169" y="133.6" width="28" height="44.4" rx="3" />
+      <rect x="219" y="175.6" width="28" height="2.4"  rx="1.2" />
+      <rect x="269" y="123.2" width="28" height="54.8" rx="3" />
+      <rect x="319" y="140.4" width="28" height="37.6" rx="3" />
+      <rect x="369" y="171.6" width="28" height="6.4"  rx="2" />
+      <rect x="419" y="92.4"  width="28" height="85.6" rx="3" />
+      <rect x="469" y="174.4" width="28" height="3.6"  rx="1.8" />
+      <rect x="519" y="146"   width="28" height="32"   rx="3" />
+      <rect x="569" y="174.8" width="28" height="3.2"  rx="1.6" />
+      <rect x="619" y="145.6" width="28" height="32.4" rx="3" />
+    </g>
+    <g class="profile-note-labels">
+      <text class="profile-tonic-label" x="83"  y="204">C</text>
+      <text x="133" y="204">C♯</text>
+      <text x="183" y="204">D</text>
+      <text x="233" y="204">D♯</text>
+      <text x="283" y="204">E</text>
+      <text x="333" y="204">F</text>
+      <text x="383" y="204">F♯</text>
+      <text x="433" y="204">G</text>
+      <text x="483" y="204">G♯</text>
+      <text x="533" y="204">A</text>
+      <text x="583" y="204">A♯</text>
+      <text x="633" y="204">B</text>
+    </g>
+    <!-- Albrecht-Shanahan minor profile on the same scale. -->
+    <g class="profile-bars">
+      <rect x="69"  y="270"   width="28" height="88"   rx="3" />
+      <rect x="119" y="355.6" width="28" height="2.4"  rx="1.2" />
+      <rect x="169" y="316.4" width="28" height="41.6" rx="3" />
+      <rect x="219" y="308.8" width="28" height="49.2" rx="3" />
+      <rect x="269" y="350.4" width="28" height="7.6"  rx="2" />
+      <rect x="319" y="316.8" width="28" height="41.2" rx="3" />
+      <rect x="369" y="353.2" width="28" height="4.8"  rx="2" />
+      <rect x="419" y="272.4" width="28" height="85.6" rx="3" />
+      <rect x="469" y="333.2" width="28" height="24.8" rx="3" />
+      <rect x="519" y="349.2" width="28" height="8.8"  rx="2" />
+      <rect x="569" y="333.6" width="28" height="24.4" rx="3" />
+      <rect x="619" y="337.2" width="28" height="20.8" rx="3" />
+    </g>
+    <g class="profile-note-labels">
+      <text class="profile-tonic-label" x="83"  y="388">C</text>
+      <text x="133" y="388">D♭</text>
+      <text x="183" y="388">D</text>
+      <text x="233" y="388">E♭</text>
+      <text x="283" y="388">E</text>
+      <text x="333" y="388">F</text>
+      <text x="383" y="388">G♭</text>
+      <text x="433" y="388">G</text>
+      <text x="483" y="388">A♭</text>
+      <text x="533" y="388">A</text>
+      <text x="583" y="388">B♭</text>
+      <text x="633" y="388">B</text>
+    </g>
+  </svg>
+  <figcaption>
+    Albrecht and Shanahan’s published profiles with C as the proposed home
+    note. The detector rotates these two shapes to all twelve possible home
+    notes, producing the 24 profiles it compares with the recent music. Bar
+    height shows relative profile weight, not the detector’s confidence.
+  </figcaption>
+</figure>
+
+Scoring aligns the recent pitch-class histogram with each possible home note in
+both major and minor, then takes the
+[Pearson correlation](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient),
+a standard measure of how closely two numerical patterns share the same shape.
+That gives 24 raw scores.
 
 ### Turning scores into a distribution
 
@@ -310,10 +414,7 @@ emission[minorK] = minor * rescale;</code></pre>
 
 Because the pair sum is conserved, the rule can decide between C major and C
 minor but is structurally incapable of shifting support toward G major or any
-other home note. Broader rules that try to interpret a chord's role in a
-progression can move evidence toward many possible keys; they are not part of
-the shipped configuration. This rule earns its place precisely because it cannot
-reach past the two keys it is choosing between.
+other home note.
 
 ## Observe
 

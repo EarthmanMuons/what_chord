@@ -1583,6 +1583,83 @@ a.heading-anchor svg {
   color: var(--text-3);
 }
 
+/* ─── Key-profile chart ──────────────────────────────────────── */
+
+.key-profile-chart {
+  margin: 30px 0;
+  color: var(--text-2);
+  text-align: center;
+}
+
+.key-profile-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--r-lg);
+}
+
+.key-profile-chart .profile-title {
+  font-size: 20px;
+  font-weight: 700;
+  text-anchor: start;
+  fill: var(--text);
+}
+
+.key-profile-chart .profile-axis-title,
+.key-profile-chart .profile-tick-labels,
+.key-profile-chart .profile-note-labels {
+  font-size: 13px;
+  fill: currentcolor;
+}
+
+.key-profile-chart .profile-axis-title {
+  text-anchor: middle;
+}
+
+.key-profile-chart .profile-tick-labels {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-anchor: end;
+}
+
+.key-profile-chart .profile-note-labels {
+  text-anchor: middle;
+}
+
+.key-profile-chart .profile-tonic-label {
+  font-weight: 700;
+  fill: var(--accent-light);
+}
+
+.key-profile-chart .profile-grid {
+  fill: none;
+  stroke: currentcolor;
+  stroke-opacity: 0.16;
+  stroke-width: 1;
+}
+
+.key-profile-chart .profile-baseline {
+  fill: none;
+  stroke: currentcolor;
+  stroke-opacity: 0.32;
+  stroke-width: 1;
+}
+
+.key-profile-chart .profile-bars {
+  fill: var(--accent-light);
+  fill-opacity: 0.88;
+}
+
+.key-profile-chart figcaption {
+  max-width: 650px;
+  margin: 10px auto 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
 /* ─── Bit-field table ─────────────────────────────────────────── */
 
 .bit-field {
@@ -1881,8 +1958,35 @@ a.heading-anchor svg {
 
   .article-page .symbol-parts,
   .article-page .pipeline-flow,
+  .article-page .key-profile-chart,
   .article-page .member-stack-scroll {
     break-inside: avoid;
+  }
+
+  .article-page .key-profile-chart {
+    color: #444;
+  }
+
+  .article-page .key-profile-chart svg {
+    background: #fff;
+    border-color: #aaa;
+    border-radius: 0;
+  }
+
+  .article-page .key-profile-chart .profile-title {
+    fill: #111;
+  }
+
+  .article-page .key-profile-chart .profile-bars {
+    fill: #416da8;
+  }
+
+  .article-page .key-profile-chart .profile-tonic-label {
+    fill: #24548f;
+  }
+
+  .article-page .key-profile-chart figcaption {
+    color: #333;
   }
 
   .article-page .symbol-part,
