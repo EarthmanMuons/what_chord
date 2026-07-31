@@ -79,6 +79,46 @@ The fifths-window approach works best once enough context exists to surmise the
 key, which ties it to the temporal-context initiative: the rolling pitch window
 is itself a lightweight temporal structure, independent of chord boundaries.
 
+## Follow-up: soft width bound, not minimization (Hex, 2026-07-31)
+
+A second conversation, after Track B closed in
+`log/2026-07-20-17-track-b-residual-decomposed.md`, revised the heuristic above.
+Recorded because a reader of that section alone would implement strict
+minimization.
+
+- The objective is not "keep the window as small as possible." The revised
+  formulation is a soft ceiling: the spelled set should not usually exceed about
+  17 fifths.
+- The ceiling has to sit above 12. At or below the diesis, two spellings of the
+  same pitch class cannot both appear in the window, so a passage that genuinely
+  wants F double sharp and G natural as distinct functional entities is
+  unreachable by construction. The 12-fifth bound noted above is therefore a
+  property every output satisfies, not evidence that an output is correct: it is
+  satisfiable by the wrong spelling.
+- Declared scope: standard tonal vocabulary and the chromaticism around it.
+  Where composers write for enharmonic or 12-tone equal-tempered symmetry there
+  is no derivable best spelling and the notation is conventional, so that
+  material is not a fair test of the method.
+
+Worked stress case, G sharp minor and its dominant, positions on the line of
+fifths with C at 0:
+
+- `D# F## A# C#` spans 7 to 13, width 6.
+- `D# G A# C#` spans 1 to 10, width 9.
+
+Minimization picks the correct spelling here, and ties at 9 either way on the
+full G sharp harmonic minor collection. An earlier reading that had minimization
+preferring G natural was measuring distance from C rather than from the window's
+actual center up in the sharps.
+
+App-side, `spellPitchClass` derives each chord tone's letter from its degree
+above the chord root and computes the accidental needed to reach the pitch
+class, allowing up to double accidentals, so `D#7` already spells `D# F## A# C#`
+with no fifths reasoning involved. Non-chord tones have no root to work from and
+fall through to the key-based speller, which is where this class of problem
+would actually bite, and which is the same population the chromatic-line rules
+target.
+
 ## Voice-leading direction
 
 A smaller detail: temporal direction can inform isolated-note spelling, sharps
