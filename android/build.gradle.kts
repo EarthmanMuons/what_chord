@@ -15,6 +15,19 @@ subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
+
+subprojects {
+    if (name == "flutter_pcm_sound") {
+        afterEvaluate {
+            extensions.configure<com.android.build.api.dsl.LibraryExtension> {
+                // flutter_pcm_sound 3.3.3 hard-codes API 33, but its resolved
+                // AndroidX dependencies require API 34 or newer.
+                compileSdk = 36
+            }
+        }
+    }
+}
+
 subprojects {
     project.evaluationDependsOn(":app")
 }
