@@ -39,9 +39,9 @@
   --border-mid: rgb(255 255 255 / 11%);
   --border-strong: rgb(255 255 255 / 18%);
   --text: #eaeaf2;
-  --text-2: #9494ae;
-  --text-3: #4e4e65;
-  --accent: #4080ff;
+  --text-2: #a3a3bb;
+  --text-3: #6a6a85;
+  --accent: #3269e0;
   --accent-light: #7aaaff;
   --accent-bg: rgb(64 128 255 / 9%);
   --accent-border: rgb(64 128 255 / 28%);
@@ -287,7 +287,7 @@ img {
 }
 
 .btn-primary:hover {
-  background: #5592ff;
+  background: #2c5fd4;
 }
 
 .btn-ghost {
@@ -1580,7 +1580,7 @@ a.heading-anchor svg {
   align-items: center;
   height: 22px;
   font-size: 1rem;
-  color: var(--text-3);
+  color: var(--text-2);
 }
 
 /* ─── Segmenter state diagram ────────────────────────────────── */
@@ -2029,6 +2029,7 @@ a.heading-anchor svg {
   .article-page .fn,
   .article-page .pf-endpoint,
   .article-page .symbol-part-label,
+  .article-page .symbol-part-join,
   .article-page .symbol-part-opt,
   .article-page .article-table-note,
   .article-page .article-body code.not-used,
@@ -2353,6 +2354,14 @@ a.heading-anchor svg {
     margin-bottom: 18pt;
     font-size: 11pt;
     line-height: 1.45;
+    color: #333;
+  }
+
+  .articles-index-page .article-group-sub {
+    max-width: none;
+    margin: 0 0 10pt;
+    font-size: 10.5pt;
+    line-height: 1.4;
     color: #333;
   }
 

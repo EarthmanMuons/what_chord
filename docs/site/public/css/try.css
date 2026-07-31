@@ -129,7 +129,7 @@
 }
 
 #notes-input::placeholder {
-  color: var(--text-3);
+  color: #7a7a97;
 }
 
 .try-hint {
@@ -521,7 +521,7 @@ select.try-select:focus {
   }
 
   .try-cost::before {
-    color: var(--text-3);
+    color: var(--text-2);
     content: "Cost ";
   }
 
