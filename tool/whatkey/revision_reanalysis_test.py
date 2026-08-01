@@ -102,6 +102,33 @@ class RevisionReanalysisTest(unittest.TestCase):
         self.assertAlmostEqual(effects["interaction"]["mean"], 0.1)
         self.assertAlmostEqual(effects["paperMinusReflexPackage"]["mean"], 0.1)
 
+    def test_factorial_confidence_guard_accepts_disabled_evidence(self) -> None:
+        config = (
+            "selfTransition=0.9 fifthsDecay=0.5 modeSwitchFactor=0.5 "
+            "emissionTemperature=0.25 minEvents=3 marginFloor=0.3 "
+            "modeTilt=2.0 relativeTilt=0.0 relativeCadenceTilt=0.0 "
+            "relativeEvidenceTilt=0.0 relativeEvidenceWindow=1 "
+            "cadenceBoost=0.0 cadenceTriadBoost=0.0 cadenceMarginFactor=1.0 "
+            "coldStartTonicPrior=0.0 relativeSwitchFactor=1.0 "
+            "functionalBlend=0.0 progressionBlend=0.0 "
+            "profiles=albrechtShanahan durationWeighted=true "
+            "decayHalfLifeMs=1000 | evidence: disabled"
+        )
+        command = "dart run harness.dart --confidence-weighting off"
+        self.assertEqual(
+            subject.factorial_configuration_mismatches(config, command, 1, "0"),
+            [],
+        )
+        self.assertEqual(
+            subject.factorial_configuration_mismatches(
+                config,
+                "dart run harness.dart --confidence-weighting on",
+                1,
+                "0",
+            ),
+            ["--confidence-weighting off"],
+        )
+
     def test_fixture_loader_checks_manifest_and_fixture_hashes(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             directory = Path(temporary)

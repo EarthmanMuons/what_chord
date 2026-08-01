@@ -985,6 +985,50 @@ def analysis_r3(args: argparse.Namespace) -> dict[str, Any]:
     }
 
 
+def factorial_configuration_mismatches(
+    config: str,
+    command: str,
+    half_life: int,
+    functional: str,
+) -> list[str]:
+    """Return settings that do not match the predeclared R4 cell."""
+    expected_fragments = (
+        "selfTransition=0.9",
+        "fifthsDecay=0.5",
+        "modeSwitchFactor=0.5",
+        "emissionTemperature=0.25",
+        "minEvents=3",
+        "marginFloor=0.3",
+        "modeTilt=2.0",
+        "relativeTilt=0.0",
+        "relativeCadenceTilt=0.0",
+        "relativeEvidenceTilt=0.0",
+        "relativeEvidenceWindow=1",
+        "cadenceBoost=0.0",
+        "cadenceTriadBoost=0.0",
+        "cadenceMarginFactor=1.0",
+        "coldStartTonicPrior=0.0",
+        "relativeSwitchFactor=1.0",
+        f"functionalBlend={float(functional):.1f}",
+        "progressionBlend=0.0",
+        "profiles=albrechtShanahan",
+        "durationWeighted=true",
+        f"decayHalfLifeMs={half_life * 1000}",
+    )
+    missing = [fragment for fragment in expected_fragments if fragment not in config]
+
+    try:
+        command_tokens = shlex.split(command)
+    except ValueError:
+        command_tokens = []
+    if not any(
+        command_tokens[index : index + 2] == ["--confidence-weighting", "off"]
+        for index in range(len(command_tokens) - 1)
+    ):
+        missing.append("--confidence-weighting off")
+    return missing
+
+
 def load_factorial_run(
     run_root: Path,
     corpus: str,
@@ -1009,32 +1053,12 @@ def load_factorial_run(
         raise AnalysisError(f"Factorial run is not development-only: {report_path}")
     if report["detector"] != run.detector:
         raise AnalysisError(f"Claims/report detector mismatch: {directory}")
-    config = report["detector"]["configuration"]
-    expected_fragments = (
-        "selfTransition=0.9",
-        "fifthsDecay=0.5",
-        "modeSwitchFactor=0.5",
-        "emissionTemperature=0.25",
-        "minEvents=3",
-        "marginFloor=0.3",
-        "modeTilt=2.0",
-        "relativeTilt=0.0",
-        "relativeCadenceTilt=0.0",
-        "relativeEvidenceTilt=0.0",
-        "relativeEvidenceWindow=1",
-        "cadenceBoost=0.0",
-        "cadenceTriadBoost=0.0",
-        "cadenceMarginFactor=1.0",
-        "coldStartTonicPrior=0.0",
-        "relativeSwitchFactor=1.0",
-        f"functionalBlend={float(functional):.1f}",
-        "progressionBlend=0.0",
-        "profiles=albrechtShanahan",
-        "durationWeighted=true",
-        f"decayHalfLifeMs={half_life * 1000}",
-        "confidenceWeighted=false",
+    missing = factorial_configuration_mismatches(
+        report["detector"]["configuration"],
+        report["command"],
+        half_life,
+        functional,
     )
-    missing = [fragment for fragment in expected_fragments if fragment not in config]
     if missing:
         raise AnalysisError(
             f"Factorial configuration mismatch in {report_path}: {missing}"
