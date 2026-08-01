@@ -1,17 +1,26 @@
 /* WhatChord site — shared styles */
 
 /* Self-hosted chord-symbol glyphs (accidentals, Delta, degree, half-diminished,
-   minus/plus quality marks). Only these ~11 codepoints live in the font; every
+   minus/plus quality marks). Only these 11 codepoints live in the font; every
    other character falls through to the next family. Prepended to both --font and
    --mono so the glyphs render everywhere. They carry their own proportional
    width, so within monospace code grids the few affected columns are not strictly
-   cell-aligned. */
+   cell-aligned.
+
+   unicode-range must list exactly those 11 codepoints. Without it, mobile
+   WebKit still consults this font when measuring plain Latin runs and lands on
+   an advance width far narrower than what it paints, which shifts every
+   text-anchor="middle" SVG label right of its anchor by about a third of the
+   label width. It also keeps pages with no chord symbols from fetching the
+   font at all. */
 @font-face {
   font-family: "WhatChord Symbols";
   font-style: normal;
   font-weight: 400;
   src: url("../fonts/WhatChordSymbols-Regular.woff2") format("woff2");
   font-display: swap;
+  unicode-range: U+2B, U+B0, U+F8, U+394, U+2212, U+266D-266F, U+1D11E,
+    U+1D12A-1D12B;
 }
 
 @font-face {
@@ -20,6 +29,8 @@
   font-weight: 700;
   src: url("../fonts/WhatChordSymbols-Bold.woff2") format("woff2");
   font-display: swap;
+  unicode-range: U+2B, U+B0, U+F8, U+394, U+2212, U+266D-266F, U+1D11E,
+    U+1D12A-1D12B;
 }
 
 *,
