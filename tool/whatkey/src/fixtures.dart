@@ -189,25 +189,63 @@ class KeyLabel {
   }
 }
 
-/// Externally produced key claims (see tool/whatkey/external_baseline.py):
-/// one global key per fixture, scored as a constant claim on every event so
-/// offline, non-abstaining baselines run through the same metrics as our
-/// detectors.
+/// Previously produced key claims, either one global key per fixture (see
+/// tool/whatkey/external_baseline.py) or the per-event artifact emitted by the
+/// harness itself.
 class ClaimsFile {
   final Map<String, dynamic> detector;
   final Map<String, String> _globalByFixtureId;
+  final Map<String, List<String?>> _eventsByFixtureId;
 
-  ClaimsFile._(this.detector, this._globalByFixtureId);
+  ClaimsFile._(this.detector, this._globalByFixtureId, this._eventsByFixtureId);
 
   static ClaimsFile load(File file) {
     final raw = jsonDecode(file.readAsStringSync()) as Map<String, dynamic>;
-    return ClaimsFile._((raw['detector'] as Map).cast<String, dynamic>(), {
-      for (final entry in (raw['claims'] as Map).entries)
-        entry.key as String: (entry.value as Map)['global'] as String,
-    });
+    final globalByFixtureId = <String, String>{};
+    final eventsByFixtureId = <String, List<String?>>{};
+    for (final entry in (raw['claims'] as Map).entries) {
+      final fixtureId = entry.key as String;
+      final claim = entry.value as Map;
+      if (claim['global'] case final String global) {
+        globalByFixtureId[fixtureId] = global;
+      } else if (claim['events'] case final List events) {
+        eventsByFixtureId[fixtureId] = events.cast<String?>();
+      } else {
+        throw FormatException(
+          'Claims file has neither global nor event claims for $fixtureId',
+        );
+      }
+    }
+    return ClaimsFile._(
+      (raw['detector'] as Map).cast<String, dynamic>(),
+      globalByFixtureId,
+      eventsByFixtureId,
+    );
   }
 
   List<KeyEstimateFrame> framesFor(LabeledFixture fixture) {
+    final eventClaims = _eventsByFixtureId[fixture.id];
+    if (eventClaims != null) {
+      if (eventClaims.length != fixture.events.length) {
+        throw StateError(
+          'Claims file has ${eventClaims.length} event claims for '
+          '${fixture.id}, expected ${fixture.events.length}',
+        );
+      }
+      return [
+        for (final wire in eventClaims)
+          if (wire == null)
+            const KeyEstimateFrame.abstain([])
+          else
+            (() {
+              final estimate = KeyEstimate(
+                tonality: parseTonality(wire),
+                confidence: 1,
+              );
+              return KeyEstimateFrame(ranked: [estimate], claim: estimate);
+            })(),
+      ];
+    }
     final wire = _globalByFixtureId[fixture.id];
     if (wire == null) {
       throw StateError('Claims file has no claim for ${fixture.id}');

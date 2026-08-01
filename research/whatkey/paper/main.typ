@@ -222,7 +222,11 @@ when the detector claims the new key before the next change, and its *lag* is
 counted in events; unmatched changes are reported as censored counts, never
 averaged into lag. A switch between claims is *spurious* only when the
 annotation did not change and the new claim is not the annotated key, so a
-lagged catch-up onto the right key is never penalized twice.
+lagged catch-up onto the right key is never penalized twice. Its per-piece
+distribution includes only pieces with at least one exact local-key reference;
+raw switches and time to first claim remain behavioral summaries over every
+piece. Annotated changes require adjacent non-null references, so null-reference
+regions enter neither the matched-change count nor the lag denominator.
 *Time-to-first-claim* counts events before the detector first commits. These
 counts are long-tailed, so each is summarized by the per-piece median and 90th
 percentile (p90) rather than a mean. Ambiguity-labeled events (hand-authored
@@ -716,9 +720,9 @@ chords and the functional rules of @sec-model, both of which could fight
 modulation tracking. Strength 2 was selected after a 0.25-to-4 sweep with a
 broad 2-to-4 plateau: paired exact wins in both development regimes (Isophonics
 +0.016, p = 0.030; When in Rome +0.030, p = 0.029), parallel confusion roughly
-halved everywhere measured (4% to 2% of claims on Isophonics), while coverage
-and the tracked change/switch summaries were flat or improved across the
-development sweeps.
+halved everywhere measured (4% to 2% of claims on Isophonics). Across the
+Isophonics sweep, coverage varied within 1.2 percentage points, spurious p90
+remained 1, and matched annotated changes rose from 82 to 102 of 192.
 
 *Relative pairs (measured negative).* The same pattern generalizes with the key
 signature as the conserved quantity. But here the evidence is structurally
@@ -758,9 +762,9 @@ dwell-time family. Before building one we measured whether the system even
 responds to the parameter an HSMM would refine: sweeping the self-transition
 from 0.7 to 0.98 (mean dwell roughly 3 to 50 events) moves every metric along
 the coverage-accuracy curve rather than off it (Isophonics exact within 0.008,
-spurious p90 pinned at 1). The probe does not prove explicit-duration modeling
-useless for key estimation; it shows there is little headroom at the selected
-long-memory Isophonics operating point.
+spurious p90 1 through 0.95 and 2 at 0.98). The probe does not prove explicit-
+duration modeling useless for key estimation; it shows there is little headroom
+at the selected long-memory Isophonics operating point.
 
 *Bayesian online changepoint detection, built and measured.* The dwell probe
 addresses the changepoint prior (constant-hazard BOCPD implies the same

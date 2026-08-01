@@ -86,6 +86,44 @@ class RevisionReanalysisTest(unittest.TestCase):
         self.assertEqual(subject.time_to_first_claim(claims), 1)
         self.assertEqual(subject.claim_switches(claims), 1)
 
+    def test_temporal_summary_excludes_unscorable_piece_from_spurious_only(
+        self,
+    ) -> None:
+        rows = [
+            {
+                "title": "scorable",
+                "switches": 3,
+                "spuriousSwitches": 2,
+                "annotatedChanges": 1,
+                "modulationLags": [2],
+                "censoredModulations": 0,
+            },
+            {
+                "title": "modal",
+                "switches": 8,
+                "spuriousSwitches": 0,
+                "annotatedChanges": 0,
+                "modulationLags": [],
+                "censoredModulations": 0,
+            },
+        ]
+
+        summary = subject.temporal_report_summary(rows, {"scorable"})
+
+        self.assertEqual(summary["rawSwitchesAllPieces"]["n"], 2)
+        self.assertEqual(
+            summary["spuriousSwitchesAllPieceReconstruction"],
+            {"n": 2, "median": 0, "p90": 2},
+        )
+        self.assertEqual(
+            summary["spuriousSwitchesCorrected"],
+            {"n": 1, "median": 2, "p90": 2},
+        )
+        self.assertEqual(
+            summary["modulationAllPieces"],
+            summary["modulationReferenceScorablePieces"],
+        )
+
     def test_factorial_effect_has_declared_direction(self) -> None:
         def piece(correct: int) -> subject.PieceScore:
             return subject.PieceScore("piece", 10, 10, correct)

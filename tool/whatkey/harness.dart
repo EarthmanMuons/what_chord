@@ -30,9 +30,10 @@
 //     [--claims-file <claims.json>] [--restrict-to <claims.json>] \
 //     [--sweep-margin-floors 0,0.02,0.05,...]
 //
-// With --claims-file (see tool/whatkey/external_baseline.py), detector flags
-// are ignored and the externally produced global claims are scored as a
-// constant claim per event through the same metrics.
+// With --claims-file, detector flags are ignored. Externally produced global
+// claims (see tool/whatkey/external_baseline.py) are scored as a constant claim
+// per event; a harness-produced per-event artifact replays its claim/abstention
+// stream through the same metrics.
 //
 // --restrict-to takes the claims.json artifact of a previous run and computes
 // coverage/accuracy over only the events that run claimed on (matched-coverage
