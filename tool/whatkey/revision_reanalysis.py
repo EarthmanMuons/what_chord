@@ -318,6 +318,7 @@ def score_piece(
     eligible: list[bool],
     truth: list[str | int | None],
     transform_claim=lambda claim: claim,
+    transform_reference=lambda reference: reference,
 ) -> PieceScore | None:
     if not (len(fixture.events) == len(claims) == len(eligible) == len(truth)):
         raise AnalysisError(f"Event vector length mismatch: {fixture.id}")
@@ -330,7 +331,7 @@ def score_piece(
         if not use or claim is None:
             continue
         claimed += 1
-        correct += transform_claim(claim) == reference
+        correct += transform_claim(claim) == transform_reference(reference)
     return PieceScore(fixture.title, eligible_count, claimed, correct)
 
 
@@ -428,6 +429,8 @@ def analysis_r1(args: argparse.Namespace) -> dict[str, Any]:
                 run.claims[fixture_id],
                 scorable_mask(fixture),
                 local_truth(fixture),
+                transform_claim=parse_key,
+                transform_reference=parse_key,
             )
             if score is not None:
                 scores[fixture.title] = score
@@ -565,6 +568,8 @@ def analysis_r2(args: argparse.Namespace) -> dict[str, Any]:
                     run.claims[fixture_id],
                     masks[fixture_id],
                     local_truth(fixture),
+                    transform_claim=parse_key,
+                    transform_reference=parse_key,
                 )
                 if score is not None:
                     scores[fixture.title] = score
@@ -617,6 +622,8 @@ def analysis_r2(args: argparse.Namespace) -> dict[str, Any]:
                     run.claims[fixture_id],
                     common_mask,
                     local_truth(fixture),
+                    transform_claim=parse_key,
+                    transform_reference=parse_key,
                 )
                 if score is not None:
                     common_scores[name][fixture.title] = score
@@ -1159,6 +1166,8 @@ def analysis_r4(args: argparse.Namespace) -> dict[str, Any]:
                         run.claims[fixture_id],
                         scorable_mask(fixture),
                         local_truth(fixture),
+                        transform_claim=parse_key,
+                        transform_reference=parse_key,
                     )
                     if score is not None:
                         scores[fixture.title] = score

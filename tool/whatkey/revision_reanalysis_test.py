@@ -67,6 +67,20 @@ class RevisionReanalysisTest(unittest.TestCase):
         self.assertEqual(score.coverage, 0.5)
         self.assertEqual(score.accuracy, 1.0)
 
+    def test_exact_key_scoring_canonicalizes_enharmonic_spelling(self) -> None:
+        fixture = subject.Fixture("set/piece", "piece", [event("Eb:min", 1)])
+        score = subject.score_piece(
+            fixture,
+            ["D#:min"],
+            [True],
+            subject.local_truth(fixture),
+            transform_claim=subject.parse_key,
+            transform_reference=subject.parse_key,
+        )
+        self.assertIsNotNone(score)
+        assert score is not None
+        self.assertEqual(score.correct, 1)
+
     def test_abstentions_do_not_break_switch_continuity(self) -> None:
         claims = [None, "C:maj", None, "C:maj", "G:maj", None, "G:maj"]
         self.assertEqual(subject.time_to_first_claim(claims), 1)
