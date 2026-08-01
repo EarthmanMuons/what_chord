@@ -236,3 +236,20 @@ When in Rome, RomanText, ASAP) is cited with links in the
   added to the harness reports for probability-distribution detectors. This is a
   reporting diagnostic only: no detector parameters, splits, adoption rules, or
   existing accuracy/stability metrics change.
+- **2026-08-01** (log entry 2026-08-01-01-revision-reanalysis-predeclaration):
+  four bounded, post-submission analyses were declared after the TISMIR
+  editorial assessment. Archived v2026.7.14 results and held-out claims remain
+  immutable, and no detector is selected or retuned from these results. For
+  Isophonics, accuracy and coverage are paired on the same scorable event set:
+  events whose reference `localKey` belongs to the 24-state major/minor
+  ontology. Out-of-ontology modal and no-key events remain in separate
+  behavioral counts rather than being treated as correct abstentions or silently
+  removed from the corpus record. A post-hoc reanalysis of the corrected
+  ASAP/When-in-Rome overlap uses the already inspected segment thresholds,
+  reports piece-level results and coverage, and adds a common-claim sensitivity
+  view. A second descriptive view maps both analyst keys and notated key
+  signatures to the same 12 diatonic-collection classes on those performances;
+  it tests reference-construct sensitivity, not annotation granularity in
+  isolation. Finally, a development-only 2 x 2 grid crosses the already used
+  1/30-second evidence memories with functional blend 0/0.1 on When in Rome and
+  Isophonics. No new held-out detector run is allowed.
