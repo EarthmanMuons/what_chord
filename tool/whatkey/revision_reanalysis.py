@@ -13,6 +13,7 @@ import argparse
 import bisect
 import hashlib
 import json
+import math
 import random
 import shlex
 import subprocess
@@ -282,6 +283,22 @@ def validate_claims(run: ClaimRun, fixtures: dict[str, Fixture]) -> None:
 
 def mean_or_none(values: list[float]) -> float | None:
     return fmean(values) if values else None
+
+
+def nearest_rank_distribution(values: list[int]) -> dict[str, int | None]:
+    if not values:
+        return {"n": 0, "median": None, "p90": None}
+    ordered = sorted(values)
+
+    def percentile(fraction: float) -> int:
+        rank = max(1, math.ceil(fraction * len(ordered)))
+        return ordered[rank - 1]
+
+    return {
+        "n": len(ordered),
+        "median": percentile(0.5),
+        "p90": percentile(0.9),
+    }
 
 
 def bootstrap_ci(
@@ -1235,6 +1252,122 @@ def analysis_r4(args: argparse.Namespace) -> dict[str, Any]:
     return output
 
 
+def temporal_report_summary(
+    per_piece: list[dict[str, Any]], reference_scorable_titles: set[str]
+) -> dict[str, Any]:
+    rows_by_title = {row["title"]: row for row in per_piece}
+    if len(rows_by_title) != len(per_piece):
+        raise AnalysisError("Temporal report contains duplicate piece titles")
+    if not reference_scorable_titles <= set(rows_by_title):
+        raise AnalysisError("Could not partition temporal report pieces")
+
+    corrected_rows = [
+        row for row in per_piece if row["title"] in reference_scorable_titles
+    ]
+
+    def modulation(rows: list[dict[str, Any]]) -> dict[str, Any]:
+        lags = [lag for row in rows for lag in row["modulationLags"]]
+        return {
+            "annotatedChanges": sum(row["annotatedChanges"] for row in rows),
+            "matched": len(lags),
+            "censored": sum(row["censoredModulations"] for row in rows),
+            "lagEvents": nearest_rank_distribution(lags),
+        }
+
+    return {
+        "allPieces": len(per_piece),
+        "referenceScorablePieces": len(corrected_rows),
+        "rawSwitchesAllPieces": nearest_rank_distribution(
+            [row["switches"] for row in per_piece]
+        ),
+        "spuriousSwitchesAllPieceReconstruction": nearest_rank_distribution(
+            [row["spuriousSwitches"] for row in per_piece]
+        ),
+        "spuriousSwitchesCorrected": nearest_rank_distribution(
+            [row["spuriousSwitches"] for row in corrected_rows]
+        ),
+        "modulationAllPieces": modulation(per_piece),
+        "modulationReferenceScorablePieces": modulation(corrected_rows),
+    }
+
+
+def analysis_reference_temporal(args: argparse.Namespace) -> dict[str, Any]:
+    fixture_set = load_fixture_set(args.fixtures, "isophonics_manifest")
+    report_paths = parse_claim_specs(args.report)
+    split_fixtures = {
+        name: select_split(fixture_set, args.split_file, name, "isophonics_split")
+        for name in ("development", "test")
+    }
+    summaries: dict[str, Any] = {}
+    for name, path in sorted(report_paths.items()):
+        report = read_json(path)
+        if report.get("schema") != "whatkey-harness-report/1":
+            raise AnalysisError(f"Unexpected harness report schema: {path}")
+        if report.get("fixtures", {}).get("contentSha256") != fixture_set.content_hash:
+            raise AnalysisError(f"Fixture content hash mismatch in report: {path}")
+        split_name = report.get("split", {}).get("name")
+        if split_name not in split_fixtures:
+            raise AnalysisError(f"Unexpected or missing report split: {path}")
+        fixtures = split_fixtures[split_name]
+        per_piece = report.get("perPiece")
+        if not isinstance(per_piece, list):
+            raise AnalysisError(f"Report has no per-piece rows: {path}")
+        expected_titles = {fixture.title for fixture in fixtures.values()}
+        actual_titles = {row["title"] for row in per_piece}
+        if actual_titles != expected_titles or len(per_piece) != len(expected_titles):
+            raise AnalysisError(f"Report/split piece mismatch: {path}")
+        reference_scorable_titles = {
+            fixture.title
+            for fixture in fixtures.values()
+            if any(scorable_mask(fixture))
+        }
+        for row in per_piece:
+            is_scorable = row["title"] in reference_scorable_titles
+            if (row.get("globalTruth") is not None) != is_scorable:
+                raise AnalysisError(
+                    f"Report reference eligibility mismatch for {row['title']}: {path}"
+                )
+        summary = temporal_report_summary(per_piece, reference_scorable_titles)
+        if (
+            summary["modulationAllPieces"]
+            != summary["modulationReferenceScorablePieces"]
+        ):
+            raise AnalysisError(
+                f"Modulation aggregation changed under the piece cohort: {path}"
+            )
+        reported_spurious = report["summary"]["spuriousSwitchesPerPiece"]
+        all_piece = summary["spuriousSwitchesAllPieceReconstruction"]
+        corrected = summary["spuriousSwitchesCorrected"]
+        if reported_spurious == corrected:
+            aggregation_contract = "reference-scorable-piece"
+        elif reported_spurious == all_piece:
+            aggregation_contract = "legacy-all-piece"
+        else:
+            aggregation_contract = "unrecognized"
+        summaries[name] = {
+            "path": str(path),
+            "sha256": sha256(path),
+            "split": split_name,
+            "detector": report["detector"],
+            "reportedSpuriousSwitches": reported_spurious,
+            "reportedAggregationContract": aggregation_contract,
+            **summary,
+        }
+    return {
+        "analysis": "reference-temporal-denominator-audit",
+        "cohortRule": (
+            "A piece enters the label-relative spurious-switch distribution "
+            "iff at least one fixture event has a non-null localKey."
+        ),
+        "inputSha256": {
+            "fixtureManifest": PINNED_SHA256["isophonics_manifest"],
+            "fixtureContent": fixture_set.content_hash,
+            "split": PINNED_SHA256["isophonics_split"],
+        },
+        "reports": summaries,
+    }
+
+
 def validate_frozen_inputs() -> dict[str, int]:
     """Validate every predeclared frozen input without calculating an endpoint."""
     isophonics = load_fixture_set(
@@ -1314,7 +1447,7 @@ def git_output(*arguments: str) -> str:
 
 
 def output_metadata(args: argparse.Namespace) -> dict[str, Any]:
-    return {
+    metadata = {
         "schema": OUTPUT_SCHEMA,
         "generatedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "command": shlex.join(
@@ -1322,12 +1455,20 @@ def output_metadata(args: argparse.Namespace) -> dict[str, Any]:
         ),
         "repositoryCommit": git_output("rev-parse", "HEAD"),
         "repositoryDirty": bool(git_output("status", "--porcelain")),
-        "declaration": "research/whatkey/log/2026-08-01-01-revision-reanalysis-predeclaration.md",
-        "bootstrap": {
+        "declaration": (
+            "research/whatkey/log/"
+            "2026-08-01-13-reference-temporal-denominator-predeclaration.md"
+            if args.command == "reference-temporal"
+            else "research/whatkey/log/"
+            "2026-08-01-01-revision-reanalysis-predeclaration.md"
+        ),
+    }
+    if hasattr(args, "bootstrap_seed"):
+        metadata["bootstrap"] = {
             "seed": args.bootstrap_seed,
             "resamples": args.bootstrap_resamples,
-        },
-    }
+        }
+    return metadata
 
 
 def validate_common_args(args: argparse.Namespace) -> None:
@@ -1340,7 +1481,11 @@ def validate_common_args(args: argparse.Namespace) -> None:
             f"Bootstrap resamples must remain {DECLARED_RESAMPLES}, "
             f"got {args.bootstrap_resamples}"
         )
-    output = args.out.resolve()
+    validate_output_path(args.out)
+
+
+def validate_output_path(output_path: Path) -> None:
+    output = output_path.resolve()
     research = (REPO_ROOT / "research").resolve()
     if output == research or research in output.parents:
         raise AnalysisError(
@@ -1388,6 +1533,13 @@ def parse_args() -> argparse.Namespace:
     r4.add_argument("--run-root", type=Path, required=True)
     add_common_arguments(r4)
     r4.set_defaults(run=analysis_r4)
+
+    temporal = subparsers.add_parser("reference-temporal")
+    temporal.add_argument("--fixtures", type=Path, required=True)
+    temporal.add_argument("--split-file", type=Path, required=True)
+    temporal.add_argument("--report", action="append", required=True)
+    temporal.add_argument("--out", type=Path, required=True)
+    temporal.set_defaults(run=analysis_reference_temporal)
     return parser.parse_args()
 
 
@@ -1402,7 +1554,10 @@ def main() -> int:
         print(json.dumps(validated, indent=2, sort_keys=True))
         return 0
     try:
-        validate_common_args(args)
+        if args.command == "reference-temporal":
+            validate_output_path(args.out)
+        else:
+            validate_common_args(args)
         result = {**output_metadata(args), **args.run(args)}
         args.out.parent.mkdir(parents=True, exist_ok=True)
         args.out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")

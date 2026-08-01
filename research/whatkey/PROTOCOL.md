@@ -89,7 +89,11 @@ different keys; an abstention followed by a claim of the same key as before is
 not a switch. Abstaining under uncertainty must not be charged twice. A switch
 is **spurious** only when the annotated local key did not change between the two
 claims' events AND the new claim does not land on the annotated key; a lagged
-catch-up switch onto the annotated key is never spurious.
+catch-up switch onto the annotated key is never spurious. The per-piece
+spurious-switch distribution includes only pieces with at least one non-null
+`localKey`; a wholly null reference cannot establish that its nominal zero is a
+true zero. Raw switches and time-to-first-claim remain all-piece behavioral
+metrics.
 
 **Modulation alignment** (pinned at freeze): every annotated local-key change
 counts, with no minimum segment length. A change is **matched** when the
@@ -102,6 +106,10 @@ detector has essentially no window to claim), so censored counts include a
 structural floor; comparisons between detectors are unaffected since all face
 the same segments. A minimum-segment filter was rejected because it adds a
 tunable threshold to a frozen metric.
+
+An annotated change requires adjacent non-null local-key labels. Null-reference
+regions therefore create neither matched nor censored changes and never enter
+the modulation-lag denominator.
 
 **Global key** (pinned at freeze): the duration-weighted majority claim (the key
 holding the largest duration-weighted share of a piece's claims), scored with

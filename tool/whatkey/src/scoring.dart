@@ -255,6 +255,9 @@ class PieceScore {
 /// n everywhere.
 Map<String, Object?> summarize(List<PieceScore> pieces) {
   final withClaims = pieces.where((p) => p.labeledClaimed > 0).toList();
+  final withExactReference = pieces
+      .where((p) => p.globalTruth != null)
+      .toList();
   final lags = [for (final p in pieces) ...p.modulationLags];
   final neverClaimed = pieces.where((p) => p.timeToFirstClaim == null).length;
   final globalScored = pieces.where((p) => p.globalFinalMirex != null).toList();
@@ -285,7 +288,7 @@ Map<String, Object?> summarize(List<PieceScore> pieces) {
       for (final p in pieces) p.switches.toDouble(),
     ]),
     'spuriousSwitchesPerPiece': _distribution([
-      for (final p in pieces) p.spuriousSwitches.toDouble(),
+      for (final p in withExactReference) p.spuriousSwitches.toDouble(),
     ]),
     'modulation': {
       'annotatedChanges': pieces.fold<int>(

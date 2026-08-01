@@ -229,6 +229,35 @@ void main() {
     });
 
     test(
+      'spurious-switch summaries exclude pieces without an exact reference',
+      () {
+        final labeled = PieceScore.compute(
+          _fixture([
+            _eventJson(0, localKey: 'C:maj'),
+            _eventJson(1, localKey: 'C:maj'),
+          ]),
+          [_claim('C:maj'), _claim('G:maj')],
+        );
+        final unlabeled = PieceScore.compute(
+          _fixture([_eventJson(0), _eventJson(1)]),
+          [_claim('C:maj'), _claim('G:maj')],
+        );
+
+        final summary = summarize([labeled, unlabeled]);
+        final switches = summary['switchesPerPiece'] as Map<String, Object?>;
+        final spurious =
+            summary['spuriousSwitchesPerPiece'] as Map<String, Object?>;
+
+        expect(switches['n'], 2);
+        expect(switches['median'], 1);
+        expect(spurious['n'], 1);
+        expect(spurious['median'], 1);
+        expect(unlabeled.switches, 1);
+        expect(unlabeled.spuriousSwitches, 0);
+      },
+    );
+
+    test(
       'modulation lag counts events until the detector reaches the new key',
       () {
         final fixture = _fixture([
@@ -311,6 +340,49 @@ void main() {
         ),
       );
       expect(() => empty.framesFor(fixture), throwsStateError);
+    });
+
+    test('claims file replays per-event claims and abstentions', () {
+      final fixture = _fixture([
+        for (var i = 0; i < 3; i++) _eventJson(i, localKey: 'C:maj'),
+      ]);
+      final dir = Directory.systemTemp.createTempSync('whatkey-claims-test');
+      addTearDown(() => dir.deleteSync(recursive: true));
+      final claims = ClaimsFile.load(
+        File('${dir.path}/events.claims.json')..writeAsStringSync(
+          jsonEncode({
+            'schema': 'whatkey-claims/1',
+            'detector': {'name': 'stub', 'configuration': 'test'},
+            'claims': {
+              'test-set/fixture': {
+                'events': ['C:maj', null, 'G:maj'],
+              },
+            },
+          }),
+        ),
+      );
+
+      final score = PieceScore.compute(fixture, claims.framesFor(fixture));
+
+      expect(score.claimed, 2);
+      expect(score.timeToFirstClaim, 0);
+      expect(score.switches, 1);
+      expect(score.spuriousSwitches, 1);
+
+      final mismatched = ClaimsFile.load(
+        File('${dir.path}/mismatched.claims.json')..writeAsStringSync(
+          jsonEncode({
+            'schema': 'whatkey-claims/1',
+            'detector': {'name': 'stub', 'configuration': 'test'},
+            'claims': {
+              'test-set/fixture': {
+                'events': ['C:maj'],
+              },
+            },
+          }),
+        ),
+      );
+      expect(() => mismatched.framesFor(fixture), throwsStateError);
     });
 
     test('evaluate mask restricts coverage and accuracy, not streaming', () {
