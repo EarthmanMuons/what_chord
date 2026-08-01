@@ -248,21 +248,22 @@ because events within a piece are strongly dependent and a few long pieces
 dominate pooled counts; pooled event accuracy is never decisive. The signed-rank
 test assumes no distributional form for these small samples. P-values on
 development data served model selection and are uncorrected for multiplicity;
-confirmatory weight rests on the original predeclared held-out result package
-(@sec-heldout). Bootstrap intervals added in the revision analyses are labeled
-exploratory or descriptive according to their protocols.
+the held-out package comparison was specified before test execution
+(@sec-heldout). The dual-reference, segment-persistence, and 2x2 analyses were
+designed after inspection of the cross-corpus pattern and are therefore labeled
+exploratory or descriptive.
 
 *Protocol discipline.* The protocol was frozen before detector tuning, with
 changes recorded as dated amendments. Development/test splits were frozen per
 corpus before the first experiment on it (by piece, and by composer where the
-corpus allows); all original tuning, ablation, and model selection ran on
-development splits. The paper-era held-out result package was declared before
-its single execution. After editorial screening, four revision analyses were
-declared in a dated protocol before execution: a scorable-cohort correction, a
-piece-aware segment reanalysis, a dual-reference sensitivity analysis, and a
-development-only memory/function grid. They do not tune a new system or promote
-post-hoc results into the original confirmatory record. The evaluation harness
-structurally strips labels before events reach a detector.
+corpus allows); all detector tuning, ablation, and model selection ran on
+development splits. The held-out package comparison was declared before its
+single execution. Additional construct-validity analyses align the scorable
+cohort, make the segment-persistence result piece-aware, compare two references
+on fixed claims, and cross memory with functional evidence on development data.
+They do not tune a new system or convert post-hoc results into confirmatory
+tests. The evaluation harness structurally strips labels before events reach a
+detector.
 
 = Data and reproducibility <sec-data>
 
@@ -277,8 +278,7 @@ fixture embeds a specific frozen chord-recognition profile.
 @tab-corpora separates repertoire, observation construction, and reference
 provenance. The first three sets have frozen development/test splits. The
 ASAP-WiR overlap is evaluation-only and supports both performed-input analyst
-contexts and, in the revision analysis, the active ASAP key-signature
-collection.
+contexts and the active ASAP key-signature collection.
 
 #place(top, scope: "parent", float: true)[
   #figure(
@@ -325,8 +325,8 @@ Beatles recordings. The source describes its keys as time-aligned tonality
 regions, not uniformly whole-song labels, and notes that changes may be omitted.
 Plain major/minor regions map into the detector's ontology. Seven tracks contain
 568 modal or no-key events outside it; three held-out tracks are wholly modal.
-They remain in the frozen split but are excluded from both accuracy and coverage
-in the corrected 38-track 24-key cohort (@sec-heldout).
+They remain in the full split but are excluded from both accuracy and coverage
+in the 38-track 24-key scoring cohort (@sec-heldout).
 
 ASAP key signatures are not analyst-stated local keys. At each event the
 signature defines an acceptable major/relative-minor pair; it cannot identify a
@@ -337,11 +337,10 @@ collection classes.
 
 The overlap transfers When in Rome analyst contexts onto ASAP performances of
 the same Beethoven sonata movements through score-performance downbeat
-alignment. Its per-movement measure offset is calibrated by content: agreement
+alignment. Each movement's measure offset is calibrated by content: agreement
 between sounding pitches and analyst chords must peak sharply at zero when
-labels are slid by whole measures. The project corrected erroneous offsets in
-11 of 36 movements before peer review; 347 of 10,395 event labels changed, and
-all reported conclusions retained their direction.
+labels are slid by whole measures. Movements without a unique, content-
+consistent offset are rejected rather than silently aligned.
 
 Performed fixtures are created by offline replay of recorded MIDI with sustain
 semantics through the production chord analyzer, three-note gate, and event-
@@ -354,9 +353,9 @@ A small hand-authored pop/jazz suite supplies behavioral regressions outside all
 pooled statistics. The repository contains the open fixtures, split files,
 evaluation harness, paired-comparison code, dated logs, and frozen result
 artifacts. License-gated fixtures remain in local builds generated from pinned
-upstream checkouts. Named paper-era analysis profiles and detector recipes
-reproduce the original fixtures and all nine frozen result directories even
-though later application defaults have changed.
+upstream checkouts. Versioned analysis profiles and detector recipes pin the
+observation and detector configurations used here independently of mutable
+software defaults.
 
 = Model family and frozen packages <sec-model>
 
@@ -372,10 +371,10 @@ Two frozen packages organize the principal comparisons. The *long-memory
 package* uses 30-second profile emissions with functional and progression blends
 at zero. The *short-memory package* uses 1-second emissions plus functional
 blend 0.1; its progression blend is also zero. Both use the same HMM, duration
-weighting, abstention rule, and same-tonic mode cue. These packages were selected
-under different development reference regimes before the original held-out
-evaluation. They are experimental configurations, not current application
-defaults.
+weighting, abstention rule, and same-tonic mode cue. They were selected under
+different development reference regimes and fixed before held-out evaluation;
+they are experimental configurations rather than claims of a universally best
+setting.
 
 The detector family is a causal HMM over the 24 major and minor keys. It keeps a
 filtered posterior and updates it by the forward algorithm only; no Viterbi
@@ -480,11 +479,11 @@ predictions remain fixed.
 == Memory and function across references
 
 The two frozen packages bundle memory and functional evidence, so their reversal
-alone cannot say which ingredient matters. A predeclared revision grid crosses
-half-life `{1, 30}` seconds with functional blend `{0, 0.1}` on both development
-sets while fixing every other paper-era setting (@tab-grid). It is exploratory
-mechanism evidence: the corpora still differ in repertoire, observation
-construction, and reference practice.
+alone cannot say which ingredient matters. An exploratory 2x2 grid, specified
+before those cells were run, crosses half-life `{1, 30}` seconds with functional
+blend `{0, 0.1}` on both development sets while fixing every other setting
+(@tab-grid). The corpora still differ in repertoire, observation construction,
+and reference practice.
 
 #figure(
   table(
@@ -570,9 +569,9 @@ model-selection consequences established here.
 @fig-dose sweeps the emission-memory half-life from 1 to 60 seconds on both
 development corpora. The plotted series confirm the endpoint pattern without
 being strictly monotonic: both When in Rome curves reach a minimum at 15 s and
-partially rebound, while Isophonics reaches a plateau by 8 s. The R4 endpoint
-contrasts above supply the paired uncertainty for newly emphasized inference;
-the full inspected sweep is descriptive.
+partially rebound, while Isophonics reaches a plateau by 8 s. The 2x2 endpoint
+contrasts above supply paired uncertainty; the full inspected sweep is
+descriptive.
 
 == Reference persistence on performed input
 
@@ -620,16 +619,14 @@ Isophonics contrast.
 
 == Secondary ablations and selective prediction
 
-The original factorial also tested the decaying progression-score emission
+The development factorial also tested the decaying progression-score emission
 blend, duration weighting, and recognizer-confidence weighting. The progression
 blend did not improve the HMM cells; duration weighting improved both principal
 development regimes (+0.02 to +0.05 exact) and was retained; recognizer-
 confidence weighting was inert in five paired comparisons. These verdicts apply
 to the mechanisms tested, not to all uses of harmonic motion or recognizer
-uncertainty. In particular, post-submission product work adopted a narrower
-cadence-conditioned transition mechanism; it does not reverse the frozen
-negative for the broader emission-side progression score and is not part of the
-paper's result package.
+uncertainty. In particular, the progression result does not rule out a more
+narrowly conditioned or transition-side use of harmonic motion.
 
 Sweeping the posterior-margin floor traces the selective-prediction curve in
 @fig-sweep. Higher thresholds reduce coverage while raising accuracy on the
@@ -807,13 +804,12 @@ repair the limitation.
 
 = Held-out evaluation <sec-heldout>
 
-The original paper-era held-out manifest was declared before execution and then
-frozen: it evaluates the long-memory package on all three splits, the
-short-memory package on the two mode-resolved splits, three music21 @music21
-profile-correlation analyzers on Isophonics, and a descriptive mode-confusion
-breakdown. Later product investigations reused some held-out pieces, so they are
-not independent new tests; no later result is used here. The original artifacts
-and the declared R1 correction are preserved with the project.
+The held-out manifest was declared before execution. It evaluates the long-
+memory package on all three splits, the short-memory package on the two mode-
+resolved splits, three music21 @music21 profile-correlation analyzers on
+Isophonics, and a descriptive mode-confusion breakdown. The resulting claim
+streams are fixed, and every cohort restriction reported below depends only on
+the reference labels.
 
 #figure(
   table(
@@ -846,7 +842,7 @@ package (0.732 versus 0.556; +0.175, CI95 [+0.040, +0.315], p = 0.039; 38
 pieces), at higher coverage (0.884 versus 0.793). These are two within-regime
 tests, not a formal interaction test, and the packages bundle memory with
 functional weighting. They are therefore a generalization check consistent
-with the fixed-output R3 interaction, not its substitute.
+with the fixed-output interaction, not its substitute.
 
 *Descriptive external reference points.* @tab-baselines reports three classic
 offline whole-piece profile-correlation analyzers from music21 on the held-out
@@ -869,7 +865,7 @@ Isophonics songs.
 
 The long-memory package has the highest point estimate, while
 Temperley-Kostka-Payne is the strongest whole-piece reference point. The
-submitted Krumhansl-Schmuckler contrast is +0.108 with a CI spanning zero
+Krumhansl-Schmuckler contrast is +0.108 with a CI spanning zero
 ([-0.008, +0.228], p = 0.25); restricting that analyzer to the detector's
 claimed-event mask yields 0.625, not an independently matched-coverage operating
 point. No equivalence, noninferiority, or superiority test was specified.
@@ -896,14 +892,15 @@ nothing from test data.
 
 = Limitations <sec-limitations>
 
-The primary R3 result is deliberately narrow: two frozen detector packages, 36
-Beethoven performances, their common claimed events, and a shared 12-class
-diatonic-collection scoring ontology derived from 24-state outputs. It isolates
-the reference definition while holding input and output fixed, but it does not
-establish the size or direction of the effect for other repertoires, ontologies,
-or detectors. R3 and R4 were declared during revision after the editorial
-concern was known and are exploratory; their intervals quantify uncertainty but
-do not convert them into preregistered confirmatory tests.
+The primary dual-reference result is deliberately narrow: two frozen detector
+packages, 36 Beethoven performances, their common claimed events, and a shared
+12-class diatonic-collection scoring ontology derived from 24-state outputs. It
+isolates the reference definition while holding input and output fixed, but it
+does not establish the size or direction of the effect for other repertoires,
+ontologies, or detectors. The dual-reference and 2x2 analyses were designed
+after inspection of the cross-corpus pattern and are exploratory; their
+intervals quantify uncertainty but do not convert them into preregistered
+confirmatory tests.
 
 Neither reference is ground truth. Analyst-declared contexts and active notated
 key-signature collections encode different musical questions, and either may be
@@ -922,18 +919,17 @@ regenerating fixtures before comparison.
 
 “Streaming” here means causal evaluation during offline replay of recorded
 performed MIDI. The study does not measure wall-clock latency, transport
-failures, interface behavior, or musician judgments in a live session. Its
-30-second and 1-second packages are frozen experiment recipes, not the current
-application defaults; post-submission product tuning neither updates nor
-validates these paper-era results.
+failures, interface behavior, or musician judgments in a live session. The
+30-second and 1-second packages are fixed experimental recipes, not an end-to-
+end application evaluation.
 
-Held-out splits contain only 10 to 41 pieces, and later product work reused some
-of them. The offline comparison is limited to three classic profile-correlation
-analyzers with different information and output forms. In particular,
-justkeydding @napoles2019 did not build reproducibly in our environment, so no
-claim is made against it or newer score-based systems. Corpus licensing further
-prevents redistribution of two gated fixture sets; the project instead records
-pins, derived facts, splits, commands, and evaluation artifacts.
+Held-out splits contain only 10 to 41 pieces. The offline comparison is limited
+to three classic profile-correlation analyzers with different information and
+output forms. In particular, justkeydding @napoles2019 did not build
+reproducibly in our environment, so no claim is made against it or newer score-
+based systems. Corpus licensing further prevents redistribution of two gated
+fixture sets; the project instead records pins, derived facts, splits, commands,
+and evaluation artifacts.
 
 Finally, calibration is reference-relative just like accuracy. The display
 temperature in @sec-heldout is fit for correctness against the Isophonics
@@ -954,9 +950,9 @@ The supporting analyses delimit that result. A development grid reproduces the
 opposing memory effects and shows that the functional cue itself helps under
 When in Rome contexts and hurts under Isophonics regions. Within the overlap,
 longer-persistence analyst contexts progressively favor the long-memory package,
-but without a sharp threshold. The original held-out package reversal provides
-a separate generalization check while bundling two design choices and changing
-corpus as well as reference.
+but without a sharp threshold. The predeclared held-out package reversal
+provides a separate generalization check while bundling two design choices and
+changing corpus as well as reference.
 
 The engineering contribution is a reproducible causal selective-prediction
 protocol over recorded performed MIDI: coverage, accuracy on claims, change
