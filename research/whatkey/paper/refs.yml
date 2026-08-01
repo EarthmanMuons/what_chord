@@ -219,9 +219,22 @@ mirex:
   url: https://music-ir.org/mirex/wiki/2019:Audio_Key_Detection
 
 wheninrome:
-  type: repository
+  type: article
   title: "When in Rome: A Meta-Corpus of Functional Harmonic Analysis"
-  author: Gotham, Mark
+  author:
+    - Gotham, Mark
+    - Micchi, Gianluca
+    - Nápoles López, Néstor
+    - Sailor, Malcolm
+  date: 2023
+  parent:
+    type: periodical
+    title: Transactions of the International Society for Music Information Retrieval
+    volume: 6
+    issue: 1
+  page-range: 150-166
+  serial-number:
+    doi: 10.5334/tismir.165
   url: https://github.com/MarkGotham/When-in-Rome
 
 asap2020:
@@ -276,3 +289,163 @@ isophonics2009:
     type: proceedings
     title: Late-Breaking Session, 10th International Society for Music Information Retrieval Conference (ISMIR)
   url: https://ismir2009.ismir.net/proceedings/LBD-18.pdf
+
+weber1846:
+  type: book
+  title: "Theory of Musical Composition: Treated with a View to a Naturally Consecutive Arrangement of Topics"
+  author: Weber, Gottfried
+  editor: Warner, James Franklin
+  date: 1846
+  publisher: O. Ditson & Company
+  url: https://books.google.com/books?id=AOosAAAAYAAJ
+
+moreno2003:
+  type: article
+  title: "Subjectivity, Interpretation, and Irony in Gottfried Weber's Analysis of Mozart's 'Dissonance' Quartet"
+  author: Moreno, Jairo
+  date: 2003
+  parent:
+    type: periodical
+    title: Music Theory Spectrum
+    volume: 25
+    issue: 1
+  page-range: 99-120
+  serial-number:
+    doi: 10.1525/mts.2003.25.1.99
+
+rowe2000:
+  type: article
+  title: Key Induction in the Context of Interactive Performance
+  author: Rowe, Robert
+  date: 2000
+  parent:
+    type: periodical
+    title: Music Perception
+    volume: 17
+    issue: 4
+  page-range: 511-530
+  serial-number:
+    doi: 10.2307/40285831
+
+toiviainen2003:
+  type: article
+  title: "Measuring and Modeling Real-Time Responses to Music: The Dynamics of Tonality Induction"
+  author:
+    - Toiviainen, Petri
+    - Krumhansl, Carol L.
+  date: 2003
+  parent:
+    type: periodical
+    title: Perception
+    volume: 32
+    issue: 6
+  page-range: 741-766
+  serial-number:
+    doi: 10.1068/p3312
+
+chuan2005:
+  type: article
+  title: Polyphonic Audio Key Finding Using the Spiral Array CEG Algorithm
+  author:
+    - Chuan, Ching-Hua
+    - Chew, Elaine
+  date: 2005
+  parent:
+    type: proceedings
+    title: IEEE International Conference on Multimedia and Expo
+  page-range: 21-24
+  serial-number:
+    doi: 10.1109/ICME.2005.1521350
+
+mizener2022:
+  type: article
+  title: Real-Time Modulation Perception in Western Classical Music
+  author:
+    - Mizener, Brendon J.
+    - Dowling, W. Jay
+  date: 2022
+  parent:
+    type: periodical
+    title: Music Perception
+    volume: 39
+    issue: 5
+  page-range: 484-502
+  serial-number:
+    doi: 10.1525/mp.2022.39.5.484
+
+weiss2020:
+  type: article
+  title: "Local Key Estimation in Music Recordings: A Case Study Across Songs, Versions, and Annotators"
+  author:
+    - Weiß, Christof
+    - Schreiber, Hendrik
+    - Müller, Meinard
+  date: 2020
+  parent:
+    type: periodical
+    title: IEEE/ACM Transactions on Audio, Speech, and Language Processing
+    volume: 28
+  page-range: 2919-2932
+  serial-number:
+    doi: 10.1109/TASLP.2020.3030485
+
+napoles2020:
+  type: article
+  title: "On Local Keys, Modulations, and Tonicizations: A Dataset and Methodology for Evaluating Changes of Key"
+  author:
+    - Nápoles López, Néstor
+    - Feisthauer, Laurent
+    - Levé, Florence
+    - Fujinaga, Ichiro
+  date: 2020
+  parent:
+    type: proceedings
+    title: Proceedings of the 7th International Conference on Digital Libraries for Musicology (DLfM)
+  page-range: 18-26
+  serial-number:
+    doi: 10.1145/3424911.3425515
+
+shea2025:
+  type: article
+  title: Metric Accent Affects Perception of Key Center in Pop-Music Chord Loops
+  author:
+    - Shea, Nicholas J.
+    - White, Christopher W. M.
+    - Hughes, Bryn
+    - Vuvan, Dominique T.
+  date: 2025
+  parent:
+    type: periodical
+    title: Music Perception
+    volume: 42
+    issue: 5
+  page-range: 467-480
+  serial-number:
+    doi: 10.1525/mp.2025.2321624
+
+richards2017:
+  type: article
+  title: Tonal Ambiguity in Popular Music's Axis Progressions
+  author: Richards, Mark
+  date: 2017
+  parent:
+    type: periodical
+    title: Music Theory Online
+    volume: 23
+    issue: 3
+  serial-number:
+    doi: 10.30535/mto.23.3.6
+  url: https://www.mtosmt.org/issues/mto.17.23.3/mto.17.23.3.richards.php
+
+declercq2021:
+  type: article
+  title: The Logic of Six-Based Minor
+  author: de Clercq, Trevor
+  date: 2021
+  parent:
+    type: periodical
+    title: Music Theory Online
+    volume: 27
+    issue: 4
+  serial-number:
+    doi: 10.30535/mto.27.4.4
