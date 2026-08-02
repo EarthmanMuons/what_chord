@@ -6,10 +6,11 @@ not a name or email. Do not edit a completed response after receipt. Corrections
 use a new file with a provenance note in the next dated research log.
 
 The guided static instrument under `../review-instrument/` is the preferred
-entry method. It verifies the frozen packet and guide, stores drafts only in the
-reviewer's browser, and exports this same validated schema. Record the exact
-instrument commit and source digest when distributing it. Reviewer identity,
-contact details, and qualifications remain outside this directory.
+entry method. It verifies the packet, guide, presentation manifest, and score
+images, stores drafts only in the reviewer's browser, and exports this same
+validated schema. Record the exact instrument commit and all source and
+presentation digests when distributing it. Reviewer identity, contact details,
+qualifications, and orientation answers remain outside this directory.
 
 Validate a returned packet before analysis:
 

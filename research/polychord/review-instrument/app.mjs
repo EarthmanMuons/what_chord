@@ -15,37 +15,67 @@ import {
   refreshDerivedFields,
   removeLayer,
 } from "./model.mjs";
+import {
+  ORIENTATION_EXAMPLES,
+  PITCH_CLASS_LABELS,
+  READINESS_QUESTIONS,
+  assertPresentationManifest,
+  formatNoteList,
+  formatOnsetTime,
+  midiNoteLabel,
+  pitchClassLabel,
+  readinessIsComplete,
+  scoreExcerptForEvidence,
+} from "./presentation.mjs";
 
 const EXPECTED_PACKET_SHA256 =
-  "8eb672bf73ba7dea9eb781bd3c1886b0542030104c24915399e78a92986c70fa";
+  "5c9c389f46c65664a2db92cef797980764369c0db53656f222497e68cfea79fe";
+const EXPECTED_PRESENTATION_SHA256 =
+  "a77bcab355ddeafde6804353235834c2e820164256c7a5fce0c7cfcd44cdeb6b";
 const PACKET_PATH = "../pilot-review-template-v0.json";
 const GUIDE_PATH = "../pilot-annotation.md";
+const PRESENTATION_PATH = "assets/manifest.json";
 const STORAGE_KEY = `${INSTRUMENT_VERSION}:${EXPECTED_PACKET_SHA256}`;
 
 const LABELS = {
-  snapshot: "Snapshot",
-  "event-window": "Event window",
-  positive: "Positive",
-  boundary: "Boundary",
-  "negative-guard": "Negative guard",
-  abstain: "Abstain",
+  snapshot: "One simultaneous sonority",
+  "event-window": "A short passage unfolding over time",
+  positive: "Polychord reading expected",
+  boundary: "Possible decomposition, but a single-chord reading is preferable",
+  "negative-guard": "A polychord reading would be misleading",
+  abstain: "Cannot determine from the instructions or evidence",
   low: "Low",
   medium: "Medium",
   high: "High",
-  eligible: "Eligible",
-  ambiguous: "Ambiguous",
-  ineligible: "Ineligible",
-  "research-candidate": "Research candidate",
-  unknown: "Unknown",
-  adjacentRegisterSnapshot: "Adjacent-register snapshot",
-  pitchRegisterSnapshot: "General pitch-and-register snapshot",
-  timestampedEventStream: "Timestamped event stream",
+  eligible: "Enough evidence",
+  ambiguous: "More than one defensible reading",
+  ineligible: "Not enough evidence",
+  "research-candidate": "Promising, but needs an encoded performance",
+  unknown: "Not known from this case",
+  adjacentRegisterSnapshot: "One split between neighboring notes",
+  pitchRegisterSnapshot: "Any assignment using pitch and register",
+  timestampedEventStream: "Timing and motion available",
+};
+
+const INPUT_HELP = {
+  adjacentRegisterSnapshot:
+    "Sort the simultaneously sounding notes from low to high and place one boundary between adjacent notes.",
+  pitchRegisterSnapshot:
+    "Use the simultaneous octave-specific notes, allowing non-contiguous layer assignments.",
+  timestampedEventStream:
+    "Use attack time, release, sustain-pedal state, or coherent layer motion in addition to pitch and register.",
 };
 
 const loadingPanel = document.querySelector("#loading-panel");
 const loadErrorPanel = document.querySelector("#load-error");
 const loadErrorMessage = document.querySelector("#load-error-message");
 const instrument = document.querySelector("#instrument");
+const orientationPanel = document.querySelector("#orientation-panel");
+const reviewWorkspace = document.querySelector("#review-workspace");
+const orientationExamples = document.querySelector("#orientation-examples");
+const readinessForm = document.querySelector("#readiness-form");
+const readinessQuestions = document.querySelector("#readiness-questions");
+const readinessMessage = document.querySelector("#readiness-message");
 const reviewForm = document.querySelector("#review-form");
 const annotatorIdInput = document.querySelector("#annotator-id");
 const completedOnInput = document.querySelector("#completed-on");
@@ -59,12 +89,15 @@ const errorList = document.querySelector("#error-list");
 const statusMessage = document.querySelector("#status-message");
 const instrumentVersion = document.querySelector("#instrument-version");
 const packetDigest = document.querySelector("#packet-digest");
+const presentationDigest = document.querySelector("#presentation-digest");
 
 let template;
+let presentationManifest;
 let state;
 let visibleErrors = [];
 let saveTimer;
 let storageAvailable = true;
+const scoreAssetUrls = new Map();
 
 function element(tagName, options = {}) {
   const node = document.createElement(tagName);
@@ -81,12 +114,15 @@ function append(parent, ...children) {
   return parent;
 }
 
-async function sha256(text) {
-  const bytes = new TextEncoder().encode(text);
+async function sha256Bytes(bytes) {
   const digest = await crypto.subtle.digest("SHA-256", bytes);
   return [...new Uint8Array(digest)]
     .map((byte) => byte.toString(16).padStart(2, "0"))
     .join("");
+}
+
+async function sha256(text) {
+  return sha256Bytes(new TextEncoder().encode(text));
 }
 
 async function loadPinnedText(path, expectedDigest, description) {
@@ -104,6 +140,21 @@ async function loadPinnedText(path, expectedDigest, description) {
   return text;
 }
 
+async function loadPinnedImage(path, expectedDigest, description) {
+  const response = await fetch(path, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`${description} returned HTTP ${response.status}.`);
+  }
+  const bytes = await response.arrayBuffer();
+  const actualDigest = await sha256Bytes(bytes);
+  if (actualDigest !== expectedDigest) {
+    throw new Error(
+      `${description} digest mismatch: expected ${expectedDigest}, received ${actualDigest}.`,
+    );
+  }
+  return URL.createObjectURL(new Blob([bytes], { type: "image/png" }));
+}
+
 function recoverDraft(freshState) {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -111,6 +162,7 @@ function recoverDraft(freshState) {
     const candidate = JSON.parse(saved);
     if (
       candidate.instrumentVersion !== INSTRUMENT_VERSION ||
+      typeof candidate.orientationComplete !== "boolean" ||
       !Array.isArray(candidate.responses) ||
       candidate.responses.length !== freshState.responses.length ||
       !candidate.responses.every(
@@ -225,68 +277,177 @@ function sectionHeading(eyebrow, heading, description) {
   return wrapper;
 }
 
-function renderEvidence(reviewCase) {
-  const section = element("section", { className: "case-section" });
-  section.append(sectionHeading("Pinned input", "Evidence"));
-  const card = element("div", { className: "evidence-card" });
-  const evidence = reviewCase.evidence;
+function renderNoteChips(midiNotes) {
+  const list = element("ul", { className: "note-chip-list" });
+  midiNotes.forEach((midiNote) => {
+    list.append(
+      element("li", { className: "note-chip", text: midiNoteLabel(midiNote) }),
+    );
+  });
+  return list;
+}
 
-  if (evidence.kind === "synthetic-midi") {
-    append(
-      card,
+function renderKeyboard(midiNotes, accessibleLabel = "Observed notes") {
+  const sounding = new Set(midiNotes);
+  const first = Math.floor(Math.min(...midiNotes) / 12) * 12;
+  const last = Math.floor(Math.max(...midiNotes) / 12) * 12 + 11;
+  const whitePitchClasses = new Set([0, 2, 4, 5, 7, 9, 11]);
+  const whiteNotes = [];
+  for (let midiNote = first; midiNote <= last; midiNote += 1) {
+    if (whitePitchClasses.has(midiNote % 12)) whiteNotes.push(midiNote);
+  }
+
+  const keyboard = element("div", { className: "piano-keyboard" });
+  keyboard.setAttribute("role", "img");
+  keyboard.setAttribute(
+    "aria-label",
+    `${accessibleLabel}: ${formatNoteList(midiNotes)}`,
+  );
+  const whiteLayer = element("div", { className: "piano-white-keys" });
+  whiteNotes.forEach((midiNote) => {
+    const key = element("span", {
+      className: `piano-key piano-key-white${sounding.has(midiNote) ? " sounding" : ""}`,
+    });
+    key.setAttribute("aria-hidden", "true");
+    key.title = midiNoteLabel(midiNote);
+    whiteLayer.append(key);
+  });
+  keyboard.append(whiteLayer);
+
+  for (let midiNote = first; midiNote <= last; midiNote += 1) {
+    if (whitePitchClasses.has(midiNote % 12)) continue;
+    const whiteKeysBefore = whiteNotes.filter((note) => note < midiNote).length;
+    const key = element("span", {
+      className: `piano-key piano-key-black${sounding.has(midiNote) ? " sounding" : ""}`,
+    });
+    key.setAttribute("aria-hidden", "true");
+    key.title = midiNoteLabel(midiNote);
+    key.style.left = `${(whiteKeysBefore / whiteNotes.length) * 100}%`;
+    key.style.width = `${(0.62 / whiteNotes.length) * 100}%`;
+    keyboard.append(key);
+  }
+  return keyboard;
+}
+
+function renderGeneratedEvidence(evidence) {
+  const wrapper = element("div");
+  append(
+    wrapper,
+    element("h4", { text: "All observed notes" }),
+    renderKeyboard(evidence.midiNotes),
+    renderNoteChips(evidence.midiNotes),
+  );
+
+  if (evidence.onsetCohortsMs) {
+    wrapper.append(element("h4", { text: "Recorded attacks" }));
+    const onsetList = element("ol", { className: "onset-list" });
+    evidence.onsetCohortsMs.forEach((cohort) => {
+      const item = element("li");
+      append(
+        item,
+        element("strong", { text: formatOnsetTime(cohort.time) }),
+        renderNoteChips(cohort.midiNotes),
+      );
+      onsetList.append(item);
+    });
+    wrapper.append(onsetList);
+  } else {
+    wrapper.append(
       element("p", {
-        text: `MIDI notes: ${evidence.midiNotes.join(", ")}`,
-        className: "data-value",
+        className: "muted",
+        text: "This case includes no timing or motion history.",
       }),
     );
-    if (evidence.onsetCohortsMs) {
-      const heading = element("h4", { text: "Onset cohorts" });
-      const list = element("ul");
-      evidence.onsetCohortsMs.forEach((cohort) => {
-        list.append(
-          element("li", {
-            text: `${cohort.time} ms: MIDI ${cohort.midiNotes.join(", ")}`,
-            className: "data-value",
-          }),
-        );
-      });
-      append(card, heading, list);
-    } else {
-      card.append(
-        element("p", {
-          className: "muted",
-          text: "No onset-cohort evidence is present in this packet.",
-        }),
-      );
-    }
-  } else {
-    const source = evidence.source;
-    const definitions = element("dl");
-    const rows = [
-      ["Work", source.work],
-      ["Edition", source.edition],
-      ["Location", source.scoreLocation],
-      ["Source ID", source.sourceIdentifier],
-      ["SHA-256", source.sha256],
-    ];
-    rows.forEach(([term, value]) => {
-      append(
-        definitions,
-        element("dt", { text: term }),
-        element("dd", {
-          text: value,
-          className: term === "SHA-256" ? "data-value" : "",
-        }),
-      );
-    });
-    const sourceLink = element("a", { text: "Open pinned score source" });
-    sourceLink.href = source.sourceUrl;
-    sourceLink.target = "_blank";
-    sourceLink.rel = "noopener noreferrer";
-    const sourceParagraph = element("p");
-    sourceParagraph.append(sourceLink);
-    append(card, definitions, sourceParagraph);
   }
+
+  const details = element("details", { className: "technical-details" });
+  details.append(
+    element("summary", { text: "Technical provenance" }),
+    element("p", {
+      className: "data-value",
+      text: `Stored MIDI notes: ${evidence.midiNotes.join(", ")}`,
+    }),
+  );
+  if (evidence.onsetCohortsMs) {
+    details.append(
+      element("p", {
+        className: "data-value",
+        text: `Stored onset cohorts: ${JSON.stringify(evidence.onsetCohortsMs)}`,
+      }),
+    );
+  }
+  wrapper.append(details);
+  return wrapper;
+}
+
+function renderScoreEvidence(evidence) {
+  const source = evidence.source;
+  const excerpt = scoreExcerptForEvidence(presentationManifest, evidence);
+  const imageUrl = scoreAssetUrls.get(source.sourceIdentifier);
+  if (!imageUrl) throw new Error("The verified score excerpt is unavailable.");
+
+  const wrapper = element("div");
+  const heading = element("h4", { text: source.work });
+  const location = element("p", {
+    className: "score-location",
+    text: source.scoreLocation,
+  });
+  const figure = element("figure", { className: "score-figure" });
+  const image = element("img");
+  image.src = imageUrl;
+  image.alt = excerpt.asset.alt;
+  image.width = excerpt.asset.width;
+  image.height = excerpt.asset.height;
+  const caption = element("figcaption", {
+    text: "Unannotated excerpt from the pinned source. No harmonic labels or highlighting have been added.",
+  });
+  append(figure, image, caption);
+
+  const sourceLink = element("a", { text: "Open the complete pinned score" });
+  sourceLink.href = source.sourceUrl;
+  sourceLink.target = "_blank";
+  sourceLink.rel = "noopener noreferrer";
+  const sourceParagraph = element("p");
+  sourceParagraph.append(sourceLink);
+
+  const details = element("details", { className: "technical-details" });
+  details.append(
+    element("summary", { text: "Edition and technical provenance" }),
+  );
+  const definitions = element("dl");
+  [
+    ["Edition", source.edition],
+    ["Source ID", source.sourceIdentifier],
+    ["Source PDF SHA-256", source.sha256],
+    ["Excerpt SHA-256", excerpt.asset.sha256],
+  ].forEach(([term, value]) => {
+    append(
+      definitions,
+      element("dt", { text: term }),
+      element("dd", { text: value, className: "data-value" }),
+    );
+  });
+  details.append(definitions);
+  append(wrapper, heading, location, figure, sourceParagraph, details);
+  return wrapper;
+}
+
+function renderEvidence(reviewCase) {
+  const section = element("section", { className: "case-section" });
+  section.append(
+    sectionHeading(
+      "Pinned musical evidence",
+      "Read or inspect the example",
+      "The display is descriptive only; it contains no initial or detector answer.",
+    ),
+  );
+  const card = element("div", { className: "evidence-card" });
+  const evidence = reviewCase.evidence;
+  card.append(
+    evidence.kind === "synthetic-midi"
+      ? renderGeneratedEvidence(evidence)
+      : renderScoreEvidence(evidence),
+  );
   section.append(card);
   return section;
 }
@@ -295,18 +456,18 @@ function renderJudgments(caseIndex, response) {
   const section = element("section", { className: "case-section" });
   section.append(
     sectionHeading(
-      "Construction",
-      "Observation and construction tags",
-      "Judge the construction separately from what each input representation can recover.",
+      "Your musical reading",
+      "Choose the unit and construction",
+      "Judge the construction here. Later questions ask whether each kind of input could recover it.",
     ),
   );
   section.append(
     radioGroup({
       id: `case-${caseIndex}-observation`,
-      legend: "Observation unit",
+      legend: "What is the smallest musical unit needed for your judgment?",
       values: OBSERVATION_KINDS,
       selected: response.observationKind,
-      help: "Choose snapshot only when the assigned notes actually sound together.",
+      help: "Choose one simultaneous sonority only when every note needed for the reading actually sounds at once.",
       onChange(value) {
         response.observationKind = value;
         responseChanged();
@@ -314,10 +475,10 @@ function renderJudgments(caseIndex, response) {
     }),
     radioGroup({
       id: `case-${caseIndex}-tag`,
-      legend: "Construction tag",
+      legend: "Which statement best describes the construction?",
       values: CONSTRUCTION_TAGS,
       selected: response.constructionTag,
-      help: "Abstain is preferable to forcing an unsupported tag.",
+      help: "Cannot determine is preferable to forcing an unsupported answer.",
       onChange(value) {
         response.constructionTag = value;
         responseChanged();
@@ -328,11 +489,13 @@ function renderJudgments(caseIndex, response) {
 }
 
 function derivedLayerSummary(layer) {
-  const midi = layer.midiNotes?.length ? layer.midiNotes.join(", ") : "none";
+  const notes = layer.midiNotes?.length
+    ? formatNoteList(layer.midiNotes)
+    : "none assigned";
   const pitchClasses = layer.pitchClasses.length
-    ? layer.pitchClasses.join(", ")
-    : "none";
-  return `Assigned MIDI: ${midi}. Derived pitch classes: ${pitchClasses}.`;
+    ? layer.pitchClasses.map(pitchClassLabel).join(", ")
+    : "none yet";
+  return `Assigned notes: ${notes}. Distinct pitch names: ${pitchClasses}.`;
 }
 
 function renderPitchClassChoices(
@@ -346,7 +509,7 @@ function renderPitchClassChoices(
     id: `case-${caseIndex}-layer-${layerIndex}-pitch-classes`,
     className: "choice-group",
   });
-  group.append(element("legend", { text: "Pitch classes" }));
+  group.append(element("legend", { text: "Notes in this layer" }));
   const grid = element("div", { className: "pitch-class-grid" });
   for (let pitchClass = 0; pitchClass < 12; pitchClass += 1) {
     const id = `case-${caseIndex}-layer-${layerIndex}-pc-${pitchClass}`;
@@ -367,14 +530,18 @@ function renderPitchClassChoices(
     });
     const label = element("label", { className: "pitch-class-option" });
     label.htmlFor = id;
-    append(label, input, element("span", { text: String(pitchClass) }));
+    append(
+      label,
+      input,
+      element("span", { text: PITCH_CLASS_LABELS[pitchClass] }),
+    );
     grid.append(label);
   }
   append(
     group,
     element("p", {
       className: "help",
-      text: "Use pitch-class integers 0-11; enharmonic spelling remains in the identity text.",
+      text: "These choices are octave-neutral. Preserve the intended enharmonic spelling in the chord identity above.",
     }),
     grid,
   );
@@ -387,14 +554,14 @@ function renderLayers(caseIndex, response, evidence) {
   append(
     heading,
     sectionHeading(
-      "Decomposition",
-      "Layers and note assignment",
-      "Positive and boundary tags require at least two non-empty conventional chordal units.",
+      "Chordal description",
+      "Name the layers and assign their notes",
+      "The first two construction choices require at least two non-empty conventional chordal units.",
     ),
   );
   const addButton = element("button", {
     className: "button tertiary",
-    text: "Add layer",
+    text: "Add chordal layer",
   });
   addButton.type = "button";
   addButton.addEventListener("click", () => {
@@ -418,7 +585,7 @@ function renderLayers(caseIndex, response, evidence) {
     list.append(
       element("p", {
         className: "muted",
-        text: "No layers added. This is valid for abstain and may be valid for a negative guard.",
+        text: "No layers added. This is valid for cannot determine and may be valid when a polychord reading would be misleading.",
       }),
     );
   }
@@ -445,7 +612,7 @@ function renderLayers(caseIndex, response, evidence) {
       identityInput,
       element("p", {
         className: "help",
-        text: "Enter your own concise identity; no chord-name normalization is applied.",
+        text: "Use your normal concise chord notation. The study does not rewrite or normalize your answer.",
       }),
     );
     card.append(identityField);
@@ -454,7 +621,7 @@ function renderLayers(caseIndex, response, evidence) {
       card.append(
         element("p", {
           id: `case-${caseIndex}-layer-${layerIndex}-summary`,
-          className: "readout data-value",
+          className: "readout",
           text: derivedLayerSummary(layer),
         }),
       );
@@ -499,11 +666,11 @@ function renderLayers(caseIndex, response, evidence) {
       id: `case-${caseIndex}-note-assignments`,
       className: "choice-group",
     });
-    assignments.append(element("legend", { text: "MIDI note assignment" }));
+    assignments.append(element("legend", { text: "Assign each written note" }));
     assignments.append(
       element("p", {
         className: "help",
-        text: "Assign each observed note exactly once. Pitch classes are derived from this assignment.",
+        text: "Assign every observed note to one layer, or explicitly leave it unassigned. Octave-neutral note membership is derived automatically.",
       }),
     );
     const rows = element("ul", { className: "note-assignment-list" });
@@ -511,11 +678,11 @@ function renderLayers(caseIndex, response, evidence) {
       const row = element("li", { className: "note-assignment-row" });
       const selectId = `case-${caseIndex}-midi-${midiNote}`;
       const label = element("label", {
-        text: `MIDI ${midiNote} · pitch class ${midiNote % 12}`,
+        text: midiNoteLabel(midiNote),
       });
       label.htmlFor = selectId;
       const select = element("select", { id: selectId });
-      const unassigned = element("option", { text: "Unassigned" });
+      const unassigned = element("option", { text: "Not assigned to a layer" });
       unassigned.value = "unassigned";
       select.append(unassigned);
       response.layers.forEach((_, layerIndex) => {
@@ -539,8 +706,8 @@ function renderLayers(caseIndex, response, evidence) {
   section.append(
     element("p", {
       id: `case-${caseIndex}-shared-summary`,
-      className: "readout data-value",
-      text: `Shared pitch classes: ${response.sharedPitchClasses.join(", ") || "none"}.`,
+      className: "readout",
+      text: `Pitch names shared by two layer templates: ${response.sharedPitchClasses.map(pitchClassLabel).join(", ") || "none"}.`,
     }),
   );
   return section;
@@ -555,7 +722,7 @@ function updateDerivedReadouts(caseIndex, response) {
   });
   const shared = document.querySelector(`#case-${caseIndex}-shared-summary`);
   if (shared) {
-    shared.textContent = `Shared pitch classes: ${response.sharedPitchClasses.join(", ") || "none"}.`;
+    shared.textContent = `Pitch names shared by two layer templates: ${response.sharedPitchClasses.map(pitchClassLabel).join(", ") || "none"}.`;
   }
 }
 
@@ -565,8 +732,8 @@ function renderAlternatives(caseIndex, response) {
   heading.append(
     sectionHeading(
       "Alternative reading",
-      "Integrated single-chord alternatives",
-      "Record only alternatives to the proposed layering; leave the list empty when none is defensible.",
+      "Could one chord name this instead?",
+      "List only plausible integrated single-chord readings. Leave this empty when none is defensible.",
     ),
   );
   const addButton = element("button", {
@@ -634,23 +801,26 @@ function renderEligibility(caseIndex, response) {
   section.append(
     sectionHeading(
       "Recoverability",
-      "Input eligibility",
-      "Judge each input condition separately and explain every status, including unknown.",
+      "Could each input recover your reading?",
+      "Answer all three separately. This does not change the construction judgment above.",
     ),
   );
   const list = element("div", { className: "eligibility-list" });
   INPUT_CONDITIONS.forEach((input) => {
     const judgment = response.inputEligibility[input];
     const card = element("section", { className: "eligibility-card" });
-    card.append(element("h4", { text: LABELS[input] }));
+    card.append(
+      element("h4", { text: LABELS[input] }),
+      element("p", { className: "help input-help", text: INPUT_HELP[input] }),
+    );
     const grid = element("div", { className: "eligibility-grid" });
 
     const statusField = element("div", { className: "field" });
     const statusId = `case-${caseIndex}-${input}-status`;
-    const statusLabel = element("label", { text: "Status" });
+    const statusLabel = element("label", { text: "Evidence judgment" });
     statusLabel.htmlFor = statusId;
     const select = element("select", { id: statusId });
-    const placeholder = element("option", { text: "Choose status" });
+    const placeholder = element("option", { text: "Choose a judgment" });
     placeholder.value = "";
     select.append(placeholder);
     ELIGIBILITY_STATUSES.forEach((status) => {
@@ -667,7 +837,7 @@ function renderEligibility(caseIndex, response) {
 
     const reasonField = element("div", { className: "field" });
     const reasonId = `case-${caseIndex}-${input}-reason`;
-    const reasonLabel = element("label", { text: "Reason" });
+    const reasonLabel = element("label", { text: "Musical reason" });
     reasonLabel.htmlFor = reasonId;
     const reason = element("textarea", { id: reasonId });
     reason.rows = 3;
@@ -687,14 +857,14 @@ function renderEligibility(caseIndex, response) {
 
 function renderConfidenceAndNotes(caseIndex, response) {
   const section = element("section", { className: "case-section" });
-  section.append(sectionHeading("Reflection", "Confidence and notes"));
+  section.append(sectionHeading("Reflection", "Confidence and final notes"));
   section.append(
     radioGroup({
       id: `case-${caseIndex}-confidence`,
       legend: "Confidence",
       values: CONFIDENCE_LEVELS,
       selected: response.confidence,
-      help: "Confidence is descriptive and does not replace eligibility reasons.",
+      help: "Report confidence in your construction judgment. Still explain each recoverability answer above.",
       onChange(value) {
         response.confidence = value;
         responseChanged();
@@ -718,11 +888,158 @@ function renderConfidenceAndNotes(caseIndex, response) {
     textarea,
     element("p", {
       className: "help",
-      text: "Record ambiguity, missing rubric choices, or evidence that influenced the judgment.",
+      text: "Record ambiguity, a missing rubric choice, a case-specific reference, or other evidence that influenced the judgment.",
     }),
   );
   section.append(notesField);
   return section;
+}
+
+function renderWorkedExamples() {
+  orientationExamples.replaceChildren();
+  ORIENTATION_EXAMPLES.forEach((example, exampleIndex) => {
+    const article = element("article", { className: "worked-example" });
+    append(
+      article,
+      element("p", {
+        className: "worked-example-number",
+        text: `Worked example ${exampleIndex + 1}`,
+      }),
+      element("h3", { text: example.title }),
+      element("p", { text: example.description }),
+      renderKeyboard(example.midiNotes, `Worked example ${exampleIndex + 1}`),
+      renderNoteChips(example.midiNotes),
+    );
+    const answer = element("p", { className: "worked-answer" });
+    append(
+      answer,
+      element("strong", { text: "Worked judgment: " }),
+      document.createTextNode(example.answer),
+    );
+    append(article, answer, element("p", { text: example.explanation }));
+    orientationExamples.append(article);
+  });
+}
+
+function renderReadinessQuestions() {
+  readinessQuestions.replaceChildren();
+  READINESS_QUESTIONS.forEach((question) => {
+    const fieldset = element("fieldset", {
+      id: `readiness-${question.id}`,
+      className: "choice-group readiness-question",
+    });
+    fieldset.append(element("legend", { text: question.legend }));
+    const choices = element("div", { className: "choice-list" });
+    question.options.forEach((option) => {
+      const optionId = `readiness-${question.id}-${option.value}`;
+      const input = element("input", { id: optionId });
+      input.type = "radio";
+      input.name = `readiness-${question.id}`;
+      input.value = option.value;
+      const label = element("label", { className: "choice-option" });
+      label.htmlFor = optionId;
+      append(label, input, element("span", { text: option.label }));
+      choices.append(label);
+    });
+    fieldset.append(choices);
+    readinessQuestions.append(fieldset);
+  });
+}
+
+function showReviewWorkspace({ focus = false } = {}) {
+  orientationPanel.hidden = true;
+  reviewWorkspace.hidden = false;
+  if (focus) {
+    const target = state.annotatorId
+      ? document.querySelector("#current-case-heading")
+      : annotatorIdInput;
+    target?.focus();
+    target?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function showOrientation({ focus = false } = {}) {
+  reviewWorkspace.hidden = true;
+  orientationPanel.hidden = false;
+  if (focus) {
+    document.querySelector("#orientation-heading")?.focus();
+    orientationPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function wireOrientation() {
+  readinessForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    readinessQuestions
+      .querySelectorAll(".readiness-feedback")
+      .forEach((node) => node.remove());
+    readinessQuestions
+      .querySelectorAll('[aria-invalid="true"]')
+      .forEach((node) => node.removeAttribute("aria-invalid"));
+
+    const formData = new FormData(readinessForm);
+    const answers = Object.fromEntries(
+      READINESS_QUESTIONS.map((question) => [
+        question.id,
+        formData.get(`readiness-${question.id}`),
+      ]),
+    );
+
+    if (!readinessIsComplete(answers)) {
+      let firstIncorrect;
+      READINESS_QUESTIONS.forEach((question) => {
+        if (answers[question.id] === question.correct) return;
+        const fieldset = document.querySelector(`#readiness-${question.id}`);
+        fieldset.setAttribute("aria-invalid", "true");
+        fieldset.append(
+          element("p", {
+            className: "field-error readiness-feedback",
+            text: `Review this boundary. The guide's answer is: ${question.options.find((option) => option.value === question.correct).label}`,
+          }),
+        );
+        firstIncorrect ??= fieldset;
+      });
+      readinessMessage.textContent =
+        "The orientation is not complete yet. Review the marked task boundaries and try again.";
+      readinessMessage.hidden = false;
+      firstIncorrect?.scrollIntoView({ behavior: "smooth", block: "center" });
+      firstIncorrect?.querySelector("input")?.focus();
+      return;
+    }
+
+    readinessMessage.hidden = true;
+    state.orientationComplete = true;
+    persistDraft(false);
+    showReviewWorkspace({ focus: true });
+    setStatus(
+      "Orientation complete. The six scored cases are now available.",
+      "success",
+    );
+  });
+}
+
+async function prepareScoreAssets() {
+  assertPresentationManifest(presentationManifest);
+  for (const reviewCase of template.cases) {
+    if (reviewCase.evidence.kind !== "score-source") continue;
+    const excerpt = scoreExcerptForEvidence(
+      presentationManifest,
+      reviewCase.evidence,
+    );
+    if (!/^[A-Za-z0-9._-]+$/.test(excerpt.asset.file)) {
+      throw new Error("A score-excerpt asset path is invalid.");
+    }
+    const sourceIdentifier = reviewCase.evidence.source.sourceIdentifier;
+    if (scoreAssetUrls.has(sourceIdentifier)) continue;
+    scoreAssetUrls.set(
+      sourceIdentifier,
+      await loadPinnedImage(
+        `assets/${excerpt.asset.file}`,
+        excerpt.asset.sha256,
+        `Score excerpt ${sourceIdentifier}`,
+      ),
+    );
+  }
 }
 
 function navigateTo(caseIndex, focus = true) {
@@ -937,11 +1254,20 @@ function wireStaticControls() {
     }
     state = createInstrumentState(template);
     visibleErrors = [];
+    readinessForm.reset();
+    readinessMessage.hidden = true;
+    readinessQuestions
+      .querySelectorAll(".readiness-feedback")
+      .forEach((node) => node.remove());
+    readinessQuestions
+      .querySelectorAll('[aria-invalid="true"]')
+      .forEach((node) => node.removeAttribute("aria-invalid"));
     annotatorIdInput.value = "";
     completedOnInput.value = "";
     errorSummary.hidden = true;
     renderNavigation();
     renderCase();
+    showOrientation({ focus: true });
     setStatus("Local draft cleared.", "success");
   });
   reviewForm.addEventListener("submit", (event) => {
@@ -956,7 +1282,7 @@ function wireStaticControls() {
       persistDraft(false);
       downloadCompletedPacket(completed);
       setStatus(
-        "Response validated and downloaded. Keep this raw file unchanged.",
+        "Response checked and downloaded. Keep this file unchanged.",
         "success",
       );
     } catch (error) {
@@ -973,6 +1299,7 @@ function wireStaticControls() {
 async function start() {
   instrumentVersion.textContent = INSTRUMENT_VERSION;
   packetDigest.textContent = EXPECTED_PACKET_SHA256;
+  presentationDigest.textContent = EXPECTED_PRESENTATION_SHA256;
 
   const packetText = await loadPinnedText(
     PACKET_PATH,
@@ -985,14 +1312,33 @@ async function start() {
     template.annotationGuide.sha256,
     "Annotation guide",
   );
+  const presentationText = await loadPinnedText(
+    PRESENTATION_PATH,
+    EXPECTED_PRESENTATION_SHA256,
+    "Score-excerpt manifest",
+  );
+  presentationManifest = JSON.parse(presentationText);
+  await prepareScoreAssets();
 
   state = recoverDraft(createInstrumentState(template));
   loadingPanel.hidden = true;
   instrument.hidden = false;
+  renderWorkedExamples();
+  renderReadinessQuestions();
+  wireOrientation();
   wireStaticControls();
   renderNavigation();
   renderCase();
+  if (state.orientationComplete) {
+    showReviewWorkspace();
+  } else {
+    showOrientation();
+  }
 }
+
+window.addEventListener("beforeunload", () => {
+  scoreAssetUrls.forEach((url) => URL.revokeObjectURL(url));
+});
 
 start().catch((error) => {
   loadingPanel.hidden = true;

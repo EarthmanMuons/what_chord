@@ -1,4 +1,4 @@
-export const INSTRUMENT_VERSION = "polychord-pilot-review-instrument/1";
+export const INSTRUMENT_VERSION = "polychord-pilot-review-instrument/2";
 export const REVIEW_SCHEMA = "polychord-pilot-review/1";
 
 export const CONSTRUCTION_TAGS = [
@@ -21,6 +21,12 @@ export const INPUT_CONDITIONS = [
   "pitchRegisterSnapshot",
   "timestampedEventStream",
 ];
+
+const INPUT_ERROR_LABELS = {
+  adjacentRegisterSnapshot: "one split between neighboring notes",
+  pitchRegisterSnapshot: "any assignment using pitch and register",
+  timestampedEventStream: "timing and motion available",
+};
 
 const ANNOTATOR_ID = /^[A-Za-z0-9][A-Za-z0-9._-]{2,63}$/;
 
@@ -88,6 +94,7 @@ export function createInstrumentState(template) {
     instrumentVersion: INSTRUMENT_VERSION,
     annotatorId: "",
     completedOn: "",
+    orientationComplete: false,
     currentCaseIndex: 0,
     responses: template.cases.map((reviewCase) => {
       const response = clone(reviewCase.response);
@@ -114,7 +121,7 @@ export function removeLayer(response, evidence, layerIndex) {
     throw new RangeError("Unknown layer index.");
   }
   if (layer.midiNotes?.length) {
-    throw new Error("Reassign this layer's MIDI notes before removing it.");
+    throw new Error("Reassign this layer's notes before removing it.");
   }
   response.layers.splice(layerIndex, 1);
   refreshDerivedFields(response, evidence);
@@ -125,7 +132,7 @@ export function assignMidiNote(response, evidence, midiNote, destination) {
     evidence.kind !== "synthetic-midi" ||
     !evidence.midiNotes.includes(midiNote)
   ) {
-    throw new Error("The selected MIDI note is not part of this case.");
+    throw new Error("The selected note is not part of this case.");
   }
 
   for (const layer of response.layers) {
@@ -212,11 +219,11 @@ function validateCase(response, evidence, caseIndex, errors) {
       errors,
       caseIndex,
       `${prefix}-observation`,
-      "Choose an observation unit.",
+      "Choose the smallest musical unit needed for the judgment.",
     );
   }
   if (!CONSTRUCTION_TAGS.includes(response.constructionTag)) {
-    issue(errors, caseIndex, `${prefix}-tag`, "Choose a construction tag.");
+    issue(errors, caseIndex, `${prefix}-tag`, "Choose a construction reading.");
   }
   if (!CONFIDENCE_LEVELS.includes(response.confidence)) {
     issue(
@@ -235,7 +242,7 @@ function validateCase(response, evidence, caseIndex, errors) {
       errors,
       caseIndex,
       `${prefix}-layers`,
-      "Positive and boundary responses require at least two layers.",
+      "The two polychord choices require at least two chordal layers.",
     );
   }
   if (
@@ -246,7 +253,7 @@ function validateCase(response, evidence, caseIndex, errors) {
       errors,
       caseIndex,
       `${prefix}-layers`,
-      "A negative guard may contain at most one integrated layer.",
+      "A misleading-polychord response may contain at most one integrated chord layer.",
     );
   }
 
@@ -275,7 +282,7 @@ function validateCase(response, evidence, caseIndex, errors) {
         errors,
         caseIndex,
         `${prefix}-note-assignments`,
-        `Layer ${layerIndex + 1} needs at least one assigned MIDI note.`,
+        `Layer ${layerIndex + 1} needs at least one assigned note.`,
       );
     }
   });
@@ -293,7 +300,7 @@ function validateCase(response, evidence, caseIndex, errors) {
         errors,
         caseIndex,
         `${prefix}-note-assignments`,
-        "Assign every MIDI note exactly once to a layer or to unassigned.",
+        "Assign every note exactly once to a layer or leave it unassigned.",
       );
     }
   }
@@ -316,7 +323,7 @@ function validateCase(response, evidence, caseIndex, errors) {
         errors,
         caseIndex,
         `${prefix}-${input}-status`,
-        `Choose an eligibility status for ${input}.`,
+        `Choose an evidence judgment for ${INPUT_ERROR_LABELS[input]}.`,
       );
     }
     if (typeof judgment?.reason !== "string" || judgment.reason.trim() === "") {
@@ -324,7 +331,7 @@ function validateCase(response, evidence, caseIndex, errors) {
         errors,
         caseIndex,
         `${prefix}-${input}-reason`,
-        `Explain the eligibility judgment for ${input}.`,
+        `Explain the musical reason for ${INPUT_ERROR_LABELS[input]}.`,
       );
     }
   }
@@ -338,7 +345,7 @@ export function validateInstrumentState(template, state) {
       errors,
       null,
       "annotator-id",
-      "Use an opaque 3-64 character ID containing only letters, numbers, dots, underscores, or hyphens.",
+      "Use an assigned 3-64 character reviewer ID containing only letters, numbers, dots, underscores, or hyphens.",
     );
   }
   if (!validIsoDate(state.completedOn)) {

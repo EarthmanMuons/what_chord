@@ -14,6 +14,14 @@ import {
   buildCompletedPacket,
   createInstrumentState,
 } from "../../research/polychord/review-instrument/model.mjs";
+import {
+  ORIENTATION_EXAMPLES,
+  PITCH_CLASS_LABELS,
+  assertPresentationManifest,
+  midiNoteLabel,
+  readinessIsComplete,
+  scoreExcerptForEvidence,
+} from "../../research/polychord/review-instrument/presentation.mjs";
 
 const ROOT = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const PACKET = join(ROOT, "research/polychord/pilot-review-template-v0.json");
@@ -21,6 +29,11 @@ const RULER = join(ROOT, "research/polychord/pilot-ruler-v0.json");
 const GUIDE = join(ROOT, "research/polychord/pilot-annotation.md");
 const APP = join(ROOT, "research/polychord/review-instrument/app.mjs");
 const HTML = join(ROOT, "research/polychord/review-instrument/index.html");
+const PRESENTATION = join(
+  ROOT,
+  "research/polychord/review-instrument/assets/manifest.json",
+);
+const ASSETS = join(ROOT, "research/polychord/review-instrument/assets");
 
 function sha256(path) {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
@@ -28,6 +41,18 @@ function sha256(path) {
 
 function loadTemplate() {
   return JSON.parse(readFileSync(PACKET, "utf8"));
+}
+
+function pngDimensions(path) {
+  const bytes = readFileSync(path);
+  assert.deepEqual(
+    [...bytes.subarray(0, 8)],
+    [137, 80, 78, 71, 13, 10, 26, 10],
+  );
+  return {
+    width: bytes.readUInt32BE(16),
+    height: bytes.readUInt32BE(20),
+  };
 }
 
 function completeMechanicalFixture(template) {
@@ -50,18 +75,57 @@ function completeMechanicalFixture(template) {
   return state;
 }
 
-test("instrument pins the exact packet and guide and exposes accessible landmarks", () => {
+test("instrument pins its packet, guide, and musician-facing presentation", () => {
   const template = loadTemplate();
   const app = readFileSync(APP, "utf8");
   const html = readFileSync(HTML, "utf8");
+  const manifest = JSON.parse(readFileSync(PRESENTATION, "utf8"));
 
   assert.match(app, new RegExp(sha256(PACKET)));
+  assert.match(app, new RegExp(sha256(PRESENTATION)));
   assert.equal(template.annotationGuide.sha256, sha256(GUIDE));
+  assertPresentationManifest(manifest);
+  for (const reviewCase of template.cases) {
+    if (reviewCase.evidence.kind !== "score-source") continue;
+    const excerpt = scoreExcerptForEvidence(manifest, reviewCase.evidence);
+    const assetPath = join(ASSETS, excerpt.asset.file);
+    assert.equal(sha256(assetPath), excerpt.asset.sha256);
+    assert.deepEqual(pngDimensions(assetPath), {
+      width: excerpt.asset.width,
+      height: excerpt.asset.height,
+    });
+  }
   assert.match(html, /<html lang="en">/);
   assert.match(html, /class="skip-link" href="#main-content"/);
   assert.match(html, /role="status"\s+aria-live="polite"/);
   assert.match(html, /Content-Security-Policy/);
+  assert.match(html, /img-src 'self' blob:/);
+  assert.match(html, /10 to 15 minute orientation/);
   assert.doesNotMatch(html, /<script(?![^>]*src=)[^>]*>/);
+});
+
+test("musical labels and orientation remain separate from scored cases", () => {
+  const template = loadTemplate();
+  const scoredNoteSets = new Set(
+    template.cases
+      .filter((reviewCase) => reviewCase.evidence.kind === "synthetic-midi")
+      .map((reviewCase) => JSON.stringify(reviewCase.evidence.midiNotes)),
+  );
+
+  assert.equal(midiNoteLabel(46), "A♯2/B♭2");
+  assert.equal(PITCH_CLASS_LABELS[1], "C♯/D♭");
+  assert.equal(ORIENTATION_EXAMPLES.length, 3);
+  for (const example of ORIENTATION_EXAMPLES) {
+    assert.equal(scoredNoteSets.has(JSON.stringify(example.midiNotes)), false);
+  }
+  assert.equal(
+    readinessIsComplete({ meaning: "no", uncertainty: "abstain", unit: "no" }),
+    true,
+  );
+  assert.equal(
+    readinessIsComplete({ meaning: "yes", uncertainty: "abstain", unit: "no" }),
+    false,
+  );
 });
 
 test("completed export preserves frozen evidence and passes the Python validator", () => {
@@ -130,9 +194,7 @@ test("positive response rejects empty synthetic layers", () => {
     () => buildCompletedPacket(template, state),
     (error) =>
       error instanceof InstrumentValidationError &&
-      error.errors.some((issue) =>
-        issue.message.includes("assigned MIDI note"),
-      ),
+      error.errors.some((issue) => issue.message.includes("assigned note")),
   );
 });
 
