@@ -1,179 +1,140 @@
-# Polychord pilot annotation guide
+# Polychord pilot reviewer guide
 
-Status: draft for an independent-method pilot. This guide and
-`pilot-ruler-v0.json` are not a frozen ruler and must not be used to report
-accuracy.
+Status: draft for an independent-method pilot. This guide and the six pilot
+cases test whether the review method is clear. They are not a frozen accuracy
+test for WhatChord.
 
-## Why the pilot has two labels
+## Who this review is for
 
-A score can establish that a passage was constructed from two chordal units
-without establishing that a pitch-and-register snapshot contains enough evidence
-to recover those units. The pilot therefore keeps two questions separate:
+This review is intended for musicians with formal music-theory study or
+equivalent advanced practical experience. You should be comfortable reading
+standard notation, piano-keyboard and piano-roll views, identifying common
+triads and seventh chords, and distinguishing chord extensions, slash chords,
+and upper-structure voicings.
 
-1. **Construction label:** does the source or the deliberately generated control
-   support a positive, boundary, or negative-guard reading?
-2. **Input eligibility:** can the proposed reading be evaluated from an
-   adjacent-register snapshot, a general pitch-and-register snapshot, or a
-   timestamped event stream?
+You do not need programming, MIDI, JSON, music-information-retrieval, or
+WhatChord experience. The review normally takes 30 to 45 minutes after a 10 to
+15 minute orientation.
 
-An ineligible case is not a detector false negative. Conversely, source
-knowledge must not be smuggled into an input condition that does not carry it.
+## The question we are asking
 
-## Annotation unit
+For this study, a **polychord** is a notational or constructional description:
+one musical sonority or short passage is usefully described as two conventional
+chordal units in combination.
 
-Annotate the smallest source passage that establishes the construction. Use a
-single snapshot only when all assigned notes actually sound together. Use an
-event window when the chordal units are established by arpeggiation, motion, or
-successive attacks. Do not verticalize a passage and describe the resulting
-pitch set as an observed voicing.
+This does not claim that a listener hears two independent keys. It also does not
+ask you to infer a composer's private intention. Judge only the musical evidence
+presented in the case.
 
-For each case record:
+Each case asks three separate questions:
 
-- the expected tag and exact layer identities;
-- an octave-specific note assignment when a simultaneous snapshot exists;
-- shared pitch classes and any unassigned notes;
-- a stable source, edition, printed location, digital page, and file digest, or
-  a complete synthetic-generation description;
-- admissible single-chord alternatives;
-- a separate eligibility judgment and reason for each input condition;
-- verification and independent-review status.
+1. What is the smallest musical unit needed to make the judgment: one
+   simultaneous sonority or a short passage unfolding over time?
+2. Is a polychord decomposition expected, merely available but less preferable
+   than one integrated chord, or misleading?
+3. Which kinds of input would contain enough evidence to recover your reading?
 
-## Tag rubric
+Keep the construction judgment in question 2 separate from recoverability in
+question 3. A passage can be a valid constructional polychord even when a single
+pitch-and-register snapshot cannot recover its layers.
 
-- **positive:** the source or generated construction explicitly combines two
-  conventional chordal units, and a polychord reading is expected at least as an
-  alternative.
-- **boundary:** a decomposition is descriptively available, but an integrated
-  chord, slash chord, or established upper-structure reading is preferred.
-- **negative guard:** a polychord reading would be misleading; the notes form
-  one integrated harmony or a duplicated statement of one rooted chord.
+## Construction choices
 
-Tags describe the constructional judgment, not what a particular detector can
-observe.
+- **Polychord reading expected:** the evidence supports two conventional chordal
+  units, and a polychord name should be available at least as a secondary
+  reading.
+- **Possible decomposition, but a single-chord reading is preferable:** two
+  chordal units can describe the evidence, but an integrated chord, slash chord,
+  or established upper-structure reading is the better primary description.
+- **A polychord reading would be misleading:** the evidence is better understood
+  as one integrated harmony or as a duplicated voicing of one rooted chord.
+- **Cannot determine from the instructions or evidence:** the evidence or this
+  guide does not support a responsible choice. Explain what is missing or
+  unclear; do not force a label.
 
-## Input-eligibility rubric
+These choices concern construction and notation, not whether a particular
+algorithm succeeds.
 
-Use `eligible`, `ambiguous`, `ineligible`, `research-candidate`, or `unknown`.
+## Choose the musical unit
 
-- `adjacentRegisterSnapshot` is eligible only when one boundary in the sorted
-  sounded notes yields the complete assigned layers.
-- `pitchRegisterSnapshot` may consider non-contiguous assignments, but is
-  ambiguous when the snapshot alone cannot justify one construction over a
-  common integrated-chord reading.
-- `timestampedEventStream` may use onset cohorts, releases, pedal state, and
-  coherent layer motion. Mark it `research-candidate` when the score shows such
-  evidence but no frame-accurate MIDI replay has yet been encoded.
+- Choose **one simultaneous sonority** only when all notes needed for your
+  reading sound together.
+- Choose **a short passage unfolding over time** when the chordal units are
+  established by arpeggiation, successive attacks, or coherent motion.
 
-Unknown or absent evidence never becomes an implicit negative label.
+Do not collect every pitch from a passage into an imaginary vertical chord if
+those pitches never sound together.
 
-## Response representation
+## Describe the chordal layers
 
-Each layer uses the following shape. `midiNotes` is required for synthetic MIDI
-evidence and omitted when a score event window establishes only pitch-class
-membership:
+For the two polychord choices, add at least two layers. Give each layer a concise
+chord identity in the notation you normally use, then assign the notes belonging
+to it. The interface shows written note names and derives the machine-readable
+values automatically.
 
-```json
-{
-  "identity": "C",
-  "midiNotes": [60, 64, 67],
-  "pitchClasses": [0, 4, 7]
-}
-```
+For score excerpts, select the pitch names belonging to each layer. Preserve
+important spelling in the chord-identity text because the pitch selector is
+enharmonically neutral. If the same pitch class belongs to two chord templates,
+select it in both layers. For generated note examples, every octave-specific
+note must belong to exactly one layer or remain explicitly unassigned; two
+separate notes may still share the same pitch class.
 
-Use two or more layers for `positive` and `boundary`. For `negative-guard`, use
-one layer for the preferred integrated chord or no layer if no conventional
-identity is defensible. `abstain` may leave the layer list empty. Lists are
-sorted and contain no duplicates.
+For **a polychord reading would be misleading**, describe the preferred single
+integrated chord as one layer when a conventional identity is available. It is
+also acceptable to use no layer when no such identity is defensible. For
+**cannot determine**, layers may be left empty.
 
-For synthetic evidence, assign every observed MIDI note exactly once: either to
-one layer or to `unassignedMidiNotes`. A single MIDI note cannot serve two
-layers. Separate notes may share a pitch class; record every pitch class shared
-by two layer templates in `sharedPitchClasses`. For score sources, independently
-transcribe the relevant notes or pitch classes rather than copying an analysis
-from the initial ruler.
+Record plausible integrated single-chord readings separately under
+**single-chord alternatives**. Do not list alternate spellings of the same
+polychord there.
 
-`singleChordAlternatives` contains only integrated alternatives to the proposed
-layering. Confidence is `low`, `medium`, or `high`; it is descriptive and does
-not replace an eligibility reason.
+## Judge what each input can recover
 
-## Independent review
+Answer all three recoverability questions independently:
 
-The independent annotator receives this guide and the generated review packet,
-but not `pilot-ruler-v0.json`. The packet uses neutral, deterministically
-shuffled case IDs. It omits the first annotator's labels, layer assignments,
-alternatives, eligibility judgments, rationales, descriptive IDs, and synthetic
-generation intent. It retains only raw MIDI/onset evidence or a pinned score
-location.
+- **One split between neighboring notes:** Could the complete layers be obtained
+  by sorting the simultaneously sounding notes from low to high and placing one
+  boundary between adjacent notes?
+- **Any assignment using pitch and register:** Could the layers be recovered
+  from the simultaneous octave-specific notes when notes need not form two
+  contiguous register blocks?
+- **Timing and motion available:** Could attack time, release, sustain-pedal
+  state, or coherent motion supply evidence that a snapshot lacks?
 
-This is label-blinding, not work-blinding or double-blinding. A score-source
-case necessarily reveals its work, edition, and location so the annotator can
-verify the musical evidence. Report that limitation directly; familiarity with a
-canonical example may influence the judgment even when the initial annotation is
-hidden.
+Use these response choices:
 
-The annotator records the observation unit, construction tag, layer assignment,
-shared pitch classes, alternatives, all three eligibility judgments, confidence,
-and notes. `abstain` is allowed as a construction tag; uncertainty must not be
-forced into one of the three ruler tags. Every eligibility judgment still needs
-a reason, including `unknown`.
+- **Enough evidence:** the input supports the proposed reading under the stated
+  condition.
+- **More than one defensible reading:** the input permits the reading, but does
+  not justify it over an ordinary integrated-chord alternative.
+- **Not enough evidence:** the input cannot contain the notes or relationships
+  needed for the reading.
+- **Promising, but needs an encoded performance:** the score suggests useful
+  timing or motion evidence, but no frame-accurate performance has been encoded.
+- **Not known from this case:** the required evidence is absent, so its
+  usefulness cannot be judged.
 
-The annotator uses a pseudonymous ID rather than a name or email. They change
-the packet status from `template` to `complete`, fill the completion date and
-every response, and return the file without changing the evidence fields.
-Validate a returned review with:
+Give a short musical reason for every choice, including uncertainty.
 
-```sh
-python3 tool/polychord/pilot_ruler.py research/polychord/pilot-ruler-v0.json \
-  --validate-review path/to/completed-review.json
-```
+## Independence and uncertainty
 
-The initial annotations and completed review remain separate. Compute agreement
-before revealing the mapping or discussing disagreements. Adjudication produces
-a later artifact and never overwrites either input. If an annotator saw the
-initial ruler or participated in its decisions, record the pass as
-non-independent and obtain another review before making a publication claim.
+Complete the orientation and scored cases without consulting another reviewer,
+the research team's initial annotations, or detector output. General reference
+works may be consulted, but record anything case-specific that materially
+influenced your answer.
 
-The pilot is successful if the procedure exposes disagreements clearly; it is
-not required to produce high agreement on the first pass.
+The score cases identify the work and location so you can inspect their musical
+context. This necessarily means that a familiar example may be recognizable;
+the study is initial-label-blinded, not work-blinded. The generated cases use
+neutral note views and disclose no intended answer.
 
-## Pre-adjudication reporting and decision rule
+Use the assigned pseudonymous reviewer ID, not your name or email. Your
+qualifications and contact details are recorded separately from the response.
+Download and return the response file without editing it or discussing cases
+with the research team. The interface stores a draft only in your browser and
+does not submit data to a server.
 
-Generate the fixed report before discussing any case with the independent
-annotator:
-
-```sh
-python3 tool/polychord/pilot_agreement.py \
-  research/polychord/pilot-ruler-v0.json \
-  research/polychord/reviews/pilot-v0-<opaque-annotator-id>.json \
-  --out build/polychord/pilot-v0-<opaque-annotator-id>-agreement.json
-```
-
-The report includes:
-
-- raw exact agreement and confusion tables for construction tag, observation
-  unit, and each input-eligibility condition;
-- reviewer abstentions as disagreements, never as excluded rows;
-- order-invariant exact layer pitch-class agreement and maximum-matched Jaccard;
-- exact shared-pitch-class agreement;
-- exact order-invariant note-partition agreement for synthetic MIDI cases,
-  including unassigned notes; and
-- raw, unnormalized layer-identity text agreement as a diagnostic only.
-
-Chord-identity text and free-form alternatives have no frozen normalizer, so
-identity-text agreement is not a reliability metric and alternatives receive
-qualitative disposition. With six cases, do not report kappa, hypothesis tests,
-confidence intervals, or a general annotator-reliability claim.
-
-This pilot has no accuracy threshold. Instead, apply these predeclared blocking
-rules:
-
-- any abstention or disagreement on construction tag or observation unit
-  requires a documented rubric review and a new pilot version before the full
-  ruler freezes;
-- a layer pitch-class or synthetic note-partition mismatch blocks freezing the
-  decomposition representation; and
-- an eligibility disagreement blocks using that input condition as an accuracy
-  eligibility rule until the wording is revised and independently retested.
-
-Report every mismatch even if adjudication later resolves it. Adjudicated values
-never replace the pre-adjudication report.
+Technical response fields, validation commands, and the pre-adjudication rules
+are documented separately in
+[`pilot-response-schema.md`](pilot-response-schema.md). Reviewers do not need
+that document to complete the form.

@@ -200,6 +200,75 @@ h3 {
   margin-bottom: 1rem;
 }
 
+.orientation-flow {
+  display: grid;
+  gap: 1rem;
+}
+
+.orientation-intro {
+  border-top: 0.3rem solid var(--accent);
+}
+
+.orientation-intro > p:not(.eyebrow) {
+  max-width: 62rem;
+}
+
+.orientation-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1.25rem;
+}
+
+.orientation-actions .help {
+  max-width: 34rem;
+  margin: 0;
+}
+
+.worked-example-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.worked-example {
+  padding: 1.1rem;
+  background: #fbfaf6;
+  border: 0.0625rem solid var(--border);
+  border-radius: 0.5rem;
+}
+
+.worked-example p:last-child {
+  margin-bottom: 0;
+}
+
+.worked-example-number {
+  margin-bottom: 0.25rem;
+  font-size: 0.82rem;
+  font-weight: 750;
+  color: var(--accent-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.worked-answer {
+  padding: 0.7rem 0.8rem;
+  margin-block: 0.9rem 0.6rem;
+  background: var(--accent-soft);
+  border-left: 0.25rem solid var(--accent);
+  border-radius: 0.25rem;
+}
+
+.readiness-question {
+  padding-block: 0.75rem;
+}
+
+.readiness-question[aria-invalid="true"] {
+  padding: 0.85rem;
+  background: var(--danger-soft);
+  border-radius: 0.4rem;
+}
+
 .orientation p:last-child,
 .export-panel p:last-child {
   max-width: 48rem;
@@ -397,6 +466,136 @@ h3 {
   border-radius: 0.35rem;
 }
 
+.evidence-card h4 {
+  margin-block: 0 0.55rem;
+}
+
+.evidence-card h4:not(:first-child) {
+  margin-top: 1.25rem;
+}
+
+.piano-keyboard {
+  position: relative;
+  width: 100%;
+  max-width: 52rem;
+  height: clamp(6.5rem, 18vw, 10rem);
+  margin-block: 0.65rem;
+  overflow: hidden;
+  background: #d8dddd;
+  border: 0.125rem solid var(--ink);
+  border-radius: 0.3rem;
+}
+
+.piano-white-keys {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.piano-key {
+  display: block;
+}
+
+.piano-key-white {
+  flex: 1 1 0;
+  height: 100%;
+  background: #fff;
+  border-right: 0.0625rem solid #68747a;
+}
+
+.piano-key-white:last-child {
+  border-right: 0;
+}
+
+.piano-key-black {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  height: 62%;
+  background: var(--ink);
+  border: 0.0625rem solid #050708;
+  border-radius: 0 0 0.2rem 0.2rem;
+  transform: translateX(-50%);
+}
+
+.piano-key-white.sounding {
+  background: #8fd4cf;
+  box-shadow: inset 0 -0.5rem 0 var(--accent);
+}
+
+.piano-key-black.sounding {
+  background: #38aaa3;
+  box-shadow: inset 0 -0.35rem 0 var(--accent-dark);
+}
+
+.note-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0;
+  margin: 0.65rem 0;
+  list-style: none;
+}
+
+.note-chip {
+  padding: 0.3rem 0.55rem;
+  font-weight: 700;
+  background: var(--surface-raised);
+  border: 0.0625rem solid var(--border-strong);
+  border-radius: 999rem;
+}
+
+.onset-list {
+  display: grid;
+  gap: 0.7rem;
+  padding-left: 1.5rem;
+  margin-bottom: 0;
+}
+
+.onset-list .note-chip-list {
+  margin-bottom: 0;
+}
+
+.score-location {
+  color: var(--muted);
+}
+
+.score-figure {
+  margin: 1rem 0;
+}
+
+.score-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eee8d5;
+  border: 0.0625rem solid var(--border-strong);
+}
+
+.score-figure figcaption {
+  margin-top: 0.45rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.technical-details {
+  margin-top: 1rem;
+  border-top: 0.0625rem solid var(--border);
+}
+
+.technical-details summary {
+  min-height: 2.75rem;
+  padding-block: 0.65rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  cursor: pointer;
+}
+
+.technical-details p,
+.technical-details dl {
+  margin-bottom: 0.75rem;
+}
+
 .evidence-card dl {
   display: grid;
   grid-template-columns: minmax(7rem, 0.35fr) minmax(0, 1fr);
@@ -436,7 +635,7 @@ code,
 
 .choice-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   gap: 0.5rem;
 }
 
@@ -563,6 +762,10 @@ code,
   font-size: 1rem;
 }
 
+.eligibility-card .input-help {
+  margin: -0.35rem 0 0.85rem;
+}
+
 .eligibility-grid {
   display: grid;
   grid-template-columns: minmax(10rem, 0.6fr) minmax(0, 1.4fr);
@@ -628,6 +831,7 @@ code,
 
 @media (width <= 48rem) {
   .orientation,
+  .orientation-actions,
   .export-panel,
   .section-heading {
     flex-direction: column;

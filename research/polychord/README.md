@@ -52,14 +52,14 @@ Status: scoping. No engine lever has been proposed or evaluated.
 ## Direction
 
 The first annotation-method pilot is encoded in `pilot-ruler-v0.json`, with its
-draft rubric in `pilot-annotation.md`. It is deliberately not scorable: every
-case awaits independent review. Score verification has already shown why the
-pilot is necessary. The Petrushka rehearsal-49 construction is made from
-concurrent arpeggiated streams rather than one complete six-note snapshot, and
-the Augurs chord's component chords overlap in register. The ruler must
-therefore annotate construction truth separately from eligibility for each input
-representation instead of selecting only cases the current adjacent-split
-detector can recover.
+musician-facing rubric in `pilot-annotation.md` and stored-field contract in
+`pilot-response-schema.md`. It is deliberately not scorable: every case awaits
+independent review. Score verification has already shown why the pilot is
+necessary. The Petrushka rehearsal-49 construction is made from concurrent
+arpeggiated streams rather than one complete six-note snapshot, and the Augurs
+chord's component chords overlap in register. The ruler must therefore annotate
+construction truth separately from eligibility for each input representation
+instead of selecting only cases the current adjacent-split detector can recover.
 
 `pilot-review-template-v0.json` is a reproducible independent-review packet. It
 uses neutral shuffled IDs and contains only raw MIDI/onset evidence or pinned
@@ -69,11 +69,16 @@ not begin until the independent responses are frozen. The formative pilot
 targets three qualified independent reviewers, with two as its minimum usable
 panel. The static, version-pinned `review-instrument/` exports the existing
 validated response schema and improves consistency of data entry without leading
-or normalizing the reviewers' theoretical judgments. It verifies the packet and
-guide at the byte level and stores drafts locally. Real-browser and
-assistive-technology QA and a frozen multi-reviewer comparison report remain
-required before reviewer distribution. Logs 2026-08-02-09 and -10 record the
-staged progression and implementation.
+or normalizing the reviewers' theoretical judgments. Its primary views use
+unannotated pinned score crops, written note names, neutral keyboards, and plain
+attack timelines; raw MIDI and hashes remain collapsed provenance. A standardized
+orientation uses three unscored examples not reused in the packet and a brief
+task-boundary check. The instrument verifies the packet, guide, presentation
+manifest, and score images at the byte level and stores drafts locally. A
+qualified-musician cognitive walkthrough, real-browser and assistive-technology
+QA, and a frozen multi-reviewer comparison report remain required before
+reviewer distribution. Logs 2026-08-02-09 through -11 record the staged
+progression and implementation.
 
 After the independent pilot, the proposed direction remains a hand-authored
 frozen ruler, then a presentation-side decomposition annotation (secondary

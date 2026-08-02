@@ -6,26 +6,26 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta
       name="description"
-      content="Guided, initial-label-blinded polychord pilot annotation instrument."
+      content="Guided, initial-label-blinded polychord pilot review for qualified musicians."
     />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'"
+      content="default-src 'self'; connect-src 'self'; img-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'"
     />
     <title>Polychord pilot review</title>
     <link rel="stylesheet" href="styles.css" />
     <script type="module" src="app.mjs"></script>
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to review</a>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <header class="page-header">
       <div class="header-content">
-        <p class="eyebrow">WhatChord research instrument</p>
+        <p class="eyebrow">WhatChord research study</p>
         <h1>Polychord pilot review</h1>
         <p class="lede">
-          Apply the frozen annotation guide to six neutral cases. This page
-          saves only in this browser and never submits data to a server.
+          Review six musical examples using score excerpts, written note names,
+          and piano-keyboard views. No programming or MIDI knowledge is needed.
         </p>
       </div>
     </header>
@@ -36,14 +36,12 @@
         class="panel loading-panel"
         aria-live="polite"
       >
-        <h2>Loading the pinned review packet</h2>
-        <p>
-          Checking the packet and annotation-guide digests before continuing.
-        </p>
+        <h2>Preparing the review</h2>
+        <p>Checking the guide, examples, and source excerpts.</p>
       </section>
 
       <section id="load-error" class="panel error-panel" role="alert" hidden>
-        <h2>The review instrument could not start</h2>
+        <h2>The review could not start</h2>
         <p id="load-error-message"></p>
         <p>
           Serve the repository root over localhost rather than opening this file
@@ -52,128 +50,211 @@
       </section>
 
       <section id="instrument" hidden>
-        <section class="panel orientation" aria-labelledby="before-you-begin">
-          <div>
-            <p class="eyebrow">Before you begin</p>
-            <h2 id="before-you-begin">Read the frozen guide independently</h2>
+        <section
+          id="orientation-panel"
+          class="orientation-flow"
+          aria-labelledby="orientation-heading"
+        >
+          <section class="panel orientation-intro">
+            <p class="eyebrow">10 to 15 minute orientation</p>
+            <h2 id="orientation-heading" tabindex="-1">What you will judge</h2>
             <p>
-              Do not consult another reviewer or request the initial labels.
-              Uncertainty is valid: use <strong>abstain</strong> and explain why
-              when the rubric does not support a construction tag.
+              In this study, a polychord is a useful constructional or
+              notational description of two conventional chordal units in
+              combination. It is not a claim that a listener hears two keys.
             </p>
-          </div>
-          <a
-            id="guide-link"
-            class="button secondary"
-            href="../pilot-annotation.md"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Open annotation guide
-          </a>
-        </section>
-
-        <form id="review-form" novalidate>
-          <section
-            class="panel metadata-panel"
-            aria-labelledby="review-metadata"
-          >
-            <div class="section-heading">
-              <div>
-                <p class="eyebrow">Pseudonymous metadata</p>
-                <h2 id="review-metadata">Review record</h2>
-              </div>
-              <button id="clear-draft" class="text-button danger" type="button">
-                Clear local draft
-              </button>
-            </div>
-
-            <div class="metadata-grid">
-              <div class="field">
-                <label for="annotator-id">Opaque annotator ID</label>
-                <div class="inline-control">
-                  <input
-                    id="annotator-id"
-                    name="annotator-id"
-                    type="text"
-                    minlength="3"
-                    maxlength="64"
-                    autocomplete="off"
-                    spellcheck="false"
-                    aria-describedby="annotator-id-help"
-                  />
-                  <button
-                    id="generate-id"
-                    class="button tertiary"
-                    type="button"
-                  >
-                    Generate ID
-                  </button>
-                </div>
-                <p id="annotator-id-help" class="help">
-                  Use the assigned study ID or generate one. Do not enter a name
-                  or email address.
-                </p>
-              </div>
-
-              <div class="field">
-                <label for="completed-on">Completion date</label>
-                <input
-                  id="completed-on"
-                  name="completed-on"
-                  type="date"
-                  aria-describedby="completed-on-help"
-                />
-                <p id="completed-on-help" class="help">
-                  Record the date on which you finish and export the response.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <div class="review-layout">
-            <nav class="panel case-navigation" aria-label="Pilot cases">
-              <div class="case-navigation-heading">
-                <h2>Cases</h2>
-                <p id="progress-summary">0 of 6 complete</p>
-              </div>
-              <ol id="case-navigation-list"></ol>
-            </nav>
-
-            <section
-              id="case-panel"
-              class="panel case-panel"
-              aria-live="polite"
-              aria-atomic="false"
-            ></section>
-          </div>
-
-          <section class="panel export-panel" aria-labelledby="export-heading">
-            <div>
-              <p class="eyebrow">Raw pre-adjudication response</p>
-              <h2 id="export-heading">Validate and download</h2>
-              <p>
-                Export checks every required answer and preserves the pinned
-                evidence unchanged. Send the downloaded JSON without discussing
-                cases with the research team first.
+            <p>
+              For each scored case, first judge the construction, then describe
+              its layers, and finally say which input conditions contain enough
+              evidence to recover your reading. You may always choose
+              <strong>cannot determine</strong> and explain why.
+            </p>
+            <div class="orientation-actions">
+              <a
+                id="guide-link"
+                class="button secondary"
+                href="../pilot-annotation.md"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open the full reviewer guide
+              </a>
+              <p class="help">
+                Read the guide before beginning. The scored review normally
+                takes 30 to 45 minutes.
               </p>
             </div>
-            <button class="button primary" type="submit">
-              Download response JSON
-            </button>
           </section>
 
-          <section
-            id="error-summary"
-            class="panel error-summary"
-            role="alert"
-            tabindex="-1"
-            hidden
-          >
-            <h2>Review these answers before exporting</h2>
-            <ul id="error-list"></ul>
+          <section class="panel" aria-labelledby="worked-examples-heading">
+            <p class="eyebrow">Unscored examples</p>
+            <h2 id="worked-examples-heading">Three worked judgments</h2>
+            <p>
+              These examples teach the labels and are not reused in the scored
+              packet. Their answers are shown intentionally.
+            </p>
+            <div id="orientation-examples" class="worked-example-list"></div>
           </section>
-        </form>
+
+          <form
+            id="readiness-form"
+            class="panel"
+            aria-labelledby="readiness-heading"
+          >
+            <p class="eyebrow">Before the scored cases</p>
+            <h2 id="readiness-heading">Check the task boundaries</h2>
+            <p>
+              Answer all three questions. These answers are not saved or
+              exported.
+            </p>
+            <div id="readiness-questions"></div>
+            <p
+              id="readiness-message"
+              class="field-error"
+              role="alert"
+              aria-live="assertive"
+              hidden
+            ></p>
+            <button class="button primary" type="submit">
+              Begin the independent review
+            </button>
+          </form>
+        </section>
+
+        <section id="review-workspace" hidden>
+          <section class="panel orientation" aria-labelledby="review-reminder">
+            <div>
+              <p class="eyebrow">Independent scored review</p>
+              <h2 id="review-reminder">Judge only the presented evidence</h2>
+              <p>
+                Do not consult another reviewer, the initial annotations, or
+                detector output. Use cannot determine when the guide or evidence
+                is insufficient.
+              </p>
+            </div>
+            <a
+              class="button secondary"
+              href="../pilot-annotation.md"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Reopen reviewer guide
+            </a>
+          </section>
+
+          <form id="review-form" novalidate>
+            <section
+              class="panel metadata-panel"
+              aria-labelledby="review-metadata"
+            >
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Pseudonymous study record</p>
+                  <h2 id="review-metadata">Review details</h2>
+                </div>
+                <button
+                  id="clear-draft"
+                  class="text-button danger"
+                  type="button"
+                >
+                  Clear local draft
+                </button>
+              </div>
+
+              <div class="metadata-grid">
+                <div class="field">
+                  <label for="annotator-id">Assigned reviewer ID</label>
+                  <div class="inline-control">
+                    <input
+                      id="annotator-id"
+                      name="annotator-id"
+                      type="text"
+                      minlength="3"
+                      maxlength="64"
+                      autocomplete="off"
+                      spellcheck="false"
+                      aria-describedby="annotator-id-help"
+                    />
+                    <button
+                      id="generate-id"
+                      class="button tertiary"
+                      type="button"
+                    >
+                      Generate an ID
+                    </button>
+                  </div>
+                  <p id="annotator-id-help" class="help">
+                    Use the ID supplied by the study team or generate one. Do
+                    not enter your name or email address.
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label for="completed-on">Completion date</label>
+                  <input
+                    id="completed-on"
+                    name="completed-on"
+                    type="date"
+                    aria-describedby="completed-on-help"
+                  />
+                  <p id="completed-on-help" class="help">
+                    Record the date on which you finish and download the
+                    response.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <div class="review-layout">
+              <nav
+                class="panel case-navigation"
+                aria-label="Scored pilot cases"
+              >
+                <div class="case-navigation-heading">
+                  <h2>Cases</h2>
+                  <p id="progress-summary">0 of 6 complete</p>
+                </div>
+                <ol id="case-navigation-list"></ol>
+              </nav>
+
+              <section
+                id="case-panel"
+                class="panel case-panel"
+                aria-live="polite"
+                aria-atomic="false"
+              ></section>
+            </div>
+
+            <section
+              class="panel export-panel"
+              aria-labelledby="export-heading"
+            >
+              <div>
+                <p class="eyebrow">Unadjudicated response</p>
+                <h2 id="export-heading">Check and download</h2>
+                <p>
+                  Download checks every required answer and preserves the source
+                  evidence unchanged. Return the file before discussing any case
+                  with the study team.
+                </p>
+              </div>
+              <button class="button primary" type="submit">
+                Download completed response
+              </button>
+            </section>
+
+            <section
+              id="error-summary"
+              class="panel error-summary"
+              role="alert"
+              tabindex="-1"
+              hidden
+            >
+              <h2>Review these answers before downloading</h2>
+              <ul id="error-list"></ul>
+            </section>
+          </form>
+        </section>
       </section>
 
       <p
@@ -187,7 +268,8 @@
     <footer class="page-footer">
       <p>
         Instrument <code id="instrument-version">loading</code> · Packet
-        <code id="packet-digest">loading</code>
+        <code id="packet-digest">loading</code> · Presentation
+        <code id="presentation-digest">loading</code>
       </p>
     </footer>
   </body>

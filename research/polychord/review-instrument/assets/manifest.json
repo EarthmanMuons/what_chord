@@ -1,0 +1,63 @@
+{
+  "schema": "polychord-review-presentation/1",
+  "scoreExcerpts": {
+    "ptrouchkascn00stra": {
+      "source": {
+        "sourceIdentifier": "ptrouchkascn00stra",
+        "sourceUrl": "https://archive.org/details/ptrouchkascn00stra",
+        "pdfUrl": "https://archive.org/download/ptrouchkascn00stra/ptrouchkascn00stra.pdf",
+        "pdfSha256": "8c753ed9ddc37e61d7fb1a261fd350cbe7b529d9bc957e9c2efcfab953532d64",
+        "pdfPage": 66,
+        "printedPage": 64,
+        "scoreLocation": "second tableau, rehearsal 49, printed page 64, PDF page 66"
+      },
+      "render": {
+        "tool": "pdftoppm",
+        "version": "pdftoppm version 26.07.0",
+        "dpi": 250,
+        "cropPixels": {
+          "x": 38,
+          "y": 306,
+          "width": 900,
+          "height": 500
+        }
+      },
+      "asset": {
+        "file": "petrushka-r49.png",
+        "sha256": "5b7f59dbfb9757253305c6743a4d24c99109b86c76517d545d54d7c678e8e184",
+        "width": 900,
+        "height": 500,
+        "alt": "Unannotated score excerpt surrounding rehearsal 49 in Stravinsky's Petrouchka."
+      }
+    },
+    "lesacreduprintem00stra_3": {
+      "source": {
+        "sourceIdentifier": "lesacreduprintem00stra_3",
+        "sourceUrl": "https://archive.org/details/lesacreduprintem00stra_3",
+        "pdfUrl": "https://archive.org/download/lesacreduprintem00stra_3/lesacreduprintem00stra_3.pdf",
+        "pdfSha256": "6871f14d62c39eeaa7a1482c644947870bbb30b297f0ed2b89321dad85f35495",
+        "pdfPage": 18,
+        "printedPage": 16,
+        "scoreLocation": "Les augures printaniers, rehearsal 13, printed page 16, PDF page 18"
+      },
+      "render": {
+        "tool": "pdftoppm",
+        "version": "pdftoppm version 26.07.0",
+        "dpi": 200,
+        "cropPixels": {
+          "x": 70,
+          "y": 35,
+          "width": 1580,
+          "height": 700
+        }
+      },
+      "asset": {
+        "file": "augurs-r13.png",
+        "sha256": "d552b39f1f9d19c6904674f5d8bb756c376784ebec561f3af9be257d4893405e",
+        "width": 1580,
+        "height": 700,
+        "alt": "Unannotated score excerpt surrounding rehearsal 13 in Stravinsky's Le sacre du printemps."
+      }
+    }
+  }
+}
