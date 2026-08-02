@@ -178,9 +178,49 @@ snapshots, general pitch-and-register snapshots, and timestamped event streams.
 The annotation guidelines must distinguish canonical shared-tone polychords from
 integrated sixth, seventh, and extended chords; polychords from slash chords and
 upper-structure voicings; and constructional decompositions from perceptual or
-intentional claims. If publication remains an objective, a second independent
-annotator must apply the frozen guidelines and the record must include agreement
-statistics and adjudication.
+intentional claims.
+
+The initial annotations and guide must be pinned before the independent packet
+is generated. The packet must use neutral shuffled IDs and omit the initial
+labels, layer assignments, alternatives, eligibility judgments, rationales, and
+synthetic generation intent. It retains raw input evidence and pinned source
+locations. A completed response is stored separately and validated against the
+packet and source-ruler digests. Agreement is computed before adjudication; no
+initial or independent response is overwritten. Prior access to the initial
+labels must be disclosed and does not count as the publication-required
+independent pass.
+
+Describe this design as independent and initial-label-blinded, not double-blind.
+Score verification necessarily reveals the work, edition, and location, so
+familiarity with a canonical example remains a documented source of possible
+annotator influence.
+
+### Independent review progression
+
+The six-case formative pilot targets three independent qualified music-theory
+annotators, with two as the minimum usable independent panel. One external
+response is content or face validation only: it can expose an ambiguity, but it
+cannot support a reproducibility claim. Reviewers apply the same frozen guide
+independently and must not see the initial labels or another review before the
+pre-adjudication report is generated. Relevant training and experience are
+recorded separately from the pseudonymous response.
+
+Use a guided annotation instrument when practical rather than asking reviewers
+to edit JSON directly. The instrument must be versioned and pinned, present the
+unchanged packet evidence under neutral IDs, preserve the presented case order,
+and export the existing validated response schema. It may prevent malformed
+input, but it must not silently normalize theoretical answers or constrain them
+to the initial ruler. It must retain abstention, alternatives, confidence, and
+free-form rationale; omit detector output and all initial or peer answers; and
+keep reviewer identity and qualifications separate from the annotation data.
+
+After all pilot responses are frozen, generate the pre-adjudication report
+before discussion. Then debrief reviewers individually, document guide and
+representation failures, and adjudicate without replacing the raw responses. If
+the method survives the formative pilot and publication remains an objective,
+design a larger, deliberately balanced case set before estimating general
+inter-annotator reliability. The six cases can test the protocol but cannot
+establish a population-level reliability statistic.
 
 The complete ruler, metrics, and adoption threshold must be frozen before any
 proposed engine rule is evaluated against it.
@@ -232,6 +272,10 @@ Before an engine lever is designed or measured, a dated decision must specify:
   individual cue.
 - Report annotator agreement with a metric appropriate to the frozen label and
   partial-credit representation, plus raw agreement and adjudication counts.
+- For the six-case annotation pilot, report raw exact confusion tables,
+  abstentions as disagreements, order-invariant layer-set agreement, and
+  synthetic note-partition agreement before adjudication. Do not report kappa,
+  inferential statistics, or a general reliability claim from the pilot.
 - Report each ruler and corpus separately. Disagreement among them is a result,
   not a reason to pool them.
 
