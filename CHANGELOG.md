@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ## [Unreleased]
 
+### Fixed
+
+- Website navigation now identifies the current page for screen-reader users,
+  with a matching visible state on the Articles index.
+
 ### Added
 
 - A new website technical deep-dive, "Building a Streaming Key Detector,"

@@ -3,6 +3,14 @@ import { extname, join, relative, resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const siteOrigin = "https://site.invalid";
+const ariaCurrentValues = new Set([
+  "date",
+  "location",
+  "page",
+  "step",
+  "time",
+  "true",
+]);
 
 function decodeHtmlAttribute(value) {
   return value.replace(
@@ -75,6 +83,16 @@ function findAttributes(html, name) {
   );
 }
 
+function findElements(html, name) {
+  const pattern = new RegExp(`<${name}\\b[^>]*>[\\s\\S]*?<\\/${name}>`, "gi");
+  return [...html.matchAll(pattern)].map((match) => match[0]);
+}
+
+function findStartTags(html, name) {
+  const pattern = new RegExp(`<${name}\\b[^>]*>`, "gi");
+  return [...html.matchAll(pattern)].map((match) => match[0]);
+}
+
 export async function checkSiteLinks(rootArgument) {
   const root = resolve(rootArgument);
   const diskFiles = await walk(root);
@@ -84,6 +102,7 @@ export async function checkSiteLinks(rootArgument) {
   const htmlFiles = diskFiles.filter((file) => extname(file) === ".html");
   const pages = new Map();
   const failures = [];
+  let checkedCurrentStates = 0;
   let checkedReferences = 0;
   let checkedFragments = 0;
 
@@ -96,6 +115,52 @@ export async function checkSiteLinks(rootArgument) {
 
     for (const id of new Set(duplicateIds)) {
       failures.push(`${route}: duplicate id "${id}"`);
+    }
+
+    const currentValues = findAttributes(html, "aria-current");
+    checkedCurrentStates += currentValues.length;
+
+    for (const value of currentValues) {
+      if (value === "false") {
+        failures.push(`${route}: omit aria-current instead of setting "false"`);
+      } else if (!ariaCurrentValues.has(value)) {
+        failures.push(`${route}: invalid aria-current value "${value}"`);
+      }
+    }
+
+    for (const [index, nav] of findElements(html, "nav").entries()) {
+      const navCurrentValues = findAttributes(nav, "aria-current");
+      if (navCurrentValues.length > 1) {
+        failures.push(
+          `${route}: navigation landmark ${index + 1} has multiple current items`,
+        );
+      }
+    }
+
+    for (const anchor of findStartTags(html, "a")) {
+      if (findAttributes(anchor, "aria-current")[0] !== "page") {
+        continue;
+      }
+
+      const href = findAttributes(anchor, "href")[0];
+      if (!href) {
+        failures.push(`${route}: current-page link has no href`);
+        continue;
+      }
+
+      let url;
+      try {
+        url = new URL(href, `${siteOrigin}${route}`);
+      } catch {
+        failures.push(`${route}: current-page link has invalid href "${href}"`);
+        continue;
+      }
+
+      if (url.origin !== siteOrigin || url.pathname !== route) {
+        failures.push(
+          `${route}: current-page link points to "${href}" instead of this page`,
+        );
+      }
     }
 
     pages.set(path, { html, ids: new Set(ids), route });
@@ -165,7 +230,7 @@ export async function checkSiteLinks(rootArgument) {
   }
 
   console.log(
-    `Checked ${checkedReferences} local references and ${checkedFragments} fragments across ${pages.size} HTML pages.`,
+    `Checked ${checkedReferences} local references, ${checkedFragments} fragments, and ${checkedCurrentStates} current states across ${pages.size} HTML pages.`,
   );
 }
 

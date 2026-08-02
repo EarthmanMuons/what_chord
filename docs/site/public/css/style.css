@@ -312,6 +312,14 @@ img {
   background: rgb(255 255 255 / 6%);
 }
 
+/* Use the programmatic current-page state for the matching visual cue. */
+.nav-menu .btn[aria-current="page"] {
+  font-weight: 700;
+  color: var(--text);
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
 /* ─── Hero ────────────────────────────────────────────────────── */
 
 .hero {
