@@ -38,8 +38,10 @@ class SplitCensusTest(unittest.TestCase):
                     ["F#|C"],
                 )
 
-    def test_augurs_requires_common_chords_not_bichord_triads(self) -> None:
-        # E major below D#7, enharmonically Fb major below Eb7.
+    def test_synthetic_triads_plus_seventh_requires_common_chords(self) -> None:
+        # A strictly separated synthetic analogue of Fb major plus Eb7. The
+        # score-verified Augurs voicing itself overlaps in register and is not a
+        # valid adjacent-split fixture.
         notes = [28, 40, 44, 47, 51, 55, 58, 61]
 
         self.assertEqual(self.registral(notes, "bichord-triads"), [])
