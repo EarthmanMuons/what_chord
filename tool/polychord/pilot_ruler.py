@@ -255,15 +255,20 @@ def validate_response(response: dict, *, evidence: dict, complete: bool) -> None
     assigned_notes = []
     layer_pc_sets = []
     for layer in layers:
-        assert set(layer) in (
-            {"identity", "pitchClasses"},
-            {"identity", "midiNotes", "pitchClasses"},
-        )
+        if "midiNotes" in evidence:
+            assert set(layer) == {"identity", "midiNotes", "pitchClasses"}
+        else:
+            assert set(layer) == {"identity", "pitchClasses"}
         assert isinstance(layer["identity"], str) and layer["identity"]
         validate_int_set(layer["pitchClasses"], maximum=11)
+        assert layer["pitchClasses"], "layers must contain at least one pitch class"
         layer_pc_sets.append(set(layer["pitchClasses"]))
         if "midiNotes" in layer:
             validate_int_set(layer["midiNotes"], maximum=127)
+            assert layer["midiNotes"], "synthetic layers must contain a MIDI note"
+            assert layer["pitchClasses"] == sorted(
+                {note % 12 for note in layer["midiNotes"]}
+            )
             assigned_notes.extend(layer["midiNotes"])
 
     shared = set()
@@ -276,6 +281,8 @@ def validate_response(response: dict, *, evidence: dict, complete: bool) -> None
         assert len(assigned_notes) == len(set(assigned_notes))
         accounted = sorted(assigned_notes + response["unassignedMidiNotes"])
         assert accounted == evidence["midiNotes"]
+    else:
+        assert response["unassignedMidiNotes"] == []
 
     assert all(
         isinstance(alternative, str) and alternative

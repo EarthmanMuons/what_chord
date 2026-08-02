@@ -222,6 +222,12 @@ design a larger, deliberately balanced case set before estimating general
 inter-annotator reliability. The six cases can test the protocol but cannot
 establish a population-level reliability statistic.
 
+Freeze and test the panel comparison before distributing the first packet. It
+must report initial-to-reviewer comparisons separately from every
+reviewer-to-reviewer comparison; the initial author is not counted as an
+independent reviewer. Preserve abstentions and all pairwise disagreements rather
+than replacing them with a majority label or adjudicated consensus.
+
 The complete ruler, metrics, and adoption threshold must be frozen before any
 proposed engine rule is evaluated against it.
 

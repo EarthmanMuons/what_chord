@@ -67,10 +67,13 @@ score locations, not the initial labels or rationales. Returned annotations are
 validated and stored separately under `reviews/`; agreement and adjudication do
 not begin until the independent responses are frozen. The formative pilot
 targets three qualified independent reviewers, with two as its minimum usable
-panel. A guided, version-pinned annotation instrument should export the existing
-validated response schema; it improves consistency of data entry but must not
-lead or normalize the reviewers' theoretical judgments. Log 2026-08-02-09
-records the staged review and publication progression.
+panel. The static, version-pinned `review-instrument/` exports the existing
+validated response schema and improves consistency of data entry without leading
+or normalizing the reviewers' theoretical judgments. It verifies the packet and
+guide at the byte level and stores drafts locally. Real-browser and
+assistive-technology QA and a frozen multi-reviewer comparison report remain
+required before reviewer distribution. Logs 2026-08-02-09 and -10 record the
+staged progression and implementation.
 
 After the independent pilot, the proposed direction remains a hand-authored
 frozen ruler, then a presentation-side decomposition annotation (secondary
