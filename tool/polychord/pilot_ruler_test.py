@@ -24,6 +24,25 @@ class PilotRulerTest(unittest.TestCase):
             guide_sha256=subject.sha256_file(GUIDE),
         )
 
+    def complete_abstaining_review(self) -> dict:
+        packet = self.review_packet()
+        packet["status"] = "complete"
+        packet["reviewMetadata"] = {
+            "annotatorId": "reviewer-opaque-01",
+            "completedOn": "2026-08-02",
+        }
+        for case in packet["cases"]:
+            response = case["response"]
+            response["observationKind"] = "snapshot"
+            response["constructionTag"] = "abstain"
+            response["confidence"] = "low"
+            response["notes"] = "Insufficient evidence for a construction label."
+            response["unassignedMidiNotes"] = case["evidence"].get("midiNotes", [])
+            for judgment in response["inputEligibility"].values():
+                judgment["status"] = "unknown"
+                judgment["reason"] = "Not resolved in this review."
+        return packet
+
     def test_ruler_is_structurally_valid_but_not_scorable(self) -> None:
         subject.validate(self.payload)
         self.assertFalse(self.payload["scoringAllowed"])
@@ -116,22 +135,7 @@ class PilotRulerTest(unittest.TestCase):
                     )
 
     def test_complete_review_requires_independent_answers(self) -> None:
-        packet = self.review_packet()
-        packet["status"] = "complete"
-        packet["reviewMetadata"] = {
-            "annotatorId": "reviewer-opaque-01",
-            "completedOn": "2026-08-02",
-        }
-        for case in packet["cases"]:
-            response = case["response"]
-            response["observationKind"] = "snapshot"
-            response["constructionTag"] = "abstain"
-            response["confidence"] = "low"
-            response["notes"] = "Insufficient evidence for a construction label."
-            response["unassignedMidiNotes"] = case["evidence"].get("midiNotes", [])
-            for judgment in response["inputEligibility"].values():
-                judgment["status"] = "unknown"
-                judgment["reason"] = "Not resolved in this review."
+        packet = self.complete_abstaining_review()
 
         subject.validate_review_packet(
             packet,
@@ -139,6 +143,56 @@ class PilotRulerTest(unittest.TestCase):
             ruler_sha256=subject.sha256_file(RULER),
             guide_sha256=subject.sha256_file(GUIDE),
         )
+
+    def test_complete_review_rejects_empty_layers(self) -> None:
+        packet = self.complete_abstaining_review()
+
+        packet["cases"][0]["response"]["layers"] = [
+            {"identity": "Empty test layer", "midiNotes": [], "pitchClasses": []}
+        ]
+
+        with self.assertRaises(AssertionError):
+            subject.validate_review_packet(
+                packet,
+                self.payload,
+                ruler_sha256=subject.sha256_file(RULER),
+                guide_sha256=subject.sha256_file(GUIDE),
+            )
+
+    def test_complete_review_rejects_midi_pitch_class_mismatch(self) -> None:
+        packet = self.complete_abstaining_review()
+        response = packet["cases"][0]["response"]
+        response["layers"] = [
+            {"identity": "Test layer", "midiNotes": [43], "pitchClasses": [0]}
+        ]
+        response["unassignedMidiNotes"] = [46, 50, 60, 64, 67]
+
+        with self.assertRaises(AssertionError):
+            subject.validate_review_packet(
+                packet,
+                self.payload,
+                ruler_sha256=subject.sha256_file(RULER),
+                guide_sha256=subject.sha256_file(GUIDE),
+            )
+
+    def test_complete_review_rejects_midi_notes_for_score_source(self) -> None:
+        packet = self.complete_abstaining_review()
+        score_case = next(
+            case
+            for case in packet["cases"]
+            if case["evidence"]["kind"] == "score-source"
+        )
+        score_case["response"]["layers"] = [
+            {"identity": "Test layer", "midiNotes": [60], "pitchClasses": [0]}
+        ]
+
+        with self.assertRaises(AssertionError):
+            subject.validate_review_packet(
+                packet,
+                self.payload,
+                ruler_sha256=subject.sha256_file(RULER),
+                guide_sha256=subject.sha256_file(GUIDE),
+            )
 
 
 if __name__ == "__main__":

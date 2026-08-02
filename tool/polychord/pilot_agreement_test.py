@@ -38,7 +38,14 @@ class PilotAgreementTest(unittest.TestCase):
             response = independent["response"]
             response["observationKind"] = initial["observation"]["kind"]
             response["constructionTag"] = initial["tag"]
-            response["layers"] = deepcopy(initial["layers"])
+            response["layers"] = [
+                {
+                    key: deepcopy(value)
+                    for key, value in layer.items()
+                    if key != "midiNotes" or "midiNotes" in independent["evidence"]
+                }
+                for layer in initial["layers"]
+            ]
             response["sharedPitchClasses"] = initial["sharedPitchClasses"].copy()
             response["singleChordAlternatives"] = initial[
                 "singleChordAlternatives"
