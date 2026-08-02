@@ -1,0 +1,259 @@
+{
+  "schema": "polychord-pilot-ruler/1",
+  "status": "draft-pilot",
+  "scoringAllowed": false,
+  "purpose": "Test annotation construct validity and input eligibility before freezing a polychord ruler.",
+  "noteConvention": "MIDI 60 is C4; spellings preserve the cited score.",
+  "cases": [
+    {
+      "id": "stravinsky-petrushka-r49",
+      "tag": "positive",
+      "verificationStatus": "score-verified-construction-only",
+      "observation": {
+        "kind": "event-window",
+        "description": "Concurrent arpeggiated C-major and F-sharp-major streams; no complete two-triad snapshot is asserted."
+      },
+      "layers": [
+        { "identity": "C", "pitchClasses": [0, 4, 7] },
+        { "identity": "F#", "pitchClasses": [1, 6, 10] }
+      ],
+      "sharedPitchClasses": [],
+      "singleChordAlternatives": ["octatonic-derived collection"],
+      "provenance": {
+        "kind": "score",
+        "work": "Igor Stravinsky, Petrouchka",
+        "edition": "1911 full score, UNC Music Library scan",
+        "sourceUrl": "https://archive.org/details/ptrouchkascn00stra",
+        "sourceIdentifier": "ptrouchkascn00stra",
+        "sha256": "8c753ed9ddc37e61d7fb1a261fd350cbe7b529d9bc957e9c2efcfab953532d64",
+        "scoreLocation": "second tableau, rehearsal 49, printed page 64, PDF page 66"
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "ineligible",
+          "reason": "The score presents successive notes within each wind stream, not two complete simultaneous triads."
+        },
+        "pitchRegisterSnapshot": {
+          "status": "ineligible",
+          "reason": "Verticalizing the whole passage would create notes that are not one observed snapshot."
+        },
+        "timestampedEventStream": {
+          "status": "research-candidate",
+          "reason": "Concurrent arpeggiation and stable stream assignment provide motion evidence that a replay could test."
+        }
+      },
+      "independentReview": "pending"
+    },
+    {
+      "id": "stravinsky-augurs-r13",
+      "tag": "positive",
+      "verificationStatus": "score-verified-snapshot",
+      "observation": {
+        "kind": "snapshot",
+        "midiNotes": [40, 44, 47, 51, 52, 55, 58, 61],
+        "spelledNotes": ["Fb2", "Ab2", "Cb3", "Eb3", "Fb3", "G3", "Bb3", "Db4"]
+      },
+      "layers": [
+        {
+          "identity": "Fb",
+          "midiNotes": [40, 44, 47, 52],
+          "pitchClasses": [4, 8, 11]
+        },
+        {
+          "identity": "Eb7",
+          "midiNotes": [51, 55, 58, 61],
+          "pitchClasses": [1, 3, 7, 10]
+        }
+      ],
+      "sharedPitchClasses": [],
+      "singleChordAlternatives": ["integrated eight-note sonority"],
+      "provenance": {
+        "kind": "score",
+        "work": "Igor Stravinsky, Le sacre du printemps",
+        "edition": "composer's four-hand reduction, Russian Music Edition",
+        "sourceUrl": "https://archive.org/details/lesacreduprintem00stra_3",
+        "sourceIdentifier": "lesacreduprintem00stra_3",
+        "sha256": "6871f14d62c39eeaa7a1482c644947870bbb30b297f0ed2b89321dad85f35495",
+        "scoreLocation": "Les augures printaniers, rehearsal 13, printed page 16, PDF page 18"
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "ineligible",
+          "reason": "Eb3 from Eb7 lies below Fb3 from Fb major, so no adjacent-note boundary yields both complete layers."
+        },
+        "pitchRegisterSnapshot": {
+          "status": "ambiguous",
+          "reason": "The complete sonority is present, but the hand assignment that licenses the decomposition is not carried by sorted pitches."
+        },
+        "timestampedEventStream": {
+          "status": "unknown",
+          "reason": "The repeated synchronous attacks do not yet have a frame-accurate MIDI replay."
+        }
+      },
+      "independentReview": "pending"
+    },
+    {
+      "id": "synthetic-shared-tone-layered-c-over-gm",
+      "tag": "positive",
+      "verificationStatus": "synthetic-control",
+      "observation": {
+        "kind": "event-window",
+        "midiNotes": [43, 46, 50, 60, 64, 67],
+        "onsetCohortsMs": [
+          { "time": 0, "midiNotes": [43, 46, 50] },
+          { "time": 400, "midiNotes": [60, 64, 67] }
+        ]
+      },
+      "layers": [
+        {
+          "identity": "Gm",
+          "midiNotes": [43, 46, 50],
+          "pitchClasses": [2, 7, 10]
+        },
+        {
+          "identity": "C",
+          "midiNotes": [60, 64, 67],
+          "pitchClasses": [0, 4, 7]
+        }
+      ],
+      "sharedPitchClasses": [7],
+      "singleChordAlternatives": ["C9"],
+      "provenance": {
+        "kind": "synthetic",
+        "generation": "Attack Gm2 as one cohort, hold, then attack C4 as a second cohort 400 ms later; no pedal."
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "eligible",
+          "reason": "The register boundary yields two complete triads with separate G instances."
+        },
+        "pitchRegisterSnapshot": {
+          "status": "ambiguous",
+          "reason": "The pitch-class union is exactly C9."
+        },
+        "timestampedEventStream": {
+          "status": "eligible",
+          "reason": "Two within-layer synchronous attack cohorts are explicitly present."
+        }
+      },
+      "independentReview": "pending"
+    },
+    {
+      "id": "synthetic-integrated-c9-matched-snapshot",
+      "tag": "negative-guard",
+      "verificationStatus": "synthetic-control",
+      "observation": {
+        "kind": "event-window",
+        "midiNotes": [43, 46, 50, 60, 64, 67],
+        "onsetCohortsMs": [{ "time": 0, "midiNotes": [43, 46, 50, 60, 64, 67] }]
+      },
+      "layers": [
+        {
+          "identity": "C9",
+          "midiNotes": [43, 46, 50, 60, 64, 67],
+          "pitchClasses": [0, 2, 4, 7, 10]
+        }
+      ],
+      "sharedPitchClasses": [],
+      "singleChordAlternatives": [],
+      "provenance": {
+        "kind": "synthetic",
+        "generation": "Attack the octave-specific C9 voicing as one onset cohort; no pedal. Snapshot is intentionally identical to synthetic-shared-tone-layered-c-over-gm."
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "ambiguous",
+          "reason": "The same adjacent split also spells Gm and C."
+        },
+        "pitchRegisterSnapshot": {
+          "status": "eligible",
+          "reason": "The integrated C9 description exactly covers the pitch-class set."
+        },
+        "timestampedEventStream": {
+          "status": "eligible",
+          "reason": "One onset cohort is explicit evidence for integrated treatment in this generated control."
+        }
+      },
+      "independentReview": "pending"
+    },
+    {
+      "id": "synthetic-integrated-d6",
+      "tag": "negative-guard",
+      "verificationStatus": "synthetic-control",
+      "observation": {
+        "kind": "snapshot",
+        "midiNotes": [50, 54, 57, 59, 62, 66]
+      },
+      "layers": [
+        {
+          "identity": "D6",
+          "midiNotes": [50, 54, 57, 59, 62, 66],
+          "pitchClasses": [2, 6, 9, 11]
+        }
+      ],
+      "sharedPitchClasses": [],
+      "singleChordAlternatives": [],
+      "provenance": {
+        "kind": "synthetic",
+        "generation": "Duplicate D and F# across a conventional open D6 voicing; the adjacent groups can be misparsed as D major and B minor."
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "ambiguous",
+          "reason": "The adjacent groups spell D and Bm but the complete pitch set is an ordinary D6."
+        },
+        "pitchRegisterSnapshot": {
+          "status": "eligible",
+          "reason": "D6 is an exact integrated explanation."
+        },
+        "timestampedEventStream": {
+          "status": "unknown",
+          "reason": "This snapshot control carries no event history."
+        }
+      },
+      "independentReview": "pending"
+    },
+    {
+      "id": "synthetic-d-triad-over-c7-shell",
+      "tag": "boundary",
+      "verificationStatus": "synthetic-control",
+      "observation": {
+        "kind": "snapshot",
+        "midiNotes": [36, 52, 58, 62, 66, 69]
+      },
+      "layers": [
+        {
+          "identity": "C7 shell",
+          "midiNotes": [36, 52, 58],
+          "pitchClasses": [0, 4, 10]
+        },
+        {
+          "identity": "D",
+          "midiNotes": [62, 66, 69],
+          "pitchClasses": [2, 6, 9]
+        }
+      ],
+      "sharedPitchClasses": [],
+      "singleChordAlternatives": ["C13(#11)"],
+      "provenance": {
+        "kind": "synthetic",
+        "generation": "Voice a D-major upper-structure triad over a root-third-seventh C7 shell."
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "eligible",
+          "reason": "The two conventional performance units occupy adjacent register groups."
+        },
+        "pitchRegisterSnapshot": {
+          "status": "eligible",
+          "reason": "The integrated dominant extension and upper-structure descriptions are both recoverable."
+        },
+        "timestampedEventStream": {
+          "status": "unknown",
+          "reason": "This snapshot control carries no event history."
+        }
+      },
+      "independentReview": "pending"
+    }
+  ]
+}

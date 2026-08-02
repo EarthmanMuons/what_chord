@@ -14,20 +14,23 @@ negative guard (must not split).
 
 ## Positive
 
-- **Petrushka chord** (Stravinsky, Petrushka, 1911). C major and F# major
-  sounded together; pcs {C,E,G}+{F#,A#,C#}. Which triad sits on top varies by
-  statement (the clarinet duet and the piano cadenza lay the pair out
-  differently), so encode the layering per verified voicing rather than assuming
-  one orientation. This exact pitch-class set is already an engine golden read
-  as C7(b9,#11) with Bb serving as the seventh; the polychord case is that
-  registral separation licenses the two-triad reading as at least an
-  alternative. Analytical literature disputes whether the collection is better
+- **Petrushka chord** (Stravinsky, Petrushka, 1911). C major and F# major are
+  combined; pcs {C,E,G}+{F#,A#,C#}. The rehearsal-49 clarinet statement is now
+  score-verified (printed p. 64, PDF p. 66 of the UNC scan): it consists of
+  concurrent arpeggiated streams, not one snapshot containing two complete
+  triads. It is therefore an event-window constructional positive and a
+  register-snapshot ineligible case. Other statements still require their own
+  verification rather than an assumed orientation or verticalized six-note
+  voicing. Analytical literature disputes whether the collection is better
   understood as one octatonic-derived sonority or two triads, so retain both
   readings.
 - **Petrushka, third tableau**. Same relation transposed: A major over Eb major.
-- **Augurs chord** (Rite of Spring). Eb7 over Fb major; pcs
-  {Eb,G,Bb,Db}+{E,G#,B} spelled Fb Ab Cb. Upper strings over cellos/basses. The
-  textbook polychord. Voicing doublings unverified against the score.
+- **Augurs chord** (Rite of Spring). Eb7 with Fb major; pcs
+  {Eb,G,Bb,Db}+{Fb,Ab,Cb}. Stravinsky's four-hand reduction at rehearsal 13 is
+  score-verified as Fb2-Ab2-Cb3-Fb3 and Eb3-G3-Bb3-Db4. Eb3 lies below Fb3, so
+  the component chords overlap in register and no adjacent-note boundary
+  recovers both. This remains a textbook constructional positive, but it is not
+  evidence for an adjacent-register detector.
 - **Elektra chord** (Strauss). C# major (Db F Ab) over an E-B fifth; pcs
   {C#,F,G#,E,B}. Standard reading is the bitonal synthesis; enharmonic
   single-symbol alternatives exist (7#9 spellings), so both readings should
@@ -43,9 +46,9 @@ negative guard (must not split).
 - **Holst, Neptune**. E minor and G# minor sounding together; pcs
   {E,G,B}+{G#,B,D#} (shared B, so the initial disjoint detector cannot see it;
   the ruler must decide whether shared tones license the reading).
-- **Milhaud, Corcovado** (Saudades do Brasil). B major over G major; pcs
-  {G,B,D}+{B,D#,F#} (shared B). Texture-level bitonality, melody against
-  accompaniment.
+- **Milhaud, Copacabana** (Saudades do Brasil). B major against G major; pcs
+  {G,B,D}+{B,D#,F#} (shared B). This corrects the earlier attribution to
+  Corcovado; exact measures and voicing still require score verification.
 - **Liszt, Malediction**. F major plus B major, the historical antecedent of
   Petrushka; pcs {F,A,C}+{B,D#,F#}.
 - **Fred Steiner, Perry Mason theme**. D major over C minor; pcs
@@ -123,10 +126,11 @@ unverified.
 ## Principles the cases encode
 
 - The strongest working positive pattern is two familiar chordal units grouped
-  by register, and it must survive pitch-class traps: Ives equals C9 and Copland
-  equals Amaj9 as sets; layout, not pitch content, licenses the decomposition.
-  Completeness, shared tones, and bass-only units remain declared scope
-  decisions.
+  by some observable evidence, and it must survive pitch-class traps: Ives
+  equals C9 and Copland equals Amaj9 as sets. The first score checks show that
+  register is not universal: Petrushka requires an event window and the Augurs
+  components overlap in register. Completeness, shared tones, and bass-only
+  units remain declared scope decisions.
 - Whenever the lower layer contains a dominant third-plus-seventh tritone, the
   single dominant symbol wins (all UST cases).
 - Wide spacing of one chord's own notes never fires the split, even at

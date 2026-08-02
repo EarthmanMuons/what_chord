@@ -28,13 +28,13 @@ shown to users.
 
 ## Research record and change control
 
-- Each experiment, measurement correction, or significant decision gets a
-  dated entry under `log/` with the exact commands, fixture and code pins,
-  results, and interpretation.
+- Each experiment, measurement correction, or significant decision gets a dated
+  entry under `log/` with the exact commands, fixture and code pins, results,
+  and interpretation.
 - Development and held-out data remain separate. No held-out result is read
   until the ruler, generator, scoring model, and adoption bar are frozen.
-- Negative results and corrections remain in the log. Once a ruler or result
-  set is frozen, changes require a later dated amendment rather than silent
+- Negative results and corrections remain in the log. Once a ruler or result set
+  is frozen, changes require a later dated amendment rather than silent
   revision.
 - Generated reports must identify their schema, command, working directory,
   runtime, script hash, fixture hashes and manifest pins, and split-file hash.
@@ -47,14 +47,14 @@ Current scoping corpora, all octave-preserving:
   (`research/whatkey/data/splits/when-in-rome-v1.json`).
 - ASAP x When in Rome, development split only
   (`research/performed-input/data/splits/asap-wir-nc-v2.json`).
-- The committed POP909 sample fixtures, used as an advisory corpus. The
-  808-song held pool remains evaluation-virgin.
+- The committed POP909 sample fixtures, used as an advisory corpus. The 808-song
+  held pool remains evaluation-virgin.
 
 Rules:
 
 - No test split has been read or scored in this initiative.
-- Corpus results are reported separately and never pooled. Pieces represented
-  in more than one corpus are not treated as independent observations.
+- Corpus results are reported separately and never pooled. Pieces represented in
+  more than one corpus are not treated as independent observations.
 - Fixture sets and split files are versioned and immutable for a result set.
   Split pins must match fixture manifests, and results from different fixture
   versions are not combined.
@@ -79,8 +79,8 @@ It has two detector families:
 Every run must name one exact template profile:
 
 - `complete-common` is the primary constructional profile. Both layers use the
-  same vocabulary: complete major and minor triads and complete dominant,
-  major, and minor seventh chords.
+  same vocabulary: complete major and minor triads and complete dominant, major,
+  and minor seventh chords.
 - `bichord-triads` is the narrower symmetric two-triad profile used to measure
   the bichord/polytriad subset.
 - `upper-structure-triads` admits a major or minor upper triad over a complete
@@ -106,8 +106,8 @@ profile rather than an unlabeled switch.
 
 Fixture events snapshot the voicing at a committed chord-identity onset,
 attribute the event duration to that snapshot, and omit same-identity revoicing.
-The census therefore measures committed-event exposure only. It does not
-measure every frame seen by a live generator or the subset that survives a
+The census therefore measures committed-event exposure only. It does not measure
+every frame seen by a live generator or the subset that survives a
 stable-display gate.
 
 Schema-3 reports retain every registral and pitch-class-only fire with piece,
@@ -153,8 +153,8 @@ order.
 ## Ruler and annotation
 
 No surveyed corpus provides verified positive polychord labels. The accuracy
-ruler must therefore be a versioned, hand-authored suite of exact voicings with
-three declared tags:
+ruler must therefore be a versioned, hand-authored suite of exact snapshots or
+event windows with three declared tags:
 
 - positive: a polychord reading is expected, at least as an alternative;
 - boundary: a single symbol is preferred, with a decomposition acceptable only
@@ -163,17 +163,24 @@ three declared tags:
 
 Candidate examples are not ground truth. Before entering the ruler, each
 literature example must be checked against a stable score source and ideally a
-recording. Each entry must record the sounded notes, upper and lower identities,
-note-to-layer assignment, source, admissible alternatives, scope feature
-(shared tone, incomplete unit, bass-only unit, and so on), and the evidence that
-licenses or blocks the split.
+recording. Each entry must record the sounded notes or event window, upper and
+lower identities, note-to-layer assignment, source, admissible alternatives,
+scope feature (shared tone, incomplete unit, bass-only unit, and so on), and the
+evidence that licenses or blocks the split. A passage may not be silently
+verticalized into a simultaneous voicing that the source never sounds.
 
-The annotation guidelines must distinguish canonical shared-tone polychords
-from integrated sixth, seventh, and extended chords; polychords from slash
-chords and upper-structure voicings; and constructional decompositions from
-perceptual or intentional claims. If publication remains an objective, a second
-independent annotator must apply the frozen guidelines and the record must
-include agreement statistics and adjudication.
+Construction truth and input eligibility are separate annotations. A score can
+establish a polychordal construction while a pitch-and-register snapshot cannot
+recover it; such a case is ineligible for that input condition, not a detector
+false negative. Eligibility must be recorded separately for adjacent-register
+snapshots, general pitch-and-register snapshots, and timestamped event streams.
+
+The annotation guidelines must distinguish canonical shared-tone polychords from
+integrated sixth, seventh, and extended chords; polychords from slash chords and
+upper-structure voicings; and constructional decompositions from perceptual or
+intentional claims. If publication remains an objective, a second independent
+annotator must apply the frozen guidelines and the record must include agreement
+statistics and adjudication.
 
 The complete ruler, metrics, and adoption threshold must be frozen before any
 proposed engine rule is evaluated against it.
@@ -181,8 +188,8 @@ proposed engine rule is evaluated against it.
 ## Prior-art baselines
 
 The scoped search claim and exact query record live in `prior-art-search.md`.
-Before adoption, the proposed method must be compared on the same verified
-ruler with pinned versions of at least musicpy and mingus. ChordRecGen should be
+Before adoption, the proposed method must be compared on the same verified ruler
+with pinned versions of at least musicpy and mingus. ChordRecGen should be
 included if its archived toolchain can be executed reproducibly.
 
 For every baseline record the package or source version, input ordering,
@@ -206,8 +213,8 @@ Before an engine lever is designed or measured, a dated decision must specify:
 - how register, onset cohorts, motion, pedal state, and any reliable source cues
   affect confidence, abstention, and display, including fallback behavior when
   temporal evidence is absent;
-- the frame-level generator and stable-display measurements, performance
-  budget, and adoption threshold.
+- the frame-level generator and stable-display measurements, performance budget,
+  and adoption threshold.
 
 ## Statistics and reporting
 
@@ -239,11 +246,12 @@ The following decisions must be dated and made in order:
    confidence, abstention, or eligibility, and define behavior when it is
    unavailable. Treat channel or source evidence as a later optional ablation.
 3. Pilot annotation: score-verify and independently review a small suite that
-   resolves the shared-tone versus integrated-chord boundary.
+   tests the shared-tone versus integrated-chord boundary and distinguishes
+   construction labels from input eligibility.
 4. Frozen ruler and evaluation: encode the full suite, metrics, output contract,
    adoption threshold, and performance budget before evaluating a lever.
-5. Implementation-shaped exposure: measure the proposed generator at frame
-   level and after the stable-display gate before making a safety claim.
+5. Implementation-shaped exposure: measure the proposed generator at frame level
+   and after the stable-display gate before making a safety claim.
 
 ## Engine and product guards
 
@@ -259,6 +267,6 @@ Any adopted lever must pass all of the following:
   every scoping corpus, with a complete disposition of every new fire;
 - the frozen polychord performance budget and on-device note-storm profiling.
 
-Single-chord pool differences cannot reveal an incorrect secondary
-decomposition when the primary identity is unchanged. The generator and display
-guards are therefore additive to the existing engine checks.
+Single-chord pool differences cannot reveal an incorrect secondary decomposition
+when the primary identity is unchanged. The generator and display guards are
+therefore additive to the existing engine checks.

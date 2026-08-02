@@ -19,17 +19,17 @@ Status: scoping. No engine lever has been proposed or evaluated.
   evidence: 29 have an incomplete lower shell or power dyad, and none was judged
   a positive polychord. Schema 3 replaces the triad/seventh switch with named
   profiles. The primary `complete-common` profile treats both layers
-  symmetrically as complete major/minor triads or common seventh chords, requires
-  different roots, permits a shared pitch class only when separate notes support
-  it, and reports every qualifying register boundary. At the liberal three-
-  semitone gap it fires on 0.051% of When in Rome dev mass (4 events), 0.157% of
-  ASAP dev (12), and 1.221% of the POP909 sample (372); almost every candidate
-  uses shared tones and the inspected examples are ordinary integrated sixth,
-  seventh, or extended chords. The narrower symmetric `bichord-triads` ablation
-  reaches 0.051%, 0.047%, and 0.728%. Register-blind exposure under the primary
-  profile is 0.20%, 1.77%, and 12.80%. These are committed-event scoping bounds,
-  not safety or accuracy results; frame-level generator and stable-display
-  exposure remain unmeasured.
+  symmetrically as complete major/minor triads or common seventh chords,
+  requires different roots, permits a shared pitch class only when separate
+  notes support it, and reports every qualifying register boundary. At the
+  liberal three-semitone gap it fires on 0.051% of When in Rome dev mass (4
+  events), 0.157% of ASAP dev (12), and 1.221% of the POP909 sample (372);
+  almost every candidate uses shared tones and the inspected examples are
+  ordinary integrated sixth, seventh, or extended chords. The narrower symmetric
+  `bichord-triads` ablation reaches 0.051%, 0.047%, and 0.728%. Register-blind
+  exposure under the primary profile is 0.20%, 1.77%, and 12.80%. These are
+  committed-event scoping bounds, not safety or accuracy results; frame-level
+  generator and stable-display exposure remain unmeasured.
 - External landscape (logs 2026-08-02-02 and -05): no published computational
   method or evaluated dataset for automatic polychord naming was found within
   the documented search scope. That is a provisional, scoped novelty claim, not
@@ -51,10 +51,19 @@ Status: scoping. No engine lever has been proposed or evaluated.
 
 ## Direction
 
-Proposed, pending the three open decisions recorded in PROTOCOL.md (product
-semantics, evidence contract, verified goldens with an implementation-shaped
-census): a hand-authored golden ruler first (32 sourced candidates await review
-in `golden-candidates.md`), then a presentation-side decomposition annotation
-(secondary label, single-chord identity unchanged), with alternatives-tier
-composite candidates only if the goldens justify them. Corpora serve as
-negative-exposure guards, not accuracy rulers.
+The first annotation-method pilot is encoded in `pilot-ruler-v0.json`, with its
+draft rubric in `pilot-annotation.md`. It is deliberately not scorable: every
+case awaits independent review. Score verification has already shown why the
+pilot is necessary. The Petrushka rehearsal-49 construction is made from
+concurrent arpeggiated streams rather than one complete six-note snapshot, and
+the Augurs chord's component chords overlap in register. The ruler must
+therefore annotate construction truth separately from eligibility for each input
+representation instead of selecting only cases the current adjacent-split
+detector can recover.
+
+After the independent pilot, the proposed direction remains a hand-authored
+frozen ruler, then a presentation-side decomposition annotation (secondary
+label, single-chord identity unchanged), with alternatives-tier composite
+candidates only if the ruler justifies them. The 32 sourced candidates in
+`golden-candidates.md` remain a review queue. Corpora serve as negative-exposure
+guards, not accuracy rulers.
