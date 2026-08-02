@@ -15,9 +15,9 @@ reproduction commands, the corrections, and the ideas that did not work.
   is a plain-English tour of the thirty-two ideas we measured and decided not to
   ship, and why keeping that record is part of the method.
 - **Want the science?** [WhatKey](whatkey/) is the deepest study here and the
-  only one written up as a paper. Its
-  [plain-English companion](whatkey/CONTRIBUTION.md) explains what it claims and
-  why it is worth reading.
+  only one written up as a public preprint. Its publication path is now closed
+  after a final novelty audit; the archive preserves the manuscript, protocol,
+  corrections, null results, and reproduction record.
 - **Hit an unfamiliar term?** The [glossary](GLOSSARY.md) defines the
   measurement vocabulary in plain English: coverage, held-out split, paired
   statistics, exact versus MIREX, and the rest.
@@ -46,13 +46,16 @@ detection, not chord naming, was the thing holding accuracy back.
 
 **[WhatKey](whatkey/)** asks what key you are in right now, while you are still
 playing, from the chord recognizer's output rather than a finished score, and
-with the option to stay quiet when the evidence is too thin to call. That last
-part is unusual: most key-detection research requires an answer every time.
+with the option to stay quiet when the evidence is too thin to call. The
+protocol therefore measures coverage alongside accuracy rather than treating
+silence as either automatically correct or automatically wrong.
 
-The detector reaches at least parity with standard offline key finders that read
-the whole song first, under much stricter conditions. It is written up as a
-preprint, and its evaluation protocol is the one every later initiative
-inherits.
+The project is complete and retained as a reproducible research archive. A
+journal-preparation audit found that its reference-dependent ranking result is
+valid but too close to established evaluation knowledge to justify further
+publication effort; the offline comparison is descriptive rather than a parity
+claim. Its lasting contribution to this repository is the causal detector and
+the protocol discipline that every later initiative inherits.
 
 **[WhatKey Local](whatkey-local/)** asks how closely that detector should chase
 the brief key changes inside a piece, and what chasing them costs in the

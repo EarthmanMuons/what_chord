@@ -1,9 +1,17 @@
 # What WhatKey Contributes
 
-This note is a plain-English companion to the preprint. It is not the normative
-record of experiments; the paper, protocol, logs, and committed result artifacts
-remain the source of truth. Its purpose is to answer a simpler question: why is
-this work worth reading?
+> **Archival status, 2026-08-02:** This document preserves the public preprint's
+> original contribution framing. A later audit concluded that the central
+> reference-dependent ranking result is valid but insufficiently novel for
+> further publication effort, and that the offline table supports descriptive
+> context rather than a parity claim. See the
+> [current project status](README.md#project-status) and
+> [publication-closure record](log/2026-08-02-01-close-publication-path.md).
+
+This note is a historical plain-English companion to the preprint. It is not the
+normative record of experiments; the paper, protocol, logs, and committed result
+artifacts remain the source of truth. The discussion below is retained to show
+how the project was framed before the final novelty audit.
 
 ## Short version
 
