@@ -1,0 +1,240 @@
+{
+  "schema": "polychord-pilot-review/1",
+  "status": "template",
+  "sourceRuler": {
+    "schema": "polychord-pilot-ruler/1",
+    "sha256": "f5fa532757cba27ef21760920647d612a7cba0f91b921993a4f0c9e7ca35f5c3"
+  },
+  "annotationGuide": {
+    "path": "research/polychord/pilot-annotation.md",
+    "sha256": "f311f428603fa3a7a65b7834f34c02b298c33c53dce1193d9241e65399c9c4d8"
+  },
+  "blinding": {
+    "caseIds": "neutral",
+    "caseOrder": "deterministically shuffled",
+    "initialLabelsAndRationales": "omitted",
+    "syntheticGenerationIntent": "omitted"
+  },
+  "reviewMetadata": {
+    "annotatorId": null,
+    "completedOn": null
+  },
+  "cases": [
+    {
+      "reviewId": "case-001",
+      "evidence": {
+        "kind": "synthetic-midi",
+        "midiNotes": [43, 46, 50, 60, 64, 67],
+        "onsetCohortsMs": [
+          {
+            "time": 0,
+            "midiNotes": [43, 46, 50, 60, 64, 67]
+          }
+        ]
+      },
+      "response": {
+        "observationKind": null,
+        "constructionTag": null,
+        "layers": [],
+        "sharedPitchClasses": [],
+        "unassignedMidiNotes": [],
+        "singleChordAlternatives": [],
+        "inputEligibility": {
+          "adjacentRegisterSnapshot": {
+            "status": null,
+            "reason": ""
+          },
+          "pitchRegisterSnapshot": {
+            "status": null,
+            "reason": ""
+          },
+          "timestampedEventStream": {
+            "status": null,
+            "reason": ""
+          }
+        },
+        "confidence": null,
+        "notes": ""
+      }
+    },
+    {
+      "reviewId": "case-002",
+      "evidence": {
+        "kind": "score-source",
+        "source": {
+          "work": "Igor Stravinsky, Petrouchka",
+          "edition": "1911 full score, UNC Music Library scan",
+          "sourceUrl": "https://archive.org/details/ptrouchkascn00stra",
+          "sourceIdentifier": "ptrouchkascn00stra",
+          "sha256": "8c753ed9ddc37e61d7fb1a261fd350cbe7b529d9bc957e9c2efcfab953532d64",
+          "scoreLocation": "second tableau, rehearsal 49, printed page 64, PDF page 66"
+        }
+      },
+      "response": {
+        "observationKind": null,
+        "constructionTag": null,
+        "layers": [],
+        "sharedPitchClasses": [],
+        "unassignedMidiNotes": [],
+        "singleChordAlternatives": [],
+        "inputEligibility": {
+          "adjacentRegisterSnapshot": {
+            "status": null,
+            "reason": ""
+          },
+          "pitchRegisterSnapshot": {
+            "status": null,
+            "reason": ""
+          },
+          "timestampedEventStream": {
+            "status": null,
+            "reason": ""
+          }
+        },
+        "confidence": null,
+        "notes": ""
+      }
+    },
+    {
+      "reviewId": "case-003",
+      "evidence": {
+        "kind": "synthetic-midi",
+        "midiNotes": [43, 46, 50, 60, 64, 67],
+        "onsetCohortsMs": [
+          {
+            "time": 0,
+            "midiNotes": [43, 46, 50]
+          },
+          {
+            "time": 400,
+            "midiNotes": [60, 64, 67]
+          }
+        ]
+      },
+      "response": {
+        "observationKind": null,
+        "constructionTag": null,
+        "layers": [],
+        "sharedPitchClasses": [],
+        "unassignedMidiNotes": [],
+        "singleChordAlternatives": [],
+        "inputEligibility": {
+          "adjacentRegisterSnapshot": {
+            "status": null,
+            "reason": ""
+          },
+          "pitchRegisterSnapshot": {
+            "status": null,
+            "reason": ""
+          },
+          "timestampedEventStream": {
+            "status": null,
+            "reason": ""
+          }
+        },
+        "confidence": null,
+        "notes": ""
+      }
+    },
+    {
+      "reviewId": "case-004",
+      "evidence": {
+        "kind": "score-source",
+        "source": {
+          "work": "Igor Stravinsky, Le sacre du printemps",
+          "edition": "composer's four-hand reduction, Russian Music Edition",
+          "sourceUrl": "https://archive.org/details/lesacreduprintem00stra_3",
+          "sourceIdentifier": "lesacreduprintem00stra_3",
+          "sha256": "6871f14d62c39eeaa7a1482c644947870bbb30b297f0ed2b89321dad85f35495",
+          "scoreLocation": "Les augures printaniers, rehearsal 13, printed page 16, PDF page 18"
+        }
+      },
+      "response": {
+        "observationKind": null,
+        "constructionTag": null,
+        "layers": [],
+        "sharedPitchClasses": [],
+        "unassignedMidiNotes": [],
+        "singleChordAlternatives": [],
+        "inputEligibility": {
+          "adjacentRegisterSnapshot": {
+            "status": null,
+            "reason": ""
+          },
+          "pitchRegisterSnapshot": {
+            "status": null,
+            "reason": ""
+          },
+          "timestampedEventStream": {
+            "status": null,
+            "reason": ""
+          }
+        },
+        "confidence": null,
+        "notes": ""
+      }
+    },
+    {
+      "reviewId": "case-005",
+      "evidence": {
+        "kind": "synthetic-midi",
+        "midiNotes": [36, 52, 58, 62, 66, 69]
+      },
+      "response": {
+        "observationKind": null,
+        "constructionTag": null,
+        "layers": [],
+        "sharedPitchClasses": [],
+        "unassignedMidiNotes": [],
+        "singleChordAlternatives": [],
+        "inputEligibility": {
+          "adjacentRegisterSnapshot": {
+            "status": null,
+            "reason": ""
+          },
+          "pitchRegisterSnapshot": {
+            "status": null,
+            "reason": ""
+          },
+          "timestampedEventStream": {
+            "status": null,
+            "reason": ""
+          }
+        },
+        "confidence": null,
+        "notes": ""
+      }
+    },
+    {
+      "reviewId": "case-006",
+      "evidence": {
+        "kind": "synthetic-midi",
+        "midiNotes": [50, 54, 57, 59, 62, 66]
+      },
+      "response": {
+        "observationKind": null,
+        "constructionTag": null,
+        "layers": [],
+        "sharedPitchClasses": [],
+        "unassignedMidiNotes": [],
+        "singleChordAlternatives": [],
+        "inputEligibility": {
+          "adjacentRegisterSnapshot": {
+            "status": null,
+            "reason": ""
+          },
+          "pitchRegisterSnapshot": {
+            "status": null,
+            "reason": ""
+          },
+          "timestampedEventStream": {
+            "status": null,
+            "reason": ""
+          }
+        },
+        "confidence": null,
+        "notes": ""
+      }
+    }
+  ]
+}

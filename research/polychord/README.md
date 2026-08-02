@@ -61,6 +61,17 @@ therefore annotate construction truth separately from eligibility for each input
 representation instead of selecting only cases the current adjacent-split
 detector can recover.
 
+`pilot-review-template-v0.json` is a reproducible independent-review packet. It
+uses neutral shuffled IDs and contains only raw MIDI/onset evidence or pinned
+score locations, not the initial labels or rationales. Returned annotations are
+validated and stored separately under `reviews/`; agreement and adjudication do
+not begin until the independent responses are frozen. The formative pilot
+targets three qualified independent reviewers, with two as its minimum usable
+panel. A guided, version-pinned annotation instrument should export the existing
+validated response schema; it improves consistency of data entry but must not
+lead or normalize the reviewers' theoretical judgments. Log 2026-08-02-09
+records the staged review and publication progression.
+
 After the independent pilot, the proposed direction remains a hand-authored
 frozen ruler, then a presentation-side decomposition annotation (secondary
 label, single-chord identity unchanged), with alternatives-tier composite
