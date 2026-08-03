@@ -1,20 +1,6 @@
 # Polychord pilot reviewer guide
 
-Status: draft for an independent-method pilot. This guide and the six pilot
-cases test whether the review method is clear. They are not a frozen accuracy
-test for WhatChord.
-
-## Who this review is for
-
-This review is intended for musicians with formal music-theory study or
-equivalent advanced practical experience. You should be comfortable reading
-standard notation, piano-keyboard and piano-roll views, identifying common
-triads and seventh chords, and distinguishing chord extensions, slash chords,
-and upper-structure voicings.
-
-You do not need programming, MIDI, JSON, music-information-retrieval, or
-WhatChord experience. The review normally takes 30 to 45 minutes after a 10 to
-15 minute orientation.
+The review normally takes 30 to 45 minutes after the short orientation.
 
 ## The question we are asking
 
@@ -32,11 +18,12 @@ Each case asks three separate questions:
    simultaneous sonority or a short passage unfolding over time?
 2. Is a polychord decomposition expected, merely available but less preferable
    than one integrated chord, or misleading?
-3. Which kinds of input would contain enough evidence to recover your reading?
+3. Which kinds of musical information would contain enough evidence to support
+   your reading?
 
-Keep the construction judgment in question 2 separate from recoverability in
-question 3. A passage can be a valid constructional polychord even when a single
-pitch-and-register snapshot cannot recover its layers.
+Keep the construction judgment in question 2 separate from the available
+information in question 3. A passage can be a valid constructional polychord
+even when a single pitch-and-register snapshot does not reveal its layers.
 
 ## Construction choices
 
@@ -52,9 +39,6 @@ pitch-and-register snapshot cannot recover its layers.
   guide does not support a responsible choice. Explain what is missing or
   unclear; do not force a label.
 
-These choices concern construction and notation, not whether a particular
-algorithm succeeds.
-
 ## Choose the musical unit
 
 - Choose **one simultaneous sonority** only when all notes needed for your
@@ -69,8 +53,7 @@ those pitches never sound together.
 
 For the two polychord choices, add at least two layers. Give each layer a concise
 chord identity in the notation you normally use, then assign the notes belonging
-to it. The interface shows written note names and derives the machine-readable
-values automatically.
+to it.
 
 For score excerpts, select the pitch names belonging to each layer. Preserve
 important spelling in the chord-identity text because the pitch selector is
@@ -88,53 +71,43 @@ Record plausible integrated single-chord readings separately under
 **single-chord alternatives**. Do not list alternate spellings of the same
 polychord there.
 
-## Judge what each input can recover
+## Judge what each kind of information can support
 
-Answer all three recoverability questions independently:
+Answer all three questions about the available information independently:
 
 - **One split between neighboring notes:** Could the complete layers be obtained
   by sorting the simultaneously sounding notes from low to high and placing one
   boundary between adjacent notes?
-- **Any assignment using pitch and register:** Could the layers be recovered
-  from the simultaneous octave-specific notes when notes need not form two
+- **Any assignment using pitch and register:** Could the simultaneous
+  octave-specific notes reveal the layers when notes need not form two
   contiguous register blocks?
 - **Timing and motion available:** Could attack time, release, sustain-pedal
   state, or coherent motion supply evidence that a snapshot lacks?
 
 Use these response choices:
 
-- **Enough evidence:** the input supports the proposed reading under the stated
-  condition.
-- **More than one defensible reading:** the input permits the reading, but does
-  not justify it over an ordinary integrated-chord alternative.
-- **Not enough evidence:** the input cannot contain the notes or relationships
-  needed for the reading.
-- **Promising, but needs an encoded performance:** the score suggests useful
-  timing or motion evidence, but no frame-accurate performance has been encoded.
-- **Not known from this case:** the required evidence is absent, so its
+- **Enough evidence:** this information supports the proposed reading.
+- **More than one defensible reading:** this information permits the reading,
+  but does not justify it over an ordinary integrated-chord alternative.
+- **Not enough evidence:** this information does not contain the notes or
+  relationships needed for the reading.
+- **Promising, but needs a timed performance:** the score suggests useful timing
+  or motion evidence, but no suitable performance is available in the case.
+- **Not known from this case:** the relevant information is absent, so its
   usefulness cannot be judged.
 
 Give a short musical reason for every choice, including uncertainty.
 
 ## Independence and uncertainty
 
-Complete the orientation and scored cases without consulting another reviewer,
-the research team's initial annotations, or detector output. General reference
-works may be consulted, but record anything case-specific that materially
-influenced your answer.
+Complete the review independently, without seeking or comparing case-specific
+answers. General reference works may be consulted, but record anything
+case-specific that materially influenced your answer.
 
 The score cases identify the work and location so you can inspect their musical
-context. This necessarily means that a familiar example may be recognizable;
-the study is initial-label-blinded, not work-blinded. The generated cases use
-neutral note views and disclose no intended answer.
+context. A familiar example may therefore be recognizable. Base your judgment
+on the musical context provided.
 
-Use the assigned pseudonymous reviewer ID, not your name or email. Your
-qualifications and contact details are recorded separately from the response.
-Download and return the response file without editing it or discussing cases
-with the research team. The interface stores a draft only in your browser and
-does not submit data to a server.
-
-Technical response fields, validation commands, and the pre-adjudication rules
-are documented separately in
-[`pilot-response-schema.md`](pilot-response-schema.md). Reviewers do not need
-that document to complete the form.
+Use the assigned reviewer ID, not your name or email. Download and return the
+response file without editing it or discussing cases with the study team. Your
+answers are saved in this browser while you work.

@@ -79,6 +79,7 @@ test("instrument pins its packet, guide, and musician-facing presentation", () =
   const template = loadTemplate();
   const app = readFileSync(APP, "utf8");
   const html = readFileSync(HTML, "utf8");
+  const guide = readFileSync(GUIDE, "utf8");
   const manifest = JSON.parse(readFileSync(PRESENTATION, "utf8"));
 
   assert.match(app, new RegExp(sha256(PACKET)));
@@ -102,9 +103,17 @@ test("instrument pins its packet, guide, and musician-facing presentation", () =
   assert.match(html, /img-src 'self' blob:/);
   assert.match(html, /10 to 15 minute orientation/);
   assert.doesNotMatch(html, /<script(?![^>]*src=)[^>]*>/);
+  assert.doesNotMatch(
+    `${html}\n${guide}`,
+    /\b(?:MIDI|JSON|scored|unadjudicated|packet|digest|provenance)\b/i,
+  );
+  assert.doesNotMatch(
+    app,
+    /Technical provenance|Pinned musical|initial annotations|detector output|reviewCase\.reviewId/,
+  );
 });
 
-test("musical labels and orientation remain separate from scored cases", () => {
+test("musical labels and orientation remain separate from review cases", () => {
   const template = loadTemplate();
   const scoredNoteSets = new Set(
     template.cases

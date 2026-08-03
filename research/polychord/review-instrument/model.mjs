@@ -70,12 +70,10 @@ function validIsoDate(value) {
 
 export function assertTemplate(template) {
   if (template.schema !== REVIEW_SCHEMA || template.status !== "template") {
-    throw new Error(
-      "The review packet does not use the frozen template schema.",
-    );
+    throw new Error("The review materials could not be verified.");
   }
   if (!Array.isArray(template.cases) || template.cases.length === 0) {
-    throw new Error("The review packet does not contain any cases.");
+    throw new Error("No review cases are available.");
   }
   for (const reviewCase of template.cases) {
     if (
@@ -83,7 +81,7 @@ export function assertTemplate(template) {
       typeof reviewCase.evidence !== "object" ||
       typeof reviewCase.response !== "object"
     ) {
-      throw new Error("The review packet contains a malformed case.");
+      throw new Error("A review case could not be read.");
     }
   }
 }
@@ -359,7 +357,7 @@ export function validateInstrumentState(template, state) {
       errors,
       null,
       "review-form",
-      "The saved draft does not match this packet.",
+      "The saved answers do not belong to this review.",
     );
     return errors;
   }

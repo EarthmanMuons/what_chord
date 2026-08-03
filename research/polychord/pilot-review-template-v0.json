@@ -7,7 +7,7 @@
   },
   "annotationGuide": {
     "path": "research/polychord/pilot-annotation.md",
-    "sha256": "6bd6c592bebd72f36aa29ce1258cd4c710e3716cc6409e6b96a9b5c8f60a6806"
+    "sha256": "fbd45bb7858bfb25c1ae2a7cdfe19ae6eb46a740b75622a98f6edbe6bb514dbd"
   },
   "blinding": {
     "caseIds": "neutral",

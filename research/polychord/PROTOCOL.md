@@ -219,27 +219,28 @@ or data-schema knowledge. Present generated evidence with written note names, a
 neutral keyboard or piano-roll view, and a plain timing view when onset data
 exists. Present score cases with an unannotated excerpt reproduced from the
 exact pinned source. Keep raw MIDI values, source identifiers, and hashes as
-collapsed provenance rather than the musical task. Do not infer an enharmonic
-spelling absent from the packet, add harmonic highlighting, or synthesize audio
-whose timbre, articulation, duration, or mix would introduce an unregistered
-evidence condition.
+underlying packet and export provenance rather than presenting them as part of
+the musical task. Do not infer an enharmonic spelling absent from the packet,
+add harmonic highlighting, or synthesize audio whose timbre, articulation,
+duration, or mix would introduce an unregistered evidence condition.
 
 Reviewers must have formal music-theory study or equivalent advanced experience,
 read notation and keyboard or piano-roll views, identify common triads and
 seventh chords, and distinguish extensions, slash chords, and upper structures.
 Programming, JSON, MIDI, MIR, and WhatChord experience are explicitly not
 required. Give every reviewer the same 10-to-15-minute orientation: a plain
-guide, three unscored worked cases not reused in the scored packet, and a brief
+guide, three worked cases not reused in the pilot packet, and a brief
 task-boundary check with standardized feedback. Readiness answers are not
-research responses and are not exported. Do not coach reviewers during scored
+research responses and are not exported. Do not coach reviewers during pilot
 cases.
 
 Before distribution, conduct one cognitive walkthrough with a qualified
 musician who is excluded from the independent pilot panel. Use it to find
-wording, evidence-presentation, and navigation failures; do not retain a scored
-response. Any change to the guide, scored evidence view, required response, or
-interpretive feedback is a measurement-instrument revision and receives a dated
-provenance entry and new instrument pin before responses are collected.
+wording, evidence-presentation, and navigation failures; do not retain a
+completed response. Any change to the guide, presented evidence view, required
+response, or interpretive feedback is a measurement-instrument revision and
+receives a dated provenance entry and new instrument pin before responses are
+collected.
 
 After all pilot responses are frozen, generate the pre-adjudication report
 before discussion. Then debrief reviewers individually, document guide and
