@@ -71,8 +71,9 @@ panel. The static, version-pinned `review-instrument/` exports the existing
 validated response schema and improves consistency of data entry without leading
 or normalizing the reviewers' theoretical judgments. Its primary views use
 unannotated pinned score crops, written note names, neutral keyboards, and plain
-attack timelines; raw MIDI and hashes remain collapsed provenance. A standardized
-orientation uses three unscored examples not reused in the packet and a brief
+attack timelines; raw MIDI and hashes remain in the underlying packet and
+exported response rather than the reviewer flow. A standardized orientation uses
+three worked examples not reused in the packet and a brief
 task-boundary check. The instrument verifies the packet, guide, presentation
 manifest, and score images at the byte level and stores drafts locally. A
 qualified-musician cognitive walkthrough, real-browser and assistive-technology

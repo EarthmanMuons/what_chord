@@ -104,8 +104,7 @@ a:hover {
 }
 
 .header-content,
-.page-shell,
-.page-footer {
+.page-shell {
   width: min(78rem, calc(100% - 2rem));
   margin-inline: auto;
 }
@@ -578,24 +577,6 @@ h3 {
   color: var(--muted);
 }
 
-.technical-details {
-  margin-top: 1rem;
-  border-top: 0.0625rem solid var(--border);
-}
-
-.technical-details summary {
-  min-height: 2.75rem;
-  padding-block: 0.65rem;
-  font-weight: 700;
-  color: var(--accent-dark);
-  cursor: pointer;
-}
-
-.technical-details p,
-.technical-details dl {
-  margin-bottom: 0.75rem;
-}
-
 .evidence-card dl {
   display: grid;
   grid-template-columns: minmax(7rem, 0.35fr) minmax(0, 1fr);
@@ -613,8 +594,7 @@ h3 {
   overflow-wrap: anywhere;
 }
 
-code,
-.data-value {
+code {
   font-family:
     ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
   font-size: 0.88em;
@@ -818,17 +798,6 @@ code,
   color: var(--success);
 }
 
-.page-footer {
-  padding-block: 1.25rem 2rem;
-  color: var(--muted);
-  text-align: center;
-}
-
-.page-footer p {
-  margin: 0;
-  overflow-wrap: anywhere;
-}
-
 @media (width <= 48rem) {
   .orientation,
   .orientation-actions,
@@ -859,8 +828,7 @@ code,
 
 @media (width <= 32rem) {
   .header-content,
-  .page-shell,
-  .page-footer {
+  .page-shell {
     width: min(100% - 1rem, 78rem);
   }
 

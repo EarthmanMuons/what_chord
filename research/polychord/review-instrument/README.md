@@ -9,8 +9,8 @@ Version 2 presents musical evidence in forms a reviewer can read directly:
 unannotated score excerpts for source cases and written note names, a neutral
 piano-keyboard view, and a plain-language attack timeline for generated cases.
 Raw MIDI values, source identifiers, and digests remain available only under
-collapsed technical-provenance controls. The exported evidence and response
-schema are unchanged.
+the verified packet and exported response; they are not displayed in the
+reviewer flow. The evidence and response schema are unchanged.
 
 Do not distribute it for real responses until the multi-reviewer comparison
 report is frozen and the distribution-readiness checklist below is complete.
@@ -43,17 +43,17 @@ JSON, MIR, or WhatChord knowledge.
 The instrument begins with a standardized 10 to 15 minute orientation:
 
 1. Read the musician-facing reviewer guide.
-2. Inspect three unscored worked examples covering an expected polychord,
+2. Inspect three worked examples covering an expected polychord,
    misleading decomposition, and single-chord-preferred boundary. These note
-   collections are not reused in the scored packet.
+   collections are not reused in the pilot packet.
 3. Pass three task-boundary questions. Incorrect responses receive the same
    written feedback for every reviewer. Readiness answers are neither retained
    nor exported; only orientation completion is stored with the local draft.
 
-Do not coach an individual reviewer through scored cases. Before distribution,
+Do not coach an individual reviewer through pilot cases. Before distribution,
 run one cognitive walkthrough with a qualified musician who is not counted in
 the independent pilot panel. Record unclear wording, navigation failures, time,
-and resulting revisions without collecting or retaining a scored response.
+and resulting revisions without collecting or retaining a completed response.
 
 ## Reviewer workflow
 
@@ -136,7 +136,7 @@ downloaded file afterward.
 - Complete the orientation and six-case flow in current Chrome, Firefox, and
   Safari at desktop and narrow widths, 200% browser zoom, and enlarged system
   text. Confirm every score excerpt, keyboard, note label, and attack timeline is
-  legible without opening technical provenance.
+  legible without reference to the underlying raw evidence.
 - Complete the flow by keyboard: use the skip link, orientation check, case
   navigation, radio and checkbox groups, selects, add/remove actions, error
   links, and download without a pointer. Confirm focus remains visible and moves
@@ -148,7 +148,7 @@ downloaded file afterward.
 - Confirm failed orientation and incomplete download attempts save no research
   response. Confirm every marked orientation question and error-summary link
   reaches its corresponding control.
-- Reload during the scored review and confirm local draft and orientation
+- Reload during the review and confirm local draft and orientation
   recovery. Clear the draft and confirm no answer, reviewer ID, or readiness
   state survives for the next reviewer using that browser profile.
 - Download a mechanically complete response, validate it with the Python command

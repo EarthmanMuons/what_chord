@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta
       name="description"
-      content="Guided, initial-label-blinded polychord pilot review for qualified musicians."
+      content="Guided polychord pilot review for musicians."
     />
     <meta
       http-equiv="Content-Security-Policy"
@@ -21,11 +21,11 @@
 
     <header class="page-header">
       <div class="header-content">
-        <p class="eyebrow">WhatChord research study</p>
+        <p class="eyebrow">Polychord research pilot</p>
         <h1>Polychord pilot review</h1>
         <p class="lede">
           Review six musical examples using score excerpts, written note names,
-          and piano-keyboard views. No programming or MIDI knowledge is needed.
+          and piano-keyboard views.
         </p>
       </div>
     </header>
@@ -44,8 +44,7 @@
         <h2>The review could not start</h2>
         <p id="load-error-message"></p>
         <p>
-          Serve the repository root over localhost rather than opening this file
-          directly. See the instrument README for the exact command.
+          Please contact the study team and include the message shown above.
         </p>
       </section>
 
@@ -64,9 +63,9 @@
               combination. It is not a claim that a listener hears two keys.
             </p>
             <p>
-              For each scored case, first judge the construction, then describe
-              its layers, and finally say which input conditions contain enough
-              evidence to recover your reading. You may always choose
+              For each case, first judge the construction, then describe its
+              layers, and finally say which kinds of musical information contain
+              enough evidence to support your reading. You may always choose
               <strong>cannot determine</strong> and explain why.
             </p>
             <div class="orientation-actions">
@@ -80,18 +79,18 @@
                 Open the full reviewer guide
               </a>
               <p class="help">
-                Read the guide before beginning. The scored review normally
-                takes 30 to 45 minutes.
+                Read the guide before beginning. The review normally takes 30 to
+                45 minutes.
               </p>
             </div>
           </section>
 
           <section class="panel" aria-labelledby="worked-examples-heading">
-            <p class="eyebrow">Unscored examples</p>
+            <p class="eyebrow">Practice examples</p>
             <h2 id="worked-examples-heading">Three worked judgments</h2>
             <p>
-              These examples teach the labels and are not reused in the scored
-              packet. Their answers are shown intentionally.
+              These examples introduce the labels and do not appear among the
+              six review cases. Their answers are shown.
             </p>
             <div id="orientation-examples" class="worked-example-list"></div>
           </section>
@@ -101,11 +100,10 @@
             class="panel"
             aria-labelledby="readiness-heading"
           >
-            <p class="eyebrow">Before the scored cases</p>
+            <p class="eyebrow">Before the review</p>
             <h2 id="readiness-heading">Check the task boundaries</h2>
             <p>
-              Answer all three questions. These answers are not saved or
-              exported.
+              Answer all three questions to confirm the instructions are clear.
             </p>
             <div id="readiness-questions"></div>
             <p
@@ -124,12 +122,14 @@
         <section id="review-workspace" hidden>
           <section class="panel orientation" aria-labelledby="review-reminder">
             <div>
-              <p class="eyebrow">Independent scored review</p>
-              <h2 id="review-reminder">Judge only the presented evidence</h2>
+              <p class="eyebrow">Independent review</p>
+              <h2 id="review-reminder">
+                Base your judgment on the musical example
+              </h2>
               <p>
-                Do not consult another reviewer, the initial annotations, or
-                detector output. Use cannot determine when the guide or evidence
-                is insufficient.
+                Do not seek or compare case-specific answers while reviewing.
+                Use cannot determine when the guide or musical example is
+                insufficient.
               </p>
             </div>
             <a
@@ -149,7 +149,7 @@
             >
               <div class="section-heading">
                 <div>
-                  <p class="eyebrow">Pseudonymous study record</p>
+                  <p class="eyebrow">Your review</p>
                   <h2 id="review-metadata">Review details</h2>
                 </div>
                 <button
@@ -157,7 +157,7 @@
                   class="text-button danger"
                   type="button"
                 >
-                  Clear local draft
+                  Clear saved answers
                 </button>
               </div>
 
@@ -208,7 +208,7 @@
             <div class="review-layout">
               <nav
                 class="panel case-navigation"
-                aria-label="Scored pilot cases"
+                aria-label="Polychord review cases"
               >
                 <div class="case-navigation-heading">
                   <h2>Cases</h2>
@@ -230,12 +230,12 @@
               aria-labelledby="export-heading"
             >
               <div>
-                <p class="eyebrow">Unadjudicated response</p>
-                <h2 id="export-heading">Check and download</h2>
+                <p class="eyebrow">When you are finished</p>
+                <h2 id="export-heading">Download your review</h2>
                 <p>
-                  Download checks every required answer and preserves the source
-                  evidence unchanged. Return the file before discussing any case
-                  with the study team.
+                  The download checks that every required question has an
+                  answer. Return the file before discussing any case with the
+                  study team.
                 </p>
               </div>
               <button class="button primary" type="submit">
@@ -264,13 +264,5 @@
         aria-live="polite"
       ></p>
     </main>
-
-    <footer class="page-footer">
-      <p>
-        Instrument <code id="instrument-version">loading</code> · Packet
-        <code id="packet-digest">loading</code> · Presentation
-        <code id="presentation-digest">loading</code>
-      </p>
-    </footer>
   </body>
 </html>

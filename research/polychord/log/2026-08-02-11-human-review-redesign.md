@@ -2,7 +2,7 @@
 
 **Goal.** Remove programming and MIDI literacy from the independent-review task,
 make the musical evidence directly inspectable, and standardize the amount of
-orientation a qualified reviewer receives without changing the scored response
+orientation a qualified reviewer receives without changing the stored response
 schema or exposing the initial answers.
 
 **Setup.** Base repository commit `3c8e5a1b`. No independent response existed,
@@ -76,11 +76,11 @@ technology checklist remains explicitly incomplete.
 Pinned SHA-256 digests:
 
 - reviewer guide:
-  `6bd6c592bebd72f36aa29ce1258cd4c710e3716cc6409e6b96a9b5c8f60a6806`;
+  `fbd45bb7858bfb25c1ae2a7cdfe19ae6eb46a740b75622a98f6edbe6bb514dbd`;
 - technical response schema:
   `a5d74b24a72d531454119c4f731f32cf6cb612447852f6d21e67435501079217`;
 - neutral review packet:
-  `5c9c389f46c65664a2db92cef797980764369c0db53656f222497e68cfea79fe`;
+  `1817a75b0b2a59e6a736ae7c84f10d3010564e3ec495959d16ff89f00af3cbe5`;
 - evidence-presentation manifest:
   `a77bcab355ddeafde6804353235834c2e820164256c7a5fce0c7cfcd44cdeb6b`;
 - Petrushka excerpt:
@@ -88,13 +88,13 @@ Pinned SHA-256 digests:
 - Augurs excerpt:
   `d552b39f1f9d19c6904674f5d8bb756c376784ebec561f3af9be257d4893405e`;
 - instrument HTML:
-  `12a4eba567f397365eca1d7fe5206aea9ab48eb052d12b3a030343fa4a1b24a6`;
+  `e948390c3e1974ae5dae8e70b4553e64a3b7d5687cbc874ceed45eb7bbc25b9d`;
 - instrument CSS:
-  `e208e92f8a3b2e1354b797a0a3326620607c09487c642e471bac3e9e14ca75fe`;
+  `cb032fdd270b37233c5e622d462016f78bb21f4612aa623ffc02af2507fc27ba`;
 - browser controller:
-  `20643d42531e726f6576bb64fcc1ab346a932fd49446fd99d175cd75d051c16e`;
+  `6b65b4ad62d33232cdd9888aff2699abfda66af103cbf9d230f501760515d3bf`;
 - pure response model:
-  `4f5c68f7e7966805382ace7b299cf61db7e2f46e90758e96034eed136cc01fe4`;
+  `bbeebcf3b24c3800881bf25e16933cf60572894b38740028c8c9f9b1c9578dc8`;
 - presentation model:
   `493902dcb407564777ab80463b11d9d533fe6f934e66682b6e83307eb102ea60`;
 - score-excerpt generator:
@@ -102,22 +102,21 @@ Pinned SHA-256 digests:
 - score-excerpt generator test:
   `d736a24ce6d763f5caa2b81b08150d720b11b16102f49120d0e10a8dcd44c31d`;
 - cross-language instrument test:
-  `324df1619cc6902054febbc4f0370efcd3e4a5e32d54258fe270d1a02f8ec59d`.
+  `cbcfd13a861d31587b1ff58758d87f4c3f4e5963592070a0b6437a9a98da442f`.
 
 **What happened.** `pilot-annotation.md` is now a musician-facing handbook. Raw
 field names, JSON examples, validation commands, agreement measures, and
 blocking rules moved to `pilot-response-schema.md`; their substance was not
 removed. The handbook states the construct in constructional rather than
 perceptual terms, explains all four construction choices and three input
-conditions in ordinary musical language, identifies the necessary reviewer
-skills, and makes clear that programming, MIDI, JSON, MIR, and WhatChord
-knowledge are not qualifications.
+conditions in ordinary musical language, and leaves recruitment qualifications
+to the protocol rather than asking a selected musician to assess themself.
 
 Instrument version `polychord-pilot-review-instrument/2` begins with a standard
 10-to-15-minute orientation. Three worked examples cover an expected polychord,
 an integrated-chord guard, and a single-chord-preferred boundary. Their exact
-octave-specific note collections are tested not to occur in the scored packet.
-Three task-boundary questions give fixed feedback and gate the scored cases.
+octave-specific note collections are tested not to occur in the pilot packet.
+Three task-boundary questions give fixed feedback and gate the review cases.
 Their answers are not retained or exported; local state stores only that the
 orientation was completed.
 
@@ -125,10 +124,16 @@ Generated cases now show written scientific-pitch names, a neutral keyboard,
 and a plain attack timeline. Black-key notes display both common enharmonic
 names because the blinded MIDI evidence carries no spelling. Note assignment
 uses those names, and score pitch membership uses named pitch classes rather
-than integers. Raw MIDI and onset JSON remain available under collapsed
-technical provenance. Score cases embed the verified unannotated crops and link
-to the complete source; the application verifies the manifest and both image
-digests before showing any scored case.
+than integers. Raw MIDI and onset JSON remain in the verified packet and exported
+response but are not shown in the reviewer flow. Score cases embed the verified
+unannotated crops and link to the complete source; the application verifies the
+manifest and both image digests before showing any review case.
+
+A final reviewer-copy audit removed research-team language from the ordinary
+flow: programming and MIDI reassurance, “scored,” “packet,” “unadjudicated,”
+neutral case IDs, visible hashes, and technical-provenance controls. Those
+details remain in the protocol, packet, export, tests, and this log where they
+serve the research team rather than framing the musician's task.
 
 The response schema remains `polychord-pilot-review/1`. The export retains the
 same evidence, neutral order, construction values, layer representation,
@@ -140,7 +145,7 @@ normalization.
 the review as a musical task. They see scores, note names, keyboards, and timing
 rather than being asked to decode MIDI numbers or edit a research file. The
 computer still keeps the exact raw evidence needed for reproducibility, but it
-does not make that implementation detail the reviewer's job. The six scored
+does not make that implementation detail the reviewer's job. The six review
 answers are still blinded and structurally comparable with the initial ruler.
 
 **Decisions.** Supersede instrument version 1 with version 2 before collecting

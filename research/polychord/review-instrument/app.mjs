@@ -29,7 +29,7 @@ import {
 } from "./presentation.mjs";
 
 const EXPECTED_PACKET_SHA256 =
-  "5c9c389f46c65664a2db92cef797980764369c0db53656f222497e68cfea79fe";
+  "1817a75b0b2a59e6a736ae7c84f10d3010564e3ec495959d16ff89f00af3cbe5";
 const EXPECTED_PRESENTATION_SHA256 =
   "a77bcab355ddeafde6804353235834c2e820164256c7a5fce0c7cfcd44cdeb6b";
 const PACKET_PATH = "../pilot-review-template-v0.json";
@@ -50,7 +50,7 @@ const LABELS = {
   eligible: "Enough evidence",
   ambiguous: "More than one defensible reading",
   ineligible: "Not enough evidence",
-  "research-candidate": "Promising, but needs an encoded performance",
+  "research-candidate": "Promising, but needs a timed performance",
   unknown: "Not known from this case",
   adjacentRegisterSnapshot: "One split between neighboring notes",
   pitchRegisterSnapshot: "Any assignment using pitch and register",
@@ -87,9 +87,6 @@ const casePanel = document.querySelector("#case-panel");
 const errorSummary = document.querySelector("#error-summary");
 const errorList = document.querySelector("#error-list");
 const statusMessage = document.querySelector("#status-message");
-const instrumentVersion = document.querySelector("#instrument-version");
-const packetDigest = document.querySelector("#packet-digest");
-const presentationDigest = document.querySelector("#presentation-digest");
 
 let template;
 let presentationManifest;
@@ -133,9 +130,10 @@ async function loadPinnedText(path, expectedDigest, description) {
   const text = await response.text();
   const actualDigest = await sha256(text);
   if (actualDigest !== expectedDigest) {
-    throw new Error(
+    console.error(
       `${description} digest mismatch: expected ${expectedDigest}, received ${actualDigest}.`,
     );
+    throw new Error(`${description} could not be verified.`);
   }
   return text;
 }
@@ -148,9 +146,10 @@ async function loadPinnedImage(path, expectedDigest, description) {
   const bytes = await response.arrayBuffer();
   const actualDigest = await sha256Bytes(bytes);
   if (actualDigest !== expectedDigest) {
-    throw new Error(
+    console.error(
       `${description} digest mismatch: expected ${expectedDigest}, received ${actualDigest}.`,
     );
+    throw new Error(`${description} could not be verified.`);
   }
   return URL.createObjectURL(new Blob([bytes], { type: "image/png" }));
 }
@@ -183,16 +182,19 @@ function recoverDraft(freshState) {
     candidate.responses.forEach((response, caseIndex) => {
       refreshDerivedFields(response, template.cases[caseIndex].evidence);
     });
-    setStatus("Recovered the draft saved in this browser.");
+    setStatus("Recovered your saved answers.");
     return candidate;
   } catch {
     try {
       localStorage.removeItem(STORAGE_KEY);
-      setStatus("Discarded an incompatible local draft.", "error");
+      setStatus(
+        "Started a new review because the previous saved answers could not be used.",
+        "error",
+      );
     } catch {
       storageAvailable = false;
       setStatus(
-        "Browser storage is unavailable. Keep this page open until you export.",
+        "Your answers cannot be saved in this browser. Keep this page open until you finish.",
         "error",
       );
     }
@@ -204,11 +206,11 @@ function persistDraft(announce = true) {
   if (!storageAvailable) return;
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    if (announce) setStatus("Draft saved in this browser.");
+    if (announce) setStatus("Answers saved in this browser.");
   } catch {
     storageAvailable = false;
     setStatus(
-      "Browser storage is unavailable. Keep this page open until you export.",
+      "Your answers cannot be saved in this browser. Keep this page open until you finish.",
       "error",
     );
   }
@@ -360,23 +362,6 @@ function renderGeneratedEvidence(evidence) {
     );
   }
 
-  const details = element("details", { className: "technical-details" });
-  details.append(
-    element("summary", { text: "Technical provenance" }),
-    element("p", {
-      className: "data-value",
-      text: `Stored MIDI notes: ${evidence.midiNotes.join(", ")}`,
-    }),
-  );
-  if (evidence.onsetCohortsMs) {
-    details.append(
-      element("p", {
-        className: "data-value",
-        text: `Stored onset cohorts: ${JSON.stringify(evidence.onsetCohortsMs)}`,
-      }),
-    );
-  }
-  wrapper.append(details);
   return wrapper;
 }
 
@@ -392,6 +377,10 @@ function renderScoreEvidence(evidence) {
     className: "score-location",
     text: source.scoreLocation,
   });
+  const edition = element("p", {
+    className: "score-location",
+    text: `Edition: ${source.edition}`,
+  });
   const figure = element("figure", { className: "score-figure" });
   const image = element("img");
   image.src = imageUrl;
@@ -399,47 +388,25 @@ function renderScoreEvidence(evidence) {
   image.width = excerpt.asset.width;
   image.height = excerpt.asset.height;
   const caption = element("figcaption", {
-    text: "Unannotated excerpt from the pinned source. No harmonic labels or highlighting have been added.",
+    text: "Excerpt from the source score. Open the complete score below for broader context.",
   });
   append(figure, image, caption);
 
-  const sourceLink = element("a", { text: "Open the complete pinned score" });
+  const sourceLink = element("a", { text: "Open the complete source score" });
   sourceLink.href = source.sourceUrl;
   sourceLink.target = "_blank";
   sourceLink.rel = "noopener noreferrer";
   const sourceParagraph = element("p");
   sourceParagraph.append(sourceLink);
 
-  const details = element("details", { className: "technical-details" });
-  details.append(
-    element("summary", { text: "Edition and technical provenance" }),
-  );
-  const definitions = element("dl");
-  [
-    ["Edition", source.edition],
-    ["Source ID", source.sourceIdentifier],
-    ["Source PDF SHA-256", source.sha256],
-    ["Excerpt SHA-256", excerpt.asset.sha256],
-  ].forEach(([term, value]) => {
-    append(
-      definitions,
-      element("dt", { text: term }),
-      element("dd", { text: value, className: "data-value" }),
-    );
-  });
-  details.append(definitions);
-  append(wrapper, heading, location, figure, sourceParagraph, details);
+  append(wrapper, heading, location, edition, figure, sourceParagraph);
   return wrapper;
 }
 
 function renderEvidence(reviewCase) {
   const section = element("section", { className: "case-section" });
   section.append(
-    sectionHeading(
-      "Pinned musical evidence",
-      "Read or inspect the example",
-      "The display is descriptive only; it contains no initial or detector answer.",
-    ),
+    sectionHeading("Musical example", "Read or inspect the example"),
   );
   const card = element("div", { className: "evidence-card" });
   const evidence = reviewCase.evidence;
@@ -458,7 +425,7 @@ function renderJudgments(caseIndex, response) {
     sectionHeading(
       "Your musical reading",
       "Choose the unit and construction",
-      "Judge the construction here. Later questions ask whether each kind of input could recover it.",
+      "Judge the construction here. Later questions ask whether each kind of musical information could support it.",
     ),
   );
   section.append(
@@ -612,7 +579,7 @@ function renderLayers(caseIndex, response, evidence) {
       identityInput,
       element("p", {
         className: "help",
-        text: "Use your normal concise chord notation. The study does not rewrite or normalize your answer.",
+        text: "Use the concise chord notation you would normally write.",
       }),
     );
     card.append(identityField);
@@ -670,7 +637,7 @@ function renderLayers(caseIndex, response, evidence) {
     assignments.append(
       element("p", {
         className: "help",
-        text: "Assign every observed note to one layer, or explicitly leave it unassigned. Octave-neutral note membership is derived automatically.",
+        text: "Assign each octave-specific note once, or leave it unassigned. Different octaves of the same pitch may belong to different layers.",
       }),
     );
     const rows = element("ul", { className: "note-assignment-list" });
@@ -707,7 +674,7 @@ function renderLayers(caseIndex, response, evidence) {
     element("p", {
       id: `case-${caseIndex}-shared-summary`,
       className: "readout",
-      text: `Pitch names shared by two layer templates: ${response.sharedPitchClasses.map(pitchClassLabel).join(", ") || "none"}.`,
+      text: `Notes used in more than one layer: ${response.sharedPitchClasses.map(pitchClassLabel).join(", ") || "none"}.`,
     }),
   );
   return section;
@@ -722,7 +689,7 @@ function updateDerivedReadouts(caseIndex, response) {
   });
   const shared = document.querySelector(`#case-${caseIndex}-shared-summary`);
   if (shared) {
-    shared.textContent = `Pitch names shared by two layer templates: ${response.sharedPitchClasses.map(pitchClassLabel).join(", ") || "none"}.`;
+    shared.textContent = `Notes used in more than one layer: ${response.sharedPitchClasses.map(pitchClassLabel).join(", ") || "none"}.`;
   }
 }
 
@@ -800,8 +767,8 @@ function renderEligibility(caseIndex, response) {
   const section = element("section", { className: "case-section" });
   section.append(
     sectionHeading(
-      "Recoverability",
-      "Could each input recover your reading?",
+      "Available information",
+      "Could each kind of information support your reading?",
       "Answer all three separately. This does not change the construction judgment above.",
     ),
   );
@@ -817,7 +784,9 @@ function renderEligibility(caseIndex, response) {
 
     const statusField = element("div", { className: "field" });
     const statusId = `case-${caseIndex}-${input}-status`;
-    const statusLabel = element("label", { text: "Evidence judgment" });
+    const statusLabel = element("label", {
+      text: "How well does this support your reading?",
+    });
     statusLabel.htmlFor = statusId;
     const select = element("select", { id: statusId });
     const placeholder = element("option", { text: "Choose a judgment" });
@@ -864,7 +833,7 @@ function renderConfidenceAndNotes(caseIndex, response) {
       legend: "Confidence",
       values: CONFIDENCE_LEVELS,
       selected: response.confidence,
-      help: "Report confidence in your construction judgment. Still explain each recoverability answer above.",
+      help: "Report confidence in your construction judgment. Still explain each answer above.",
       onChange(value) {
         response.confidence = value;
         responseChanged();
@@ -888,7 +857,7 @@ function renderConfidenceAndNotes(caseIndex, response) {
     textarea,
     element("p", {
       className: "help",
-      text: "Record ambiguity, a missing rubric choice, a case-specific reference, or other evidence that influenced the judgment.",
+      text: "Record ambiguity, a choice missing from the guide, a case-specific reference, or other evidence that influenced the judgment.",
     }),
   );
   section.append(notesField);
@@ -1012,7 +981,7 @@ function wireOrientation() {
     persistDraft(false);
     showReviewWorkspace({ focus: true });
     setStatus(
-      "Orientation complete. The six scored cases are now available.",
+      "Orientation complete. The six review cases are now available.",
       "success",
     );
   });
@@ -1036,7 +1005,7 @@ async function prepareScoreAssets() {
       await loadPinnedImage(
         `assets/${excerpt.asset.file}`,
         excerpt.asset.sha256,
-        `Score excerpt ${sourceIdentifier}`,
+        `${reviewCase.evidence.source.work} score excerpt`,
       ),
     );
   }
@@ -1084,11 +1053,7 @@ function renderCase() {
     text: `Case ${caseIndex + 1}`,
   });
   heading.tabIndex = -1;
-  append(
-    header,
-    heading,
-    element("p", { className: "data-value", text: reviewCase.reviewId }),
-  );
+  append(header, heading);
   append(
     casePanel,
     header,
@@ -1190,7 +1155,7 @@ function showErrors(errors) {
     const item = element("li");
     const button = element("button", {
       className: "error-link",
-      text: `${error.caseIndex === null ? "Review metadata" : `Case ${error.caseIndex + 1}`}: ${error.message}`,
+      text: `${error.caseIndex === null ? "Review details" : `Case ${error.caseIndex + 1}`}: ${error.message}`,
     });
     button.type = "button";
     button.addEventListener("click", () => focusError(error));
@@ -1238,11 +1203,7 @@ function wireStaticControls() {
     annotatorIdInput.focus();
   });
   clearDraftButton.addEventListener("click", () => {
-    if (
-      !window.confirm(
-        "Clear every answer saved by this instrument on this device?",
-      )
-    ) {
+    if (!window.confirm("Clear every answer saved in this browser?")) {
       return;
     }
     if (storageAvailable) {
@@ -1268,7 +1229,7 @@ function wireStaticControls() {
     renderNavigation();
     renderCase();
     showOrientation({ focus: true });
-    setStatus("Local draft cleared.", "success");
+    setStatus("Saved answers cleared.", "success");
   });
   reviewForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -1281,10 +1242,7 @@ function wireStaticControls() {
       decorateErrors();
       persistDraft(false);
       downloadCompletedPacket(completed);
-      setStatus(
-        "Response checked and downloaded. Keep this file unchanged.",
-        "success",
-      );
+      setStatus("Your completed review was downloaded.", "success");
     } catch (error) {
       if (!(error instanceof InstrumentValidationError)) throw error;
       showErrors(error.errors);
@@ -1297,14 +1255,10 @@ function wireStaticControls() {
 }
 
 async function start() {
-  instrumentVersion.textContent = INSTRUMENT_VERSION;
-  packetDigest.textContent = EXPECTED_PACKET_SHA256;
-  presentationDigest.textContent = EXPECTED_PRESENTATION_SHA256;
-
   const packetText = await loadPinnedText(
     PACKET_PATH,
     EXPECTED_PACKET_SHA256,
-    "Review packet",
+    "Review materials",
   );
   template = JSON.parse(packetText);
   await loadPinnedText(
@@ -1344,5 +1298,5 @@ start().catch((error) => {
   loadingPanel.hidden = true;
   loadErrorPanel.hidden = false;
   loadErrorMessage.textContent = error.message;
-  setStatus("Review instrument unavailable.", "error");
+  setStatus("Review unavailable.", "error");
 });
