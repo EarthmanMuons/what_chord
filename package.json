@@ -18,7 +18,7 @@
     "stylelint-config-recess-order": "7.7.0",
     "stylelint-config-standard": "40.0.0",
     "typescript": "6.0.3",
-    "wrangler": "4.114.0"
+    "wrangler": "^4.119.0"
   },
   "allowScripts": {
     "esbuild@0.28.1": true,
