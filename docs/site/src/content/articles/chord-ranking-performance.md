@@ -104,6 +104,16 @@ three at once, so there is nothing coherent for a sort to return. Hand a cyclic
 comparator to a general sort and the outcome can depend on the candidates'
 starting order.
 
+Notice what kind of thing a hard rule is. A score is a fact about one candidate,
+but a hard rule is a verdict about one specific matchup: this reading beats that
+reading when the two meet, and it says nothing about any other pairing. That is
+why the overrides cannot simply be folded into the score, say as a bonus so
+large it always wins. A bonus cannot stay that narrow; it would lift its holder
+over every candidate in the list, not just the one rival the rule was written
+against. Scores judge candidates one at a time, rules judge them two at a time,
+and only the two-at-a-time kind can produce a cycle. This split does quiet work
+in everything that follows.
+
 So the engine does not sort. It _linearizes_ the relation, turning the web of
 pairwise preferences into one ordered list:
 
