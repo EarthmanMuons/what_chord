@@ -391,8 +391,10 @@ The following work must be dated and completed in order:
    conservative set-level motion interpretation is fixed by
    `motion-support-ablation.md` and log 2026-08-10-13. Its first endpoint and
    exposure measurement is preregistered by `motion-exposure-census.md` and log
-   2026-08-10-14 but has not been executed. Channel or other source evidence
-   remains a later ablation.
+   2026-08-10-14, then executed unchanged in log 2026-08-10-15. It found zero
+   positive rigid-motion hypotheses or windows: none of the 776 hypotheses on
+   127 pitch-changing candidate windows contained a nonzero exact layer
+   translation. Channel or other source evidence remains a later ablation.
 3. Internal suite: score-verify literature examples, encode exact machine-input
    fixtures, assign epistemic status, and keep construction evidence separate
    from input eligibility. The non-scorable seed, schema, and validator are
