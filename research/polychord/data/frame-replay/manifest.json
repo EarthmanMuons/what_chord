@@ -3,7 +3,7 @@
   "fixtureSchema": "polychord-frame-replay/1",
   "framework": {
     "path": "research/polychord/FRAMEWORK.md",
-    "sha256": "0516629db36ba8d307ed8cec68617e73b9e29b0548108d4cd2e5250921421a21"
+    "sha256": "a5d83115be7d700e007110fe8f1313d435ad456f4c122f5f7d184baf423a212a"
   },
   "schemaDocument": {
     "path": "research/polychord/frame-replay-schema.md",
@@ -33,6 +33,11 @@
       "id": "two-register-held-cohorts",
       "file": "two-register-held-cohorts.json",
       "sha256": "4026012d9c2073c262a1b3b05608e54cccf5ebe8bad043fe4d868f135d63e05e"
+    },
+    {
+      "id": "two-register-inner-motion",
+      "file": "two-register-inner-motion.json",
+      "sha256": "25c9e9f4327b364c33338467104d0dc2a07c1080a20ff665718909a7f98178a2"
     },
     {
       "id": "two-register-pedal-history",

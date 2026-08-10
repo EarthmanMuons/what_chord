@@ -151,7 +151,9 @@ report.
 Exact-candidate runs, causing and terminating events, causal corpus windows, and
 dwell aggregation belong to the completed audit methodology rather than this
 single-frame evidence contract. Frame replay retains the event substrate; later
-motion and stable-display work must define their own window semantics.
+`frame-transition-evidence-schema.md` defines the caller-selected endpoint
+window for the motion substrate. Stable-display work must still define its own
+aggregation semantics.
 
 ## Synthetic control
 

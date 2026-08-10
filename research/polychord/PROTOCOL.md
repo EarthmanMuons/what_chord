@@ -21,9 +21,11 @@ compositional intent. The current analyzer input contains sorted MIDI pitches,
 so the snapshot path can observe pitch content and register but not timbre,
 instrumentation, channel, or independent onset and motion cues. The live input
 stream can support timestamped note-on, note-off, and pedal evidence before that
-collapse, and motion can be derived from successive frames. Those cues are a
-declared research avenue, not evidence the current analyzer already possesses.
-Any result must state which input evidence it used.
+collapse. Successive frames expose exact transitions and retained sounding-note
+instances, but changed-pitch voice or layer continuity requires a declared
+assignment model. Those cues are a declared research avenue, not evidence the
+current analyzer already possesses. Any result must state which input evidence
+and assignment model it used.
 
 The scoping census measures voicings that satisfy declared split rules. It is
 not an accuracy test, a product detector, or evidence that its fires should be
@@ -141,16 +143,18 @@ The temporal evidence program must be evaluated incrementally:
 1. register-only split evidence;
 2. register plus onset-cohort evidence;
 3. register plus onset and release/pedal evidence;
-4. register plus onset, release/pedal, and motion-coherence evidence;
+4. register plus onset, release/pedal, exact frame transitions, and a separately
+   declared motion-coherence model;
 5. channel or source evidence only if the input transport preserves it reliably
    and measurements show that it represents musical grouping.
 
 Onset evidence may include within-layer attack synchrony and separation between
 layer attack cohorts. Release/pedal evidence may include release grouping,
 restrikes, state age, pedal transitions, and the distinction between physically
-pressed and pedal-sustained notes. Motion evidence may include stable
-note-to-layer assignment and coherent movement of each proposed layer across
-successive frames.
+pressed and pedal-sustained notes. Frame-transition evidence may include exact
+sounding-instance continuity and endpoint layer relations. Motion evidence may
+include stable note-to-layer assignment and coherent movement only after the
+assignment method is explicit.
 
 These cues may raise or lower decomposition confidence or justify abstention.
 Their absence must not silently disqualify a polychord: simultaneous attacks,
@@ -194,6 +198,17 @@ note. It preserves carried-in unknowns and raw layer summaries without defining
 an age limit, release cohort, penalty, confidence effect, or display gate.
 Corpus run grouping remains audit methodology rather than a field in the
 single-frame evidence object.
+
+`frame-transition-evidence-schema.md` fixes the third threshold-free temporal
+surface. The caller selects two exact replay frames; the output retains every
+ordered intervening event and frame, independently generates both endpoint
+candidate sets, compares their Cartesian product, and records exact continuity
+of sounding note instances. It enumerates every endpoint layer relation and both
+two-layer correspondence hypotheses without choosing one. In line with the
+symbolic voice-separation literature, a departed pitch and newly arrived pitch
+are not treated as the same voice unless a later named and pinned assignment
+model links them. The contract defines no window-selection rule, pairing cost,
+coherence label, confidence effect, or display gate.
 
 ## Internal suite and case provenance
 

@@ -7,7 +7,7 @@
   "dependencies": {
     "framework": {
       "path": "research/polychord/FRAMEWORK.md",
-      "sha256": "0516629db36ba8d307ed8cec68617e73b9e29b0548108d4cd2e5250921421a21"
+      "sha256": "a5d83115be7d700e007110fe8f1313d435ad456f4c122f5f7d184baf423a212a"
     },
     "schemaDocument": {
       "path": "research/polychord/internal-suite-schema.md",
@@ -19,7 +19,7 @@
     },
     "frameReplayManifest": {
       "path": "research/polychord/data/frame-replay/manifest.json",
-      "sha256": "1abd073c595e07cc103120a6c1186d7628e815cb2ed727cc2d75e7d3bc847471"
+      "sha256": "eebf4a53916f87ff68ea27bed9aa91cb73ff77e1f8edf1fa1ed76e17923cc6aa"
     },
     "validator": {
       "path": "tool/polychord/internal_suite.py",
