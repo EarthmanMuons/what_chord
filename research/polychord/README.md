@@ -4,9 +4,10 @@ Should WhatChord name polychords (two or more chordal units combined in one
 sonority, like the Petrushka chord), and when should that reading appear instead
 of, or beside, the single-symbol name?
 
-Status: framework development. `FRAMEWORK.md` is the active theory-derived v0
-specification. No engine lever has been proposed or evaluated, and no result is
-independently validated.
+Status: evidence development. `FRAMEWORK.md` is the active theory-derived v0
+specification. Exact frame replay and the register-only structural baseline are
+fixed as research contracts. No engine lever has been proposed or evaluated, and
+no result is independently validated.
 
 ## What is known so far
 
@@ -91,8 +92,17 @@ pedal transitions, carried-in state, pressed versus sustained notes, every
 derived frame, and the terminal observation time without embedding chord labels
 or proposed splits.
 
-The next active work is the conservative register-only candidate generator,
-followed by a provenance-rich internal suite drawn from the 32 cases in
-`golden-candidates.md`. Corpora remain negative-exposure guards, not accuracy
-rulers. Pinned comparisons with musicpy, mingus, and, if reproducible,
-ChordRecGen remain required before adoption.
+The register-only candidate contract is now fixed in
+`register-candidate-schema.md` and implemented as research instrumentation in
+`tool/polychord/register_candidates.py`. It examines every contiguous register
+boundary with the same complete common-chord vocabulary on both sides, reports
+the exact note assignment and observed gap, and makes no ranking, confidence,
+temporal, or display decision. Synthetic compatibility tests preserve the
+structural meaning of the earlier schema-3 census without changing its pinned
+implementation.
+
+The next active work is a provenance-rich internal suite drawn from the cases in
+`golden-candidates.md`, followed by named onset, release, pedal, and motion
+ablations on the exact replay substrate. Corpora remain negative-exposure
+guards, not accuracy rulers. Pinned comparisons with musicpy, mingus, and, if
+reproducible, ChordRecGen remain required before adoption.
