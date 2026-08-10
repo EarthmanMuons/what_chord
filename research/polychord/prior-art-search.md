@@ -285,6 +285,14 @@ Working notes that are not yet publication-ready citations:
 - Krumhansl and Schmuckler: <https://doi.org/10.2307/40285359>
 - Thompson and Mor: <https://doi.org/10.1007/BF00937134>
 - Wolf and Wuest: <https://doi.org/10.5964/jbdgm.225>
+- Palmer, "On the Assignment of Structure in Music Performance":
+  <https://doi.org/10.2307/40285708>
+- Hove, Keller, and Krumhansl, "Sensorimotor Synchronization with Chords
+  Containing Tone-Onset Asynchronies": <https://doi.org/10.3758/BF03193772>
+- Tillmann and Bharucha, "Effect of Harmonic Relatedness on the Detection of
+  Temporal Asynchronies": <https://doi.org/10.3758/BF03194732>
+- Borchert, Micheyl, and Oxenham, "Perceptual Grouping Affects Pitch Judgments
+  Across Time and Frequency": <https://doi.org/10.1037/a0020670>
 
 ## Required search work before a publication claim
 
