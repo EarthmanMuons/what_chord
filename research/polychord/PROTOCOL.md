@@ -403,9 +403,11 @@ The following work must be dated and completed in order:
 3. Internal suite: score-verify literature examples, encode exact machine-input
    fixtures, assign epistemic status, and keep construction evidence separate
    from input eligibility. The non-scorable seed, schema, and validator are
-   fixed by `internal-suite-schema.md` and log 2026-08-10-04; expand and freeze
-   the adoption ruler only after remaining source and output questions are
-   resolved.
+   fixed by `internal-suite-schema.md` and log 2026-08-10-04. Log 2026-08-10-17
+   admits the first literature-attested positive that the adjacent-register
+   baseline can recover: Ives's _Psalm 67_ opening yields `C|Gm` while retaining
+   `C9/G` as the exact single-chord alternative. Expand and freeze the adoption
+   ruler only after remaining source and output questions are resolved.
 4. Output and evaluation freeze: encode the composite type, metrics, adoption
    threshold, stable-display behavior, and performance budget before evaluating
    a lever.

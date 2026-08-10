@@ -40,10 +40,16 @@ regression guard, or unresolved candidate.
   {C#,F,G#,E,B}. Standard reading is the bitonal synthesis; enharmonic
   single-symbol alternatives exist (7#9 spellings), so both readings should
   surface. Exact octaves unverified.
-- **Ives, Psalm 67 opening**. C major (women) over G minor (men); pcs
-  {C,D,E,G,Bb} (the layers share G). Trap case: the pc set equals C9 exactly.
-  The polychord reading rests entirely on registral/choir segregation, not pitch
-  content.
+- **Ives, Psalm 67 opening**. The published opening and Johnson's Example 11
+  establish G2-D3-G3-Bb3 in the four lower voices and C4-E4-G4-C5 in the four
+  upper voices: G minor below C major, with G supplied by separate notes in both
+  layers. Every lower note is below every upper note, so the B-flat 3 to C4
+  boundary gives the active suite its first literature-attested positive that
+  the adjacent-register generator can recover, as `C|Gm`. Trap case: the pitch
+  classes equal C9 exactly, and the observed bass makes the complete
+  single-chord alternative `C9/G`. Live input does not carry the score's choir
+  assignment, so the secondary annotation remains an author-adjudicated product
+  expectation rather than independent ground truth.
 - **Copland, Appalachian Spring opening**. E major over A major; pcs
   {A,B,C#,E,G#} (the layers share E). Trap case: the pc set equals Amaj9
   exactly. Kleppinger (MTO 17.2) labels it a polychord; Amaj9 stays a defensible
@@ -145,10 +151,10 @@ unverified.
 - The strongest working positive pattern is two familiar chordal units grouped
   by some observable evidence, and it must survive pitch-class traps: Ives
   equals C9 and Copland equals Amaj9 as sets. The first score checks show that
-  register is not universal: Petrushka requires an event window and the Augurs
-  components overlap in register. Those cases establish the broader musical
-  construct but are not evidence that the initial contiguous-register generator
-  can recover it.
+  register is useful but not universal: the Ives opening has an exact contiguous
+  split, Petrushka requires an event window, and the Augurs components overlap
+  in register. The latter two establish the broader musical construct but are
+  not evidence that the initial contiguous-register generator can recover it.
 - Whenever the lower layer contains a dominant third-plus-seventh tritone, the
   single dominant symbol wins (all UST cases).
 - Wide spacing of one chord's own notes never fires the split, even at
@@ -175,6 +181,7 @@ Sources:
 [So What chord](https://en.wikipedia.org/wiki/So_What_chord),
 [Slash chord](https://en.wikipedia.org/wiki/Slash_chord),
 [Puget Sound polychords](https://musictheory.pugetsound.edu/mt21c/polychords.html),
+[Johnson, MTO 23.4, Example 11](https://mtosmt.org/issues/mto.17.23.4/johnson_examples.php?id=10&nonav=true),
 [Moreira, MTO 31.4](https://mtosmt.org/issues/mto.25.31.4/mto.25.31.4.moreira.html),
 [Kleppinger, MTO 17.2](https://mtosmt.org/issues/mto.11.17.2/mto.11.17.2.kleppinger.html),
 [Aziz, Integral 37](https://theory.esm.rochester.edu/integral/37-2024/aziz/),
