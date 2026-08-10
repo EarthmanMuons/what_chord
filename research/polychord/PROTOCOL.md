@@ -330,10 +330,11 @@ The following work must be dated and completed in order:
    onset provenance is fixed by `onset-evidence-schema.md` and log
    2026-08-10-05. The first conservative onset interpretation is fixed by
    `onset-support-ablation.md` and log 2026-08-10-06. Its POP909 measurement is
-   preregistered by `onset-exposure-census.md` and log 2026-08-10-07; commit the
-   contract, then run it without tuning. Afterward, study release, pedal, and
-   motion as named incremental evidence. Channel or source evidence remains a
-   later ablation.
+   preregistered by `onset-exposure-census.md` and log 2026-08-10-07, then
+   executed unchanged in log 2026-08-10-08. It found zero positively supported
+   instances and makes release/pedal history the next threshold-free evidence
+   question. Study motion afterward as a named incremental evidence step.
+   Channel or other source evidence remains a later ablation.
 3. Internal suite: score-verify literature examples, encode exact machine-input
    fixtures, assign epistemic status, and keep construction evidence separate
    from input eligibility. The non-scorable seed, schema, and validator are
