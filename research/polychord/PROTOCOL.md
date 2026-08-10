@@ -3,10 +3,11 @@
 Status: SCOPING. The schema-3 census profiles are fixed for the measurements in
 log 2026-08-02-06. `FRAMEWORK.md`, adopted in log 2026-08-10-01, fixes the
 theory-derived v0 product semantics and evidence boundaries as a working
-hypothesis. It is not an independently annotated ruler. The composite data
-contract, regression suite, scoring model, adoption bar, and performance budget
-remain unfrozen and require later dated decisions before an engine lever is
-evaluated.
+hypothesis. It is not an independently annotated ruler. The composite data and
+presentation contract, scoring model, adoption bar, stable-display policy, and
+performance budget are fixed by `output-evaluation-contract.md` and log
+2026-08-10-18. The complete adoption suite and selector remain unfrozen; no
+engine lever may be evaluated yet.
 
 ## Task and claim boundary
 
@@ -34,8 +35,9 @@ shown to users.
 `FRAMEWORK.md` is the normative record for the current layer scope, notation,
 evidence tiers, and epistemic labels. This protocol governs how those hypotheses
 are developed and evaluated. `register-candidate-schema.md` fixes the exact
-structural proposal surface for the register-only baseline without freezing the
-later product output contract.
+structural proposal surface for the register-only baseline.
+`output-evaluation-contract.md` fixes how a later selected proposal may coexist
+with the primary result and how that output must be measured.
 
 ## Research record and change control
 
@@ -327,21 +329,25 @@ validated task or ruler may be claimed only after a later external study.
 ## Required output and evidence contract
 
 `FRAMEWORK.md` fixes the v0 secondary-annotation semantics, conservative layer
-scope, notation order, and evidence hierarchy. Before an engine lever is
-designed or measured, a later dated decision must additionally specify:
+scope, notation order, and evidence hierarchy. `output-evaluation-contract.md`,
+adopted in log 2026-08-10-18, additionally fixes:
 
-- how the secondary polychord annotation coexists with the unchanged primary
-  single-symbol reading and alternative candidates;
-- the composite data representation, layer order, enharmonic spelling rules,
-  equality, deduplication, and partial-credit scoring;
-- symbolic, short, long-form, and spoken wording, including note-name systems;
-- history, diagnostics, sharing/link behavior, accessibility semantics,
-  large-text layout, and behavior when a decomposition appears or disappears;
-- how register, onset cohorts, motion, pedal state, and any reliable source cues
-  affect confidence, abstention, and display, including fallback behavior when
-  temporal evidence is absent;
-- the frame-level generator and stable-display measurements, performance budget,
-  and adoption threshold.
+- a parallel optional secondary result that cannot change primary ranking,
+  history segmentation, key inference, or Explore;
+- ordered composite and assignment identity, spelling and deduplication rules,
+  exact and partial-credit metrics, and the all-cases-exact adoption gate;
+- canonical, visual, long-form, semantic, and spoken wording;
+- accessibility, diagnostics, input-only sharing, and deliberately
+  single-chord-only v0 history behavior;
+- one-sided temporal support without numeric confidence or rejection for neutral
+  and unavailable history;
+- an asymmetric 200-millisecond appearance gate with immediate invalidation; and
+- frame-level and stable-display reporting plus the 5% normalized-time and
+  on-device note-storm performance budget.
+
+The contract freezes the interface and evaluation. It does not choose a
+selector. The complete adoption suite must be frozen before any selector result
+is read.
 
 ## Statistics and reporting
 
@@ -407,10 +413,11 @@ The following work must be dated and completed in order:
    admits the first literature-attested positive that the adjacent-register
    baseline can recover: Ives's _Psalm 67_ opening yields `C|Gm` while retaining
    `C9/G` as the exact single-chord alternative. Expand and freeze the adoption
-   ruler only after remaining source and output questions are resolved.
-4. Output and evaluation freeze: encode the composite type, metrics, adoption
-   threshold, stable-display behavior, and performance budget before evaluating
-   a lever.
+   ruler after the remaining source-coverage questions are resolved.
+4. Output and evaluation freeze: complete. `output-evaluation-contract.md` and
+   log 2026-08-10-18 fix the composite type, presentation, metrics, adoption
+   threshold, stable-display behavior, and performance budget without choosing
+   or evaluating a selector.
 5. Implementation-shaped exposure: measure proposals and stable displays at
    frame level before making a safety claim.
 6. Optional external validation: use a newly registered, evidence-complete study

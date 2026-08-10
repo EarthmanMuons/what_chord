@@ -2,8 +2,10 @@
 
 Status: active contract for `polychord-internal-suite/1`. This schema records an
 author-adjudicated product-policy suite. It is not an independently annotated
-ruler, does not authorize generalized accuracy claims, and remains non-scorable
-until the output representation, metrics, and adoption threshold are frozen.
+ruler and does not authorize generalized accuracy claims. The representation,
+metrics, and adoption threshold are now fixed by
+`output-evaluation-contract.md`, but the active seed remains non-scorable until
+its source coverage is completed and the adoption suite is explicitly frozen.
 
 The canonical validator is `tool/polychord/internal_suite.py`. The active seed
 suite is `data/internal-suite/suite-v0.json`.

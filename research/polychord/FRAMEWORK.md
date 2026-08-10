@@ -167,12 +167,16 @@ provenance for the design correction recorded in log 2026-08-10-01.
 
 ## What remains unfrozen
 
-Before production adoption, later dated decisions must still define:
+`output-evaluation-contract.md` now fixes the composite representation,
+presentation forms, accessibility and integration boundaries, stable-display
+behavior, scoring model, adoption bar, and performance budget. Before production
+adoption, later dated decisions must still define or complete:
 
-- the exact composite data type, equality, deduplication, and spelling rules;
-- short, long-form, symbolic, and spoken presentation;
-- accessibility, history, diagnostics, sharing, and large-text behavior;
-- how temporal evidence affects confidence, abstention, and display;
-- stable-display behavior and performance budgets; and
-- the internal adoption threshold and every required regression and exposure
-  guard.
+- the complete frozen adoption suite and its source coverage;
+- one preregistered selector or selector ablation under the frozen interface;
+- the executable scorer, selector comparison baselines, and development exposure
+  harness;
+- a versioned register-preserving link contract if secondary annotations are to
+  be reproducible through sharing; and
+- device accessibility, performance, and note-storm results before a release or
+  default-on decision.
