@@ -140,13 +140,15 @@ The temporal evidence program must be evaluated incrementally:
 
 1. register-only split evidence;
 2. register plus onset-cohort evidence;
-3. register plus onset and motion-coherence evidence;
-4. channel or source evidence only if the input transport preserves it reliably
+3. register plus onset and release/pedal evidence;
+4. register plus onset, release/pedal, and motion-coherence evidence;
+5. channel or source evidence only if the input transport preserves it reliably
    and measurements show that it represents musical grouping.
 
-Onset evidence may include within-layer attack synchrony, separation between
-layer attack cohorts, release grouping, restrikes, and the distinction between
-physically pressed and pedal-sustained notes. Motion evidence may include stable
+Onset evidence may include within-layer attack synchrony and separation between
+layer attack cohorts. Release/pedal evidence may include release grouping,
+restrikes, state age, pedal transitions, and the distinction between physically
+pressed and pedal-sustained notes. Motion evidence may include stable
 note-to-layer assignment and coherent movement of each proposed layer across
 successive frames.
 
@@ -308,9 +310,9 @@ designed or measured, a later dated decision must additionally specify:
   confidence interval, Wilcoxon signed-rank result, and sample size. Record all
   random seeds.
 - Report latency and count distributions with at least median and p90.
-- Report the register-only, onset, and motion configurations as named ablations
-  on the same eligible frames; do not attribute a combined result to an
-  individual cue.
+- Report the register-only, onset, release/pedal, and motion configurations as
+  named ablations on the same eligible frames; do not attribute a combined
+  result to an individual cue.
 - If a later external study is run, report annotator agreement with a metric
   appropriate to its frozen label and partial-credit representation, plus raw
   agreement and adjudication counts. A small formative study must not support
@@ -333,8 +335,12 @@ The following work must be dated and completed in order:
    preregistered by `onset-exposure-census.md` and log 2026-08-10-07, then
    executed unchanged in log 2026-08-10-08. It found zero positively supported
    instances and makes release/pedal history the next threshold-free evidence
-   question. Study motion afterward as a named incremental evidence step.
-   Channel or other source evidence remains a later ablation.
+   question. `release-pedal-audit.md` and log 2026-08-10-09 preregister a
+   label-free audit of the complete 59-instance pitch-class-disjoint subset;
+   execute it from its clean commit, then freeze a reusable threshold-free
+   release/pedal evidence contract before interpreting those fields. Study
+   motion afterward as a named incremental evidence step. Channel or other
+   source evidence remains a later ablation.
 3. Internal suite: score-verify literature examples, encode exact machine-input
    fixtures, assign epistemic status, and keep construction evidence separate
    from input eligibility. The non-scorable seed, schema, and validator are
