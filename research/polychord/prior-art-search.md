@@ -173,7 +173,8 @@ Pedagogical-source verification:
 ## Motion and voice-assignment boundary search
 
 A targeted adjacent-work screen was run on 2026-08-10 before defining temporal
-motion evidence. It used these exact seven queries:
+motion evidence and its first interpretation. It used these exact eleven
+queries:
 
 1. `"symbolic music" "voice separation" MIDI`
 2. `site:archives.ismir.net "voice separation" symbolic`
@@ -182,12 +183,18 @@ motion evidence. It used these exact seven queries:
 5. `Emilios Cambouropoulos 2008 Voice and Stream perceptual computational modeling voice separation DOI`
 6. `site:archives.ismir.net/ismir2021 "Learning Note-to-Note Affinity for Voice Segregation"`
 7. `site:ijcai.org/proceedings/2023/430 "Musical Voice Separation as Link Prediction"`
+8. `"Pitch Co-modulation Principle" music auditory stream`
+9. `"common fate" "parallel motion" auditory streaming music`
+10. `Huron voice leading parallel motion perceptual fusion common fate`
+11. `site:mtosmt.org issues mto.25.31.4 Moreira parallel motion polychord`
 
-The first four searched terminology and venue surfaces; the last three verified
-primary records surfaced directly or through their bibliographies. This was a
-bounded design check, not a systematic review of symbolic voice separation. It
-did not surface a polychord-naming method and does not change the direct-method
-novelty claim above.
+The first four searched terminology and venue surfaces; queries 5-7 verified
+primary voice-separation records surfaced directly or through their
+bibliographies; and queries 8-11 checked the narrower common-fate and polychord
+motion rationale. This was a bounded design check, not a systematic review of
+symbolic voice separation or auditory grouping. It did not surface a
+polychord-naming method and does not change the direct-method novelty claim
+above.
 
 It did establish that **voice separation** and **voice segregation** are the
 relevant adjacent task names. The published methods do not treat a changed
@@ -216,6 +223,20 @@ order-preserving or nearest-pitch pairing looks musically obvious. The
 threshold-free transition contract therefore preserves all pairwise endpoint
 relations and selects none. Any later coherent-motion feature must name and pin
 its assignment method and evaluation assumptions.
+
+The second query group identified a narrower route that does not require
+monophonic voice assignment. Moreira's polychord-specific synthesis, following
+Bregman and Huron, describes internally parallel chordal groups as textural
+streams and says that oblique or contrary motion between those groups favors
+their segregation
+([paragraphs 6.2-6.3](https://mtosmt.org/issues/mto.25.31.4/mto.25.31.4.moreira.html)).
+Huron's _Voice Leading: The Science Behind a Musical Art_ is the broader source
+for parallel motion as an auditory-grouping cue
+([2016](https://doi.org/10.7551/mitpress/9780262034852.001.0001)). This supports
+a first set-level rigid-translation ablation while leaving revoicing, note entry
+and exit, crossings, and learned note links to later models. It does not support
+a general claim that pitch-and-register input recovers perceptually independent
+streams.
 
 ## Material findings and implementation pins
 
