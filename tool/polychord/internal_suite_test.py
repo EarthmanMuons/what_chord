@@ -24,7 +24,7 @@ class InternalSuiteTest(unittest.TestCase):
     def test_committed_seed_and_every_dependency_validate(self) -> None:
         case_ids = subject.validate_suite(SUITE_PATH)
 
-        self.assertEqual(len(case_ids), 9)
+        self.assertEqual(len(case_ids), 10)
         self.assertEqual(case_ids, sorted(case_ids))
 
     def test_seed_contains_all_product_policy_classes(self) -> None:
@@ -46,6 +46,23 @@ class InternalSuiteTest(unittest.TestCase):
         )
         self.assertEqual(case["registerBaseline"]["expectedCandidates"], [])
         self.assertEqual(case["construction"]["notation"]["status"], "unresolved")
+
+    def test_ives_is_a_literature_positive_the_register_baseline_recovers(self) -> None:
+        case = case_by_id(load_suite(), "ives-psalm-67-opening")
+
+        self.assertEqual(case["productExpectation"]["class"], "positive")
+        self.assertEqual(
+            case["productExpectation"]["primarySingleChordAlternatives"],
+            ["C9/G"],
+        )
+        self.assertEqual(
+            case["inputEligibility"]["adjacentRegisterSnapshot"]["status"],
+            "eligible",
+        )
+        candidate = case["registerBaseline"]["expectedCandidates"][0]
+        self.assertEqual(candidate["symbol"], "C|Gm")
+        self.assertEqual(candidate["gapSemitones"], 2)
+        self.assertEqual(candidate["sharedPitchClasses"], [7])
 
     def test_common_sevenths_are_exercised_in_both_layer_roles(self) -> None:
         payload = load_suite()

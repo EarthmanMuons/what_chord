@@ -28,6 +28,108 @@
   },
   "cases": [
     {
+      "id": "ives-psalm-67-opening",
+      "title": "Psalm 67 opening sonority",
+      "epistemicStatus": "literature-attested-construction",
+      "scopeFeatures": [
+        "complete-triad-layers",
+        "shared-pitch-class-separate-notes"
+      ],
+      "source": {
+        "kind": "score",
+        "work": "Charles Ives, Psalm 67",
+        "edition": "Analytical score excerpt in Johnson 2017, Example 11",
+        "sourceUrl": "https://mtosmt.org/issues/mto.17.23.4/johnson_examples.php?id=10&nonav=true",
+        "sourceIdentifier": "doi:10.30535/mto.23.4.7-example-11",
+        "sha256": "3f8894e1a2df77fe001cd76ebaff5b382d42fb42b59fb26e6ec4baaddabcf75c",
+        "scoreLocation": "Opening sonority, Example 11"
+      },
+      "observation": {
+        "kind": "snapshot",
+        "soundingMidiNotes": [43, 50, 55, 58, 60, 64, 67, 72],
+        "spelledNotes": ["G2", "D3", "G3", "Bb3", "C4", "E4", "G4", "C5"]
+      },
+      "construction": {
+        "kind": "polychord",
+        "description": "The score and scholarly analysis assign a complete G-minor unit to the four lower voices and a complete C-major unit to the four upper voices.",
+        "units": [
+          {
+            "id": "lower-g-minor",
+            "identity": "Gm",
+            "rootPc": 7,
+            "quality": "minor",
+            "midiNotes": [43, 50, 55, 58],
+            "spelledNotes": ["G2", "D3", "G3", "Bb3"],
+            "pitchClasses": [2, 7, 10]
+          },
+          {
+            "id": "upper-c-major",
+            "identity": "C",
+            "rootPc": 0,
+            "quality": "major",
+            "midiNotes": [60, 64, 67, 72],
+            "spelledNotes": ["C4", "E4", "G4", "C5"],
+            "pitchClasses": [0, 4, 7]
+          }
+        ],
+        "notation": {
+          "status": "resolved",
+          "symbol": "C|Gm",
+          "upperUnitId": "upper-c-major",
+          "lowerUnitId": "lower-g-minor"
+        }
+      },
+      "productExpectation": {
+        "class": "positive",
+        "expectedPolychords": [
+          {
+            "unitIds": ["upper-c-major", "lower-g-minor"],
+            "symbol": "C|Gm"
+          }
+        ],
+        "primarySingleChordAlternatives": ["C9/G"],
+        "reason": "The source-established two-triad construction supports a secondary polychord annotation, while the same pitch-class collection and exact bass support C9/G as the primary reading."
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "eligible",
+          "reason": "The adjacent B-flat 3 to C4 boundary preserves both complete source-attested triads, including separate G instances."
+        },
+        "generalPitchRegisterSnapshot": {
+          "status": "ambiguous",
+          "reason": "The exact voicing also forms C9/G, and live pitch-and-register input does not carry the score's choir assignment."
+        },
+        "timestampedEventStream": {
+          "status": "not-available",
+          "reason": "No frame-accurate performance of the score opening is committed."
+        }
+      },
+      "registerBaseline": {
+        "expectedCandidates": [
+          {
+            "splitAfterIndex": 3,
+            "lowerTopMidi": 58,
+            "upperBottomMidi": 60,
+            "gapSemitones": 2,
+            "lower": {
+              "rootPc": 7,
+              "quality": "minor",
+              "midiNotes": [43, 50, 55, 58],
+              "pitchClasses": [2, 7, 10]
+            },
+            "upper": {
+              "rootPc": 0,
+              "quality": "major",
+              "midiNotes": [60, 64, 67, 72],
+              "pitchClasses": [0, 4, 7]
+            },
+            "sharedPitchClasses": [7],
+            "symbol": "C|Gm"
+          }
+        ]
+      }
+    },
+    {
       "id": "stravinsky-augurs-r13",
       "title": "Augurs chord at rehearsal 13",
       "epistemicStatus": "literature-attested-construction",
@@ -596,8 +698,8 @@
             "symbol": "C|Gm"
           }
         ],
-        "primarySingleChordAlternatives": ["C9"],
-        "reason": "The explicit construction, register assignment, and separate onset cohorts support the secondary decomposition while preserving C9 as the primary alternative."
+        "primarySingleChordAlternatives": ["C9/G"],
+        "reason": "The explicit construction, register assignment, and separate onset cohorts support the secondary decomposition while preserving C9/G as the primary alternative for the exact voicing."
       },
       "inputEligibility": {
         "adjacentRegisterSnapshot": {
@@ -606,7 +708,7 @@
         },
         "generalPitchRegisterSnapshot": {
           "status": "ambiguous",
-          "reason": "The pitch-class union is exactly C9 without the generation history."
+          "reason": "The pitch-class union is exactly C9 and the exact voicing places G in the bass; no source roles remain without the generation history."
         },
         "timestampedEventStream": {
           "status": "eligible",
