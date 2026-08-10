@@ -1,8 +1,9 @@
 # Polychord prior-art search record
 
-Status: scoping evidence, last screened 2026-08-02. This record supports log
-`2026-08-02-05`; it is not a systematic-review protocol or a frozen publication
-bibliography.
+Status: scoping evidence, direct-method search last screened 2026-08-02 and
+motion-adjacent search last screened 2026-08-10. This record supports logs
+`2026-08-02-05` and `2026-08-10-12`; it is not a systematic-review protocol or a
+frozen publication bibliography.
 
 ## Claim boundary
 
@@ -168,6 +169,53 @@ Pedagogical-source verification:
 50. `"Extension to the 7th" Ulehla harmony`
 51. `Ulehla Contemporary Harmony bibliography edition publisher`
 52. `Kostka "listener must be able to perceive" polychord`
+
+## Motion and voice-assignment boundary search
+
+A targeted adjacent-work screen was run on 2026-08-10 before defining temporal
+motion evidence. It used these exact seven queries:
+
+1. `"symbolic music" "voice separation" MIDI`
+2. `site:archives.ismir.net "voice separation" symbolic`
+3. `site:archives.ismir.net "voice segregation" symbolic`
+4. `site:arxiv.org symbolic music voice separation link prediction`
+5. `Emilios Cambouropoulos 2008 Voice and Stream perceptual computational modeling voice separation DOI`
+6. `site:archives.ismir.net/ismir2021 "Learning Note-to-Note Affinity for Voice Segregation"`
+7. `site:ijcai.org/proceedings/2023/430 "Musical Voice Separation as Link Prediction"`
+
+The first four searched terminology and venue surfaces; the last three verified
+primary records surfaced directly or through their bibliographies. This was a
+bounded design check, not a systematic review of symbolic voice separation. It
+did not surface a polychord-naming method and does not change the direct-method
+novelty claim above.
+
+It did establish that **voice separation** and **voice segregation** are the
+relevant adjacent task names. The published methods do not treat a changed
+pitch's voice identity as a fact contained in channel-blind event data. They
+apply explicit perceptual rules and parameters, train on annotated note-to-voice
+assignments, learn contextual note affinity, or predict links between successive
+notes:
+
+- Emilios Cambouropoulos,
+  ["Voice and Stream: Perceptual and Computational Modeling of Voice Separation"](https://doi.org/10.1525/mp.2008.26.1.75),
+  _Music Perception_ 26.1 (2008), pp. 75-94;
+- Patrick Gray and Razvan Bunescu,
+  ["A Neural Greedy Model for Voice Separation in Symbolic Music"](https://archives.ismir.net/ismir2016/paper/000296.pdf),
+  ISMIR 2016, pp. 782-788;
+- Yo-Wei Hsiao and Li Su,
+  ["Learning Note-to-Note Affinity for Voice Segregation and Melody Line Identification of Symbolic Music Data"](https://archives.ismir.net/ismir2021/paper/000035.pdf),
+  ISMIR 2021, pp. 285-292; and
+- Emmanouil Karystinaios, Francesco Foscarin, and Gerhard Widmer,
+  ["Musical Voice Separation as Link Prediction: Modeling a Musical Perception Task as a Multi-Trajectory Tracking Problem"](https://doi.org/10.24963/ijcai.2023/430),
+  IJCAI 2023, pp. 3866-3874.
+
+This trail sets a claim boundary for WhatChord's motion work. Exact continuity
+of one currently sounding MIDI-note instance is observable. Connecting a
+departed pitch to an arrived pitch is a voice-assignment model, even when an
+order-preserving or nearest-pitch pairing looks musically obvious. The
+threshold-free transition contract therefore preserves all pairwise endpoint
+relations and selects none. Any later coherent-motion feature must name and pin
+its assignment method and evaluation assumptions.
 
 ## Material findings and implementation pins
 

@@ -93,7 +93,8 @@ from observable notes. It must be developed incrementally:
 1. register-only candidate;
 2. onset and release grouping;
 3. held versus pedal-sustained state;
-4. stable note-to-layer assignment and coherent motion across frames; and
+4. exact frame-transition evidence, followed by an explicitly modeled
+   note-to-note or layer correspondence for motion coherence; and
 5. channel or source evidence only when the transport preserves it reliably.
 
 The absence of temporal history must not silently reject a static or manually
@@ -105,6 +106,16 @@ note-off, pedal changes, pressed-note state, sustained-note state, and the
 derived observation at each evaluated frame. An onset list and aggregate pitch
 set alone are not a complete temporal representation. The normative wire format
 and transition rules are `frame-replay-schema.md`.
+
+The event stream can prove that the same sounding MIDI-note instance persists
+across frames. It does not prove that a departed pitch and a newly arrived pitch
+belong to the same voice or musical layer. Voice separation or voice segregation
+is a separate inference task in the symbolic-music literature. Any changed-pitch
+link, order-preserving pairing, crossing rule, or learned affinity must
+therefore be named and pinned as a model rather than recorded as observed
+motion. The threshold-free substrate is `frame-transition-evidence-schema.md`;
+it enumerates endpoint relations and layer-correspondence hypotheses without
+selecting one.
 
 ## Case provenance and epistemic status
 
