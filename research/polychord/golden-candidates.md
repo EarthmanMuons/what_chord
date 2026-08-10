@@ -2,12 +2,13 @@
 
 Curation draft collected from web sources on 2026-08-02 (log 2026-08-02-02),
 corrected after external review (log 2026-08-02-04). These are candidates for
-the author-adjudicated internal suite, not independent ground truth: the frozen
-suite, with exact voicings encoded as note lists and product-policy
-expectations, will be a later dated decision per `PROTOCOL.md` and
-`FRAMEWORK.md`. Register details marked unverified came from analyses rather
-than scores, and no case enters the frozen suite until its voicing is verified
-against the score (and ideally a recording).
+the author-adjudicated internal suite, not independent ground truth. The active,
+non-scorable seed is `data/internal-suite/suite-v0.json`; this document remains
+the admission backlog rather than an executable ruler. Register details marked
+unverified came from analyses rather than scores, and no literature case enters
+the active suite until its exact observation is verified against a stable source
+(and ideally a recording). The eventual frozen adoption suite remains a later
+dated decision per `PROTOCOL.md` and `FRAMEWORK.md`.
 
 Tags: positive (polychord reading expected, at least as an alternative),
 boundary (single symbol preferred; polychord at most a pedagogical alternative),

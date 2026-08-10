@@ -194,6 +194,14 @@ integrated sixth, seventh, and extended chords; polychords from slash chords and
 upper-structure voicings; and constructional decompositions from perceptual or
 intentional claims.
 
+`internal-suite-schema.md` fixes the active author-adjudicated seed format, and
+`data/internal-suite/suite-v0.json` contains the first exact cases. Its
+`scoringAllowed` field remains false: the seed exercises provenance,
+eligibility, and structural generation but is not the frozen adoption ruler. The
+suite validator must reproduce every register-baseline candidate from the exact
+observation while keeping that mechanical result separate from the product
+expectation.
+
 ### Deferred pilot and later external validation
 
 The six-case pilot and static review instrument created in logs 2026-08-02-07
@@ -298,7 +306,10 @@ The following work must be dated and completed in order:
    source evidence remains a later ablation.
 3. Internal suite: score-verify literature examples, encode exact machine-input
    fixtures, assign epistemic status, and keep construction evidence separate
-   from input eligibility.
+   from input eligibility. The non-scorable seed, schema, and validator are
+   fixed by `internal-suite-schema.md` and log 2026-08-10-04; expand and freeze
+   the adoption ruler only after remaining source and output questions are
+   resolved.
 4. Output and evaluation freeze: encode the composite type, metrics, adoption
    threshold, stable-display behavior, and performance budget before evaluating
    a lever.

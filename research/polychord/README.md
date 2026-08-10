@@ -101,8 +101,14 @@ temporal, or display decision. Synthetic compatibility tests preserve the
 structural meaning of the earlier schema-3 census without changing its pinned
 implementation.
 
-The next active work is a provenance-rich internal suite drawn from the cases in
-`golden-candidates.md`, followed by named onset, release, pedal, and motion
-ablations on the exact replay substrate. Corpora remain negative-exposure
-guards, not accuracy rulers. Pinned comparisons with musicpy, mingus, and, if
-reproducible, ChordRecGen remain required before adoption.
+The first provenance-rich internal seed is now fixed by
+`internal-suite-schema.md` and `data/internal-suite/suite-v0.json`. Its eight
+cases keep musical construction, product policy, input eligibility, and raw
+register candidates separate. The seed is author-adjudicated and explicitly
+non-scorable; it is not an independently validated ruler or an accuracy set.
+
+Next work can extend the suite only with exact source or generated observations,
+then study named onset, release, pedal, and motion ablations on the replay
+substrate. Corpora remain negative-exposure guards, not accuracy rulers. Pinned
+comparisons with musicpy, mingus, and, if reproducible, ChordRecGen remain
+required before adoption.
