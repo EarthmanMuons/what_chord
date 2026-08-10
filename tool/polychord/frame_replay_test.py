@@ -30,6 +30,7 @@ class FrameReplayTest(unittest.TestCase):
                 "pedal-release-and-repress.json",
                 "synchronous-six-note-cohort.json",
                 "two-register-held-cohorts.json",
+                "two-register-pedal-history.json",
             },
         )
 

@@ -19,7 +19,7 @@
     },
     "frameReplayManifest": {
       "path": "research/polychord/data/frame-replay/manifest.json",
-      "sha256": "9168ae68010415bf38439d8d774040e4272bbb5529c2e4089680c9ab4fdaa06e"
+      "sha256": "1abd073c595e07cc103120a6c1186d7628e815cb2ed727cc2d75e7d3bc847471"
     },
     "validator": {
       "path": "tool/polychord/internal_suite.py",

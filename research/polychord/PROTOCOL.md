@@ -186,6 +186,15 @@ evidence separately. The corpus has no verified polychord labels, so this is
 exposure rather than accuracy. The detailed report remains under `build/` and
 the fixed census must be committed before it is run.
 
+`release-pedal-evidence-schema.md` fixes the second threshold-free temporal
+evidence surface after the bounded audit in logs 2026-08-10-09 and
+2026-08-10-10. It retains exact held state, onset, release, current-state,
+reattack, prior-release, and pedal-transition provenance for every candidate
+note. It preserves carried-in unknowns and raw layer summaries without defining
+an age limit, release cohort, penalty, confidence effect, or display gate.
+Corpus run grouping remains audit methodology rather than a field in the
+single-frame evidence object.
+
 ## Internal suite and case provenance
 
 No surveyed corpus provides verified positive polychord labels. The initial
@@ -340,10 +349,10 @@ The following work must be dated and completed in order:
    executed unchanged in log 2026-08-10-10. All 59 observations occurred with
    pedal down and sustained notes, and every observation contained either a
    sustained-note reattack or an onset predating the current pedal-down episode.
-   This fixes the raw fields required for the next reusable threshold-free
-   release/pedal evidence contract; it does not define a rejection rule. Study
-   motion afterward as a named incremental evidence step. Channel or other
-   source evidence remains a later ablation.
+   The reusable threshold-free contract is fixed by
+   `release-pedal-evidence-schema.md` and log 2026-08-10-11; it does not define
+   a rejection rule. Study motion afterward as a named incremental evidence
+   step. Channel or other source evidence remains a later ablation.
 3. Internal suite: score-verify literature examples, encode exact machine-input
    fixtures, assign epistemic status, and keep construction evidence separate
    from input eligibility. The non-scorable seed, schema, and validator are

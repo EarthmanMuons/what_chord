@@ -33,6 +33,11 @@
       "id": "two-register-held-cohorts",
       "file": "two-register-held-cohorts.json",
       "sha256": "4026012d9c2073c262a1b3b05608e54cccf5ebe8bad043fe4d868f135d63e05e"
+    },
+    {
+      "id": "two-register-pedal-history",
+      "file": "two-register-pedal-history.json",
+      "sha256": "5c1418711d407aa4abac4ae041bc804eaaa5c40477d7c9de1647a82e11b37d2d"
     }
   ]
 }
