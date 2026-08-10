@@ -38,6 +38,9 @@ are developed and evaluated. `register-candidate-schema.md` fixes the exact
 structural proposal surface for the register-only baseline.
 `output-evaluation-contract.md` fixes how a later selected proposal may coexist
 with the primary result and how that output must be measured.
+`adoption-suite-plan.md`, preregistered in log 2026-08-10-19, fixes the coverage
+and stopping rules that must be satisfied before the active seed becomes a
+scorable adoption ruler.
 
 ## Research record and change control
 
@@ -412,8 +415,9 @@ The following work must be dated and completed in order:
    fixed by `internal-suite-schema.md` and log 2026-08-10-04. Log 2026-08-10-17
    admits the first literature-attested positive that the adjacent-register
    baseline can recover: Ives's _Psalm 67_ opening yields `C|Gm` while retaining
-   `C9/G` as the exact single-chord alternative. Expand and freeze the adoption
-   ruler after the remaining source-coverage questions are resolved.
+   `C9/G` as the exact single-chord alternative. The coverage and stopping rules
+   are preregistered in `adoption-suite-plan.md`; complete every applicable cell
+   before freezing the ruler.
 4. Output and evaluation freeze: complete. `output-evaluation-contract.md` and
    log 2026-08-10-18 fix the composite type, presentation, metrics, adoption
    threshold, stable-display behavior, and performance budget without choosing

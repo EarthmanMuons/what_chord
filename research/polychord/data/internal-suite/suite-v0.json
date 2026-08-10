@@ -5,13 +5,21 @@
   "authority": "product-policy-only-not-independent-ground-truth",
   "noteConvention": "MIDI 60 is C4; spellings are case-specific",
   "dependencies": {
+    "adoptionPlan": {
+      "path": "research/polychord/adoption-suite-plan.md",
+      "sha256": "720a50e34d38bd6cf1c02be9627e55247a10395dac59ac49b1d22348ff6014a0"
+    },
     "framework": {
       "path": "research/polychord/FRAMEWORK.md",
-      "sha256": "a5d83115be7d700e007110fe8f1313d435ad456f4c122f5f7d184baf423a212a"
+      "sha256": "3694429bca2c4e4782d9a9c2b32fec00558d7b2ba8d3dd59890a1b7c5cf13615"
+    },
+    "outputContract": {
+      "path": "research/polychord/output-evaluation-contract.md",
+      "sha256": "881e8cb0355a857ddf044900fa480a0d4e2313c6330fe8c6466bb4040a505a58"
     },
     "schemaDocument": {
       "path": "research/polychord/internal-suite-schema.md",
-      "sha256": "6f8f1c216575f97906ce6ecd22fedaacc1d5406708406f13df5f491fefcfa190"
+      "sha256": "c208e1ddc39e124462918ce973f1314f67ced55f4ab5c9d3f481e3c55b4ea415"
     },
     "registerCandidateSchema": {
       "path": "research/polychord/register-candidate-schema.md",
@@ -19,11 +27,11 @@
     },
     "frameReplayManifest": {
       "path": "research/polychord/data/frame-replay/manifest.json",
-      "sha256": "022a3a578293a64400b76da5ba57e0ab28d6338eeab49e1b2b7a4c4a49684688"
+      "sha256": "5e1434e24f68650d25955647414e7e2a25b0b1e5ddfafad9d2bb66464269e04a"
     },
     "validator": {
       "path": "tool/polychord/internal_suite.py",
-      "sha256": "82d098942724f4a773bf7cdc7b707efba6e85370a8fe780872a739d8c4f54b80"
+      "sha256": "32f3d2f756f2b5ef1069e4db92b9af760d0a7a691bd82d6a95cac3eea266bba2"
     }
   },
   "cases": [
@@ -309,12 +317,16 @@
     },
     {
       "id": "synthetic-d-over-c-major-seven",
-      "title": "D major over C major seventh",
-      "epistemicStatus": "synthetic-regression-guard",
-      "scopeFeatures": ["complete-triad-layers", "complete-seventh-layer"],
+      "title": "D upper structure over C major seventh",
+      "epistemicStatus": "theory-derived-boundary",
+      "scopeFeatures": [
+        "complete-triad-layers",
+        "complete-seventh-layer",
+        "integrated-extended-chord"
+      ],
       "source": {
         "kind": "synthetic",
-        "generation": "Hold a third-inversion C-major-seventh chord as the lower unit and a root-position D-major triad as the upper unit."
+        "generation": "Voice a D-major upper structure above a complete third-inversion C-major-seventh chord, yielding the integrated Cmaj13(#11) collection."
       },
       "observation": {
         "kind": "snapshot",
@@ -322,8 +334,8 @@
         "spelledNotes": ["B2", "C3", "E3", "G3", "D4", "F#4", "A4"]
       },
       "construction": {
-        "kind": "polychord",
-        "description": "A complete D-major triad is generated above a complete C-major-seventh chord.",
+        "kind": "upper-structure",
+        "description": "The complete D-major performance unit is an upper structure over C major seventh, with Cmaj13(#11) preferred as the integrated name.",
         "units": [
           {
             "id": "lower-c-major-seven",
@@ -345,22 +357,15 @@
           }
         ],
         "notation": {
-          "status": "resolved",
-          "symbol": "D|Cmaj7",
-          "upperUnitId": "upper-d-major",
-          "lowerUnitId": "lower-c-major-seven"
+          "status": "not-applicable",
+          "reason": "Framework v0 treats this as an integrated upper-structure boundary, not a positive polychord."
         }
       },
       "productExpectation": {
-        "class": "positive",
-        "expectedPolychords": [
-          {
-            "unitIds": ["upper-d-major", "lower-c-major-seven"],
-            "symbol": "D|Cmaj7"
-          }
-        ],
-        "primarySingleChordAlternatives": [],
-        "reason": "The explicit generation recipe and adjacent complete units support the secondary two-chord annotation."
+        "class": "boundary",
+        "expectedPolychords": [],
+        "primarySingleChordAlternatives": ["Cmaj13(#11)"],
+        "reason": "A conventional integrated major-thirteenth-sharp-eleventh name explains the complete collection, so the mechanical split must not authorize a secondary annotation."
       },
       "inputEligibility": {
         "adjacentRegisterSnapshot": {
@@ -369,7 +374,7 @@
         },
         "generalPitchRegisterSnapshot": {
           "status": "eligible",
-          "reason": "The complete pitch and register assignment preserves both generated units."
+          "reason": "The complete pitch set and rooted lower chord expose the integrated extension boundary."
         },
         "timestampedEventStream": {
           "status": "not-available",

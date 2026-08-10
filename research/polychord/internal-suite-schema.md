@@ -5,7 +5,8 @@ author-adjudicated product-policy suite. It is not an independently annotated
 ruler and does not authorize generalized accuracy claims. The representation,
 metrics, and adoption threshold are now fixed by
 `output-evaluation-contract.md`, but the active seed remains non-scorable until
-its source coverage is completed and the adoption suite is explicitly frozen.
+its source coverage satisfies `adoption-suite-plan.md` and the adoption suite is
+explicitly frozen.
 
 The canonical validator is `tool/polychord/internal_suite.py`. The active seed
 suite is `data/internal-suite/suite-v0.json`.
@@ -33,11 +34,13 @@ The top-level object contains:
 
 - `schema`: `polychord-internal-suite/1`;
 - `status`: `active-author-adjudicated-seed`;
-- `scoringAllowed`: `false` until a later evaluation freeze;
+- `scoringAllowed`: `false` until the complete adoption suite is explicitly
+  frozen;
 - `authority`: `product-policy-only-not-independent-ground-truth`;
 - `noteConvention`: `MIDI 60 is C4; spellings are case-specific`;
-- `dependencies`: SHA-256 pins for the framework, this schema, the register
-  candidate schema, frame-replay manifest, and validator; and
+- `dependencies`: SHA-256 pins for the framework, output/evaluation contract,
+  adoption-suite plan, this schema, register candidate schema, frame-replay
+  manifest, and validator; and
 - `cases`: cases ordered by stable identifier.
 
 The validator resolves every dependency from the repository root and rejects a
