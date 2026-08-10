@@ -112,6 +112,9 @@ then study named temporal ablations on the replay substrate. The first raw onset
 contract is now fixed in `onset-evidence-schema.md`: it preserves each sounding
 note's latest attack, unknown carried-in history, reattacks, and pedal-held
 state, then reports threshold-free layer timing. It deliberately makes no
-confidence or display decision. Corpora remain negative-exposure guards, not
-accuracy rulers. Pinned comparisons with musicpy, mingus, and, if reproducible,
-ChordRecGen remain required before adoption.
+confidence or display decision. `onset-support-ablation.md` defines the first
+one-sided interpretation: two complete, internally tight onset cohorts separated
+by a conservative interval provide positive support, while every other case
+remains neutral. Corpora remain negative-exposure guards, not accuracy rulers.
+Pinned comparisons with musicpy, mingus, and, if reproducible, ChordRecGen
+remain required before adoption.

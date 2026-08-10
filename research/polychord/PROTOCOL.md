@@ -166,6 +166,13 @@ and reports raw layer spans and signed interval relations. It does not define a
 synchrony tolerance, cohort label, confidence effect, or display gate; those
 must be a later named and pinned ablation.
 
+`onset-support-ablation.md` fixes that first named interpretation as
+`coherent-separated-onsets-50-200ms/1`. It grants one-sided positive support
+only to two complete onset intervals whose layers each span at most 50
+milliseconds and whose intervals are separated by at least 200 milliseconds.
+Every other result is neutral, including synchronous and incomplete history. The
+rule is not a perceptual-independence claim or a product display gate.
+
 ## Internal suite and case provenance
 
 No surveyed corpus provides verified positive polychord labels. The initial
@@ -310,7 +317,8 @@ The following work must be dated and completed in order:
    `frame-replay-schema.md` and log 2026-08-10-02. The register-only baseline is
    fixed by `register-candidate-schema.md` and log 2026-08-10-03. Threshold-free
    onset provenance is fixed by `onset-evidence-schema.md` and log
-   2026-08-10-05. Define and pin any onset interpretation before measuring it,
+   2026-08-10-05. The first conservative onset interpretation is fixed by
+   `onset-support-ablation.md` and log 2026-08-10-06. Measure it without tuning,
    then study release, pedal, and motion as named incremental evidence. Channel
    or source evidence remains a later ablation.
 3. Internal suite: score-verify literature examples, encode exact machine-input
