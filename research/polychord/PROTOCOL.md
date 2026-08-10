@@ -56,8 +56,10 @@ Current scoping corpora, all octave-preserving:
   (`research/whatkey/data/splits/when-in-rome-v1.json`).
 - ASAP x When in Rome, development split only
   (`research/performed-input/data/splits/asap-wir-nc-v2.json`).
-- The committed POP909 sample fixtures, used as an advisory corpus. The 808-song
-  held pool remains evaluation-virgin.
+- The committed 101-song POP909 sample fixtures, used as an advisory corpus. The
+  808-song clean reserve remains evaluation-virgin; it is not yet a declared
+  final test set. Freeze a fit-for-purpose development/test allocation from that
+  reserve only if POP909 later gains a formal evaluation role.
 
 Rules:
 
@@ -172,6 +174,15 @@ only to two complete onset intervals whose layers each span at most 50
 milliseconds and whose intervals are separated by at least 200 milliseconds.
 Every other result is neutral, including synchronous and incomplete history. The
 rule is not a perceptual-independence claim or a product display gate.
+
+`onset-exposure-census.md` preregisters the first corpus measurement. It uses
+only the previously exposed 101-song POP909 sample, projects the paper-defined
+`BRIDGE` plus `PIANO` accompaniment through WhatChord's channel-blind pitch-set
+and global-pedal input semantics, preserves the 808-song held pool, and reports
+event-frame, sounding-time, candidate-instance, normalization, and per-piece
+evidence separately. The corpus has no verified polychord labels, so this is
+exposure rather than accuracy. The detailed report remains under `build/` and
+the fixed census must be committed before it is run.
 
 ## Internal suite and case provenance
 
@@ -318,9 +329,11 @@ The following work must be dated and completed in order:
    fixed by `register-candidate-schema.md` and log 2026-08-10-03. Threshold-free
    onset provenance is fixed by `onset-evidence-schema.md` and log
    2026-08-10-05. The first conservative onset interpretation is fixed by
-   `onset-support-ablation.md` and log 2026-08-10-06. Measure it without tuning,
-   then study release, pedal, and motion as named incremental evidence. Channel
-   or source evidence remains a later ablation.
+   `onset-support-ablation.md` and log 2026-08-10-06. Its POP909 measurement is
+   preregistered by `onset-exposure-census.md` and log 2026-08-10-07; commit the
+   contract, then run it without tuning. Afterward, study release, pedal, and
+   motion as named incremental evidence. Channel or source evidence remains a
+   later ablation.
 3. Internal suite: score-verify literature examples, encode exact machine-input
    fixtures, assign epistemic status, and keep construction evidence separate
    from input eligibility. The non-scorable seed, schema, and validator are
