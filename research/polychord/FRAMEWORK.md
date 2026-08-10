@@ -103,7 +103,8 @@ into a fictional simultaneous sonority.
 An event-window fixture used to study timing or motion must record note-on,
 note-off, pedal changes, pressed-note state, sustained-note state, and the
 derived observation at each evaluated frame. An onset list and aggregate pitch
-set alone are not a complete temporal representation.
+set alone are not a complete temporal representation. The normative wire format
+and transition rules are `frame-replay-schema.md`.
 
 ## Case provenance and epistemic status
 

@@ -1,0 +1,75 @@
+{
+  "schema": "polychord-frame-replay/1",
+  "id": "carried-in-state",
+  "description": "The observation window begins with one pressed note and one pedal-sustained note carried from earlier performance events.",
+  "timeBase": "milliseconds",
+  "initialState": {
+    "pressedMidiNotes": [48],
+    "sustainedMidiNotes": [36],
+    "pedalDown": true
+  },
+  "events": [
+    {
+      "index": 0,
+      "timestampMs": 100,
+      "type": "noteOn",
+      "midiNote": 60,
+      "velocity": 80
+    },
+    {
+      "index": 1,
+      "timestampMs": 300,
+      "type": "noteOff",
+      "midiNote": 48,
+      "velocity": 0
+    },
+    {
+      "index": 2,
+      "timestampMs": 500,
+      "type": "pedal",
+      "down": false
+    },
+    {
+      "index": 3,
+      "timestampMs": 700,
+      "type": "noteOff",
+      "midiNote": 60,
+      "velocity": 0
+    }
+  ],
+  "frames": [
+    {
+      "afterEventIndex": 0,
+      "timestampMs": 100,
+      "pressedMidiNotes": [48, 60],
+      "sustainedMidiNotes": [36],
+      "soundingMidiNotes": [36, 48, 60],
+      "pedalDown": true
+    },
+    {
+      "afterEventIndex": 1,
+      "timestampMs": 300,
+      "pressedMidiNotes": [60],
+      "sustainedMidiNotes": [36, 48],
+      "soundingMidiNotes": [36, 48, 60],
+      "pedalDown": true
+    },
+    {
+      "afterEventIndex": 2,
+      "timestampMs": 500,
+      "pressedMidiNotes": [60],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [60],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 3,
+      "timestampMs": 700,
+      "pressedMidiNotes": [],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [],
+      "pedalDown": false
+    }
+  ],
+  "endTimestampMs": 800
+}

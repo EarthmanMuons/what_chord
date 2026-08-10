@@ -97,8 +97,9 @@ two chordal layers, and what evidence a live MIDI analyzer would need to support
 that decomposition. The active v0 framework is grounded in published theory and
 notation practice, keeps the existing single-chord name primary, and treats
 register, onset, release, pedal, and motion as separate evidence conditions. Its
-current work is developing exact replay fixtures, a conservative register-based
-candidate generator, and a provenance-rich internal regression suite.
+exact replay fixtures now preserve complete event and pedal state; current work
+is developing a conservative register-based candidate generator and a
+provenance-rich internal regression suite.
 
 ### Surviving real playing
 
