@@ -1,5 +1,10 @@
 # Polychord pilot review instrument
 
+Status: deferred on 2026-08-10 without collecting responses. Do not distribute
+this instrument or use it to collect research data. It remains intact as a
+byte-pinned historical artifact for logs 2026-08-02-10 and -11; the design
+correction is recorded in log 2026-08-10-01 and `../FRAMEWORK.md`.
+
 This research-only static instrument guides qualified musicians through the
 `polychord-pilot-review/1` response schema. It is a focused expert annotation
 task, not a public survey, and it neither determines nor normalizes the musical
@@ -8,12 +13,14 @@ answer.
 Version 2 presents musical evidence in forms a reviewer can read directly:
 unannotated score excerpts for source cases and written note names, a neutral
 piano-keyboard view, and a plain-language attack timeline for generated cases.
-Raw MIDI values, source identifiers, and digests remain available only under
-the verified packet and exported response; they are not displayed in the
-reviewer flow. The evidence and response schema are unchanged.
+Raw MIDI values, source identifiers, and digests remain available only under the
+verified packet and exported response; they are not displayed in the reviewer
+flow. The evidence and response schema are unchanged.
 
-Do not distribute it for real responses until the multi-reviewer comparison
-report is frozen and the distribution-readiness checklist below is complete.
+The operating instructions and unfinished distribution-readiness checklist below
+are retained only to reconstruct the abandoned design. Completing them would not
+reactivate the pilot; a later external study requires a new registered evidence
+design and instrument version.
 
 ## Run locally
 
@@ -43,9 +50,9 @@ JSON, MIR, or WhatChord knowledge.
 The instrument begins with a standardized 10 to 15 minute orientation:
 
 1. Read the musician-facing reviewer guide.
-2. Inspect three worked examples covering an expected polychord,
-   misleading decomposition, and single-chord-preferred boundary. These note
-   collections are not reused in the pilot packet.
+2. Inspect three worked examples covering an expected polychord, misleading
+   decomposition, and single-chord-preferred boundary. These note collections
+   are not reused in the pilot packet.
 3. Pass three task-boundary questions. Incorrect responses receive the same
    written feedback for every reviewer. Readiness answers are neither retained
    nor exported; only orientation completion is stored with the local draft.
@@ -97,8 +104,8 @@ python3 tool/polychord/prepare_review_score_excerpts.py \
   --augurs-pdf path/to/lesacreduprintem00stra_3.pdf
 ```
 
-The script verifies each PDF digest before invoking `pdftoppm`, records the page,
-resolution, crop rectangle, renderer version, image dimensions, and output
+The script verifies each PDF digest before invoking `pdftoppm`, records the
+page, resolution, crop rectangle, renderer version, image dimensions, and output
 digest in `assets/manifest.json`, and refuses to overwrite a differing result.
 The crops contain no added harmonic analysis or highlighting.
 
@@ -135,8 +142,8 @@ downloaded file afterward.
 
 - Complete the orientation and six-case flow in current Chrome, Firefox, and
   Safari at desktop and narrow widths, 200% browser zoom, and enlarged system
-  text. Confirm every score excerpt, keyboard, note label, and attack timeline is
-  legible without reference to the underlying raw evidence.
+  text. Confirm every score excerpt, keyboard, note label, and attack timeline
+  is legible without reference to the underlying raw evidence.
 - Complete the flow by keyboard: use the skip link, orientation check, case
   navigation, radio and checkbox groups, selects, add/remove actions, error
   links, and download without a pointer. Confirm focus remains visible and moves
@@ -148,18 +155,18 @@ downloaded file afterward.
 - Confirm failed orientation and incomplete download attempts save no research
   response. Confirm every marked orientation question and error-summary link
   reaches its corresponding control.
-- Reload during the review and confirm local draft and orientation
-  recovery. Clear the draft and confirm no answer, reviewer ID, or readiness
-  state survives for the next reviewer using that browser profile.
+- Reload during the review and confirm local draft and orientation recovery.
+  Clear the draft and confirm no answer, reviewer ID, or readiness state
+  survives for the next reviewer using that browser profile.
 - Download a mechanically complete response, validate it with the Python command
   above, and confirm the evidence, packet digest, guide digest, and case order
   remain unchanged.
 - Open each full-score link, confirm the source location can still be reached,
   and confirm returning to the form preserves the draft.
 - Inspect the browser console for content-security-policy, module-loading,
-  storage, image-verification, or download errors. Confirm loading and completing
-  the form creates no outbound request other than explicit reviewer navigation
-  to a score source.
+  storage, image-verification, or download errors. Confirm loading and
+  completing the form creates no outbound request other than explicit reviewer
+  navigation to a score source.
 
 Record browser and assistive-technology versions, operating systems, source
 commit, all pinned digests, cognitive-walkthrough results, defects, and

@@ -1,9 +1,12 @@
 # Polychord research protocol
 
 Status: SCOPING. The schema-3 census profiles are fixed for the measurements in
-log 2026-08-02-06. The product semantics, ruler, scoring model, adoption bar,
-and performance budget are not frozen. Each must be fixed in a dated log entry
-before an engine lever is evaluated.
+log 2026-08-02-06. `FRAMEWORK.md`, adopted in log 2026-08-10-01, fixes the
+theory-derived v0 product semantics and evidence boundaries as a working
+hypothesis. It is not an independently annotated ruler. The composite data
+contract, regression suite, scoring model, adoption bar, and performance budget
+remain unfrozen and require later dated decisions before an engine lever is
+evaluated.
 
 ## Task and claim boundary
 
@@ -25,6 +28,10 @@ Any result must state which input evidence it used.
 The scoping census measures voicings that satisfy declared split rules. It is
 not an accuracy test, a product detector, or evidence that its fires should be
 shown to users.
+
+`FRAMEWORK.md` is the normative record for the current layer scope, notation,
+evidence tiers, and epistemic labels. This protocol governs how those hypotheses
+are developed and evaluated.
 
 ## Research record and change control
 
@@ -150,24 +157,29 @@ Temporal ablations require frame-accurate replay. Committed-event fixtures
 cannot evaluate them because they omit within-event revoicing and note-event
 order.
 
-## Ruler and annotation
+## Internal suite and case provenance
 
-No surveyed corpus provides verified positive polychord labels. The accuracy
-ruler must therefore be a versioned, hand-authored suite of exact snapshots or
-event windows with three declared tags:
+No surveyed corpus provides verified positive polychord labels. The initial
+regression suite must therefore be a versioned, author-adjudicated collection of
+exact snapshots or event windows with three declared product expectations:
 
 - positive: a polychord reading is expected, at least as an alternative;
 - boundary: a single symbol is preferred, with a decomposition acceptable only
   as a pedagogical or secondary reading;
 - negative guard: the voicing must not produce a polychord reading.
 
-Candidate examples are not ground truth. Before entering the ruler, each
-literature example must be checked against a stable score source and ideally a
-recording. Each entry must record the sounded notes or event window, upper and
-lower identities, note-to-layer assignment, source, admissible alternatives,
-scope feature (shared tone, incomplete unit, bass-only unit, and so on), and the
-evidence that licenses or blocks the split. A passage may not be silently
-verticalized into a simultaneous voicing that the source never sounds.
+These expectations test the declared product policy; they are not independent
+accuracy labels. Each case must also carry one epistemic status from
+`FRAMEWORK.md`: literature-attested construction, theory-derived boundary,
+synthetic regression guard, or unresolved candidate.
+
+Candidate examples are not ground truth. Before entering the internal suite,
+each literature example must be checked against a stable score source and
+ideally a recording. Each entry must record the sounded notes or event window,
+upper and lower identities, note-to-layer assignment, source, admissible
+alternatives, scope feature (shared tone, incomplete unit, bass-only unit, and
+so on), and the evidence that licenses or blocks the split. A passage may not be
+silently verticalized into a simultaneous voicing that the source never sounds.
 
 Construction truth and input eligibility are separate annotations. A score can
 establish a polychordal construction while a pitch-and-register snapshot cannot
@@ -180,105 +192,65 @@ integrated sixth, seventh, and extended chords; polychords from slash chords and
 upper-structure voicings; and constructional decompositions from perceptual or
 intentional claims.
 
-The initial annotations and guide must be pinned before the independent packet
-is generated. The packet must use neutral shuffled IDs and omit the initial
-labels, layer assignments, alternatives, eligibility judgments, rationales, and
-synthetic generation intent. It retains raw input evidence and pinned source
-locations. A completed response is stored separately and validated against the
-packet and source-ruler digests. Agreement is computed before adjudication; no
-initial or independent response is overwritten. Prior access to the initial
-labels must be disclosed and does not count as the publication-required
-independent pass.
+### Deferred pilot and later external validation
 
-Describe this design as independent and initial-label-blinded, not double-blind.
-Score verification necessarily reveals the work, edition, and location, so
-familiarity with a canonical example remains a documented source of possible
-annotator influence.
+The six-case pilot and static review instrument created in logs 2026-08-02-07
+through -11 are deferred without collecting responses. They remain byte-pinned
+historical artifacts. Their score views do not identify the exact material a
+reviewer must judge without also revealing the proposed decomposition, and their
+temporal cases expose attacks and an aggregate note set without complete
+duration, release, pedal, or held-state evidence. Results from that instrument
+would therefore conflate musical judgment with evidence-presentation failure.
 
-### Independent review progression
+External annotation is not a gate for developing the framework, verifying
+sources, building candidate generators or temporal infrastructure, measuring
+corpus exposure, or maintaining an author-adjudicated regression suite. Those
+activities must describe their expectations as theory-derived product policy,
+not independent ground truth or general accuracy.
 
-The six-case formative pilot targets three independent qualified music-theory
-annotators, with two as the minimum usable independent panel. One external
-response is content or face validation only: it can expose an ambiguity, but it
-cannot support a reproducibility claim. Reviewers apply the same frozen guide
-independently and must not see the initial labels or another review before the
-pre-adjudication report is generated. Relevant training and experience are
-recorded separately from the pseudonymous response.
+External validation is required before claiming that qualified annotators can
+reproduce the construct, that a ruler is independently validated, or that an
+accuracy estimate generalizes beyond the author-adjudicated suite. A later study
+must separate constructional appropriateness from recoverability by a named
+machine-input condition. It must identify the exact musical material to judge
+and present complete event state for temporal questions. Showing a candidate
+decomposition measures acceptance of that candidate, not independent discovery.
 
-Use a guided annotation instrument when practical rather than asking reviewers
-to edit JSON directly. The instrument must be versioned and pinned, present the
-unchanged packet evidence under neutral IDs, preserve the presented case order,
-and export the existing validated response schema. It may prevent malformed
-input, but it must not silently normalize theoretical answers or constrain them
-to the initial ruler. It must retain abstention, alternatives, confidence, and
-free-form rationale; omit detector output and all initial or peer answers; and
-keep reviewer identity and qualifications separate from the annotation data.
+If a later study seeks a reproducibility claim, obtain at least two independent
+qualified responses, preferably three. Pin the task and analysis before data
+collection, retain abstentions and raw disagreements, compute all pairwise
+comparisons before discussion, and never overwrite an original response with
+adjudication. One external response supplies face validation only.
 
-The primary evidence view must be readable by a qualified musician without MIDI
-or data-schema knowledge. Present generated evidence with written note names, a
-neutral keyboard or piano-roll view, and a plain timing view when onset data
-exists. Present score cases with an unannotated excerpt reproduced from the
-exact pinned source. Keep raw MIDI values, source identifiers, and hashes as
-underlying packet and export provenance rather than presenting them as part of
-the musical task. Do not infer an enharmonic spelling absent from the packet,
-add harmonic highlighting, or synthesize audio whose timbre, articulation,
-duration, or mix would introduce an unregistered evidence condition.
-
-Reviewers must have formal music-theory study or equivalent advanced experience,
-read notation and keyboard or piano-roll views, identify common triads and
-seventh chords, and distinguish extensions, slash chords, and upper structures.
-Programming, JSON, MIDI, MIR, and WhatChord experience are explicitly not
-required. Give every reviewer the same 10-to-15-minute orientation: a plain
-guide, three worked cases not reused in the pilot packet, and a brief
-task-boundary check with standardized feedback. Readiness answers are not
-research responses and are not exported. Do not coach reviewers during pilot
-cases.
-
-Before distribution, conduct one cognitive walkthrough with a qualified
-musician who is excluded from the independent pilot panel. Use it to find
-wording, evidence-presentation, and navigation failures; do not retain a
-completed response. Any change to the guide, presented evidence view, required
-response, or interpretive feedback is a measurement-instrument revision and
-receives a dated provenance entry and new instrument pin before responses are
-collected.
-
-After all pilot responses are frozen, generate the pre-adjudication report
-before discussion. Then debrief reviewers individually, document guide and
-representation failures, and adjudicate without replacing the raw responses. If
-the method survives the formative pilot and publication remains an objective,
-design a larger, deliberately balanced case set before estimating general
-inter-annotator reliability. The six cases can test the protocol but cannot
-establish a population-level reliability statistic.
-
-Freeze and test the panel comparison before distributing the first packet. It
-must report initial-to-reviewer comparisons separately from every
-reviewer-to-reviewer comparison; the initial author is not counted as an
-independent reviewer. Preserve abstentions and all pairwise disagreements rather
-than replacing them with a majority label or adjudicated consensus.
-
-The complete ruler, metrics, and adoption threshold must be frozen before any
-proposed engine rule is evaluated against it.
+The complete internal suite, metrics, and adoption threshold must be frozen
+before any proposed engine rule is evaluated against it. Without independent
+validation, report results as agreement with the author-adjudicated product
+specification rather than accuracy against musical ground truth.
 
 ## Prior-art baselines
 
 The scoped search claim and exact query record live in `prior-art-search.md`.
-Before adoption, the proposed method must be compared on the same verified ruler
-with pinned versions of at least musicpy and mingus. ChordRecGen should be
-included if its archived toolchain can be executed reproducibly.
+Before adoption, the proposed method must be compared on the same frozen
+author-adjudicated suite with pinned versions of at least musicpy and mingus.
+ChordRecGen should be included if its archived toolchain can be executed
+reproducibly.
 
 For every baseline record the package or source version, input ordering,
 options, raw output, normalization, failures, and runtime. These systems are
 comparison baselines, not scientific ground truth. A WhatChord result must not
 be described as the first computational polychord detector; the provisional
-research contribution is an explicit task and annotation method, a verified
-ruler, and an evaluated register-licensed naming method.
+research contribution is an explicit task definition, a provenance-rich internal
+suite, and an evaluated register-licensed naming method. An independently
+validated task or ruler may be claimed only after a later external study.
 
 ## Required output and evidence contract
 
-Before an engine lever is designed or measured, a dated decision must specify:
+`FRAMEWORK.md` fixes the v0 secondary-annotation semantics, conservative layer
+scope, notation order, and evidence hierarchy. Before an engine lever is
+designed or measured, a later dated decision must additionally specify:
 
-- whether a polychord is a secondary annotation, an alternative candidate, or a
-  primary identity, and how it competes with the single-symbol reading;
+- how the secondary polychord annotation coexists with the unchanged primary
+  single-symbol reading and alternative candidates;
 - the composite data representation, layer order, enharmonic spelling rules,
   equality, deduplication, and partial-credit scoring;
 - symbolic, short, long-form, and spoken wording, including note-name systems;
@@ -304,32 +276,33 @@ Before an engine lever is designed or measured, a dated decision must specify:
 - Report the register-only, onset, and motion configurations as named ablations
   on the same eligible frames; do not attribute a combined result to an
   individual cue.
-- Report annotator agreement with a metric appropriate to the frozen label and
-  partial-credit representation, plus raw agreement and adjudication counts.
-- For the six-case annotation pilot, report raw exact confusion tables,
-  abstentions as disagreements, order-invariant layer-set agreement, and
-  synthetic note-partition agreement before adjudication. Do not report kappa,
-  inferential statistics, or a general reliability claim from the pilot.
+- If a later external study is run, report annotator agreement with a metric
+  appropriate to its frozen label and partial-credit representation, plus raw
+  agreement and adjudication counts. A small formative study must not support
+  kappa, inferential statistics, or a population-level reliability claim.
 - Report each ruler and corpus separately. Disagreement among them is a result,
   not a reason to pool them.
 
-## Open decisions before ruler freeze
+## Progression before adoption
 
-The following decisions must be dated and made in order:
+The following work must be dated and completed in order:
 
-1. Product semantics: what the feature names, primary versus secondary display,
-   and whether shared-tone, incomplete, and bass-only layers are in scope.
-2. Evidence program: define the register-only baseline, then evaluate onset and
-   motion as incremental grouping evidence. Decide whether each cue affects
-   confidence, abstention, or eligibility, and define behavior when it is
-   unavailable. Treat channel or source evidence as a later optional ablation.
-3. Pilot annotation: score-verify and independently review a small suite that
-   tests the shared-tone versus integrated-chord boundary and distinguishes
-   construction labels from input eligibility.
-4. Frozen ruler and evaluation: encode the full suite, metrics, output contract,
-   adoption threshold, and performance budget before evaluating a lever.
-5. Implementation-shaped exposure: measure the proposed generator at frame level
-   and after the stable-display gate before making a safety claim.
+1. Framework v0: complete. Log 2026-08-10-01 fixes the theory-derived product
+   semantics, initial layer scope, notation order, and evidence boundaries.
+2. Evidence infrastructure: implement the register-only baseline and exact frame
+   replay, then study onset, release, pedal, and motion as named incremental
+   evidence. Channel or source evidence remains a later ablation.
+3. Internal suite: score-verify literature examples, encode exact machine-input
+   fixtures, assign epistemic status, and keep construction evidence separate
+   from input eligibility.
+4. Output and evaluation freeze: encode the composite type, metrics, adoption
+   threshold, stable-display behavior, and performance budget before evaluating
+   a lever.
+5. Implementation-shaped exposure: measure proposals and stable displays at
+   frame level before making a safety claim.
+6. Optional external validation: use a newly registered, evidence-complete study
+   before any reproducibility, independently validated ruler, or generalized
+   accuracy claim. This is not a prerequisite for the preceding research work.
 
 ## Engine and product guards
 
@@ -340,7 +313,7 @@ Any adopted lever must pass all of the following:
 - `tool/benchmark.sh --check` against its committed baseline;
 - oracle-pool blast-radius comparison via `tool/chord/pool_diff.py`;
 - the dense-set stress census and POP909 corroboration;
-- the polychord ruler and its frozen adoption threshold;
+- the author-adjudicated polychord suite and its frozen adoption threshold;
 - frame-level counts of proposed decompositions and stable-display counts on
   every scoping corpus, with a complete disposition of every new fire;
 - the frozen polychord performance budget and on-device note-storm profiling.

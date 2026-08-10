@@ -32,6 +32,8 @@ Finding the key       WhatKey ─────────────► WhatKey
                          │
                          ▼
 Naming the chord      Chord Context ───────► Ensemble Mode ──► Ensemble Tiebreak
+                         │
+                         └─────────────────► Polychords
 
 Surviving real        Performed Input ─────► Tone Pricing
 playing
@@ -89,6 +91,14 @@ The answer reframed the problem: the misses were readings the engine never
 proposed, not readings it ranked badly. Widening what gets proposed cut the
 remaining naming errors by more than half on a new jazz benchmark, with no solo
 regressions.
+
+**[Polychords](polychord/)** asks when one sonority should also be described as
+two chordal layers, and what evidence a live MIDI analyzer would need to support
+that decomposition. The active v0 framework is grounded in published theory and
+notation practice, keeps the existing single-chord name primary, and treats
+register, onset, release, pedal, and motion as separate evidence conditions. Its
+current work is developing exact replay fixtures, a conservative register-based
+candidate generator, and a provenance-rich internal regression suite.
 
 ### Surviving real playing
 
