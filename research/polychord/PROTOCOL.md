@@ -31,7 +31,9 @@ shown to users.
 
 `FRAMEWORK.md` is the normative record for the current layer scope, notation,
 evidence tiers, and epistemic labels. This protocol governs how those hypotheses
-are developed and evaluated.
+are developed and evaluated. `register-candidate-schema.md` fixes the exact
+structural proposal surface for the register-only baseline without freezing the
+later product output contract.
 
 ## Research record and change control
 
@@ -290,9 +292,10 @@ The following work must be dated and completed in order:
 1. Framework v0: complete. Log 2026-08-10-01 fixes the theory-derived product
    semantics, initial layer scope, notation order, and evidence boundaries.
 2. Evidence infrastructure: exact frame replay is fixed by
-   `frame-replay-schema.md` and log 2026-08-10-02. Implement the register-only
-   baseline, then study onset, release, pedal, and motion as named incremental
-   evidence. Channel or source evidence remains a later ablation.
+   `frame-replay-schema.md` and log 2026-08-10-02. The register-only baseline is
+   fixed by `register-candidate-schema.md` and log 2026-08-10-03. Study onset,
+   release, pedal, and motion next as named incremental evidence. Channel or
+   source evidence remains a later ablation.
 3. Internal suite: score-verify literature examples, encode exact machine-input
    fixtures, assign epistemic status, and keep construction evidence separate
    from input eligibility.
