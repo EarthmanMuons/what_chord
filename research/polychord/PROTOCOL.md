@@ -7,7 +7,9 @@ hypothesis. It is not an independently annotated ruler. The composite data and
 presentation contract, scoring model, adoption bar, stable-display policy, and
 performance budget are fixed by `output-evaluation-contract.md` and log
 2026-08-10-18. The complete adoption suite and selector remain unfrozen; no
-engine lever may be evaluated yet.
+engine lever may be evaluated yet. The preregistered symmetric structural
+conformance matrix passed in log 2026-08-10-20; source-attested product-policy
+coverage remains incomplete.
 
 ## Task and claim boundary
 
@@ -417,7 +419,9 @@ The following work must be dated and completed in order:
    baseline can recover: Ives's _Psalm 67_ opening yields `C|Gm` while retaining
    `C9/G` as the exact single-chord alternative. The coverage and stopping rules
    are preregistered in `adoption-suite-plan.md`; complete every applicable cell
-   before freezing the ruler.
+   before freezing the ruler. The selector-independent 3,300-combination
+   structural matrix and focused ambiguity controls passed in log 2026-08-10-20;
+   they do not fill the missing source-attested cells.
 4. Output and evaluation freeze: complete. `output-evaluation-contract.md` and
    log 2026-08-10-18 fix the composite type, presentation, metrics, adoption
    threshold, stable-display behavior, and performance budget without choosing
