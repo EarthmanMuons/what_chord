@@ -30,6 +30,11 @@
       "sha256": "76ea3de1622cf5f9955b45109ccd507da33044778f616987768be50a19261146"
     },
     {
+      "id": "two-register-contrary-motion",
+      "file": "two-register-contrary-motion.json",
+      "sha256": "6afce7ce6e094fc6777f36816b78f2d11157a997204363f71764c9f7d6385791"
+    },
+    {
       "id": "two-register-held-cohorts",
       "file": "two-register-held-cohorts.json",
       "sha256": "4026012d9c2073c262a1b3b05608e54cccf5ebe8bad043fe4d868f135d63e05e"

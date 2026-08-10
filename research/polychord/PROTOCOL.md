@@ -210,6 +210,16 @@ are not treated as the same voice unless a later named and pinned assignment
 model links them. The contract defines no window-selection rule, pairing cost,
 coherence label, confidence effect, or display gate.
 
+`motion-support-ablation.md` fixes the first interpretation of that transition
+surface as `rigid-layers-oblique-or-contrary/1`. For each explicit endpoint
+correspondence, both candidate layers must preserve their complete MIDI sets
+under exact signed translations. Only oblique or contrary translations between
+the two layers supply one-sided positive support. Static layers, common
+whole-sonority translation, unequal same-direction motion, revoicing, note entry
+or exit, changed doubling, retained-instance contradiction, and non-rigid
+relations remain neutral. The profile selects no correspondence and defines no
+endpoint-enumeration, confidence, rejection, or display rule.
+
 ## Internal suite and case provenance
 
 No surveyed corpus provides verified positive polychord labels. The initial
@@ -366,8 +376,12 @@ The following work must be dated and completed in order:
    sustained-note reattack or an onset predating the current pedal-down episode.
    The reusable threshold-free contract is fixed by
    `release-pedal-evidence-schema.md` and log 2026-08-10-11; it does not define
-   a rejection rule. Study motion afterward as a named incremental evidence
-   step. Channel or other source evidence remains a later ablation.
+   a rejection rule. Threshold-free frame-transition evidence is fixed by
+   `frame-transition-evidence-schema.md` and log 2026-08-10-12. The first
+   conservative set-level motion interpretation is fixed by
+   `motion-support-ablation.md` and log 2026-08-10-13. Its endpoint-enumeration
+   and exposure measurement are not yet registered. Channel or other source
+   evidence remains a later ablation.
 3. Internal suite: score-verify literature examples, encode exact machine-input
    fixtures, assign epistemic status, and keep construction evidence separate
    from input eligibility. The non-scorable seed, schema, and validator are
