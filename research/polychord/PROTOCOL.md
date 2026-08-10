@@ -220,6 +220,16 @@ or exit, changed doubling, retained-instance contradiction, and non-rigid
 relations remain neutral. The profile selects no correspondence and defines no
 endpoint-enumeration, confidence, rejection, or display rule.
 
+`motion-exposure-census.md` preregisters the first endpoint enumeration and
+corpus measurement for that ablation. It selects only the final replay frame at
+each distinct timestamp and pairs adjacent terminal frames without skipping or
+an elapsed-time cutoff. Same-timestamp construction frames remain reported but
+cannot become endpoints; a positive-duration noncandidate state breaks the
+chain. The census reuses the frozen 101-song POP909 sample and accompaniment
+projection, keeps the 808-song reserve untouched, and separates endpoint-frame,
+transition, target-dwell, candidate-pair, and hypothesis exposure. It must be
+committed before execution.
+
 ## Internal suite and case provenance
 
 No surveyed corpus provides verified positive polychord labels. The initial
@@ -379,9 +389,10 @@ The following work must be dated and completed in order:
    a rejection rule. Threshold-free frame-transition evidence is fixed by
    `frame-transition-evidence-schema.md` and log 2026-08-10-12. The first
    conservative set-level motion interpretation is fixed by
-   `motion-support-ablation.md` and log 2026-08-10-13. Its endpoint-enumeration
-   and exposure measurement are not yet registered. Channel or other source
-   evidence remains a later ablation.
+   `motion-support-ablation.md` and log 2026-08-10-13. Its first endpoint and
+   exposure measurement is preregistered by `motion-exposure-census.md` and log
+   2026-08-10-14 but has not been executed. Channel or other source evidence
+   remains a later ablation.
 3. Internal suite: score-verify literature examples, encode exact machine-input
    fixtures, assign epistemic status, and keep construction evidence separate
    from input eligibility. The non-scorable seed, schema, and validator are
