@@ -1,16 +1,17 @@
 # Polychord pilot reviews
 
+Status: the v0 pilot was deferred on 2026-08-10 before any response was
+collected. Do not add responses for this instrument. This directory and the
+historical commands below are preserved for provenance; any later external study
+must use a newly registered schema, evidence package, and storage plan.
+
 Completed independent-review packets are raw research data. Store each returned
 packet as `pilot-v0-<opaque-annotator-id>.json`; use a pseudonymous identifier,
 not a name or email. Do not edit a completed response after receipt. Corrections
 use a new file with a provenance note in the next dated research log.
 
-The guided static instrument under `../review-instrument/` is the preferred
-entry method. It verifies the packet, guide, presentation manifest, and score
-images, stores drafts only in the reviewer's browser, and exports this same
-validated schema. Record the exact instrument commit and all source and
-presentation digests when distributing it. Reviewer identity, contact details,
-qualifications, and orientation answers remain outside this directory.
+The remaining text documents the deferred v0 handling plan. It is not an active
+instruction to recruit reviewers or distribute `../review-instrument/`.
 
 Validate a returned packet before analysis:
 

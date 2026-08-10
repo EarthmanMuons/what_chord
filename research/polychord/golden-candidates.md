@@ -2,15 +2,19 @@
 
 Curation draft collected from web sources on 2026-08-02 (log 2026-08-02-02),
 corrected after external review (log 2026-08-02-04). These are candidates for
-the hand-authored ruler, not the ruler: the frozen suite, with exact voicings
-encoded as note lists and expected readings, will be a later dated decision per
-PROTOCOL.md. Register details marked unverified came from analyses rather than
-scores, and no case enters the frozen ruler until its voicing is verified
+the author-adjudicated internal suite, not independent ground truth: the frozen
+suite, with exact voicings encoded as note lists and product-policy
+expectations, will be a later dated decision per `PROTOCOL.md` and
+`FRAMEWORK.md`. Register details marked unverified came from analyses rather
+than scores, and no case enters the frozen suite until its voicing is verified
 against the score (and ideally a recording).
 
 Tags: positive (polychord reading expected, at least as an alternative),
 boundary (single symbol preferred; polychord at most a pedagogical alternative),
-negative guard (must not split).
+negative guard (must not split). These tags are maintainer judgments, not
+external annotations. Every encoded case must additionally declare whether it is
+a literature-attested construction, theory-derived boundary, synthetic
+regression guard, or unresolved candidate.
 
 ## Positive
 
@@ -129,8 +133,9 @@ unverified.
   by some observable evidence, and it must survive pitch-class traps: Ives
   equals C9 and Copland equals Amaj9 as sets. The first score checks show that
   register is not universal: Petrushka requires an event window and the Augurs
-  components overlap in register. Completeness, shared tones, and bass-only
-  units remain declared scope decisions.
+  components overlap in register. Those cases establish the broader musical
+  construct but are not evidence that the initial contiguous-register generator
+  can recover it.
 - Whenever the lower layer contains a dominant third-plus-seventh tritone, the
   single dominant symbol wins (all UST cases).
 - Wide spacing of one chord's own notes never fires the split, even at
@@ -138,13 +143,14 @@ unverified.
 - Four of the positive cases share a pitch class between the layers (Ives shares
   G, Copland E, Holst B, Milhaud B), so the initial disjoint census excluded all
   four. Schema 3 now measures overlapping pitch-class projections when distinct
-  MIDI notes form the two registral groups; whether those readings belong in the
-  product remains an open ruler decision. A true overlapping cover is required
-  only if one sounded note is allowed to serve both layers.
+  MIDI notes form the two registral groups. Framework v0 permits that
+  separate-note case. A true overlapping cover in which one sounded note serves
+  both layers remains outside v0.
 - Whether a lone bass note (Zarathustra, Rumble) or a bare fifth (Elektra's E-B
-  lower layer) can constitute a layer is a second open ruler decision; the
-  current lean is that a single bass note reads as a slash chord, but the
-  boundary is declared, not settled.
+  lower layer) can constitute a layer remains musically interesting, but
+  Framework v0 excludes incomplete layers from the initial positive generator.
+  Keep these as boundary or unresolved cases rather than positive detector
+  expectations.
 
 Sources:
 [Wikipedia: Petrushka chord](https://en.wikipedia.org/wiki/Petrushka_chord),
