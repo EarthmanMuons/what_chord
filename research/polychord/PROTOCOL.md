@@ -336,9 +336,12 @@ The following work must be dated and completed in order:
    executed unchanged in log 2026-08-10-08. It found zero positively supported
    instances and makes release/pedal history the next threshold-free evidence
    question. `release-pedal-audit.md` and log 2026-08-10-09 preregister a
-   label-free audit of the complete 59-instance pitch-class-disjoint subset;
-   execute it from its clean commit, then freeze a reusable threshold-free
-   release/pedal evidence contract before interpreting those fields. Study
+   label-free audit of the complete 59-instance pitch-class-disjoint subset,
+   executed unchanged in log 2026-08-10-10. All 59 observations occurred with
+   pedal down and sustained notes, and every observation contained either a
+   sustained-note reattack or an onset predating the current pedal-down episode.
+   This fixes the raw fields required for the next reusable threshold-free
+   release/pedal evidence contract; it does not define a rejection rule. Study
    motion afterward as a named incremental evidence step. Channel or other
    source evidence remains a later ablation.
 3. Internal suite: score-verify literature examples, encode exact machine-input
