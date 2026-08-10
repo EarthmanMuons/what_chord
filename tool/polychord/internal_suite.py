@@ -24,7 +24,9 @@ TOP_LEVEL_FIELDS = {
     "cases",
 }
 DEPENDENCY_FIELDS = {
+    "adoptionPlan",
     "framework",
+    "outputContract",
     "schemaDocument",
     "registerCandidateSchema",
     "frameReplayManifest",
@@ -87,6 +89,7 @@ SCOPE_FEATURES = {
     "incomplete-lower-shell",
     "same-root-register-groups",
     "overlapping-register-layers",
+    "integrated-extended-chord",
 }
 QUALITY_INTERVALS = {
     "major": (0, 4, 7),
@@ -585,7 +588,7 @@ def validate_suite_payload(payload: dict) -> list[str]:
         raise ValueError("suite.status must be 'active-author-adjudicated-seed'")
     if payload["scoringAllowed"] is not False:
         raise ValueError(
-            "suite.scoringAllowed must remain false before evaluation freeze"
+            "suite.scoringAllowed must remain false until the adoption suite is frozen"
         )
     if payload["authority"] != "product-policy-only-not-independent-ground-truth":
         raise ValueError("suite.authority must state its product-policy limitation")

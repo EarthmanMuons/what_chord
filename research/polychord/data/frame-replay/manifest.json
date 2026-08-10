@@ -3,7 +3,7 @@
   "fixtureSchema": "polychord-frame-replay/1",
   "framework": {
     "path": "research/polychord/FRAMEWORK.md",
-    "sha256": "a5d83115be7d700e007110fe8f1313d435ad456f4c122f5f7d184baf423a212a"
+    "sha256": "3694429bca2c4e4782d9a9c2b32fec00558d7b2ba8d3dd59890a1b7c5cf13615"
   },
   "schemaDocument": {
     "path": "research/polychord/frame-replay-schema.md",

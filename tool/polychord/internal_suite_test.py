@@ -82,6 +82,24 @@ class InternalSuiteTest(unittest.TestCase):
             "major7",
         )
 
+    def test_complete_major_seventh_upper_structure_is_a_boundary(self) -> None:
+        case = case_by_id(load_suite(), "synthetic-d-over-c-major-seven")
+
+        self.assertEqual(case["construction"]["kind"], "upper-structure")
+        self.assertEqual(case["productExpectation"]["class"], "boundary")
+        self.assertEqual(case["productExpectation"]["expectedPolychords"], [])
+        self.assertEqual(
+            case["productExpectation"]["primarySingleChordAlternatives"],
+            ["Cmaj13(#11)"],
+        )
+        self.assertEqual(
+            [
+                candidate["symbol"]
+                for candidate in case["registerBaseline"]["expectedCandidates"]
+            ],
+            ["D|Cmaj7"],
+        )
+
     def test_integrated_guard_can_require_a_structural_candidate(self) -> None:
         case = case_by_id(load_suite(), "synthetic-integrated-d-six")
 
@@ -171,7 +189,7 @@ class InternalSuiteTest(unittest.TestCase):
 
     def test_changed_dependency_pin_is_rejected(self) -> None:
         payload = deepcopy(load_suite())
-        payload["dependencies"]["framework"]["sha256"] = "0" * 64
+        payload["dependencies"]["outputContract"]["sha256"] = "0" * 64
 
         with self.assertRaisesRegex(ValueError, "digest does not match"):
             subject.validate_suite_payload(payload)
