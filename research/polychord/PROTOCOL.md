@@ -159,6 +159,13 @@ Temporal ablations require frame-accurate replay. Committed-event fixtures
 cannot evaluate them because they omit within-event revoicing and note-event
 order.
 
+`onset-evidence-schema.md` fixes the first threshold-free temporal evidence
+surface. It reconstructs the most recent note-on instance of each currently
+sounding candidate note, preserves unknown carried-in onsets and pedal state,
+and reports raw layer spans and signed interval relations. It does not define a
+synchrony tolerance, cohort label, confidence effect, or display gate; those
+must be a later named and pinned ablation.
+
 ## Internal suite and case provenance
 
 No surveyed corpus provides verified positive polychord labels. The initial
@@ -301,9 +308,11 @@ The following work must be dated and completed in order:
    semantics, initial layer scope, notation order, and evidence boundaries.
 2. Evidence infrastructure: exact frame replay is fixed by
    `frame-replay-schema.md` and log 2026-08-10-02. The register-only baseline is
-   fixed by `register-candidate-schema.md` and log 2026-08-10-03. Study onset,
-   release, pedal, and motion next as named incremental evidence. Channel or
-   source evidence remains a later ablation.
+   fixed by `register-candidate-schema.md` and log 2026-08-10-03. Threshold-free
+   onset provenance is fixed by `onset-evidence-schema.md` and log
+   2026-08-10-05. Define and pin any onset interpretation before measuring it,
+   then study release, pedal, and motion as named incremental evidence. Channel
+   or source evidence remains a later ablation.
 3. Internal suite: score-verify literature examples, encode exact machine-input
    fixtures, assign epistemic status, and keep construction evidence separate
    from input eligibility. The non-scorable seed, schema, and validator are

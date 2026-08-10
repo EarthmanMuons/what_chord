@@ -108,7 +108,10 @@ register candidates separate. The seed is author-adjudicated and explicitly
 non-scorable; it is not an independently validated ruler or an accuracy set.
 
 Next work can extend the suite only with exact source or generated observations,
-then study named onset, release, pedal, and motion ablations on the replay
-substrate. Corpora remain negative-exposure guards, not accuracy rulers. Pinned
-comparisons with musicpy, mingus, and, if reproducible, ChordRecGen remain
-required before adoption.
+then study named temporal ablations on the replay substrate. The first raw onset
+contract is now fixed in `onset-evidence-schema.md`: it preserves each sounding
+note's latest attack, unknown carried-in history, reattacks, and pedal-held
+state, then reports threshold-free layer timing. It deliberately makes no
+confidence or display decision. Corpora remain negative-exposure guards, not
+accuracy rulers. Pinned comparisons with musicpy, mingus, and, if reproducible,
+ChordRecGen remain required before adoption.
