@@ -84,8 +84,15 @@ author-adjudicated internal regression suite. Without a redesigned external
 study, those results must not be described as independent ground truth,
 reproducibility, or generalized accuracy.
 
-The next active work is an exact frame-replay foundation and conservative
-register-only candidate generator, followed by a provenance-rich internal suite
-drawn from the 32 cases in `golden-candidates.md`. Corpora remain
-negative-exposure guards, not accuracy rulers. Pinned comparisons with musicpy,
-mingus, and, if reproducible, ChordRecGen remain required before adoption.
+The exact event substrate is now fixed in `frame-replay-schema.md`, with four
+byte-pinned fixtures under `data/frame-replay/` and an executable validator in
+`tool/polychord/frame_replay.py`. It preserves ordered note events, velocity,
+pedal transitions, carried-in state, pressed versus sustained notes, every
+derived frame, and the terminal observation time without embedding chord labels
+or proposed splits.
+
+The next active work is the conservative register-only candidate generator,
+followed by a provenance-rich internal suite drawn from the 32 cases in
+`golden-candidates.md`. Corpora remain negative-exposure guards, not accuracy
+rulers. Pinned comparisons with musicpy, mingus, and, if reproducible,
+ChordRecGen remain required before adoption.

@@ -1,0 +1,164 @@
+{
+  "schema": "polychord-frame-replay/1",
+  "id": "pedal-release-and-repress",
+  "description": "A three-note voicing is released under sustain, one sustained note is repressed, and pedal release clears only the remaining sustained notes.",
+  "timeBase": "milliseconds",
+  "initialState": {
+    "pressedMidiNotes": [],
+    "sustainedMidiNotes": [],
+    "pedalDown": false
+  },
+  "events": [
+    {
+      "index": 0,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 48,
+      "velocity": 88
+    },
+    {
+      "index": 1,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 52,
+      "velocity": 88
+    },
+    {
+      "index": 2,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 55,
+      "velocity": 88
+    },
+    {
+      "index": 3,
+      "timestampMs": 250,
+      "type": "pedal",
+      "down": true
+    },
+    {
+      "index": 4,
+      "timestampMs": 300,
+      "type": "noteOff",
+      "midiNote": 48,
+      "velocity": 0
+    },
+    {
+      "index": 5,
+      "timestampMs": 300,
+      "type": "noteOff",
+      "midiNote": 52,
+      "velocity": 0
+    },
+    {
+      "index": 6,
+      "timestampMs": 300,
+      "type": "noteOff",
+      "midiNote": 55,
+      "velocity": 0
+    },
+    {
+      "index": 7,
+      "timestampMs": 500,
+      "type": "noteOn",
+      "midiNote": 48,
+      "velocity": 72
+    },
+    {
+      "index": 8,
+      "timestampMs": 700,
+      "type": "noteOff",
+      "midiNote": 48,
+      "velocity": 0
+    },
+    {
+      "index": 9,
+      "timestampMs": 900,
+      "type": "pedal",
+      "down": false
+    }
+  ],
+  "frames": [
+    {
+      "afterEventIndex": 0,
+      "timestampMs": 0,
+      "pressedMidiNotes": [48],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [48],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 1,
+      "timestampMs": 0,
+      "pressedMidiNotes": [48, 52],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [48, 52],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 2,
+      "timestampMs": 0,
+      "pressedMidiNotes": [48, 52, 55],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [48, 52, 55],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 3,
+      "timestampMs": 250,
+      "pressedMidiNotes": [48, 52, 55],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [48, 52, 55],
+      "pedalDown": true
+    },
+    {
+      "afterEventIndex": 4,
+      "timestampMs": 300,
+      "pressedMidiNotes": [52, 55],
+      "sustainedMidiNotes": [48],
+      "soundingMidiNotes": [48, 52, 55],
+      "pedalDown": true
+    },
+    {
+      "afterEventIndex": 5,
+      "timestampMs": 300,
+      "pressedMidiNotes": [55],
+      "sustainedMidiNotes": [48, 52],
+      "soundingMidiNotes": [48, 52, 55],
+      "pedalDown": true
+    },
+    {
+      "afterEventIndex": 6,
+      "timestampMs": 300,
+      "pressedMidiNotes": [],
+      "sustainedMidiNotes": [48, 52, 55],
+      "soundingMidiNotes": [48, 52, 55],
+      "pedalDown": true
+    },
+    {
+      "afterEventIndex": 7,
+      "timestampMs": 500,
+      "pressedMidiNotes": [48],
+      "sustainedMidiNotes": [52, 55],
+      "soundingMidiNotes": [48, 52, 55],
+      "pedalDown": true
+    },
+    {
+      "afterEventIndex": 8,
+      "timestampMs": 700,
+      "pressedMidiNotes": [],
+      "sustainedMidiNotes": [48, 52, 55],
+      "soundingMidiNotes": [48, 52, 55],
+      "pedalDown": true
+    },
+    {
+      "afterEventIndex": 9,
+      "timestampMs": 900,
+      "pressedMidiNotes": [],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [],
+      "pedalDown": false
+    }
+  ],
+  "endTimestampMs": 1000
+}

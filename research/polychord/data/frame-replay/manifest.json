@@ -1,0 +1,38 @@
+{
+  "schema": "polychord-frame-replay-manifest/1",
+  "fixtureSchema": "polychord-frame-replay/1",
+  "framework": {
+    "path": "research/polychord/FRAMEWORK.md",
+    "sha256": "0516629db36ba8d307ed8cec68617e73b9e29b0548108d4cd2e5250921421a21"
+  },
+  "schemaDocument": {
+    "path": "research/polychord/frame-replay-schema.md",
+    "sha256": "58f6c5cbc99c6e4ee7476e12f247f1ee0e526b3aee7bd5f595e8f712a0f0a1fa"
+  },
+  "validator": {
+    "path": "tool/polychord/frame_replay.py",
+    "sha256": "826a593721f14e673a8a70a351ba78f1179b58977a5574fa6f9ece0c430f31f0"
+  },
+  "fixtures": [
+    {
+      "id": "carried-in-state",
+      "file": "carried-in-state.json",
+      "sha256": "f06906c019ea6130c18b08eca4587099eb78250b058739f27ddafbf736a9a311"
+    },
+    {
+      "id": "pedal-release-and-repress",
+      "file": "pedal-release-and-repress.json",
+      "sha256": "dc46bdd95b403d8609dc5e6fd85645fb268cf05ef899de76d6006d1ca52ac7a0"
+    },
+    {
+      "id": "synchronous-six-note-cohort",
+      "file": "synchronous-six-note-cohort.json",
+      "sha256": "76ea3de1622cf5f9955b45109ccd507da33044778f616987768be50a19261146"
+    },
+    {
+      "id": "two-register-held-cohorts",
+      "file": "two-register-held-cohorts.json",
+      "sha256": "4026012d9c2073c262a1b3b05608e54cccf5ebe8bad043fe4d868f135d63e05e"
+    }
+  ]
+}
