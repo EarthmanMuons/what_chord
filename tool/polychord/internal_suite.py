@@ -493,7 +493,11 @@ def validate_product_expectation(
                 require_string(symbol, f"{context}.expectedPolychords[{index}].symbol")
             )
 
-    if notation["status"] == "resolved" and notation["symbol"] not in expected_symbols:
+    if (
+        product_class == "positive"
+        and notation["status"] == "resolved"
+        and notation["symbol"] not in expected_symbols
+    ):
         raise ValueError(f"{context} must include the resolved construction symbol")
     if notation["status"] == "unresolved" and expected_symbols:
         raise ValueError(f"{context} cannot invent a symbol for unresolved layer order")

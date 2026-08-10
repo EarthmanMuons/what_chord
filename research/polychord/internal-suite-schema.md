@@ -103,13 +103,19 @@ Polychord notation is either:
 Non-polychord constructions use `not-applicable`. Unresolved order is retained
 instead of manufacturing a symbol from register or root pitch.
 
+A resolved construction symbol records how the source-established units are
+ordered; it does not itself authorize a product annotation. A boundary or
+negative case may therefore retain a resolved construction symbol while its
+`expectedPolychords` list remains empty.
+
 ## Product expectation and eligibility
 
 `productExpectation.class` is `positive`, `boundary`, or `negative-guard`.
 Positive cases identify the expected pair of construction units and include a
 symbol only when notation order is resolved. Boundary and negative cases expect
-no polychord annotation. Primary single-chord alternatives are retained rather
-than treated as annotation errors.
+no polychord annotation even when the source construction has resolved layer
+order. Primary single-chord alternatives are retained rather than treated as
+annotation errors.
 
 Eligibility statuses are `eligible`, `ineligible`, `ambiguous`, and
 `not-available`, each with a reason. They describe whether the named input

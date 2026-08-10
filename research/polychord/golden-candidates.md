@@ -67,6 +67,18 @@ regression guard, or unresolved candidate.
 
 ## Boundary (single symbol expected; polychord at most an alternative)
 
+- **Petrushka, “The Shrovetide Fair,” mm. 41–53**. Moreira's Example 17,
+  following Cambouropoulos and Huron, analyzes the passage as two triadic
+  textural streams: each register group moves in parallel internally, while the
+  groups separate through oblique or contrary motion and rhythmic
+  differentiation. The first depicted transition is score-excerpt-verified as C
+  major below G minor moving to B-flat major below the rearticulated G-minor
+  triad. It is the literature-attested construct check for the rigid-motion
+  ablation. Moreira also stresses that both streams remain inside G Dorian and
+  calls the passage only “in some sense polychordal”; its endpoint collections
+  have straightforward C9 and Gm7 readings. Keep motion support separate from a
+  user-facing polychord expectation. This is not the rehearsal-49 Petrushka
+  chord.
 - **Upper-structure triads over a C7 shell** (verified against Piano With Jonny
   and PianoGroove; LH C-E-Bb or E-Bb, RH triad):
   - D major: C13(#11), pcs {C,D,E,F#,A,Bb}
@@ -163,6 +175,7 @@ Sources:
 [So What chord](https://en.wikipedia.org/wiki/So_What_chord),
 [Slash chord](https://en.wikipedia.org/wiki/Slash_chord),
 [Puget Sound polychords](https://musictheory.pugetsound.edu/mt21c/polychords.html),
+[Moreira, MTO 31.4](https://mtosmt.org/issues/mto.25.31.4/mto.25.31.4.moreira.html),
 [Kleppinger, MTO 17.2](https://mtosmt.org/issues/mto.11.17.2/mto.11.17.2.kleppinger.html),
 [Aziz, Integral 37](https://theory.esm.rochester.edu/integral/37-2024/aziz/),
 [Lippincott: polychords and slash chords](https://tomlippincott.com/polychords-and-slash-chords),

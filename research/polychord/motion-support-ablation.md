@@ -134,6 +134,43 @@ The ablation never emits a selected hypothesis. If unusual evidence allowed more
 than one positive hypothesis, both would remain visible for later policy to
 resolve.
 
+## Score-derived construct check
+
+After the frozen POP909 exposure measurement returned zero positive windows, the
+specific scholarly example that motivated this ablation was transcribed as
+`stravinsky-shrovetide-oblique-motion`. This is a transparent post-result
+construct check, not a preregistered accuracy case or an independent holdout.
+
+Moreira's Example 17 reproduces the triadic counterpoint in Stravinsky's “The
+Shrovetide Fair,” mm. 41–53, and describes parallel motion within each
+three-note register group together with oblique or contrary motion between the
+groups. The first two depicted attacks supply these endpoints:
+
+| Endpoint | Lower layer | Upper layer         |
+| -------- | ----------- | ------------------- |
+| Source   | C4 E4 G4    | Bb4 D5 G5 (G minor) |
+| Target   | Bb3 D4 F4   | Bb4 D5 G5 (G minor) |
+
+The lower C-major set translates by -2 semitones to B-flat major while the upper
+G-minor set is rearticulated at delta zero. Both endpoints produce one complete
+adjacent-register candidate. The register-role-preserving hypothesis therefore
+receives `oblique` positive support; the exchanging hypothesis is non-rigid and
+neutral.
+
+The official
+[MTO example image](https://www.mtosmt.org/issues/mto.25.31.4/moreira_ex17.png)
+has SHA-256 `9278955cb63cab32c2675aeee9e257cc4c1e0e4d34ca11229781ba7106d7565f`.
+The fixture normalizes one notated quarter-note interval to 500 milliseconds and
+serializes simultaneous releases before attacks. Its velocity and
+within-timestamp order are representational choices, not performance
+measurements; all zero-dwell intermediate frames remain explicit.
+
+This check establishes that the strict rule can recognize one source-attested
+layer-motion construct. It does not establish a user-facing polychord label.
+Moreira places both streams in one G-Dorian space, and the two endpoint pitch
+collections also admit compact C9 and Gm7 readings. Motion support remains
+one-sided evidence to be combined with a separately frozen product policy.
+
 ## Output
 
 The command preserves the source fixture identity and hash, complete selected
@@ -187,6 +224,12 @@ perception results.
 python3 tool/polychord/motion_support.py \
   --fixture \
   research/polychord/data/frame-replay/two-register-contrary-motion.json \
+  --from-after-event-index 5 \
+  --to-after-event-index 17
+
+python3 tool/polychord/motion_support.py \
+  --fixture \
+  research/polychord/data/frame-replay/stravinsky-shrovetide-oblique-motion.json \
   --from-after-event-index 5 \
   --to-after-event-index 17
 ```

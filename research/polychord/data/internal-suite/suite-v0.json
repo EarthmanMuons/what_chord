@@ -11,7 +11,7 @@
     },
     "schemaDocument": {
       "path": "research/polychord/internal-suite-schema.md",
-      "sha256": "cff86b7306681c4a72c8e9df31d229e96af55927c206e172f0ce48302d39866f"
+      "sha256": "6f8f1c216575f97906ce6ecd22fedaacc1d5406708406f13df5f491fefcfa190"
     },
     "registerCandidateSchema": {
       "path": "research/polychord/register-candidate-schema.md",
@@ -19,11 +19,11 @@
     },
     "frameReplayManifest": {
       "path": "research/polychord/data/frame-replay/manifest.json",
-      "sha256": "4a04d0721187e3b365bf3ce2f52cef8784ace84b711a536a1a1972bf1264750a"
+      "sha256": "022a3a578293a64400b76da5ba57e0ab28d6338eeab49e1b2b7a4c4a49684688"
     },
     "validator": {
       "path": "tool/polychord/internal_suite.py",
-      "sha256": "6e93274594f185cd04325268d55ba5bf84f3492ff69f7757966f1e81bc4f7cd7"
+      "sha256": "82d098942724f4a773bf7cdc7b707efba6e85370a8fe780872a739d8c4f54b80"
     }
   },
   "cases": [
@@ -105,6 +105,104 @@
       },
       "registerBaseline": {
         "expectedCandidates": []
+      }
+    },
+    {
+      "id": "stravinsky-shrovetide-second-attack",
+      "title": "Shrovetide Fair second depicted attack",
+      "epistemicStatus": "literature-attested-construction",
+      "scopeFeatures": [
+        "complete-triad-layers",
+        "shared-pitch-class-separate-notes"
+      ],
+      "source": {
+        "kind": "score",
+        "work": "Igor Stravinsky, Petrouchka, The Shrovetide Fair",
+        "edition": "Analytical score excerpt in Moreira 2025, Example 17",
+        "sourceUrl": "https://www.mtosmt.org/issues/mto.25.31.4/mto.25.31.4.moreira.html",
+        "sourceIdentifier": "doi:10.30535/mto.31.4.5-example-17",
+        "sha256": "9278955cb63cab32c2675aeee9e257cc4c1e0e4d34ca11229781ba7106d7565f",
+        "scoreLocation": "The Shrovetide Fair, mm. 41-53, Example 17; target is the second depicted attack"
+      },
+      "observation": {
+        "kind": "frame-replay",
+        "fixtureId": "stravinsky-shrovetide-oblique-motion",
+        "afterEventIndex": 17,
+        "spelledNotes": ["Bb3", "D4", "F4", "Bb4", "D5", "G5"]
+      },
+      "construction": {
+        "kind": "polychord",
+        "description": "The scholarly example analyzes two three-note textural streams; at this endpoint they form B-flat major below G minor through separate B-flat and D instances.",
+        "units": [
+          {
+            "id": "lower-b-flat-major",
+            "identity": "Bb",
+            "rootPc": 10,
+            "quality": "major",
+            "midiNotes": [58, 62, 65],
+            "spelledNotes": ["Bb3", "D4", "F4"],
+            "pitchClasses": [2, 5, 10]
+          },
+          {
+            "id": "upper-g-minor",
+            "identity": "Gm",
+            "rootPc": 7,
+            "quality": "minor",
+            "midiNotes": [70, 74, 79],
+            "spelledNotes": ["Bb4", "D5", "G5"],
+            "pitchClasses": [2, 7, 10]
+          }
+        ],
+        "notation": {
+          "status": "resolved",
+          "symbol": "Gm|Bb",
+          "upperUnitId": "upper-g-minor",
+          "lowerUnitId": "lower-b-flat-major"
+        }
+      },
+      "productExpectation": {
+        "class": "boundary",
+        "expectedPolychords": [],
+        "primarySingleChordAlternatives": ["Gm7"],
+        "reason": "The two triadic streams are source-attested, but this endpoint is exactly Gm7 and the analysis places both streams in one G-Dorian space; motion support alone must not force a secondary annotation."
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "eligible",
+          "reason": "One adjacent boundary preserves both complete source-attested triads through separate B-flat and D instances."
+        },
+        "generalPitchRegisterSnapshot": {
+          "status": "ambiguous",
+          "reason": "The pitch-class union is exactly Gm7 without the score-derived layer history."
+        },
+        "timestampedEventStream": {
+          "status": "eligible",
+          "reason": "The pinned replay preserves the exact source and target score states; its millisecond scale and same-timestamp event order are declared normalizations."
+        }
+      },
+      "registerBaseline": {
+        "expectedCandidates": [
+          {
+            "splitAfterIndex": 2,
+            "lowerTopMidi": 65,
+            "upperBottomMidi": 70,
+            "gapSemitones": 5,
+            "lower": {
+              "rootPc": 10,
+              "quality": "major",
+              "midiNotes": [58, 62, 65],
+              "pitchClasses": [2, 5, 10]
+            },
+            "upper": {
+              "rootPc": 7,
+              "quality": "minor",
+              "midiNotes": [70, 74, 79],
+              "pitchClasses": [2, 7, 10]
+            },
+            "sharedPitchClasses": [2, 10],
+            "symbol": "Gm|A#"
+          }
+        ]
       }
     },
     {

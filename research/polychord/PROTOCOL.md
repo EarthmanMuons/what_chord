@@ -394,7 +394,12 @@ The following work must be dated and completed in order:
    2026-08-10-14, then executed unchanged in log 2026-08-10-15. It found zero
    positive rigid-motion hypotheses or windows: none of the 776 hypotheses on
    127 pitch-changing candidate windows contained a nonzero exact layer
-   translation. Channel or other source evidence remains a later ablation.
+   translation. Log 2026-08-10-16 then records a transparent post-result
+   construct check against Moreira's score excerpt from Stravinsky's “The
+   Shrovetide Fair”: the frozen rule recognizes its first depicted oblique
+   triadic-layer transition, but that evidence does not settle the user-facing
+   label for its compact C9 and Gm7 endpoint collections. Channel or other
+   source evidence remains a later ablation.
 3. Internal suite: score-verify literature examples, encode exact machine-input
    fixtures, assign epistemic status, and keep construction evidence separate
    from input eligibility. The non-scorable seed, schema, and validator are

@@ -28,6 +28,7 @@ class FrameReplayTest(unittest.TestCase):
             {
                 "carried-in-state.json",
                 "pedal-release-and-repress.json",
+                "stravinsky-shrovetide-oblique-motion.json",
                 "synchronous-six-note-cohort.json",
                 "two-register-contrary-motion.json",
                 "two-register-held-cohorts.json",
