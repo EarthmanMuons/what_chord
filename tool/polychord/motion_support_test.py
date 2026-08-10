@@ -142,6 +142,56 @@ class MotionSupportTest(unittest.TestCase):
             ["rigid-layer-translations-contrary"],
         )
 
+    def test_score_derived_shrovetide_window_matches_oblique_construct(self) -> None:
+        document = support_document(
+            "stravinsky-shrovetide-oblique-motion.json",
+            5,
+            17,
+        )
+
+        self.assertEqual(
+            document["sourceCandidates"][0]["lower"]["midiNotes"],
+            [60, 64, 67],
+        )
+        self.assertEqual(
+            document["sourceCandidates"][0]["upper"]["midiNotes"],
+            [70, 74, 79],
+        )
+        self.assertEqual(
+            document["targetCandidates"][0]["lower"]["midiNotes"],
+            [58, 62, 65],
+        )
+        self.assertEqual(
+            document["targetCandidates"][0]["upper"]["midiNotes"],
+            [70, 74, 79],
+        )
+
+        interpretations = document["candidateInterpretations"][0][
+            "hypothesisInterpretations"
+        ]
+        preserving = next(
+            item
+            for item in interpretations
+            if item["hypothesisId"] == "register-role-preserving"
+        )
+        exchanging = next(
+            item
+            for item in interpretations
+            if item["hypothesisId"] == "register-role-exchanging"
+        )
+
+        self.assertEqual(preserving["retainedInstanceEvidence"], "none")
+        self.assertEqual(
+            [
+                translation["translationSemitones"]
+                for translation in preserving["layerTranslations"]
+            ],
+            [-2, 0],
+        )
+        self.assertEqual(preserving["betweenLayerMotionClass"], "oblique")
+        self.assertEqual(preserving["motionSupport"], "positive")
+        self.assertEqual(exchanging["motionSupport"], "neutral")
+
     def test_oblique_exact_translations_receive_positive_support(self) -> None:
         transition = transition_for(
             SOURCE_NOTES,

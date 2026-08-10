@@ -1,0 +1,286 @@
+{
+  "schema": "polychord-frame-replay/1",
+  "id": "stravinsky-shrovetide-oblique-motion",
+  "description": "A normalized transcription of the first two depicted attacks in Moreira Example 17: lower C major translates down two semitones to B-flat major while upper G minor is rearticulated unchanged. Quarter-note spacing is normalized to 500 milliseconds; velocity and same-timestamp event order are serialization choices, not performance measurements.",
+  "timeBase": "milliseconds",
+  "initialState": {
+    "pressedMidiNotes": [],
+    "sustainedMidiNotes": [],
+    "pedalDown": false
+  },
+  "events": [
+    {
+      "index": 0,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 60,
+      "velocity": 96
+    },
+    {
+      "index": 1,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 64,
+      "velocity": 96
+    },
+    {
+      "index": 2,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 67,
+      "velocity": 96
+    },
+    {
+      "index": 3,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 70,
+      "velocity": 96
+    },
+    {
+      "index": 4,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 74,
+      "velocity": 96
+    },
+    {
+      "index": 5,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 79,
+      "velocity": 96
+    },
+    {
+      "index": 6,
+      "timestampMs": 500,
+      "type": "noteOff",
+      "midiNote": 60,
+      "velocity": 0
+    },
+    {
+      "index": 7,
+      "timestampMs": 500,
+      "type": "noteOff",
+      "midiNote": 64,
+      "velocity": 0
+    },
+    {
+      "index": 8,
+      "timestampMs": 500,
+      "type": "noteOff",
+      "midiNote": 67,
+      "velocity": 0
+    },
+    {
+      "index": 9,
+      "timestampMs": 500,
+      "type": "noteOff",
+      "midiNote": 70,
+      "velocity": 0
+    },
+    {
+      "index": 10,
+      "timestampMs": 500,
+      "type": "noteOff",
+      "midiNote": 74,
+      "velocity": 0
+    },
+    {
+      "index": 11,
+      "timestampMs": 500,
+      "type": "noteOff",
+      "midiNote": 79,
+      "velocity": 0
+    },
+    {
+      "index": 12,
+      "timestampMs": 500,
+      "type": "noteOn",
+      "midiNote": 58,
+      "velocity": 96
+    },
+    {
+      "index": 13,
+      "timestampMs": 500,
+      "type": "noteOn",
+      "midiNote": 62,
+      "velocity": 96
+    },
+    {
+      "index": 14,
+      "timestampMs": 500,
+      "type": "noteOn",
+      "midiNote": 65,
+      "velocity": 96
+    },
+    {
+      "index": 15,
+      "timestampMs": 500,
+      "type": "noteOn",
+      "midiNote": 70,
+      "velocity": 96
+    },
+    {
+      "index": 16,
+      "timestampMs": 500,
+      "type": "noteOn",
+      "midiNote": 74,
+      "velocity": 96
+    },
+    {
+      "index": 17,
+      "timestampMs": 500,
+      "type": "noteOn",
+      "midiNote": 79,
+      "velocity": 96
+    }
+  ],
+  "frames": [
+    {
+      "afterEventIndex": 0,
+      "timestampMs": 0,
+      "pressedMidiNotes": [60],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [60],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 1,
+      "timestampMs": 0,
+      "pressedMidiNotes": [60, 64],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [60, 64],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 2,
+      "timestampMs": 0,
+      "pressedMidiNotes": [60, 64, 67],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [60, 64, 67],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 3,
+      "timestampMs": 0,
+      "pressedMidiNotes": [60, 64, 67, 70],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [60, 64, 67, 70],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 4,
+      "timestampMs": 0,
+      "pressedMidiNotes": [60, 64, 67, 70, 74],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [60, 64, 67, 70, 74],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 5,
+      "timestampMs": 0,
+      "pressedMidiNotes": [60, 64, 67, 70, 74, 79],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [60, 64, 67, 70, 74, 79],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 6,
+      "timestampMs": 500,
+      "pressedMidiNotes": [64, 67, 70, 74, 79],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [64, 67, 70, 74, 79],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 7,
+      "timestampMs": 500,
+      "pressedMidiNotes": [67, 70, 74, 79],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [67, 70, 74, 79],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 8,
+      "timestampMs": 500,
+      "pressedMidiNotes": [70, 74, 79],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [70, 74, 79],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 9,
+      "timestampMs": 500,
+      "pressedMidiNotes": [74, 79],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [74, 79],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 10,
+      "timestampMs": 500,
+      "pressedMidiNotes": [79],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [79],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 11,
+      "timestampMs": 500,
+      "pressedMidiNotes": [],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 12,
+      "timestampMs": 500,
+      "pressedMidiNotes": [58],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [58],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 13,
+      "timestampMs": 500,
+      "pressedMidiNotes": [58, 62],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [58, 62],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 14,
+      "timestampMs": 500,
+      "pressedMidiNotes": [58, 62, 65],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [58, 62, 65],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 15,
+      "timestampMs": 500,
+      "pressedMidiNotes": [58, 62, 65, 70],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [58, 62, 65, 70],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 16,
+      "timestampMs": 500,
+      "pressedMidiNotes": [58, 62, 65, 70, 74],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [58, 62, 65, 70, 74],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 17,
+      "timestampMs": 500,
+      "pressedMidiNotes": [58, 62, 65, 70, 74, 79],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [58, 62, 65, 70, 74, 79],
+      "pedalDown": false
+    }
+  ],
+  "endTimestampMs": 1000
+}

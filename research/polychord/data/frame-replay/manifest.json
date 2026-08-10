@@ -25,6 +25,11 @@
       "sha256": "dc46bdd95b403d8609dc5e6fd85645fb268cf05ef899de76d6006d1ca52ac7a0"
     },
     {
+      "id": "stravinsky-shrovetide-oblique-motion",
+      "file": "stravinsky-shrovetide-oblique-motion.json",
+      "sha256": "f0c5d955fa97409bea437d3bc729d5560a7d3f229f8a6c8262cc86103dce877b"
+    },
+    {
       "id": "synchronous-six-note-cohort",
       "file": "synchronous-six-note-cohort.json",
       "sha256": "76ea3de1622cf5f9955b45109ccd507da33044778f616987768be50a19261146"
