@@ -497,15 +497,21 @@ The following work must be dated and completed in order:
    exists. The single run in log 2026-08-11-07 then records zero Python/Dart
    mismatches, six of six exact eligible positives, and nine of nine correct
    guards for the full selector, satisfying adoption-bar items 2 through 4 only.
-7. Implementation-shaped exposure: preregistered and implemented; measurement
-   pending. `development-exposure-v1.md` and log 2026-08-11-08 fix exact frame
-   and stable display exposure on raw ASAP development MIDI and the frozen
-   POP909 sample, plus a separately named committed-event proposal companion for
-   When in Rome. Log 2026-08-11-09 records the pure-Dart exact-assignment
-   display reducer, label-blind replay adapters, complete provenance and
-   accounting controls, musician-readable review packet, append-only disposition
-   validation, and synthetic verification. No development selector result has
-   been read. Commit this boundary before the first corpus run.
+7. Implementation-shaped exposure: complete; adoption-bar item 5 failed.
+   `development-exposure-v1.md` and log 2026-08-11-08 fix exact frame and stable
+   display exposure on raw ASAP development MIDI and the frozen POP909 sample,
+   plus a separately named committed-event proposal companion for When in Rome.
+   Log 2026-08-11-09 records the pure-Dart exact-assignment display reducer,
+   label-blind replay adapters, complete provenance and accounting controls,
+   musician-readable review packet, append-only disposition validation, and
+   synthetic verification. Logs 2026-08-11-10 and -11 preserve two attempts
+   rejected before outcome inspection for input projection and runtime
+   provenance defects. The valid result in log 2026-08-11-12 has 73 full-policy
+   POP909 stable episodes: 70 ordinary integrated harmonies and three
+   zero-duration serialization artifacts, with no in-scope polychord. ASAP has
+   zero full-policy stable episodes and When in Rome has zero full-policy event
+   proposals. Do not proceed to the held reserve or product integration with
+   `polychord-register-policy/1`.
 8. Optional external validation: use a newly registered, evidence-complete study
    before any reproducibility, independently validated ruler, or generalized
    accuracy claim. This is not a prerequisite for the preceding research work.
