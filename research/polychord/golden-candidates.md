@@ -169,6 +169,11 @@ regression guard, or unresolved candidate.
   and generation recipe are one Cmaj7 chord. The active suite uses this as an
   executable negative guard against treating a convenient hand boundary as two
   chordal layers; its synthetic status is not a claim about corpus prevalence.
+- **Cmaj9 exact-assignment ambiguity**. C3-E3-G3-G4-B4-D5-G5 is one generated
+  Cmaj9 voicing, but both the boundary below G4 and the boundary above G4 spell
+  `G|C`. The assignments differ over whether G4 belongs to the lower or upper
+  group. Retain both structural records through selection and deduplication,
+  while the product expectation remains the integrated Cmaj9 name.
 
 ## Notation conventions
 

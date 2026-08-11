@@ -434,7 +434,9 @@ The following work must be dated and completed in order:
    one-sounded-note overlapping cover as a theory-derived v0 boundary. Log
    2026-08-10-24 adds a doubled two-hand Cmaj7 accompaniment whose exact
    register split generates `Em|C` but whose product expectation remains the
-   integrated chord.
+   integrated chord. Log 2026-08-10-25 promotes the conformance harness's
+   same-identity assignment ambiguity into an integrated Cmaj9 negative guard:
+   two boundaries generate `G|C` with different exact note assignments.
 4. Output and evaluation freeze: complete. `output-evaluation-contract.md` and
    log 2026-08-10-18 fix the composite type, presentation, metrics, adoption
    threshold, stable-display behavior, and performance budget without choosing

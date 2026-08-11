@@ -68,18 +68,20 @@ Every case contains exactly:
 
 Unknown fields are rejected.
 
-Five scope features carry executable claims rather than descriptive tags:
+Six scope features carry executable claims rather than descriptive tags:
 
 - `disjoint-pitch-class-layers` requires a two-unit polychord whose unit
   pitch-class sets do not intersect;
 - `multiple-structural-identities` requires the exact observation to produce at
   least two distinct ordered chord identities, not merely two exact assignments
   of one identity;
+- `multiple-exact-assignments` requires at least one ordered chord identity to
+  occur with two different exact lower/upper MIDI-note assignments;
 - `moving-arpeggiated-layers` requires a replay window spanning more than one
-  timestamp in which no frame contains both complete construction units; and
+  timestamp in which no frame contains both complete construction units;
 - `one-sounded-note-overlap` requires a two-unit polychord in which exactly one
   observed MIDI note is assigned to both units. Such a case must carry the
-  `boundary` product class under Framework v0; and
+  `boundary` product class under Framework v0;
 - `doubled-integrated-accompaniment` requires an integrated-chord negative guard
   with at least two pitch classes doubled as separate observed notes and at
   least one register candidate that shares two or more of those pitch classes
@@ -134,9 +136,9 @@ construction kind is rejected.
 
 Schema 2 validates each quality against its root-relative pitch classes. The
 supported unit qualities are major, minor, dominant seventh, major seventh,
-minor seventh, major sixth, and root-third-seventh shell. The last two exist for
-integrated and boundary constructions; they do not widen the Framework-v0
-polychord generator.
+minor seventh, major sixth, major ninth, and root-third-seventh shell. Major
+sixth, major ninth, and the shell exist for integrated and boundary
+constructions; they do not widen the Framework-v0 polychord generator.
 
 Polychord notation is either:
 
@@ -191,6 +193,12 @@ generated accompaniment-form texture rather than only for an abstract chord
 collection. It does not assert that every doubled chord is accompaniment, that
 doubling alone determines musical function, or that the exact voicing is common
 in a measured population.
+
+`multiple-structural-identities` and `multiple-exact-assignments` are
+deliberately separate. Two labels for one observation test identity selection;
+two assignments for one label test assignment selection and deduplication. The
+validator groups candidates by ordered roots and qualities before counting
+distinct lower/upper MIDI-note partitions.
 
 The baseline list is not a product prediction and is not scored as one.
 

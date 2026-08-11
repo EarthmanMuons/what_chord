@@ -24,7 +24,7 @@ class InternalSuiteTest(unittest.TestCase):
     def test_committed_seed_and_every_dependency_validate(self) -> None:
         case_ids = subject.validate_suite(SUITE_PATH)
 
-        self.assertEqual(len(case_ids), 15)
+        self.assertEqual(len(case_ids), 16)
         self.assertEqual(case_ids, sorted(case_ids))
 
     def test_seed_contains_all_product_policy_classes(self) -> None:
@@ -185,6 +185,24 @@ class InternalSuiteTest(unittest.TestCase):
         self.assertEqual(
             case["registerBaseline"]["expectedCandidates"][0]["sharedPitchClasses"],
             [4, 7],
+        )
+
+    def test_c_major_ninth_has_two_exact_g_over_c_assignments(self) -> None:
+        case = case_by_id(load_suite(), "synthetic-c-major-nine-assignment-ambiguity")
+
+        self.assertIn("multiple-exact-assignments", case["scopeFeatures"])
+        self.assertEqual(case["construction"]["units"][0]["identity"], "Cmaj9")
+        self.assertNotIn("major-ninth", subject.POLYCHORD_QUALITIES)
+        self.assertEqual(case["productExpectation"]["class"], "negative-guard")
+        candidates = case["registerBaseline"]["expectedCandidates"]
+        self.assertEqual([candidate["symbol"] for candidate in candidates], ["G|C"] * 2)
+        self.assertEqual(
+            [candidate["lower"]["midiNotes"] for candidate in candidates],
+            [[48, 52, 55], [48, 52, 55, 67]],
+        )
+        self.assertEqual(
+            [candidate["upper"]["midiNotes"] for candidate in candidates],
+            [[67, 71, 74, 79], [71, 74, 79]],
         )
 
     def test_integrated_guard_can_require_a_structural_candidate(self) -> None:
@@ -415,6 +433,31 @@ class InternalSuiteTest(unittest.TestCase):
         case["scopeFeatures"].append("multiple-structural-identities")
 
         with self.assertRaisesRegex(ValueError, "claims multiple structural"):
+            subject.validate_suite_payload(payload)
+
+    def test_multiple_assignment_scope_rejects_one_candidate(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "herrmann-pass-first-a-flat-minor-attack")
+        case["scopeFeatures"].append("multiple-exact-assignments")
+
+        with self.assertRaisesRegex(
+            ValueError, "without one repeated register identity"
+        ):
+            subject.validate_suite_payload(payload)
+
+    def test_multiple_identities_do_not_count_as_multiple_exact_assignments(
+        self,
+    ) -> None:
+        payload = load_suite()
+        case = case_by_id(
+            payload,
+            "stravinsky-three-movements-g-over-a-flat-seven",
+        )
+        case["scopeFeatures"].append("multiple-exact-assignments")
+
+        with self.assertRaisesRegex(
+            ValueError, "without one repeated register identity"
+        ):
             subject.validate_suite_payload(payload)
 
     def test_unresolved_notation_cannot_invent_a_symbol(self) -> None:
