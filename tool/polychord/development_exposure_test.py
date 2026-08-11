@@ -92,6 +92,27 @@ class MidiNormalizationTest(unittest.TestCase):
 
 
 class IsolationAndPresentationTest(unittest.TestCase):
+    @patch.object(subject.subprocess, "run")
+    def test_runtime_version_accepts_stdout_or_stderr_and_rejects_empty(
+        self, run: unittest.mock.Mock
+    ) -> None:
+        run.side_effect = [
+            subprocess.CompletedProcess(
+                ["dart", "--version"], 0, stdout="Dart 3.12.2\n", stderr=""
+            ),
+            subprocess.CompletedProcess(
+                ["legacy", "--version"], 0, stdout="", stderr="Legacy 1.0\n"
+            ),
+            subprocess.CompletedProcess(
+                ["empty", "--version"], 0, stdout="\n", stderr="\n"
+            ),
+        ]
+
+        self.assertEqual(subject.runtime_version(["dart", "--version"]), "Dart 3.12.2")
+        self.assertEqual(subject.runtime_version(["legacy", "--version"]), "Legacy 1.0")
+        with self.assertRaisesRegex(RuntimeError, "returned no text"):
+            subject.runtime_version(["empty", "--version"])
+
     def test_output_must_be_new_child_of_build(self) -> None:
         with self.assertRaisesRegex(ValueError, "child of build"):
             subject.require_output_directory(Path("/tmp/polychord-result"))

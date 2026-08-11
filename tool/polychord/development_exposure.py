@@ -150,6 +150,19 @@ def git(cwd: Path, *arguments: str) -> str:
     ).stdout.strip()
 
 
+def runtime_version(command: list[str]) -> str:
+    completed = subprocess.run(
+        command,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    version = completed.stdout.strip() or completed.stderr.strip()
+    if not version:
+        raise RuntimeError(f"runtime version command returned no text: {command}")
+    return version
+
+
 def require_clean_checkout(path: Path, expected_commit: str, name: str) -> None:
     actual = git(path, "rev-parse", "HEAD")
     if actual != expected_commit:
@@ -1570,9 +1583,7 @@ def main() -> int:
         "repositoryDirty": repository_dirty,
         "runtime": {
             "pythonVersion": platform.python_version(),
-            "dartVersion": subprocess.run(
-                ["dart", "--version"], capture_output=True, text=True, check=True
-            ).stderr.strip(),
+            "dartVersion": runtime_version(["dart", "--version"]),
             "midoVersion": importlib.metadata.version("mido"),
             "dartBatchStderr": dart.stderr_output.splitlines(),
         },
