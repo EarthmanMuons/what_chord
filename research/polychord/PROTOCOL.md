@@ -436,7 +436,10 @@ The following work must be dated and completed in order:
    register split generates `Em|C` but whose product expectation remains the
    integrated chord. Log 2026-08-10-25 promotes the conformance harness's
    same-identity assignment ambiguity into an integrated Cmaj9 negative guard:
-   two boundaries generate `G|C` with different exact note assignments.
+   two boundaries generate `G|C` with different exact note assignments. Log
+   2026-08-11-01 fills the remaining source-backed scope cell with Waters's
+   A-minor-seventh-over-D analysis of _Maiden Voyage_, represented as a
+   disclosed octave normalization and an executable lone-bass boundary.
 4. Output and evaluation freeze: complete. `output-evaluation-contract.md` and
    log 2026-08-10-18 fix the composite type, presentation, metrics, adoption
    threshold, stable-display behavior, and performance budget without choosing

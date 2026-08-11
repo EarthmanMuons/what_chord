@@ -7,7 +7,7 @@
   "dependencies": {
     "adoptionPlan": {
       "path": "research/polychord/adoption-suite-plan.md",
-      "sha256": "6ba59d6b8516f405aa5ecde7ad5231aaf4feb8298fa54df50cb287dc7c9245c2"
+      "sha256": "20099a7a4138d145923075fb2c2d58497b1000233fc7b20555af47c9b9182c82"
     },
     "framework": {
       "path": "research/polychord/FRAMEWORK.md",
@@ -19,7 +19,7 @@
     },
     "schemaDocument": {
       "path": "research/polychord/internal-suite-schema.md",
-      "sha256": "b3c66b9434de799bc9767a0b4774a6d20d28e35e25bcb2d42ad0b8e7b8cc0c98"
+      "sha256": "33b707d4791003db2dd311a0ddbb480b68139736c5a7de2986a83c9cedbe7143"
     },
     "registerCandidateSchema": {
       "path": "research/polychord/register-candidate-schema.md",
@@ -31,10 +31,82 @@
     },
     "validator": {
       "path": "tool/polychord/internal_suite.py",
-      "sha256": "fda41502b9dd7e68f3bb8aa9e2de7805f17ed9ae88f3b3167de4eab059f7a162"
+      "sha256": "49a0c65afa144905d5aea89f20e96d09570cb2f66c59e13ffc1248cced77e9b6"
     }
   },
   "cases": [
+    {
+      "id": "hancock-maiden-voyage-a-minor-seven-over-d",
+      "title": "Maiden Voyage A-minor-seventh over D bass",
+      "epistemicStatus": "literature-attested-construction",
+      "scopeFeatures": ["lone-bass-lower-unit"],
+      "source": {
+        "kind": "analysis",
+        "work": "Herbie Hancock, Maiden Voyage",
+        "citation": "Keith Waters, What Is Modal Jazz?, Jazz Educators Journal 33.1 (2000), 53-55",
+        "sourceUrl": "https://docdrop.org/download_annotation_doc/Waters---2000---What-is-Modal-Jazz-buxx4.pdf",
+        "sourceIdentifier": "ProQuest document ID 1368405; ISSN 0730-9791",
+        "sha256": "94ff0ba22f83df4283b1b0e6f600b0a55b72629ccba0345514749e6de42af78f",
+        "sourceLocation": "Page 53, Example 3 discussion; downloaded PDF page 4",
+        "normalization": "Preserve Waters's A-7/D division and exact pitch collection D-E-G-A-C. Place D2 as the lone bass below a root-position A-minor-seventh chord A3-C4-E4-G4. This is an octave-normalized analytical representative, not a transcription of Hancock's recorded voicing."
+      },
+      "observation": {
+        "kind": "snapshot",
+        "soundingMidiNotes": [38, 57, 60, 64, 67],
+        "spelledNotes": ["D2", "A3", "C4", "E4", "G4"]
+      },
+      "construction": {
+        "kind": "upper-structure",
+        "description": "Waters analyzes the A-section collection as A-minor-seventh over D. The normalized observation preserves the complete upper chord and represents D as a lone slash-chord bass, not a second chordal unit.",
+        "units": [
+          {
+            "id": "lower-d-bass",
+            "identity": "D bass",
+            "rootPc": 2,
+            "quality": "bass-note",
+            "midiNotes": [38],
+            "spelledNotes": ["D2"],
+            "pitchClasses": [2]
+          },
+          {
+            "id": "upper-a-minor-seven",
+            "identity": "Am7",
+            "rootPc": 9,
+            "quality": "minor7",
+            "midiNotes": [57, 60, 64, 67],
+            "spelledNotes": ["A3", "C4", "E4", "G4"],
+            "pitchClasses": [0, 4, 7, 9]
+          }
+        ],
+        "notation": {
+          "status": "not-applicable",
+          "reason": "A-7/D is slash-chord and sus-chord notation, not a polychord symbol under Framework v0."
+        }
+      },
+      "productExpectation": {
+        "class": "boundary",
+        "expectedPolychords": [],
+        "primarySingleChordAlternatives": ["D9sus4", "Am7/D"],
+        "reason": "The published decomposition contains one complete upper chord but only a bass note below it. Framework v0 must not promote that incomplete lower unit to a polychord layer."
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "ineligible",
+          "reason": "The adjacent lower group contains only D2 and cannot satisfy the complete-common lower-layer contract."
+        },
+        "generalPitchRegisterSnapshot": {
+          "status": "eligible",
+          "reason": "The normalized registered snapshot exposes the lone D bass and complete Am7 upper chord needed to exercise the v0 scope boundary."
+        },
+        "timestampedEventStream": {
+          "status": "not-available",
+          "reason": "The analytical normalization carries no frame-accurate event history."
+        }
+      },
+      "registerBaseline": {
+        "expectedCandidates": []
+      }
+    },
     {
       "id": "herrmann-pass-first-a-flat-minor-attack",
       "title": "The Pass first A-flat-minor attack",

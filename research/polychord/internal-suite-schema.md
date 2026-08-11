@@ -54,7 +54,8 @@ Every case contains exactly:
 - `id` and `title`;
 - `epistemicStatus`: one label from `FRAMEWORK.md`;
 - `scopeFeatures`: the specific rule or boundary exercised;
-- `source`: an explicit synthetic generation recipe or a stable score record;
+- `source`: an explicit synthetic generation recipe, stable score record, or
+  stable analytical source with a disclosed normalization;
 - `observation`: one exact snapshot, one exact replay frame, or one bounded
   replay window from the pinned manifest;
 - `construction`: the author-adjudicated musical construction and exhaustive
@@ -68,7 +69,7 @@ Every case contains exactly:
 
 Unknown fields are rejected.
 
-Six scope features carry executable claims rather than descriptive tags:
+Seven scope features carry executable claims rather than descriptive tags:
 
 - `disjoint-pitch-class-layers` requires a two-unit polychord whose unit
   pitch-class sets do not intersect;
@@ -85,7 +86,10 @@ Six scope features carry executable claims rather than descriptive tags:
 - `doubled-integrated-accompaniment` requires an integrated-chord negative guard
   with at least two pitch classes doubled as separate observed notes and at
   least one register candidate that shares two or more of those pitch classes
-  across its proposed units.
+  across its proposed units; and
+- `lone-bass-lower-unit` requires a boundary upper-structure construction with
+  exactly one lowest sounded note as its bass unit and one complete common upper
+  chord. The bass-note quality is invalid unless this feature is declared.
 
 The validator rejects any feature when its claim is false. Source spellings
 remain authoritative even when the register generator serializes the same pitch
@@ -135,10 +139,13 @@ claiming the feature without exactly one reused note, or using it on another
 construction kind is rejected.
 
 Schema 2 validates each quality against its root-relative pitch classes. The
-supported unit qualities are major, minor, dominant seventh, major seventh,
-minor seventh, major sixth, major ninth, and root-third-seventh shell. Major
-sixth, major ninth, and the shell exist for integrated and boundary
-constructions; they do not widen the Framework-v0 polychord generator.
+supported unit qualities are bass note, major, minor, dominant seventh, major
+seventh, minor seventh, major sixth, major ninth, and root-third-seventh shell.
+The four non-common qualities do not widen the Framework-v0 polychord generator.
+In the active suite, major sixth and major ninth describe integrated chords,
+while the shell and bass note describe incomplete lower units in upper-structure
+boundaries. A bass note is allowed only as the lower unit in an executable
+`lone-bass-lower-unit` boundary.
 
 Polychord notation is either:
 
@@ -206,10 +213,14 @@ The baseline list is not a product prediction and is not scored as one.
 
 Synthetic cases require a complete generation recipe. Literature cases require a
 stable score or analytical source record; a discovery webpage alone is not
-sufficient. No moving score passage enters until its exact event window has been
-transcribed into the frame-replay schema. Petrushka rehearsal 49 demonstrates
-the admissible form: its construction is assigned over a bounded replay window,
-while its register baseline is evaluated frame by frame and remains empty.
+sufficient. An analytical source may establish an exact pitch collection or
+named decomposition without fixing octaves. Such a case records the source
+artifact's digest and location plus an explicit octave-normalization recipe, and
+must not call the resulting snapshot a transcription. No moving score passage
+enters until its exact event window has been transcribed into the frame-replay
+schema. Petrushka rehearsal 49 demonstrates the admissible form: its
+construction is assigned over a bounded replay window, while its register
+baseline is evaluated frame by frame and remains empty.
 
 Validate the active seed from the repository root:
 

@@ -96,8 +96,10 @@ SCOPE_FEATURES = {
     "one-sounded-note-overlap",
     "doubled-integrated-accompaniment",
     "multiple-exact-assignments",
+    "lone-bass-lower-unit",
 }
 QUALITY_INTERVALS = {
+    "bass-note": (0,),
     "major": (0, 4, 7),
     "minor": (0, 3, 7),
     "dominant7": (0, 4, 7, 10),
@@ -282,6 +284,40 @@ def validate_source(value: object, epistemic_status: str, context: str) -> None:
             character not in "0123456789abcdef" for character in digest
         ):
             raise ValueError(f"{context}.sha256 must be a lowercase SHA-256 digest")
+        return
+    if kind == "analysis":
+        require_fields(
+            source,
+            {
+                "kind",
+                "work",
+                "citation",
+                "sourceUrl",
+                "sourceIdentifier",
+                "sha256",
+                "sourceLocation",
+                "normalization",
+            },
+            context,
+        )
+        for field in (
+            "work",
+            "citation",
+            "sourceUrl",
+            "sourceIdentifier",
+            "sourceLocation",
+            "normalization",
+        ):
+            require_string(source[field], f"{context}.{field}")
+        digest = require_string(source["sha256"], f"{context}.sha256")
+        if len(digest) != 64 or any(
+            character not in "0123456789abcdef" for character in digest
+        ):
+            raise ValueError(f"{context}.sha256 must be a lowercase SHA-256 digest")
+        if epistemic_status == "synthetic-regression-guard":
+            raise ValueError(
+                f"{context} cannot support synthetic-regression-guard status"
+            )
         return
     raise ValueError(f"{context}.kind is unsupported: {kind!r}")
 
@@ -679,6 +715,32 @@ def validate_case(
         notation,
         f"{context}.productExpectation",
     )
+    bass_note_units = [
+        unit for unit in case["construction"]["units"] if unit["quality"] == "bass-note"
+    ]
+    claims_lone_bass = "lone-bass-lower-unit" in features
+    if bass_note_units and not claims_lone_bass:
+        raise ValueError(
+            f"{context}.scopeFeatures must declare every lone bass-note unit"
+        )
+    if claims_lone_bass:
+        other_units = [
+            unit
+            for unit in case["construction"]["units"]
+            if unit["quality"] != "bass-note"
+        ]
+        if (
+            construction_kind != "upper-structure"
+            or product_class != "boundary"
+            or len(bass_note_units) != 1
+            or bass_note_units[0]["midiNotes"] != [min(notes)]
+            or len(other_units) != 1
+            or other_units[0]["quality"] not in POLYCHORD_QUALITIES
+        ):
+            raise ValueError(
+                f"{context}.scopeFeatures claims a lone-bass boundary without "
+                "one lowest bass note below one complete common upper unit"
+            )
     if reused_notes and product_class != "boundary":
         raise ValueError(
             f"{context}.productExpectation must keep a one-sounded-note "

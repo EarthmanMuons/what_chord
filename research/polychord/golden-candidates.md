@@ -122,8 +122,12 @@ regression guard, or unresolved candidate.
   - Ab major: C7(#9b13), pcs {C,Eb,E,Ab,Bb}
   - A major: C13(b9), pcs {C,Db,E,A,Bb} (also the gospel passing-chord voicing,
     where players colloquially say "A over C")
-- **Maiden Voyage chord** (Hancock). D-A fifth under a C major triad; pcs
-  {D,A,C,E,G}. Expected D9sus (or the slash Am7/D), never a two-triad polychord.
+- **Maiden Voyage chord** (Hancock). Waters identifies the A-section collection
+  as A-minor-seventh over D and gives the pitches {D,E,G,A,C}. The active suite
+  uses an openly octave-normalized D-bass-plus-Am7 snapshot, expected as D9sus4
+  or Am7/D rather than a polychord. Earlier wording that asserted an exact D-A
+  lower fifth beneath a C-major triad was not supported by the scholarly source
+  and has been removed.
 - **F/G gospel-pop slash**. F major over a lone G bass; expected G9sus. This is
   the ordinary slash-chord reading and a guard for the unresolved bass-only
   layer scope, not a settled universal definition.
@@ -237,10 +241,11 @@ Sources:
 [Moreira, MTO 31.4](https://mtosmt.org/issues/mto.25.31.4/mto.25.31.4.moreira.html),
 [Kleppinger, MTO 17.2](https://mtosmt.org/issues/mto.11.17.2/mto.11.17.2.kleppinger.html),
 [Aziz, Integral 37](https://theory.esm.rochester.edu/integral/37-2024/aziz/),
+[Waters, _Jazz Educators Journal_ 33.1](https://experts.colorado.edu/display/pubid_94229),
+[Hancock: _Maiden Voyage_](https://www.herbiehancock.com/music/discography/album/maiden-voyage/),
 [Lippincott: polychords and slash chords](https://tomlippincott.com/polychords-and-slash-chords),
 [PianoGroove USTs](https://www.pianogroove.com/jazz-piano-lessons/upper-structure-triads/),
 [Piano With Jonny USTs](https://pianowithjonny.com/piano-lessons/upper-structure-triads-the-ultimate-piano-chord-hack/),
 [PianoGroove: Kenny Barron voicing](https://www.pianogroove.com/jazz-piano-lessons/kenny-barron-voicing/),
 [The Jazz Piano Site: polychords](https://www.thejazzpianosite.com/jazz-piano-lessons/jazz-chords/polychords/),
-[Contemporary School of Piano: Maiden Voyage](https://www.contemporaryschoolofpiano.com/maiden-voyage-chords-by-herbie-hancock/),
 [Hear and Play gospel passing chords](https://hearandplay.com/main/revealed-two-main-uses-of-passing-chords-in-gospel-and-jazz-harmony/).
