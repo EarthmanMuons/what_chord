@@ -29,6 +29,7 @@ export 'src/models/tonality.dart';
 export 'src/polychord/models/polychord_candidate.dart';
 export 'src/polychord/services/polychord_register_candidate_generator.dart';
 export 'src/polychord/services/polychord_register_selector.dart';
+export 'src/polychord/services/polychord_stable_display_gate.dart';
 
 // Domain services
 export 'src/services/chord_member_degree_formatter.dart';

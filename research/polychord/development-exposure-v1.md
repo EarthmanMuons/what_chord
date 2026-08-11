@@ -268,21 +268,30 @@ call them frame or display exposure.
 
 Machine JSON is the provenance record, not the sole review surface. The harness
 must also generate a local review packet for every full-selector stable fire and
-every full-selector When in Rome event proposal. Each item presents:
+every full-selector When in Rome event proposal. Every item presents:
 
 - the canonical upper-over-lower symbol and plain-language layer names;
 - note names with octave numbers, not MIDI numbers alone;
-- a time-scaled local event timeline showing attacks, releases, held notes,
-  sustained notes, and pedal changes;
-- the appearance and clear points and surrounding primary-chord identities;
 - the exact register boundary and layer assignment; and
 - links or identifiers sufficient to locate the source passage without revealing
   a proposed disposition.
 
-The packet may include MIDI numbers in technical details, but the musical
-judgment must be possible from ordinary note names and the complete unfolding
-event state. It is an author-adjudication aid, not an external survey or an
-independent-validation instrument.
+For frame-capable ASAP and POP909 items, the packet additionally presents a
+time-scaled local event timeline showing attacks, releases, held notes,
+sustained notes, pedal changes, the annotation's appearance and clear points,
+and surrounding primary-chord identities. The musical judgment must be possible
+from ordinary note names and that complete local unfolding state.
+
+The When in Rome proposal companion cannot present a note-event timeline,
+appearance point, or clear point because its fixtures do not contain that
+evidence. Each such item must state the limitation prominently, show the static
+onset snapshot in note names, and label the committed identity duration as
+duration-attributed rather than display duration. The harness must not invent a
+timeline to make those items resemble stable fires.
+
+The packet may include MIDI numbers in technical details. It is an
+author-adjudication aid, not an external survey or an independent-validation
+instrument.
 
 ## Frozen disposition schema
 
@@ -309,7 +318,10 @@ sample may stand in for unreviewed fires. Assign exactly one disposition:
 Each disposition records a concise musical rationale, evidence consulted, and
 the reviewer and date. Original machine output remains unchanged. Later
 correction or adjudication is appended rather than overwriting the first
-judgment.
+judgment. The harness emits an immutable review index and a blank disposition
+file bound to exactly those item identifiers. A validator must reject missing,
+extra, duplicate, incomplete, or non-frozen dispositions while allowing a later
+complete judgment to be appended to an item's judgment history.
 
 Only `in-scope-polychord` is compatible with adoption-bar item 5. Any other
 stable-fire category, including `unresolved`, leaves that item failed. The same
