@@ -11,7 +11,7 @@ from pathlib import Path
 import frame_replay
 import register_candidates
 
-SUITE_SCHEMA = "polychord-internal-suite/1"
+SUITE_SCHEMA = "polychord-internal-suite/2"
 REPO_ROOT = Path(__file__).parents[2]
 
 TOP_LEVEL_FIELDS = {
@@ -93,6 +93,7 @@ SCOPE_FEATURES = {
     "same-root-register-groups",
     "overlapping-register-layers",
     "integrated-extended-chord",
+    "one-sounded-note-overlap",
 }
 QUALITY_INTERVALS = {
     "major": (0, 4, 7),
@@ -414,8 +415,9 @@ def validate_unit(
 def validate_construction(
     value: object,
     observation: tuple[int, ...],
+    scope_features: set[str],
     context: str,
-) -> tuple[str, dict[str, tuple[int, ...]], dict]:
+) -> tuple[str, dict[str, tuple[int, ...]], dict, set[int]]:
     construction = require_dict(value, context)
     require_fields(construction, {"kind", "description", "units", "notation"}, context)
     kind = construction["kind"]
@@ -428,6 +430,7 @@ def validate_construction(
         raise ValueError(f"{context}.units must contain {expected_count} units")
     units = {}
     assigned_notes = set()
+    reused_notes = set()
     for index, unit_value in enumerate(values):
         unit_id, notes = validate_unit(
             unit_value,
@@ -436,9 +439,7 @@ def validate_construction(
         )
         if unit_id in units:
             raise ValueError(f"{context}.units contains duplicate id {unit_id!r}")
-        overlap = assigned_notes & set(notes)
-        if overlap:
-            raise ValueError(f"{context}.units reuse MIDI notes {sorted(overlap)}")
+        reused_notes.update(assigned_notes & set(notes))
         units[unit_id] = notes
         assigned_notes.update(notes)
     if assigned_notes != set(observation):
@@ -452,6 +453,21 @@ def validate_construction(
         if unsupported:
             raise ValueError(
                 f"{context}.units use non-v0 polychord qualities: {sorted(unsupported)}"
+            )
+
+    overlap_feature = "one-sounded-note-overlap" in scope_features
+    if reused_notes and not overlap_feature:
+        raise ValueError(f"{context}.units reuse MIDI notes {sorted(reused_notes)}")
+    if overlap_feature:
+        if kind != "polychord":
+            raise ValueError(
+                f"{context} claims one-sounded-note overlap for a "
+                "non-polychord construction"
+            )
+        if len(reused_notes) != 1:
+            raise ValueError(
+                f"{context} claims one-sounded-note overlap but reuses "
+                f"{len(reused_notes)} notes"
             )
 
     notation = require_dict(construction["notation"], f"{context}.notation")
@@ -483,7 +499,7 @@ def validate_construction(
             )
     else:
         raise ValueError(f"{context}.notation.status is unsupported: {status!r}")
-    return kind, units, notation
+    return kind, units, notation, reused_notes
 
 
 def validate_product_expectation(
@@ -604,8 +620,11 @@ def validate_case(
     notes, observation_frames = observation_notes(
         case["observation"], replay_fixtures, f"{context}.observation"
     )
-    construction_kind, units, notation = validate_construction(
-        case["construction"], notes, f"{context}.construction"
+    construction_kind, units, notation, reused_notes = validate_construction(
+        case["construction"],
+        notes,
+        set(features),
+        f"{context}.construction",
     )
     if "disjoint-pitch-class-layers" in features:
         if construction_kind != "polychord":
@@ -650,13 +669,18 @@ def validate_case(
                     f"{context}.scopeFeatures claims moving layers but replay frame "
                     f"{frame['afterEventIndex']} contains both complete units"
                 )
-    validate_product_expectation(
+    product_class = validate_product_expectation(
         case["productExpectation"],
         construction_kind,
         set(units),
         notation,
         f"{context}.productExpectation",
     )
+    if reused_notes and product_class != "boundary":
+        raise ValueError(
+            f"{context}.productExpectation must keep a one-sounded-note "
+            "overlap as a Framework-v0 boundary"
+        )
     validate_eligibility(case["inputEligibility"], f"{context}.inputEligibility")
 
     baseline = require_dict(case["registerBaseline"], f"{context}.registerBaseline")

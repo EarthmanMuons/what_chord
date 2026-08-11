@@ -24,7 +24,7 @@ class InternalSuiteTest(unittest.TestCase):
     def test_committed_seed_and_every_dependency_validate(self) -> None:
         case_ids = subject.validate_suite(SUITE_PATH)
 
-        self.assertEqual(len(case_ids), 13)
+        self.assertEqual(len(case_ids), 14)
         self.assertEqual(case_ids, sorted(case_ids))
 
     def test_seed_contains_all_product_policy_classes(self) -> None:
@@ -63,6 +63,19 @@ class InternalSuiteTest(unittest.TestCase):
         self.assertEqual(candidate["symbol"], "C|Gm")
         self.assertEqual(candidate["gapSemitones"], 2)
         self.assertEqual(candidate["sharedPitchClasses"], [7])
+
+    def test_elektra_set_is_a_one_sounded_note_overlap_boundary(self) -> None:
+        case = case_by_id(load_suite(), "strauss-elektra-chord-overlap")
+
+        self.assertEqual(case["epistemicStatus"], "theory-derived-boundary")
+        self.assertIn("one-sounded-note-overlap", case["scopeFeatures"])
+        self.assertEqual(case["construction"]["notation"]["symbol"], "Db|E")
+        self.assertEqual(
+            [unit["midiNotes"] for unit in case["construction"]["units"]],
+            [[40, 47, 56], [49, 53, 56]],
+        )
+        self.assertEqual(case["productExpectation"]["class"], "boundary")
+        self.assertEqual(case["registerBaseline"]["expectedCandidates"], [])
 
     def test_herrmann_pass_supplies_a_disjoint_literature_positive(self) -> None:
         case = case_by_id(load_suite(), "herrmann-pass-first-a-flat-minor-attack")
@@ -259,6 +272,76 @@ class InternalSuiteTest(unittest.TestCase):
         case["scopeFeatures"].append("disjoint-pitch-class-layers")
 
         with self.assertRaisesRegex(ValueError, "claims disjoint.*overlap"):
+            subject.validate_suite_payload(payload)
+
+    def test_reused_note_without_overlap_scope_is_rejected(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "strauss-elektra-chord-overlap")
+        case["scopeFeatures"].remove("one-sounded-note-overlap")
+
+        with self.assertRaisesRegex(ValueError, "reuse MIDI notes"):
+            subject.validate_suite_payload(payload)
+
+    def test_overlap_scope_without_a_reused_note_is_rejected(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "strauss-elektra-chord-overlap")
+        case["observation"]["soundingMidiNotes"] = [40, 47, 49, 53, 56, 68]
+        case["observation"]["spelledNotes"] = [
+            "E2",
+            "B2",
+            "Db3",
+            "F3",
+            "Ab3",
+            "G#4",
+        ]
+        case["construction"]["units"][0]["midiNotes"] = [40, 47, 68]
+        case["construction"]["units"][0]["spelledNotes"] = ["E2", "B2", "G#4"]
+
+        with self.assertRaisesRegex(ValueError, "reuses 0 notes"):
+            subject.validate_suite_payload(payload)
+
+    def test_overlap_scope_rejects_more_than_one_reused_note(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "strauss-elektra-chord-overlap")
+        case["observation"]["soundingMidiNotes"] = [40, 49, 53, 56]
+        case["observation"]["spelledNotes"] = ["E2", "Db3", "F3", "Ab3"]
+        case["construction"]["units"][0]["midiNotes"] = [40, 49, 56]
+        case["construction"]["units"][0]["spelledNotes"] = ["E2", "C#3", "G#3"]
+        case["construction"]["units"][0]["pitchClasses"] = [1, 4, 8]
+        case["construction"]["units"][0]["rootPc"] = 1
+        case["construction"]["units"][0]["quality"] = "minor"
+
+        with self.assertRaisesRegex(ValueError, "reuses 2 notes"):
+            subject.validate_suite_payload(payload)
+
+    def test_overlap_scope_cannot_be_a_v0_positive(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "strauss-elektra-chord-overlap")
+        case["productExpectation"]["class"] = "positive"
+        case["productExpectation"]["expectedPolychords"] = [
+            {
+                "unitIds": ["lower-e-major", "upper-d-flat-major"],
+                "symbol": "Db|E",
+            }
+        ]
+
+        with self.assertRaisesRegex(ValueError, "must keep.*overlap.*boundary"):
+            subject.validate_suite_payload(payload)
+
+    def test_overlap_scope_cannot_be_a_negative_guard(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "strauss-elektra-chord-overlap")
+        case["productExpectation"]["class"] = "negative-guard"
+
+        with self.assertRaisesRegex(ValueError, "must keep.*overlap.*boundary"):
+            subject.validate_suite_payload(payload)
+
+    def test_overlap_scope_requires_a_polychord_construction(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "synthetic-integrated-d-six")
+        case["scopeFeatures"].append("one-sounded-note-overlap")
+
+        with self.assertRaisesRegex(ValueError, "non-polychord construction"):
             subject.validate_suite_payload(payload)
 
     def test_false_multiple_identity_scope_claim_is_rejected(self) -> None:

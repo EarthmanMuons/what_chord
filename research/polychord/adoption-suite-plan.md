@@ -1,7 +1,7 @@
 # Polychord adoption-suite plan
 
 Status: preregistered coverage plan for the still non-scorable
-`polychord-internal-suite/1` seed. This plan defines what must be resolved
+`polychord-internal-suite/2` seed. This plan defines what must be resolved
 before the adoption suite can be frozen and before any selector outcome is read.
 It is not the frozen suite, an accuracy ruler, or permission to use held data.
 
@@ -105,8 +105,15 @@ The frozen suite must include exact cases for:
   source-backed `G|Ab7` case and not to be chosen by iteration order;
 - an exact-assignment ambiguity within one identity if structurally feasible;
   and
-- a one-sounded-note overlapping cover, which remains outside v0 even when its
-  pitch classes can describe both proposed units.
+- **Satisfied:** a one-sounded-note overlapping cover, supplied by the
+  octave-normalized Elektra-chord set. The analytical E-major and D-flat-major
+  units share one physical A-flat/G-sharp, so the executable case remains a v0
+  product boundary with an empty register baseline.
+
+Earlier drafts classified Elektra's lower E-B as a bare fifth. The complete
+E-major interpretation instead uses the upper D-flat triad's A-flat
+enharmonically as G-sharp. Elektra therefore fills the overlapping-cover cell,
+not the still-open genuine bare-fifth boundary.
 
 A guard with no structural candidate still tests scope and regression behavior.
 A guard with one or more candidates additionally tests selector abstention.
