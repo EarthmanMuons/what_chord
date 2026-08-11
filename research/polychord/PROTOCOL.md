@@ -201,6 +201,19 @@ contract amendment defines its interpretation and unavailable-history fallback.
 Simultaneous attacks, static sonorities, manual lookup, and transports without
 reliable event history remain valid inputs.
 
+The completed v1 development result supplies the reason for that later version.
+Log 2026-08-11-13 establishes a static observability collision: the same
+transposition-invariant register candidate structure occurs in both a frozen
+source positive and ordinary integrated development harmonies. For the next
+automatic raw-MIDI selector, register is therefore proposal evidence only and a
+display must also receive positive support from a separately preregistered
+evidence source independent of static register. Neutral, incomplete, or
+unavailable support will mean abstention under that new input condition. This
+does not retroactively change the v0 contract, the v1 result, the musical
+definition, or a future explicit manual-layer condition.
+`automatic-selection-v2-plan.md` fixes the prerequisites that must be completed
+before an exact version-2 selector is preregistered.
+
 Temporal ablations require frame-accurate replay. Committed-event fixtures
 cannot evaluate them because they omit within-event revoicing and note-event
 order.
@@ -512,7 +525,16 @@ The following work must be dated and completed in order:
    zero full-policy stable episodes and When in Rome has zero full-policy event
    proposals. Do not proceed to the held reserve or product integration with
    `polychord-register-policy/1`.
-8. Optional external validation: use a newly registered, evidence-complete study
+8. Version-2 evidence boundary: complete. Log 2026-08-11-13 records that a
+   frozen `C|Gm` positive and three `G|Dm` development errors share the same
+   transposition-invariant static layer structure, while their register gaps do
+   not separate them. `automatic-selection-v2-plan.md` therefore keeps the
+   generator and vocabulary, rejects a broader static blacklist, and requires a
+   versioned automatic timestamped-input contract plus source-attested positive
+   controls before an exact selector using evidence beyond register is
+   preregistered. This is a research plan, not a version-2 selector or
+   permission to use the reserve.
+9. Optional external validation: use a newly registered, evidence-complete study
    before any reproducibility, independently validated ruler, or generalized
    accuracy claim. This is not a prerequisite for the preceding research work.
 
