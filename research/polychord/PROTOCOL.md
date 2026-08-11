@@ -8,10 +8,11 @@ presentation contract, scoring model, adoption bar, stable-display policy, and
 performance budget are fixed by `output-evaluation-contract.md` and log
 2026-08-10-18. The complete author-adjudicated adoption suite is frozen by log
 2026-08-11-03. It is a product-policy conformance ruler, not independent ground
-truth. No selector result has been read, and no selector may be evaluated until
-its own versioned specification is preregistered. The symmetric structural
-conformance matrix passed in log 2026-08-10-20. The satisfied coverage and
-stopping record remains normative in `adoption-suite-plan.md`.
+truth. The register-only selector and its fixed diagnostic ablations are
+preregistered by `register-selector-v1.md` and log 2026-08-11-04. No selector
+result has been read. The symmetric structural conformance matrix passed in log
+2026-08-10-20. The satisfied coverage and stopping record remains normative in
+`adoption-suite-plan.md`.
 
 ## Task and claim boundary
 
@@ -165,12 +166,14 @@ sounding-instance continuity and endpoint layer relations. Motion evidence may
 include stable note-to-layer assignment and coherent movement only after the
 assignment method is explicit.
 
-These cues may raise or lower decomposition confidence or justify abstention.
-Their absence must not silently disqualify a polychord: simultaneous attacks,
-static sonorities, manual lookup, and transports without reliable event history
-remain valid inputs. Before adoption, the output contract must define whether
-each cue is optional evidence, a display gate, or a requirement, and must define
-fallback behavior when it is unavailable.
+Under the frozen v0 output contract, these cues are one-sided diagnostics:
+positive onset or motion support may accompany a selected candidate, but neutral
+or unavailable history cannot lower, reject, or create a selection. Release and
+pedal evidence remains uninterpreted. A later selector version may let a named
+cue weaken a decomposition or justify abstention only after a preregistered
+contract amendment defines its interpretation and unavailable-history fallback.
+Simultaneous attacks, static sonorities, manual lookup, and transports without
+reliable event history remain valid inputs.
 
 Temporal ablations require frame-accurate replay. Committed-event fixtures
 cannot evaluate them because they omit within-event revoicing and note-event
@@ -456,9 +459,17 @@ The following work must be dated and completed in order:
    log 2026-08-10-18 fix the composite type, presentation, metrics, adoption
    threshold, stable-display behavior, and performance budget without choosing
    or evaluating a selector.
-5. Implementation-shaped exposure: measure proposals and stable displays at
+5. Register-only selector preregistration: complete. `register-selector-v1.md`
+   and log 2026-08-11-04 fix the deterministic v1 policy, its admissible
+   evidence, integrated-tertian and exact-assignment abstention rules,
+   widest-gap resolution, and three diagnostic ablations before implementation
+   or evaluation.
+6. Selector implementation and internal conformance: implement independent
+   Python and pure-Dart forms of the preregistered rule, establish equivalence
+   on the pinned structural matrix, then score the frozen adoption suite once.
+7. Implementation-shaped exposure: measure proposals and stable displays at
    frame level before making a safety claim.
-6. Optional external validation: use a newly registered, evidence-complete study
+8. Optional external validation: use a newly registered, evidence-complete study
    before any reproducibility, independently validated ruler, or generalized
    accuracy claim. This is not a prerequisite for the preceding research work.
 
