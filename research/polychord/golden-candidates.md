@@ -39,10 +39,6 @@ regression guard, or unresolved candidate.
   the component chords overlap in register and no adjacent-note boundary
   recovers both. This remains a textbook constructional positive, but it is not
   evidence for an adjacent-register detector.
-- **Elektra chord** (Strauss). C# major (Db F Ab) over an E-B fifth; pcs
-  {C#,F,G#,E,B}. Standard reading is the bitonal synthesis; enharmonic
-  single-symbol alternatives exist (7#9 spellings), so both readings should
-  surface. Exact octaves unverified.
 - **Ives, Psalm 67 opening**. The published opening and Johnson's Example 11
   establish G2-D3-G3-Bb3 in the four lower voices and C4-E4-G4-C5 in the four
   upper voices: G minor below C major, with G supplied by separate notes in both
@@ -94,6 +90,18 @@ regression guard, or unresolved candidate.
 
 ## Boundary (single symbol expected; polychord at most an alternative)
 
+- **Elektra chord** (Strauss). The conventional analytical decomposition is
+  D-flat major over E major, not D-flat major over an E-B bare fifth. Its
+  five-note form E-B-Db-F-Ab uses the one sounded A-flat enharmonically as
+  G-sharp, completing E major while also serving as the fifth of D-flat major.
+  Kramer describes the collection as the conjunction of those two triads, and
+  Hutchinson reports the same shared-tone interpretation while also developing a
+  functional alternative. The active suite therefore uses an explicitly
+  octave-normalized `Db|E` analytical guard rather than claiming an exact score
+  transcription. It is a constructional polychord in the literature but a v0
+  product boundary: Framework v0 does not let one sounded note fill both layer
+  templates, and concise integrated `Db7(#9)` and `E6(b9)` readings remain
+  available.
 - **Petrushka, “The Shrovetide Fair,” mm. 41–53**. Moreira's Example 17,
   following Cambouropoulos and Huron, analyzes the passage as two triadic
   textural streams: each register group moves in parallel internally, while the
@@ -192,15 +200,20 @@ unverified.
   MIDI notes form the two registral groups. Framework v0 permits that
   separate-note case. A true overlapping cover in which one sounded note serves
   both layers remains outside v0.
-- Whether a lone bass note (Zarathustra, Rumble) or a bare fifth (Elektra's E-B
-  lower layer) can constitute a layer remains musically interesting, but
-  Framework v0 excludes incomplete layers from the initial positive generator.
-  Keep these as boundary or unresolved cases rather than positive detector
-  expectations.
+- Whether a lone bass note (Zarathustra, Rumble) or a genuine bare fifth can
+  constitute a layer remains musically interesting, but Framework v0 excludes
+  incomplete layers from the initial positive generator. Elektra is not that
+  case: its standard two-triad analysis reuses A-flat/G-sharp to complete E
+  major. Keep actual bass-only and fifth-only examples as boundary or unresolved
+  cases rather than positive detector expectations.
 
 Sources:
 [Wikipedia: Petrushka chord](https://en.wikipedia.org/wiki/Petrushka_chord),
 [Elektra chord](https://en.wikipedia.org/wiki/Elektra_chord),
+[Kramer, _Cambridge Opera Journal_ 5.2](https://doi.org/10.1017/S0954586700003967),
+[Kaplan, University of Michigan dissertation record](https://hdl.handle.net/2027.42/160545),
+[University of Toronto music-theory dissertation list](https://music.utoronto.ca/areas/music-theory/alumni),
+[Hutchinson, _Music Analysis_ 45.1](https://doi.org/10.1111/musa.70002),
 [Polychord](https://en.wikipedia.org/wiki/Polychord),
 [Polytonality](https://en.wikipedia.org/wiki/Polytonality),
 [Saudades do Brasil](https://en.wikipedia.org/wiki/Saudades_do_Brasil),

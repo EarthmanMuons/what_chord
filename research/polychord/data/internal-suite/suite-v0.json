@@ -1,5 +1,5 @@
 {
-  "schema": "polychord-internal-suite/1",
+  "schema": "polychord-internal-suite/2",
   "status": "active-author-adjudicated-seed",
   "scoringAllowed": false,
   "authority": "product-policy-only-not-independent-ground-truth",
@@ -7,7 +7,7 @@
   "dependencies": {
     "adoptionPlan": {
       "path": "research/polychord/adoption-suite-plan.md",
-      "sha256": "558ab5256fb0818ac94b1f691dcd97ed87c1b52bc9b30aa351fb14545b0bb544"
+      "sha256": "1ceee3181986a1fa6249903efeaac13195d2b865f2ae4a7a8f13486876e580ae"
     },
     "framework": {
       "path": "research/polychord/FRAMEWORK.md",
@@ -19,7 +19,7 @@
     },
     "schemaDocument": {
       "path": "research/polychord/internal-suite-schema.md",
-      "sha256": "b60ff78b0c2e20412701fbd6f651057c7bbedd0648348572b64494fc9ae759f6"
+      "sha256": "daa2851cca88f8c0fdd3673423b183250f3b9ceb6213c93c396317a8acc5bb74"
     },
     "registerCandidateSchema": {
       "path": "research/polychord/register-candidate-schema.md",
@@ -31,7 +31,7 @@
     },
     "validator": {
       "path": "tool/polychord/internal_suite.py",
-      "sha256": "4853e2f5e2777cf7c653fef71672d85edb9069db82e2872efdad9ef218f4f9e4"
+      "sha256": "f163c5cfb4e6bfb92a95f6360bd9a7fc2504b017e46dad07953acab1d910414e"
     }
   },
   "cases": [
@@ -234,6 +234,74 @@
             "symbol": "C|Gm"
           }
         ]
+      }
+    },
+    {
+      "id": "strauss-elektra-chord-overlap",
+      "title": "Elektra-chord single-note overlap",
+      "epistemicStatus": "theory-derived-boundary",
+      "scopeFeatures": ["complete-triad-layers", "one-sounded-note-overlap"],
+      "source": {
+        "kind": "synthetic",
+        "generation": "Place the literature-attested Elektra pitch set E-B-Db-F-Ab in ascending close position as MIDI 40, 47, 49, 53, and 56. Assign MIDI 56 enharmonically as G-sharp, the third of E major, and A-flat, the fifth of D-flat major, so one sounded note completes both triads. This is an octave-normalized analytical guard, not a transcription of a particular orchestral attack."
+      },
+      "observation": {
+        "kind": "snapshot",
+        "soundingMidiNotes": [40, 47, 49, 53, 56],
+        "spelledNotes": ["E2", "B2", "Db3", "F3", "Ab3"]
+      },
+      "construction": {
+        "kind": "polychord",
+        "description": "The conventional analytical decomposition combines E major and D-flat major, but one physical A-flat/G-sharp supplies the upper triad's fifth and the lower triad's third.",
+        "units": [
+          {
+            "id": "lower-e-major",
+            "identity": "E",
+            "rootPc": 4,
+            "quality": "major",
+            "midiNotes": [40, 47, 56],
+            "spelledNotes": ["E2", "B2", "G#3"],
+            "pitchClasses": [4, 8, 11]
+          },
+          {
+            "id": "upper-d-flat-major",
+            "identity": "Db",
+            "rootPc": 1,
+            "quality": "major",
+            "midiNotes": [49, 53, 56],
+            "spelledNotes": ["Db3", "F3", "Ab3"],
+            "pitchClasses": [1, 5, 8]
+          }
+        ],
+        "notation": {
+          "status": "resolved",
+          "symbol": "Db|E",
+          "upperUnitId": "upper-d-flat-major",
+          "lowerUnitId": "lower-e-major"
+        }
+      },
+      "productExpectation": {
+        "class": "boundary",
+        "expectedPolychords": [],
+        "primarySingleChordAlternatives": ["Db7(#9)", "E6(b9)"],
+        "reason": "The literature supports the two-triad construction, but Framework v0 requires a distinct sounded note for each layer assignment and cannot reuse this A-flat/G-sharp. The product must therefore abstain on this exact snapshot."
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "ineligible",
+          "reason": "No adjacent boundary can form both complete triads, and the lower E-major third has no distinct sounded instance."
+        },
+        "generalPitchRegisterSnapshot": {
+          "status": "ineligible",
+          "reason": "Pitch and register expose the five-note set but do not supply a second A-flat/G-sharp instance; the overlapping cover remains outside Framework v0."
+        },
+        "timestampedEventStream": {
+          "status": "not-available",
+          "reason": "This analytical normalization has no event history; timing could not create the missing distinct sounded instance in the recorded snapshot."
+        }
+      },
+      "registerBaseline": {
+        "expectedCandidates": []
       }
     },
     {

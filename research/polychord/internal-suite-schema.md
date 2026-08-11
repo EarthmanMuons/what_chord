@@ -1,6 +1,6 @@
 # Polychord internal-suite schema
 
-Status: active contract for `polychord-internal-suite/1`. This schema records an
+Status: active contract for `polychord-internal-suite/2`. This schema records an
 author-adjudicated product-policy suite. It is not an independently annotated
 ruler and does not authorize generalized accuracy claims. The representation,
 metrics, and adoption threshold are now fixed by
@@ -32,7 +32,7 @@ converted into an accuracy judgment.
 
 The top-level object contains:
 
-- `schema`: `polychord-internal-suite/1`;
+- `schema`: `polychord-internal-suite/2`;
 - `status`: `active-author-adjudicated-seed`;
 - `scoringAllowed`: `false` until the complete adoption suite is explicitly
   frozen;
@@ -68,15 +68,18 @@ Every case contains exactly:
 
 Unknown fields are rejected.
 
-Three scope features carry executable claims rather than descriptive tags:
+Four scope features carry executable claims rather than descriptive tags:
 
 - `disjoint-pitch-class-layers` requires a two-unit polychord whose unit
-  pitch-class sets do not intersect; and
+  pitch-class sets do not intersect;
 - `multiple-structural-identities` requires the exact observation to produce at
   least two distinct ordered chord identities, not merely two exact assignments
-  of one identity; and
+  of one identity;
 - `moving-arpeggiated-layers` requires a replay window spanning more than one
-  timestamp in which no frame contains both complete construction units.
+  timestamp in which no frame contains both complete construction units; and
+- `one-sounded-note-overlap` requires a two-unit polychord in which exactly one
+  observed MIDI note is assigned to both units. Such a case must remain a
+  non-positive product boundary under Framework v0.
 
 The validator rejects any feature when its claim is false. Source spellings
 remain authoritative even when the register generator serializes the same pitch
@@ -95,7 +98,7 @@ and `spelledNotes`. A window observation instead stores `firstEventIndex` and
 MIDI notes actually sounding in those frames, not a simultaneous sonority.
 
 Window construction assignments attach to distinct MIDI notes across the whole
-window. Schema 1 must therefore not encode a passage in which the same MIDI
+window. Schema 2 must therefore not encode a passage in which the same MIDI
 pitch changes construction units during the selected window. The frame replay
 continues to omit instrument and channel labels: a source-backed construction
 assignment is adjudicated evidence, not an observed MIDI source assignment.
@@ -110,12 +113,22 @@ Construction kinds are:
   preferred under Framework v0.
 
 Every unit records an identifier, musician-facing identity, root pitch class,
-quality, MIDI notes, spellings, and pitch classes. Units are disjoint at the
-MIDI-note level and together assign every observed note, or every distinct
-observed note for a replay window. Shared pitch classes remain possible through
-separate note instances.
+quality, MIDI notes, spellings, and pitch classes. Units together assign every
+observed note, or every distinct observed note for a replay window. They are
+normally disjoint at the MIDI-note level, and shared pitch classes remain
+possible through separate note instances. A case carrying
+`one-sounded-note-overlap` instead assigns exactly one observed MIDI note to
+both complete polychord units. Unit-specific spellings may record the distinct
+enharmonic role of that physical note.
 
-Schema 1 validates each quality against its root-relative pitch classes. The
+The overlapping assignment records a constructional or analytical proposal; it
+does not widen the v0 generator. Framework v0 requires distinct sounded-note
+instances, so a case using the exception must carry the `boundary` product
+class, not `positive` or `negative-guard`. Reusing a note without the feature,
+claiming the feature without exactly one reused note, or using it on another
+construction kind is rejected.
+
+Schema 2 validates each quality against its root-relative pitch classes. The
 supported unit qualities are major, minor, dominant seventh, major seventh,
 minor seventh, major sixth, and root-third-seventh shell. The last two exist for
 integrated and boundary constructions; they do not widen the Framework-v0

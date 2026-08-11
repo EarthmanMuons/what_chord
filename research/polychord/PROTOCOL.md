@@ -8,9 +8,8 @@ presentation contract, scoring model, adoption bar, stable-display policy, and
 performance budget are fixed by `output-evaluation-contract.md` and log
 2026-08-10-18. The complete adoption suite and selector remain unfrozen; no
 engine lever may be evaluated yet. The preregistered symmetric structural
-conformance matrix passed in log 2026-08-10-20; source-attested product-policy
-coverage remains incomplete, although log 2026-08-10-21 fills the recoverable
-disjoint and complete-seventh positive cells.
+conformance matrix passed in log 2026-08-10-20. Product-policy coverage remains
+incomplete and is tracked normatively in `adoption-suite-plan.md`.
 
 ## Task and claim boundary
 
@@ -261,6 +260,9 @@ upper and lower identities, note-to-layer assignment, source, admissible
 alternatives, scope feature (shared tone, incomplete unit, bass-only unit, and
 so on), and the evidence that licenses or blocks the split. A passage may not be
 silently verticalized into a simultaneous voicing that the source never sounds.
+An octave-normalized or otherwise generated observation derived from a
+literature-attested pitch set must instead identify itself as synthetic and
+theory-derived; its analytical sources belong in the dated admission record.
 
 Construction truth and input eligibility are separate annotations. A score can
 establish a polychordal construction while a pitch-and-register snapshot cannot
@@ -426,7 +428,10 @@ The following work must be dated and completed in order:
    recoverable source positives from Moreira's Herrmann transcription and
    Stravinsky's 1922 _Three Movements from Petrouchka_ score, covering disjoint
    units and a complete dominant-seventh layer without reading a selector or
-   corpus outcome.
+   corpus outcome. Log 2026-08-10-22 adds Petrushka rehearsal 49 as a bounded
+   event window without verticalizing its arpeggios. Log 2026-08-10-23 corrects
+   the Elektra chord's former bare-fifth classification and admits its
+   one-sounded-note overlapping cover as a theory-derived v0 boundary.
 4. Output and evaluation freeze: complete. `output-evaluation-contract.md` and
    log 2026-08-10-18 fix the composite type, presentation, metrics, adoption
    threshold, stable-display behavior, and performance budget without choosing
