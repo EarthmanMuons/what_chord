@@ -25,6 +25,11 @@ export 'src/models/scale_degree.dart';
 export 'src/models/tonic.dart';
 export 'src/models/tonality.dart';
 
+// Polychord analysis
+export 'src/polychord/models/polychord_candidate.dart';
+export 'src/polychord/services/polychord_register_candidate_generator.dart';
+export 'src/polychord/services/polychord_register_selector.dart';
+
 // Domain services
 export 'src/services/chord_member_degree_formatter.dart';
 export 'src/services/chord_member_speller.dart';

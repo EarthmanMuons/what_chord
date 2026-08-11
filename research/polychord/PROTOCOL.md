@@ -10,8 +10,10 @@ performance budget are fixed by `output-evaluation-contract.md` and log
 2026-08-11-03. It is a product-policy conformance ruler, not independent ground
 truth. The register-only selector and its fixed diagnostic ablations are
 preregistered by `register-selector-v1.md` and log 2026-08-11-04. No selector
-result has been read. The symmetric structural conformance matrix passed in log
-2026-08-10-20. The satisfied coverage and stopping record remains normative in
+product-policy or corpus result has been read. Independent Python and pure-Dart
+implementations produced identical complete decisions on the label-free
+structural matrix in log 2026-08-11-05. The frozen adoption suite has not been
+scored. The satisfied coverage and stopping record remains normative in
 `adoption-suite-plan.md`.
 
 ## Task and claim boundary
@@ -464,9 +466,11 @@ The following work must be dated and completed in order:
    evidence, integrated-tertian and exact-assignment abstention rules,
    widest-gap resolution, and three diagnostic ablations before implementation
    or evaluation.
-6. Selector implementation and internal conformance: implement independent
-   Python and pure-Dart forms of the preregistered rule, establish equivalence
-   on the pinned structural matrix, then score the frozen adoption suite once.
+6. Selector implementation and internal conformance: in progress. Log
+   2026-08-11-05 records independent Python and pure-Dart implementations and
+   zero mismatches across 13,244 complete decisions on the pinned structural
+   matrix. The frozen adoption suite remains unscored; generate all four pinned
+   prediction artifacts and score them once as the next separate step.
 7. Implementation-shaped exposure: measure proposals and stable displays at
    frame level before making a safety claim.
 8. Optional external validation: use a newly registered, evidence-complete study
