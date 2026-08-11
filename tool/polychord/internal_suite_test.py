@@ -24,7 +24,7 @@ class InternalSuiteTest(unittest.TestCase):
     def test_committed_seed_and_every_dependency_validate(self) -> None:
         case_ids = subject.validate_suite(SUITE_PATH)
 
-        self.assertEqual(len(case_ids), 16)
+        self.assertEqual(len(case_ids), 17)
         self.assertEqual(case_ids, sorted(case_ids))
 
     def test_seed_contains_all_product_policy_classes(self) -> None:
@@ -75,6 +75,24 @@ class InternalSuiteTest(unittest.TestCase):
             [[40, 47, 56], [49, 53, 56]],
         )
         self.assertEqual(case["productExpectation"]["class"], "boundary")
+        self.assertEqual(case["registerBaseline"]["expectedCandidates"], [])
+
+    def test_maiden_voyage_is_a_source_backed_lone_bass_boundary(self) -> None:
+        case = case_by_id(load_suite(), "hancock-maiden-voyage-a-minor-seven-over-d")
+
+        self.assertEqual(case["source"]["kind"], "analysis")
+        self.assertIn("lone-bass-lower-unit", case["scopeFeatures"])
+        self.assertEqual(case["construction"]["kind"], "upper-structure")
+        self.assertEqual(
+            [unit["quality"] for unit in case["construction"]["units"]],
+            ["bass-note", "minor7"],
+        )
+        self.assertNotIn("bass-note", subject.POLYCHORD_QUALITIES)
+        self.assertEqual(case["productExpectation"]["class"], "boundary")
+        self.assertEqual(
+            case["productExpectation"]["primarySingleChordAlternatives"],
+            ["D9sus4", "Am7/D"],
+        )
         self.assertEqual(case["registerBaseline"]["expectedCandidates"], [])
 
     def test_herrmann_pass_supplies_a_disjoint_literature_positive(self) -> None:
@@ -458,6 +476,30 @@ class InternalSuiteTest(unittest.TestCase):
         with self.assertRaisesRegex(
             ValueError, "without one repeated register identity"
         ):
+            subject.validate_suite_payload(payload)
+
+    def test_lone_bass_scope_rejects_a_complete_lower_chord(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "synthetic-d-over-c-major-seven")
+        case["scopeFeatures"].append("lone-bass-lower-unit")
+
+        with self.assertRaisesRegex(ValueError, "claims a lone-bass boundary"):
+            subject.validate_suite_payload(payload)
+
+    def test_bass_note_quality_requires_the_lone_bass_scope(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "hancock-maiden-voyage-a-minor-seven-over-d")
+        case["scopeFeatures"] = ["overlapping-register-layers"]
+
+        with self.assertRaisesRegex(ValueError, "must declare every lone bass-note"):
+            subject.validate_suite_payload(payload)
+
+    def test_analysis_source_requires_its_normalization_record(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "hancock-maiden-voyage-a-minor-seven-over-d")
+        del case["source"]["normalization"]
+
+        with self.assertRaisesRegex(ValueError, "missing.*normalization"):
             subject.validate_suite_payload(payload)
 
     def test_unresolved_notation_cannot_invent_a_symbol(self) -> None:

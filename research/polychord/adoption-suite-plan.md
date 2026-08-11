@@ -98,7 +98,11 @@ The frozen suite must include exact cases for:
 - same-root register groups, currently doubled C major;
 - an incomplete seventh shell under an upper-structure triad, currently
   `C13(#11)`;
-- a source-backed lone-bass or bare-fifth boundary;
+- **Satisfied:** a source-backed lone-bass boundary. Waters's peer-reviewed
+  analysis of Hancock's _Maiden Voyage_ identifies the A-section collection as
+  A-minor-seventh over D and gives its exact five pitch classes. The suite
+  preserves that division in a disclosed octave normalization, requires the
+  complete Am7 upper unit and lone D bass, and expects no polychord annotation;
 - **Satisfied:** a generated representative of an ordinary doubled
   accompaniment-form voicing that can be mistaken for two layers. The two-hand
   Cmaj7 case places C major below E minor with separate E and G instances,
@@ -119,6 +123,11 @@ Earlier drafts classified Elektra's lower E-B as a bare fifth. The complete
 E-major interpretation instead uses the upper D-flat triad's A-flat
 enharmonically as G-sharp. Elektra therefore fills the overlapping-cover cell,
 not the still-open genuine bare-fifth boundary.
+
+The _Maiden Voyage_ admission satisfies the lone-bass-or-bare-fifth coverage
+requirement without claiming that its normalized octaves reproduce Hancock's
+recorded voicing. A genuine bare-fifth source remains useful future coverage,
+but it is no longer a prerequisite for freezing the v0 adoption suite.
 
 A guard with no structural candidate still tests scope and regression behavior.
 A guard with one or more candidates additionally tests selector abstention.
