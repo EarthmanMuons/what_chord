@@ -17,9 +17,11 @@ prediction or score was generated. The single frozen-suite run in log
 2026-08-11-07 passes all internal exact gates for the full selector: six of six
 eligible positives and nine of nine guards. That is product-policy conformance,
 not the complete adoption bar or an external accuracy result. No
-development-corpus selector result has been read, and the 808-song POP909
-reserve remains untouched. The satisfied coverage and stopping record remains
-normative in `adoption-suite-plan.md`.
+development-corpus selector result has been read. `development-exposure-v1.md`
+and log 2026-08-11-08 preregister the corpus roles, exact replay, stable-display
+timing, complete fire dispositions, and stopping rules for that next step. The
+808-song POP909 reserve remains untouched. The satisfied coverage and stopping
+record remains normative in `adoption-suite-plan.md`.
 
 ## Task and claim boundary
 
@@ -52,7 +54,9 @@ structural proposal surface for the register-only baseline.
 with the primary result and how that output must be measured.
 `adoption-suite-plan.md`, preregistered in log 2026-08-10-19, fixes the coverage
 and stopping rules satisfied before the active seed became the frozen scorable
-adoption ruler in log 2026-08-11-03.
+adoption ruler in log 2026-08-11-03. `development-exposure-v1.md` fixes the
+first implementation-shaped development measurement without pretending that a
+sparse committed-event fixture is a live event stream.
 
 ## Research record and change control
 
@@ -69,20 +73,27 @@ adoption ruler in log 2026-08-11-03.
 
 ## Data isolation and splits
 
-Current scoping corpora, all octave-preserving:
+Current scoping sources, all octave-preserving but not equally time-complete:
 
-- When in Rome v1, development split only
-  (`research/whatkey/data/splits/when-in-rome-v1.json`).
-- ASAP x When in Rome, development split only
-  (`research/performed-input/data/splits/asap-wir-nc-v2.json`).
-- The committed 101-song POP909 sample fixtures, used as an advisory corpus. The
-  808-song clean reserve remains evaluation-virgin; it is not yet a declared
-  final test set. Freeze a fit-for-purpose development/test allocation from that
-  reserve only if POP909 later gains a formal evaluation role.
+- When in Rome v1, development split only, as a committed-event proposal
+  companion (`research/whatkey/data/splits/when-in-rome-v1.json`). Its sparse
+  snapshots do not support stable-display replay.
+- ASAP x When in Rome, development split only, replayed from raw performance
+  MIDI (`research/performed-input/data/splits/asap-wir-nc-v2.json`).
+- The frozen 101-song POP909 sample roster, used as an advisory corpus. The
+  stable-display measurement reuses the exact raw-MIDI `BRIDGE` plus `PIANO`
+  projection already frozen for that sample. The 808-song clean reserve remains
+  evaluation-virgin; it is not yet a declared final test set. Freeze a
+  fit-for-purpose development/test allocation from that reserve only if POP909
+  later gains a formal evaluation role.
 
 Rules:
 
-- No test split has been read or scored in this initiative.
+- No test split has been run or scored with a polychord generator or selector.
+  Log 2026-08-11-08 records one incidentally printed committed When in Rome test
+  fixture during a schema-shape audit; future work must not describe that
+  source's test fixtures as wholly unseen. No raw ASAP test performance or held
+  POP909 song has been opened in this initiative.
 - Corpus results are reported separately and never pooled. Pieces represented in
   more than one corpus are not treated as independent observations.
 - Fixture sets and split files are versioned and immutable for a result set.
@@ -93,6 +104,9 @@ Rules:
   or display gate may not consume them.
 - Scoping corpora are negative-exposure evidence because they contain no
   verified positive polychord annotations. They are not accuracy rulers.
+- Frame, duration, and display claims are made only from sources preserving the
+  required evidence. Committed-event duration is never substituted for exact
+  assignment persistence.
 
 ## Scoping census
 
@@ -138,7 +152,9 @@ Fixture events snapshot the voicing at a committed chord-identity onset,
 attribute the event duration to that snapshot, and omit same-identity revoicing.
 The census therefore measures committed-event exposure only. It does not measure
 every frame seen by a live generator or the subset that survives a
-stable-display gate.
+stable-display gate. The When in Rome development companion retains this same
+limitation in `development-exposure-v1.md`; only raw ASAP and POP909 MIDI are
+eligible for the stable-display safety measurement.
 
 Schema-3 reports retain every registral and pitch-class-only fire with piece,
 event index, timestamp, MIDI voicing, every split or cover, and the current
@@ -471,13 +487,19 @@ The following work must be dated and completed in order:
    evidence, integrated-tertian and exact-assignment abstention rules,
    widest-gap resolution, and three diagnostic ablations before implementation
    or evaluation.
-6. Selector implementation and internal conformance: in progress. Log
-   2026-08-11-05 records independent Python and pure-Dart implementations and
-   zero mismatches across 13,244 complete decisions on the pinned structural
-   matrix. The frozen adoption suite remains unscored; generate all four pinned
-   prediction artifacts and score them once as the next separate step.
-7. Implementation-shaped exposure: measure proposals and stable displays at
-   frame level before making a safety claim.
+6. Selector implementation and internal conformance: complete. Log 2026-08-11-05
+   records independent Python and pure-Dart implementations and zero mismatches
+   across 13,244 complete decisions on the pinned structural matrix. Log
+   2026-08-11-06 freezes the suite-evaluation harness before any prediction
+   exists. The single run in log 2026-08-11-07 then records zero Python/Dart
+   mismatches, six of six exact eligible positives, and nine of nine correct
+   guards for the full selector, satisfying adoption-bar items 2 through 4 only.
+7. Implementation-shaped exposure: preregistered, implementation pending.
+   `development-exposure-v1.md` and log 2026-08-11-08 fix exact frame and stable
+   display exposure on raw ASAP development MIDI and the frozen POP909 sample,
+   plus a separately named committed-event proposal companion for When in Rome.
+   No development selector result has been read. Implement and commit the
+   synthetic-only harness controls before the first corpus run.
 8. Optional external validation: use a newly registered, evidence-complete study
    before any reproducibility, independently validated ruler, or generalized
    accuracy claim. This is not a prerequisite for the preceding research work.
@@ -493,7 +515,9 @@ Any adopted lever must pass all of the following:
 - the dense-set stress census and POP909 corroboration;
 - the author-adjudicated polychord suite and its frozen adoption threshold;
 - frame-level counts of proposed decompositions and stable-display counts on
-  every scoping corpus, with a complete disposition of every new fire;
+  every frame-capable scoping corpus, with a complete disposition of every new
+  fire, plus separately labeled committed-event proposal diagnostics where raw
+  replay is unavailable;
 - the frozen polychord performance budget and on-device note-storm profiling.
 
 Single-chord pool differences cannot reveal an incorrect secondary decomposition
