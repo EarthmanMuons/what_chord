@@ -5,6 +5,9 @@ the v0 composite representation, presentation semantics, stability behavior,
 scoring model, adoption bar, and performance budget before any product selector
 is designed or evaluated. It does not choose a selector, authorize an engine or
 UI change, make the internal seed independent ground truth, or spend held data.
+Log 2026-08-11-08 adds the pre-result clarification that stable-display claims
+require frame-capable source evidence; it does not change the selector or
+adoption threshold.
 
 The decision and its architectural provenance are recorded in log 2026-08-10-18.
 
@@ -95,6 +98,12 @@ ChordAnalysisDisplay
 This is composition, not a new kind of `ChordIdentity`. The primary result is
 required; the secondary result is nullable. If the primary analyzer has no
 displayable chord, the polychord annotation is also absent.
+
+For implementation-shaped replay, raw primary availability means the live chord
+path could construct a `CaptureFrame`: at least three sounding MIDI notes and a
+nonempty unchanged analyzer result. It does not wait for the primary card's
+separate identity-stability timer. The secondary path retains its own
+exact-assignment stability gate and never changes primary timing.
 
 A selector may inspect the observed voicing, structural candidates, the
 unchanged primary identity and surfaced single-chord alternatives, and evidence
@@ -356,7 +365,8 @@ has passed.
 
 ## Stable-display and corpus reporting
 
-Every implementation-shaped corpus run reports, per piece and in aggregate:
+Every implementation-shaped frame-replay corpus run reports, per piece and in
+aggregate:
 
 - sounding frames and milliseconds;
 - frames and milliseconds with one or more structural candidates;
@@ -374,6 +384,12 @@ median, nearest-rank p90, and maximum. Corpus results remain exposure and safety
 evidence, not accuracy estimates, because the corpora have no verified polychord
 labels.
 
+A sparse committed-event source that omits within-event revoicing may report
+proposal counts and explicitly duration-attributed diagnostics, but it cannot
+report stable-display episodes or satisfy the display-safety item below. The
+first corpus-role and replay contract is fixed by `development-exposure-v1.md`
+and log 2026-08-11-08.
+
 ## Adoption bar
 
 A selector may proceed from development research to a held evaluation only if
@@ -386,9 +402,11 @@ all of the following are true:
 3. Every boundary and negative guard has abstention-correct score 1.
 4. Literature-attested and synthetic strata each pass their applicable exact
    gates and are reported separately.
-5. Every stable display on the declared development corpora is dispositioned,
-   with zero displays judged to be ordinary integrated, slash, same-root, or
-   otherwise out-of-scope cases under the frozen framework.
+5. Every stable display on every declared frame-replay development corpus is
+   dispositioned, with zero displays judged to be ordinary integrated, slash,
+   same-root, or otherwise out-of-scope cases under the frozen framework.
+   Proposal-only companions are reported separately and cannot substitute for
+   this display evidence.
 6. Primary analyzer output, key claims, committed chord events, current golden
    suites, the 18/18 comping suite, and clearly-correct oracle-pool entries have
    zero regressions.
@@ -438,7 +456,8 @@ held evaluation and with a development-evidence justification.
 4. Define and preregister one selector or selector ablation.
 5. Implement the pure-Dart composite types, candidate adapter, selector, and
    diagnostic serializer without changing primary analysis.
-6. Run the internal suite and development exposure measurements.
+6. Run the internal suite and preregistered development exposure measurements,
+   respecting each source's declared evidence capability.
 7. Only after the adoption bar passes, integrate the secondary presentation and
    stable-display gate behind a disabled-by-default development flag.
 8. Run device accessibility and note-storm checks before any default-on or
