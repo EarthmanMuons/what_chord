@@ -94,6 +94,7 @@ SCOPE_FEATURES = {
     "overlapping-register-layers",
     "integrated-extended-chord",
     "one-sounded-note-overlap",
+    "doubled-integrated-accompaniment",
 }
 QUALITY_INTERVALS = {
     "major": (0, 4, 7),
@@ -737,6 +738,40 @@ def validate_case(
             raise ValueError(
                 f"{context}.scopeFeatures claims multiple structural "
                 "identities without multiple register identities"
+            )
+    if "doubled-integrated-accompaniment" in features:
+        if construction_kind != "integrated-chord":
+            raise ValueError(
+                f"{context}.scopeFeatures claims doubled integrated "
+                "accompaniment for a non-integrated construction"
+            )
+        if product_class != "negative-guard":
+            raise ValueError(
+                f"{context}.scopeFeatures requires doubled integrated "
+                "accompaniment to remain a negative guard"
+            )
+        pitch_class_counts = {
+            pitch_class: sum(note % 12 == pitch_class for note in notes)
+            for pitch_class in range(12)
+        }
+        doubled_pitch_classes = {
+            pitch_class
+            for pitch_class, count in pitch_class_counts.items()
+            if count >= 2
+        }
+        if len(doubled_pitch_classes) < 2:
+            raise ValueError(
+                f"{context}.scopeFeatures claims doubled integrated "
+                "accompaniment without two doubled pitch classes"
+            )
+        if not any(
+            len(candidate["sharedPitchClasses"]) >= 2
+            and set(candidate["sharedPitchClasses"]) <= doubled_pitch_classes
+            for candidate in actual_candidates
+        ):
+            raise ValueError(
+                f"{context}.scopeFeatures claims doubled integrated "
+                "accompaniment without a shared-tone register candidate"
             )
     if expected_baseline != actual_baseline:
         raise ValueError(

@@ -163,6 +163,12 @@ regression guard, or unresolved candidate.
   the standard pop texture (blocked by the shared-pitch-class rule).
 - **Open-position spread triad (1-5-10)** and **open-voiced sevenths**: wide
   spacing of a single chord's own notes.
+- **Generated two-hand doubled Cmaj7 accompaniment**. Voice C3-E3-G3 in the
+  lower hand and E4-G4-B4 in the upper. The hand groups mechanically spell
+  `Em|C` through separate E and G instances, but the complete collection, bass,
+  and generation recipe are one Cmaj7 chord. The active suite uses this as an
+  executable negative guard against treating a convenient hand boundary as two
+  chordal layers; its synthetic status is not a claim about corpus prevalence.
 
 ## Notation conventions
 
