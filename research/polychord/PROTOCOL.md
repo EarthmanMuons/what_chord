@@ -13,8 +13,9 @@ preregistered by `register-selector-v1.md` and log 2026-08-11-04. No selector
 product-policy or corpus result has been read. Independent Python and pure-Dart
 implementations produced identical complete decisions on the label-free
 structural matrix in log 2026-08-11-05. The frozen adoption suite has not been
-scored. The satisfied coverage and stopping record remains normative in
-`adoption-suite-plan.md`.
+scored. A deterministic suite-evaluation harness is fixed by log 2026-08-11-06
+before the first prediction or score is generated. The satisfied coverage and
+stopping record remains normative in `adoption-suite-plan.md`.
 
 ## Task and claim boundary
 
