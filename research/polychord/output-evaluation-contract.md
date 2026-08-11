@@ -299,9 +299,10 @@ For the adjacent-register condition:
 - synthetic and literature-attested results are reported separately before any
   combined descriptive total.
 
-The current seed remains non-scorable because it is not yet the complete frozen
-adoption suite. This contract freezes how it will be scored, not that it is
-ready to authorize implementation.
+Log 2026-08-11-03 freezes the complete suite and enables scoring after verifying
+this contract, the scorer, all dependency pins, and the preregistered coverage.
+That enables selector research; it does not by itself authorize product
+implementation or satisfy the complete adoption bar.
 
 The v0 machine scorer evaluates only `adjacentRegisterSnapshot`. General
 pitch/register and timestamped-event eligibility remain separately reported

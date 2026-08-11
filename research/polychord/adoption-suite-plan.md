@@ -1,9 +1,9 @@
 # Polychord adoption-suite plan
 
-Status: preregistered coverage plan for the still non-scorable
-`polychord-internal-suite/2` seed. This plan defines what must be resolved
-before the adoption suite can be frozen and before any selector outcome is read.
-It is not the frozen suite, an accuracy ruler, or permission to use held data.
+Status: fulfilled preregistered coverage plan for the frozen
+`polychord-internal-suite/2` adoption suite. This plan preserves what had to be
+resolved before the freeze recorded in log 2026-08-11-03 and before any selector
+outcome was read. It is not an accuracy claim or permission to use held data.
 
 The audit and its provenance are recorded in log 2026-08-10-19. The output and
 scoring rules remain those of `output-evaluation-contract.md`.
@@ -59,6 +59,10 @@ The adoption suite must contain exact observations for every applicable cell
 below. A missing positive cell can be resolved only by admitting a pinned source
 case or by narrowing the v0 display scope before selector evaluation. A
 synthetic construction alone cannot satisfy a source-attested cell.
+
+All applicable cells below were satisfied before the freeze. The genuine
+bare-fifth case remains outside the required v0 coverage because the
+preregistered lone-bass-or-bare-fifth cell was satisfied by _Maiden Voyage_.
 
 ### Construction anchors
 
@@ -156,17 +160,18 @@ introduced under different identifiers. Partial metrics remain diagnostic and
 cannot pass an exact gate. Prediction artifacts reject duplicate or unversioned
 reason codes, require a reason for abstention, and forbid abstention reasons on
 a selection. A selected prediction must be one exact frozen structural
-candidate. The scorer refuses the active suite while `scoringAllowed` is false.
-Its summary retains integer numerators and denominators for every binary and
-partial metric rather than emitting only rounded or pooled averages. The
-non-vacuous `suiteExactGatePass` names only internal-suite conformance, not
-approval under the complete adoption bar.
+candidate. A synthetic control verifies that the scorer refuses an active suite
+while `scoringAllowed` is false; the committed frozen suite is scorable. Its
+summary retains integer numerators and denominators for every binary and partial
+metric rather than emitting only rounded or pooled averages. The non-vacuous
+`suiteExactGatePass` names only internal-suite conformance, not approval under
+the complete adoption bar.
 
 ## Freeze and amendment rule
 
-The suite may change while `scoringAllowed` is false, but every change requires
-a dated rationale and fresh dependency pins. It becomes the adoption ruler only
-through a dated freeze that:
+Before the freeze, the suite could change while `scoringAllowed` was false, but
+every change required a dated rationale and fresh dependency pins. It became the
+adoption ruler only through the dated freeze in log 2026-08-11-03, which:
 
 1. resolves every required cell as satisfied, explicitly out of scope, or
    unavailable after a documented search;
