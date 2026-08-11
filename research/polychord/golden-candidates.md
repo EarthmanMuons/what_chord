@@ -21,14 +21,17 @@ regression guard, or unresolved candidate.
 
 - **Petrushka chord** (Stravinsky, Petrushka, 1911). C major and F# major are
   combined; pcs {C,E,G}+{F#,A#,C#}. The rehearsal-49 clarinet statement is now
-  score-verified (printed p. 64, PDF p. 66 of the UNC scan): it consists of
-  concurrent arpeggiated streams, not one snapshot containing two complete
-  triads. It is therefore an event-window constructional positive and a
-  register-snapshot ineligible case. Other statements still require their own
-  verification rather than an assumed orientation or verticalized six-note
-  voicing. Analytical literature disputes whether the collection is better
-  understood as one octatonic-derived sonority or two triads, so retain both
-  readings.
+  score-verified (printed p. 64, PDF p. 66 of the UNC scan) and transcribed as
+  an exact replay window. The B-flat clarinet's written D-major arpeggio sounds
+  as C major, while the A clarinet's written A-major arpeggio sounds as F-sharp
+  major. The C-major stream remains above the F-sharp-major stream at all six
+  paired attacks, establishing `C|F#` for this passage. No frame contains both
+  complete triads, so the case is a constructional positive but is ineligible
+  for snapshot detection; its frame-by-frame register baseline is empty. Other
+  statements still require their own verification rather than an assumed
+  orientation or verticalized voicing. Analytical literature disputes whether
+  the collection is better understood as one octatonic-derived sonority or two
+  triads, so retain both readings.
 - **Petrushka, third tableau**. Same relation transposed: A major over Eb major.
 - **Augurs chord** (Rite of Spring). Eb7 with Fb major; pcs
   {Eb,G,Bb,Db}+{Fb,Ab,Cb}. Stravinsky's four-hand reduction at rehearsal 13 is
@@ -172,8 +175,8 @@ unverified.
   register is useful but not universal: the Ives opening has an exact contiguous
   split, Herrmann's “The Pass” supplies disjoint complete triads, and the 1922
   _Three Movements_ score supplies a recoverable complete seventh layer.
-  Petrushka rehearsal 49 still requires an event window, and the Augurs
-  components overlap in register. Those two establish the broader musical
+  Petrushka rehearsal 49 now supplies an exact moving event window, and the
+  Augurs components overlap in register. Those two establish the broader musical
   construct but are not evidence that the initial contiguous-register generator
   can recover it.
 - A complete lower dominant seventh is not automatically an integrated-chord

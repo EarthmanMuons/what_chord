@@ -54,6 +54,25 @@ describes the interval from zero until the first event. Source timestamps may be
 retained separately in provenance, but fixture event times are relative to this
 window origin.
 
+### Score-derived normalization
+
+A score-derived replay is a normalized symbolic observation, not a captured MIDI
+performance. Its consuming suite case and dated log must pin the score, identify
+the exact passage, record any transposition into sounding pitch, and explain the
+time conversion. When the score supplies a tempo, use it rather than an
+arbitrary scale; otherwise declare the chosen normalization.
+
+Notation does not determine a unique MIDI velocity. A score-derived fixture may
+therefore use a fixed valid velocity only when the description and provenance
+state that velocity is non-evidentiary. Note releases must still follow the
+notated durations and articulation as closely as the selected excerpt permits.
+
+Musically simultaneous events require an explicit deterministic serialization
+because this schema records one frame after every event. The fixture description
+and log must state that ordering. Any intermediate state at the same timestamp
+has zero duration and is a normalization artifact, but it remains visible to
+frame-level checks exactly like same-timestamp delivery from live MIDI.
+
 ## State object
 
 `initialState` contains exactly:

@@ -1,0 +1,376 @@
+{
+  "schema": "polychord-frame-replay/1",
+  "id": "stravinsky-petrushka-r49-arpeggios",
+  "description": "A score-normalized pair of synchronous, registrally separated ascending arpeggios. The inherited quarter-note tempo is 50, attacks are 200 milliseconds apart, and simultaneous boundaries are serialized as ascending note-offs before ascending note-ons; the fixed velocities are non-evidentiary.",
+  "timeBase": "milliseconds",
+  "initialState": {
+    "pressedMidiNotes": [],
+    "sustainedMidiNotes": [],
+    "pedalDown": false
+  },
+  "events": [
+    {
+      "index": 0,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 54,
+      "velocity": 64
+    },
+    {
+      "index": 1,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 60,
+      "velocity": 64
+    },
+    {
+      "index": 2,
+      "timestampMs": 200,
+      "type": "noteOff",
+      "midiNote": 54,
+      "velocity": 0
+    },
+    {
+      "index": 3,
+      "timestampMs": 200,
+      "type": "noteOff",
+      "midiNote": 60,
+      "velocity": 0
+    },
+    {
+      "index": 4,
+      "timestampMs": 200,
+      "type": "noteOn",
+      "midiNote": 58,
+      "velocity": 64
+    },
+    {
+      "index": 5,
+      "timestampMs": 200,
+      "type": "noteOn",
+      "midiNote": 64,
+      "velocity": 64
+    },
+    {
+      "index": 6,
+      "timestampMs": 400,
+      "type": "noteOff",
+      "midiNote": 58,
+      "velocity": 0
+    },
+    {
+      "index": 7,
+      "timestampMs": 400,
+      "type": "noteOff",
+      "midiNote": 64,
+      "velocity": 0
+    },
+    {
+      "index": 8,
+      "timestampMs": 400,
+      "type": "noteOn",
+      "midiNote": 61,
+      "velocity": 64
+    },
+    {
+      "index": 9,
+      "timestampMs": 400,
+      "type": "noteOn",
+      "midiNote": 67,
+      "velocity": 64
+    },
+    {
+      "index": 10,
+      "timestampMs": 600,
+      "type": "noteOff",
+      "midiNote": 61,
+      "velocity": 0
+    },
+    {
+      "index": 11,
+      "timestampMs": 600,
+      "type": "noteOff",
+      "midiNote": 67,
+      "velocity": 0
+    },
+    {
+      "index": 12,
+      "timestampMs": 600,
+      "type": "noteOn",
+      "midiNote": 66,
+      "velocity": 64
+    },
+    {
+      "index": 13,
+      "timestampMs": 600,
+      "type": "noteOn",
+      "midiNote": 72,
+      "velocity": 64
+    },
+    {
+      "index": 14,
+      "timestampMs": 800,
+      "type": "noteOff",
+      "midiNote": 66,
+      "velocity": 0
+    },
+    {
+      "index": 15,
+      "timestampMs": 800,
+      "type": "noteOff",
+      "midiNote": 72,
+      "velocity": 0
+    },
+    {
+      "index": 16,
+      "timestampMs": 800,
+      "type": "noteOn",
+      "midiNote": 70,
+      "velocity": 64
+    },
+    {
+      "index": 17,
+      "timestampMs": 800,
+      "type": "noteOn",
+      "midiNote": 76,
+      "velocity": 64
+    },
+    {
+      "index": 18,
+      "timestampMs": 1000,
+      "type": "noteOff",
+      "midiNote": 70,
+      "velocity": 0
+    },
+    {
+      "index": 19,
+      "timestampMs": 1000,
+      "type": "noteOff",
+      "midiNote": 76,
+      "velocity": 0
+    },
+    {
+      "index": 20,
+      "timestampMs": 1000,
+      "type": "noteOn",
+      "midiNote": 73,
+      "velocity": 64
+    },
+    {
+      "index": 21,
+      "timestampMs": 1000,
+      "type": "noteOn",
+      "midiNote": 79,
+      "velocity": 64
+    },
+    {
+      "index": 22,
+      "timestampMs": 1200,
+      "type": "noteOff",
+      "midiNote": 73,
+      "velocity": 0
+    },
+    {
+      "index": 23,
+      "timestampMs": 1200,
+      "type": "noteOff",
+      "midiNote": 79,
+      "velocity": 0
+    }
+  ],
+  "frames": [
+    {
+      "afterEventIndex": 0,
+      "timestampMs": 0,
+      "pressedMidiNotes": [54],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [54],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 1,
+      "timestampMs": 0,
+      "pressedMidiNotes": [54, 60],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [54, 60],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 2,
+      "timestampMs": 200,
+      "pressedMidiNotes": [60],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [60],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 3,
+      "timestampMs": 200,
+      "pressedMidiNotes": [],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 4,
+      "timestampMs": 200,
+      "pressedMidiNotes": [58],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [58],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 5,
+      "timestampMs": 200,
+      "pressedMidiNotes": [58, 64],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [58, 64],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 6,
+      "timestampMs": 400,
+      "pressedMidiNotes": [64],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [64],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 7,
+      "timestampMs": 400,
+      "pressedMidiNotes": [],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 8,
+      "timestampMs": 400,
+      "pressedMidiNotes": [61],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [61],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 9,
+      "timestampMs": 400,
+      "pressedMidiNotes": [61, 67],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [61, 67],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 10,
+      "timestampMs": 600,
+      "pressedMidiNotes": [67],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [67],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 11,
+      "timestampMs": 600,
+      "pressedMidiNotes": [],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 12,
+      "timestampMs": 600,
+      "pressedMidiNotes": [66],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [66],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 13,
+      "timestampMs": 600,
+      "pressedMidiNotes": [66, 72],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [66, 72],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 14,
+      "timestampMs": 800,
+      "pressedMidiNotes": [72],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [72],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 15,
+      "timestampMs": 800,
+      "pressedMidiNotes": [],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 16,
+      "timestampMs": 800,
+      "pressedMidiNotes": [70],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [70],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 17,
+      "timestampMs": 800,
+      "pressedMidiNotes": [70, 76],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [70, 76],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 18,
+      "timestampMs": 1000,
+      "pressedMidiNotes": [76],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [76],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 19,
+      "timestampMs": 1000,
+      "pressedMidiNotes": [],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 20,
+      "timestampMs": 1000,
+      "pressedMidiNotes": [73],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [73],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 21,
+      "timestampMs": 1000,
+      "pressedMidiNotes": [73, 79],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [73, 79],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 22,
+      "timestampMs": 1200,
+      "pressedMidiNotes": [79],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [79],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 23,
+      "timestampMs": 1200,
+      "pressedMidiNotes": [],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [],
+      "pedalDown": false
+    }
+  ],
+  "endTimestampMs": 1200
+}

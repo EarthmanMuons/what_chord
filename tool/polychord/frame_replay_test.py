@@ -28,6 +28,7 @@ class FrameReplayTest(unittest.TestCase):
             {
                 "carried-in-state.json",
                 "pedal-release-and-repress.json",
+                "stravinsky-petrushka-r49-arpeggios.json",
                 "stravinsky-shrovetide-oblique-motion.json",
                 "synchronous-six-note-cohort.json",
                 "two-register-contrary-motion.json",
@@ -36,6 +37,28 @@ class FrameReplayTest(unittest.TestCase):
                 "two-register-pedal-history.json",
             },
         )
+
+    def test_petrushka_replay_preserves_synchronous_arpeggio_pulses(self) -> None:
+        fixture = load_fixture("stravinsky-petrushka-r49-arpeggios.json")
+
+        paired_frames = [fixture["frames"][index] for index in (1, 5, 9, 13, 17, 21)]
+        self.assertEqual(
+            [frame["soundingMidiNotes"] for frame in paired_frames],
+            [
+                [54, 60],
+                [58, 64],
+                [61, 67],
+                [66, 72],
+                [70, 76],
+                [73, 79],
+            ],
+        )
+        self.assertEqual(
+            [frame["timestampMs"] for frame in paired_frames],
+            [0, 200, 400, 600, 800, 1000],
+        )
+        self.assertEqual(fixture["frames"][-1]["soundingMidiNotes"], [])
+        self.assertEqual(fixture["endTimestampMs"], 1200)
 
     def test_onset_pair_reaches_the_same_six_note_state_differently(self) -> None:
         synchronous = load_fixture("synchronous-six-note-cohort.json")

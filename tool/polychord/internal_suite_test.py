@@ -24,7 +24,7 @@ class InternalSuiteTest(unittest.TestCase):
     def test_committed_seed_and_every_dependency_validate(self) -> None:
         case_ids = subject.validate_suite(SUITE_PATH)
 
-        self.assertEqual(len(case_ids), 12)
+        self.assertEqual(len(case_ids), 13)
         self.assertEqual(case_ids, sorted(case_ids))
 
     def test_seed_contains_all_product_policy_classes(self) -> None:
@@ -97,6 +97,22 @@ class InternalSuiteTest(unittest.TestCase):
         self.assertEqual(candidates[1]["lower"]["quality"], "dominant7")
         self.assertEqual(candidates[1]["sharedPitchClasses"], [])
 
+    def test_petrushka_is_admitted_as_a_window_not_a_false_snapshot(self) -> None:
+        case = case_by_id(load_suite(), "stravinsky-petrushka-r49-arpeggios")
+
+        self.assertEqual(case["observation"]["kind"], "frame-replay-window")
+        self.assertIn("moving-arpeggiated-layers", case["scopeFeatures"])
+        self.assertEqual(case["construction"]["notation"]["symbol"], "C|F#")
+        self.assertEqual(case["registerBaseline"]["expectedCandidateFrames"], [])
+        self.assertEqual(
+            case["inputEligibility"]["adjacentRegisterSnapshot"]["status"],
+            "ineligible",
+        )
+        self.assertEqual(
+            case["inputEligibility"]["timestampedEventStream"]["status"],
+            "eligible",
+        )
+
     def test_common_sevenths_are_exercised_in_both_layer_roles(self) -> None:
         payload = load_suite()
         upper_seventh = case_by_id(payload, "synthetic-d-sharp-seven-over-e")
@@ -163,6 +179,55 @@ class InternalSuiteTest(unittest.TestCase):
             [7],
         )
 
+    def test_window_baseline_evaluates_each_frame_without_verticalizing_union(
+        self,
+    ) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "synthetic-layered-c-over-g-minor")
+        final_candidates = case["registerBaseline"]["expectedCandidates"]
+        case["observation"] = {
+            "kind": "frame-replay-window",
+            "fixtureId": "two-register-held-cohorts",
+            "firstEventIndex": 0,
+            "lastEventIndex": 5,
+            "spelledNotes": ["G2", "Bb2", "D3", "C4", "E4", "G4"],
+        }
+        case["registerBaseline"] = {
+            "expectedCandidateFrames": [
+                {
+                    "afterEventIndex": 5,
+                    "timestampMs": 400,
+                    "candidates": final_candidates,
+                }
+            ]
+        }
+
+        subject.validate_suite_payload(payload)
+
+    def test_moving_scope_rejects_a_static_complete_frame(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "synthetic-layered-c-over-g-minor")
+        case["scopeFeatures"].append("moving-arpeggiated-layers")
+        case["observation"] = {
+            "kind": "frame-replay-window",
+            "fixtureId": "two-register-held-cohorts",
+            "firstEventIndex": 0,
+            "lastEventIndex": 5,
+            "spelledNotes": ["G2", "Bb2", "D3", "C4", "E4", "G4"],
+        }
+        case["registerBaseline"] = {
+            "expectedCandidateFrames": [
+                {
+                    "afterEventIndex": 5,
+                    "timestampMs": 400,
+                    "candidates": case["registerBaseline"]["expectedCandidates"],
+                }
+            ]
+        }
+
+        with self.assertRaisesRegex(ValueError, "contains both complete units"):
+            subject.validate_suite_payload(payload)
+
     def test_resolved_construction_can_remain_a_product_boundary(self) -> None:
         case = case_by_id(load_suite(), "stravinsky-shrovetide-second-attack")
 
@@ -185,7 +250,7 @@ class InternalSuiteTest(unittest.TestCase):
         case = case_by_id(payload, "synthetic-integrated-d-six")
         case["registerBaseline"]["expectedCandidates"] = []
 
-        with self.assertRaisesRegex(ValueError, "do not match generation"):
+        with self.assertRaisesRegex(ValueError, "does not match generation"):
             subject.validate_suite_payload(payload)
 
     def test_false_disjoint_scope_claim_is_rejected(self) -> None:
