@@ -631,13 +631,26 @@ def when_in_rome_request(piece: SourcePiece) -> tuple[dict, dict]:
     if fixture.get("id") != f"when-in-rome-v1/{piece.piece_id}":
         raise ValueError(f"fixture ID does not match split entry: {piece.path}")
     events = []
+    source_note_occurrences = 0
+    analyzed_distinct_notes = 0
+    events_with_repeated_voice_pitches = 0
     for index, event in enumerate(fixture.get("events", [])):
+        source_notes = event["midiNotes"]
+        if not isinstance(source_notes, list) or any(
+            isinstance(note, bool) or not isinstance(note, int) or not 0 <= note <= 127
+            for note in source_notes
+        ):
+            raise ValueError(f"fixture event {index} has invalid MIDI notes")
+        midi_notes = sorted(set(source_notes))
+        source_note_occurrences += len(source_notes)
+        analyzed_distinct_notes += len(midi_notes)
+        events_with_repeated_voice_pitches += len(source_notes) != len(midi_notes)
         events.append(
             {
                 "id": f"{piece.piece_id}/event-{index}",
                 "timestampMs": event["timestampMs"],
                 "durationMs": event["durationMs"],
-                "midiNotes": event["midiNotes"],
+                "midiNotes": midi_notes,
             }
         )
     return (
@@ -647,6 +660,13 @@ def when_in_rome_request(piece: SourcePiece) -> tuple[dict, dict]:
             "sourceSha256": piece.source_sha256,
             "fixtureSchema": fixture.get("schema"),
             "committedEventCount": len(events),
+            "midiProjection": "sorted-distinct-pitch-set",
+            "sourceMidiNoteOccurrences": source_note_occurrences,
+            "analyzedDistinctMidiNotes": analyzed_distinct_notes,
+            "eventsWithRepeatedVoicePitches": events_with_repeated_voice_pitches,
+            "repeatedVoicePitchOccurrencesCollapsed": (
+                source_note_occurrences - analyzed_distinct_notes
+            ),
             "labelsSuppliedToDart": False,
             "storedCandidatesSuppliedToDart": False,
         },

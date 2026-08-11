@@ -136,7 +136,7 @@ class IsolationAndPresentationTest(unittest.TestCase):
                             {
                                 "timestampMs": 100,
                                 "durationMs": 250,
-                                "midiNotes": [48, 52, 55, 62, 66, 69],
+                                "midiNotes": [52, 48, 48, 55, 62, 66, 69],
                                 "reference": {"figure": "I"},
                                 "candidates": [{"quality": "major"}],
                             }
@@ -158,6 +158,12 @@ class IsolationAndPresentationTest(unittest.TestCase):
             set(request["events"][0]),
             {"id", "timestampMs", "durationMs", "midiNotes"},
         )
+        self.assertEqual(request["events"][0]["midiNotes"], [48, 52, 55, 62, 66, 69])
+        self.assertEqual(source["midiProjection"], "sorted-distinct-pitch-set")
+        self.assertEqual(source["sourceMidiNoteOccurrences"], 7)
+        self.assertEqual(source["analyzedDistinctMidiNotes"], 6)
+        self.assertEqual(source["eventsWithRepeatedVoicePitches"], 1)
+        self.assertEqual(source["repeatedVoicePitchOccurrencesCollapsed"], 1)
         self.assertFalse(source["labelsSuppliedToDart"])
         self.assertFalse(source["storedCandidatesSuppliedToDart"])
 
