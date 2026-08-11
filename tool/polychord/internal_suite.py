@@ -95,6 +95,7 @@ SCOPE_FEATURES = {
     "integrated-extended-chord",
     "one-sounded-note-overlap",
     "doubled-integrated-accompaniment",
+    "multiple-exact-assignments",
 }
 QUALITY_INTERVALS = {
     "major": (0, 4, 7),
@@ -103,6 +104,7 @@ QUALITY_INTERVALS = {
     "major7": (0, 4, 7, 11),
     "minor7": (0, 3, 7, 10),
     "major-sixth": (0, 4, 7, 9),
+    "major-ninth": (0, 2, 4, 7, 11),
     "seventh-shell-third": (0, 4, 10),
 }
 POLYCHORD_QUALITIES = {"major", "minor", "dominant7", "major7", "minor7"}
@@ -738,6 +740,30 @@ def validate_case(
             raise ValueError(
                 f"{context}.scopeFeatures claims multiple structural "
                 "identities without multiple register identities"
+            )
+    if "multiple-exact-assignments" in features:
+        assignments_by_identity: dict[
+            tuple[int, str, int, str],
+            set[tuple[tuple[int, ...], tuple[int, ...]]],
+        ] = {}
+        for candidate in actual_candidates:
+            identity = (
+                candidate["lower"]["rootPc"],
+                candidate["lower"]["quality"],
+                candidate["upper"]["rootPc"],
+                candidate["upper"]["quality"],
+            )
+            assignment = (
+                tuple(candidate["lower"]["midiNotes"]),
+                tuple(candidate["upper"]["midiNotes"]),
+            )
+            assignments_by_identity.setdefault(identity, set()).add(assignment)
+        if not any(
+            len(assignments) >= 2 for assignments in assignments_by_identity.values()
+        ):
+            raise ValueError(
+                f"{context}.scopeFeatures claims multiple exact assignments "
+                "without one repeated register identity"
             )
     if "doubled-integrated-accompaniment" in features:
         if construction_kind != "integrated-chord":

@@ -7,7 +7,7 @@
   "dependencies": {
     "adoptionPlan": {
       "path": "research/polychord/adoption-suite-plan.md",
-      "sha256": "807d6f59eb08ca8fe641bf2bb8de1e6cd19bd9e34e924ccdcadfd5672e8630ce"
+      "sha256": "6ba59d6b8516f405aa5ecde7ad5231aaf4feb8298fa54df50cb287dc7c9245c2"
     },
     "framework": {
       "path": "research/polychord/FRAMEWORK.md",
@@ -19,7 +19,7 @@
     },
     "schemaDocument": {
       "path": "research/polychord/internal-suite-schema.md",
-      "sha256": "c8958380f887fc5e6e254f8a8f06292dd0667452c9b6d007f84baf84b3cde38a"
+      "sha256": "b3c66b9434de799bc9767a0b4774a6d20d28e35e25bcb2d42ad0b8e7b8cc0c98"
     },
     "registerCandidateSchema": {
       "path": "research/polychord/register-candidate-schema.md",
@@ -31,7 +31,7 @@
     },
     "validator": {
       "path": "tool/polychord/internal_suite.py",
-      "sha256": "84643bf0594df217f3f33e480401c2883678a60bb2c7ac35574dab1cc80a19e7"
+      "sha256": "fda41502b9dd7e68f3bb8aa9e2de7805f17ed9ae88f3b3167de4eab059f7a162"
     }
   },
   "cases": [
@@ -699,6 +699,108 @@
             },
             "sharedPitchClasses": [],
             "symbol": "G|G#7"
+          }
+        ]
+      }
+    },
+    {
+      "id": "synthetic-c-major-nine-assignment-ambiguity",
+      "title": "C-major-ninth with two exact G-over-C assignments",
+      "epistemicStatus": "synthetic-regression-guard",
+      "scopeFeatures": [
+        "integrated-extended-chord",
+        "multiple-exact-assignments",
+        "shared-pitch-class-separate-notes"
+      ],
+      "source": {
+        "kind": "synthetic",
+        "generation": "Use the focused register-conformance voicing C3-E3-G3-G4-B4-D5-G5. Treat the full C-D-E-G-B collection over bass C as one C-major-ninth chord while retaining both mechanically exact G-major-over-C-major assignments."
+      },
+      "observation": {
+        "kind": "snapshot",
+        "soundingMidiNotes": [48, 52, 55, 67, 71, 74, 79],
+        "spelledNotes": ["C3", "E3", "G3", "G4", "B4", "D5", "G5"]
+      },
+      "construction": {
+        "kind": "integrated-chord",
+        "description": "All seven notes form one C-major-ninth voicing with G doubled in three registers; the two G-over-C splits are structural alternatives, not separate adjudicated constructions.",
+        "units": [
+          {
+            "id": "integrated-c-major-nine",
+            "identity": "Cmaj9",
+            "rootPc": 0,
+            "quality": "major-ninth",
+            "midiNotes": [48, 52, 55, 67, 71, 74, 79],
+            "spelledNotes": ["C3", "E3", "G3", "G4", "B4", "D5", "G5"],
+            "pitchClasses": [0, 2, 4, 7, 11]
+          }
+        ],
+        "notation": {
+          "status": "not-applicable",
+          "reason": "The generated construction and product expectation treat the observation as one integrated C-major-ninth chord."
+        }
+      },
+      "productExpectation": {
+        "class": "negative-guard",
+        "expectedPolychords": [],
+        "primarySingleChordAlternatives": ["Cmaj9"],
+        "reason": "Neither of two exact assignments for the same G|C identity should create a secondary annotation when the generated observation is explicitly one integrated Cmaj9 voicing."
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "ambiguous",
+          "reason": "The G3-to-G4 and G4-to-B4 boundaries both yield G|C with different exact assignments, while the whole pitch set is C major ninth."
+        },
+        "generalPitchRegisterSnapshot": {
+          "status": "eligible",
+          "reason": "The complete C-major-ninth pitch set, C bass, and explicit generation recipe establish the integrated regression expectation."
+        },
+        "timestampedEventStream": {
+          "status": "not-available",
+          "reason": "This generated snapshot carries no event history."
+        }
+      },
+      "registerBaseline": {
+        "expectedCandidates": [
+          {
+            "splitAfterIndex": 2,
+            "lowerTopMidi": 55,
+            "upperBottomMidi": 67,
+            "gapSemitones": 12,
+            "lower": {
+              "rootPc": 0,
+              "quality": "major",
+              "midiNotes": [48, 52, 55],
+              "pitchClasses": [0, 4, 7]
+            },
+            "upper": {
+              "rootPc": 7,
+              "quality": "major",
+              "midiNotes": [67, 71, 74, 79],
+              "pitchClasses": [2, 7, 11]
+            },
+            "sharedPitchClasses": [7],
+            "symbol": "G|C"
+          },
+          {
+            "splitAfterIndex": 3,
+            "lowerTopMidi": 67,
+            "upperBottomMidi": 71,
+            "gapSemitones": 4,
+            "lower": {
+              "rootPc": 0,
+              "quality": "major",
+              "midiNotes": [48, 52, 55, 67],
+              "pitchClasses": [0, 4, 7]
+            },
+            "upper": {
+              "rootPc": 7,
+              "quality": "major",
+              "midiNotes": [71, 74, 79],
+              "pitchClasses": [2, 7, 11]
+            },
+            "sharedPitchClasses": [7],
+            "symbol": "G|C"
           }
         ]
       }

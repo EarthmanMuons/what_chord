@@ -106,8 +106,10 @@ The frozen suite must include exact cases for:
   the integrated Cmaj7 name. Its synthetic status makes no prevalence claim;
 - multiple structural identities in one observation, supplied by the
   source-backed `G|Ab7` case and not to be chosen by iteration order;
-- an exact-assignment ambiguity within one identity if structurally feasible;
-  and
+- **Satisfied:** an exact-assignment ambiguity within one identity. The focused
+  conformance voicing C3-E3-G3-G4-B4-D5-G5 now appears as an integrated Cmaj9
+  negative guard. Its two adjacent boundaries produce the same `G|C` identity
+  with different exact placement of G4; and
 - **Satisfied:** a one-sounded-note overlapping cover, supplied by the
   octave-normalized Elektra-chord set. The analytical E-major and D-flat-major
   units share one physical A-flat/G-sharp, so the executable case remains a v0
