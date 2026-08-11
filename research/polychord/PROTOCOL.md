@@ -9,7 +9,10 @@ performance budget are fixed by `output-evaluation-contract.md` and log
 2026-08-10-18. The complete adoption suite and selector remain unfrozen; no
 engine lever may be evaluated yet. The preregistered symmetric structural
 conformance matrix passed in log 2026-08-10-20. Product-policy coverage remains
-incomplete and is tracked normatively in `adoption-suite-plan.md`.
+tracked normatively in `adoption-suite-plan.md`. Its required coverage and
+selector-independent control cells are now satisfied, but the adoption ruler
+remains non-scorable until a separate dated freeze audit updates its status and
+pins.
 
 ## Task and claim boundary
 
@@ -260,9 +263,14 @@ upper and lower identities, note-to-layer assignment, source, admissible
 alternatives, scope feature (shared tone, incomplete unit, bass-only unit, and
 so on), and the evidence that licenses or blocks the split. A passage may not be
 silently verticalized into a simultaneous voicing that the source never sounds.
-An octave-normalized or otherwise generated observation derived from a
-literature-attested pitch set must instead identify itself as synthetic and
-theory-derived; its analytical sources belong in the dated admission record.
+An octave-normalized or otherwise generated observation must never identify
+itself as a literal score transcription. When a stable analytical source
+explicitly supplies both the complete pitch collection and named decomposition,
+the suite may preserve that literature-attested construction through an
+`analysis` source record that pins the artifact and discloses the normalization.
+When the normalization instead supplies or changes the analytical decomposition,
+the case remains synthetic and theory-derived, with its context sources confined
+to the dated admission record.
 
 Construction truth and input eligibility are separate annotations. A score can
 establish a polychordal construction while a pitch-and-register snapshot cannot
@@ -439,7 +447,10 @@ The following work must be dated and completed in order:
    two boundaries generate `G|C` with different exact note assignments. Log
    2026-08-11-01 fills the remaining source-backed scope cell with Waters's
    A-minor-seventh-over-D analysis of _Maiden Voyage_, represented as a
-   disclosed octave normalization and an executable lone-bass boundary.
+   disclosed octave normalization and an executable lone-bass boundary. Log
+   2026-08-11-02 resolves the freeze-order and multiple-answer scoring gaps,
+   adds the pinned exact scorer, and makes the input, temporal-support, and
+   stable-display controls executable without reading a selector result.
 4. Output and evaluation freeze: complete. `output-evaluation-contract.md` and
    log 2026-08-10-18 fix the composite type, presentation, metrics, adoption
    threshold, stable-display behavior, and performance budget without choosing

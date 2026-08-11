@@ -34,7 +34,15 @@ class InternalSuiteTest(unittest.TestCase):
             {case["productExpectation"]["class"] for case in payload["cases"]},
             {"positive", "boundary", "negative-guard"},
         )
+        self.assertEqual(payload["status"], "active-author-adjudicated-seed")
         self.assertFalse(payload["scoringAllowed"])
+
+    def test_status_and_scoring_permission_must_advance_together(self) -> None:
+        payload = load_suite()
+        payload["scoringAllowed"] = True
+
+        with self.assertRaisesRegex(ValueError, "status and scoringAllowed"):
+            subject.validate_suite_payload(payload)
 
     def test_augurs_is_a_positive_construction_not_a_register_miss(self) -> None:
         case = case_by_id(load_suite(), "stravinsky-augurs-r13")
@@ -381,7 +389,8 @@ class InternalSuiteTest(unittest.TestCase):
         case["productExpectation"]["class"] = "positive"
         case["productExpectation"]["expectedPolychords"] = [
             {
-                "unitIds": ["lower-e-major", "upper-d-flat-major"],
+                "id": "d-flat-major-over-e-major",
+                "unitIds": ["upper-d-flat-major", "lower-e-major"],
                 "symbol": "Db|E",
             }
         ]
@@ -508,6 +517,44 @@ class InternalSuiteTest(unittest.TestCase):
         case["productExpectation"]["expectedPolychords"][0]["symbol"] = "Fb|Eb7"
 
         with self.assertRaisesRegex(ValueError, "cannot invent a symbol"):
+            subject.validate_suite_payload(payload)
+
+    def test_expected_polychord_ids_must_be_unique(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "ives-psalm-67-opening")
+        duplicate = deepcopy(case["productExpectation"]["expectedPolychords"][0])
+        case["productExpectation"]["expectedPolychords"].append(duplicate)
+
+        with self.assertRaisesRegex(ValueError, "duplicate ids"):
+            subject.validate_suite_payload(payload)
+
+    def test_expected_polychord_decompositions_must_be_distinct(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "ives-psalm-67-opening")
+        duplicate = deepcopy(case["productExpectation"]["expectedPolychords"][0])
+        duplicate["id"] = "duplicate-decomposition"
+        case["productExpectation"]["expectedPolychords"].append(duplicate)
+
+        with self.assertRaisesRegex(ValueError, "duplicate decompositions"):
+            subject.validate_suite_payload(payload)
+
+    def test_resolved_expected_units_are_ordered_upper_then_lower(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "ives-psalm-67-opening")
+        case["productExpectation"]["expectedPolychords"][0]["unitIds"].reverse()
+
+        with self.assertRaisesRegex(ValueError, "ordered upper then lower"):
+            subject.validate_suite_payload(payload)
+
+    def test_eligible_unresolved_positive_requires_both_orientations(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "stravinsky-augurs-r13")
+        case["inputEligibility"]["adjacentRegisterSnapshot"] = {
+            "status": "eligible",
+            "reason": "Mutation isolates the unresolved-orientation rule.",
+        }
+
+        with self.assertRaisesRegex(ValueError, "represent both orientations"):
             subject.validate_suite_payload(payload)
 
     def test_spelling_mismatch_is_rejected(self) -> None:

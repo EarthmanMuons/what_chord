@@ -146,6 +146,33 @@ input with real register remains eligible even when it has no onset or motion
 history. A later manual-entry design may become eligible by preserving explicit
 register or explicit upper/lower units.
 
+## Executable decision controls
+
+`tool/polychord/decision_contract.py` is a research control surface, not the
+production output type or a selector. Its `polychord-decision-control/1` records
+one externally supplied policy selection alongside register, onset, motion, and
+raw release/pedal evidence. Every candidate's assigned pitch classes must
+exactly realize its declared roots and qualities. The controls establish that
+unavailable or neutral temporal support leaves that selection unchanged,
+positive temporal support cannot create a selection, and pitch-class-only input
+returns `missing-register-evidence`.
+
+The same control surface implements the frozen 200-millisecond state reducer.
+Its tests cover delayed appearance, delayed identity or exact-assignment change
+while the displayed assignment remains valid, and immediate clearing for
+silence, absent primary, abstention, or an invalidated exact assignment.
+Transition reasons are harness diagnostics, not additions to the product's
+selector reason-code vocabulary.
+
+`tool/polychord/internal_suite_scorer.py` implements `polychord-exact-scorer/1`.
+A prediction artifact names the exact suite digest, `adjacentRegisterSnapshot`,
+selector identifier, and one selection or abstention for every case. The scorer
+requires a versioned reason for every abstention, rejects reasons attached to a
+selection, rejects duplicate or unversioned reason codes, and refuses a suite
+whose `scoringAllowed` field is false. A selected prediction must exactly match
+one candidate from that case's frozen register baseline. Its synthetic controls
+do not contain or evaluate selector output.
+
 ## Notation and wording
 
 Canonical machine and plain-text notation is `upper|lower`, with ASCII `|` and
@@ -276,6 +303,11 @@ The current seed remains non-scorable because it is not yet the complete frozen
 adoption suite. This contract freezes how it will be scored, not that it is
 ready to authorize implementation.
 
+The v0 machine scorer evaluates only `adjacentRegisterSnapshot`. General
+pitch/register and timestamped-event eligibility remain separately reported
+construct coverage until a named method for either condition is preregistered.
+They are never silently pooled into the adjacent-register gate.
+
 ## Metrics and partial credit
 
 For one predicted annotation and one acceptable expected decomposition:
@@ -286,24 +318,40 @@ For one predicted annotation and one acceptable expected decomposition:
   exactly match the expected units, otherwise 0;
 - **layer identity credit**: the number of expected `(rootPc, quality)` units
   present in the predicted unordered pair divided by 2, yielding 0, 0.5, or 1;
+  retain the matched-layer numerator and two-layer denominator;
 - **orientation correct**: defined only when layer identity credit is 1, and 1
   only when the two units occupy the expected upper and lower roles;
 - **note assignment accuracy**: after matching units by `(rootPc, quality)`, the
   number of observed MIDI notes assigned to their expected unit divided by the
-  total observed notes; unmatched units contribute zero correct notes; and
+  total observed notes; unmatched units contribute zero correct notes, and both
+  integer counts are retained; and
 - **abstention correct**: 1 for no annotation on a boundary or negative-guard
   case, otherwise 0.
 
 When a case has several acceptable expected decompositions, score against each
-and retain the maximum result as well as the winning expected identifier. An
-abstention on a positive receives zero on every positive metric. A prediction on
-a boundary or negative guard receives zero abstention credit; partial layer
-similarity does not excuse the fire.
+and retain one result plus its stable expected identifier. The winner is the
+lexicographic maximum of ordered-composite exact, assignment exact, layer
+identity credit, orientation correct (undefined sorts below 0), and note
+assignment accuracy, in that order. The first declared expected answer wins an
+exact tie. This gate-first ordering prevents partial credit from selecting an
+alternative over an exact result. Acceptable decompositions must themselves be
+distinct; separate identifiers cannot alias one answer. An abstention on a
+positive receives zero on every positive metric. A prediction on a boundary or
+negative guard receives zero abstention credit; partial layer similarity does
+not excuse the fire.
 
 Report exact counts and denominators for every metric. Layer identity credit and
 note assignment accuracy are diagnostics for error analysis and future external
 agreement; they cannot satisfy the adoption gate. Symbols and enharmonic
 spellings are presentation diagnostics, not identity scoring dimensions.
+
+The score summary aggregates binary metrics as exact case counts, layer credit
+as matched layers over expected layers, orientation over only cases where it is
+defined, and note assignment as correctly assigned notes over observed notes.
+Per-case values remain in the artifact so no aggregate can hide a failure. Its
+non-vacuous `suiteExactGatePass` covers only the internal-suite exact gates in
+adoption-bar items 2 through 4; it is not a claim that the complete adoption bar
+has passed.
 
 ## Stable-display and corpus reporting
 
@@ -380,15 +428,17 @@ held evaluation and with a development-evidence justification.
 
 ## Required implementation order
 
-1. Complete and freeze the adoption suite without reading selector outcomes.
-2. Implement the machine-readable scorer for the metrics above and test it with
-   synthetic exact, swapped, one-layer, wrong-assignment, abstention, and
-   multiple-acceptable controls.
-3. Define and preregister one selector or selector ablation.
-4. Implement the pure-Dart composite types, candidate adapter, selector, and
+1. Complete the adoption suite without reading selector outcomes.
+2. Implement and pin the machine-readable scorer and selector-independent
+   decision controls. Test them only with synthetic control predictions.
+3. Freeze the suite, scorer, dependency pins, strata, and identifiers, then set
+   `scoringAllowed` true. This avoids a circular requirement to freeze a scorer
+   that did not yet exist.
+4. Define and preregister one selector or selector ablation.
+5. Implement the pure-Dart composite types, candidate adapter, selector, and
    diagnostic serializer without changing primary analysis.
-5. Run the internal suite and development exposure measurements.
-6. Only after the adoption bar passes, integrate the secondary presentation and
+6. Run the internal suite and development exposure measurements.
+7. Only after the adoption bar passes, integrate the secondary presentation and
    stable-display gate behind a disabled-by-default development flag.
-7. Run device accessibility and note-storm checks before any default-on or
+8. Run device accessibility and note-storm checks before any default-on or
    release decision.

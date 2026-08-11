@@ -135,8 +135,10 @@ A guard with one or more candidates additionally tests selector abstention.
 ## Input-condition and scorer controls
 
 The snapshot suite does not stand in for every input mode. Before selector
-evaluation, executable controls must separately establish:
+evaluation, executable controls must separately establish. **Satisfied:**
+`decision_contract.py` and its tests now establish that:
 
+- candidate note assignments exactly realize their declared layer identities;
 - registered static MIDI input remains eligible without temporal history;
 - neutral or unavailable onset and motion support does not become a rejection;
 - positive temporal support is recorded without independently authorizing a
@@ -145,9 +147,20 @@ evaluation, executable controls must separately establish:
 - silence, primary absence, and an invalidated assignment clear the secondary
   result according to the frozen stability contract.
 
-The scorer must be tested with exact, swapped-orientation, one-correct-layer,
-wrong-assignment, abstention, unexpected-fire, and multiple-acceptable-answer
-controls. Partial metrics remain diagnostic and cannot pass an exact gate.
+**Satisfied:** `internal_suite_scorer.py` and its tests cover exact,
+swapped-orientation, one-correct-layer, wrong-assignment, positive abstention,
+guard abstention, unexpected fire, and multiple-acceptable-answer controls.
+Expected answers carry stable identifiers, and a gate-first lexicographic rule
+selects one winning acceptable answer. Duplicate decompositions cannot be
+introduced under different identifiers. Partial metrics remain diagnostic and
+cannot pass an exact gate. Prediction artifacts reject duplicate or unversioned
+reason codes, require a reason for abstention, and forbid abstention reasons on
+a selection. A selected prediction must be one exact frozen structural
+candidate. The scorer refuses the active suite while `scoringAllowed` is false.
+Its summary retains integer numerators and denominators for every binary and
+partial metric rather than emitting only rounded or pooled averages. The
+non-vacuous `suiteExactGatePass` names only internal-suite conformance, not
+approval under the complete adoption bar.
 
 ## Freeze and amendment rule
 

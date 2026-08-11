@@ -31,6 +31,7 @@ DEPENDENCY_FIELDS = {
     "registerCandidateSchema",
     "frameReplayManifest",
     "validator",
+    "scorer",
 }
 PIN_FIELDS = {"path", "sha256"}
 CASE_FIELDS = {
@@ -66,7 +67,7 @@ PRODUCT_FIELDS = {
     "primarySingleChordAlternatives",
     "reason",
 }
-EXPECTED_POLYCHORD_FIELDS = {"unitIds", "symbol"}
+EXPECTED_POLYCHORD_FIELDS = {"id", "unitIds", "symbol"}
 
 EPISTEMIC_STATUSES = {
     "literature-attested-construction",
@@ -547,7 +548,7 @@ def validate_product_expectation(
     unit_ids: set[str],
     notation: dict,
     context: str,
-) -> str:
+) -> tuple[str, set[tuple[str, str]]]:
     product = require_dict(value, context)
     require_fields(product, PRODUCT_FIELDS, context)
     product_class = product["class"]
@@ -575,6 +576,8 @@ def validate_product_expectation(
         raise ValueError(f"{context} non-positive cases cannot expect a polychord")
 
     expected_symbols = set()
+    expected_ids = set()
+    expected_unit_orders = set()
     for index, expected_value in enumerate(expected):
         expected_polychord = require_dict(
             expected_value, f"{context}.expectedPolychords[{index}]"
@@ -584,6 +587,13 @@ def validate_product_expectation(
             EXPECTED_POLYCHORD_FIELDS,
             f"{context}.expectedPolychords[{index}]",
         )
+        expected_id = require_string(
+            expected_polychord["id"],
+            f"{context}.expectedPolychords[{index}].id",
+        )
+        if expected_id in expected_ids:
+            raise ValueError(f"{context}.expectedPolychords contains duplicate ids")
+        expected_ids.add(expected_id)
         expected_units = require_list(
             expected_polychord["unitIds"],
             f"{context}.expectedPolychords[{index}].unitIds",
@@ -599,6 +609,20 @@ def validate_product_expectation(
             raise ValueError(
                 f"{context}.expectedPolychords[{index}].unitIds must identify both units"
             )
+        expected_unit_order = tuple(expected_units)
+        if expected_unit_order in expected_unit_orders:
+            raise ValueError(
+                f"{context}.expectedPolychords contains duplicate decompositions"
+            )
+        expected_unit_orders.add(expected_unit_order)
+        if notation["status"] == "resolved" and expected_units != [
+            notation["upperUnitId"],
+            notation["lowerUnitId"],
+        ]:
+            raise ValueError(
+                f"{context}.expectedPolychords[{index}].unitIds must be "
+                "ordered upper then lower"
+            )
         symbol = expected_polychord["symbol"]
         if symbol is not None:
             expected_symbols.add(
@@ -613,7 +637,7 @@ def validate_product_expectation(
         raise ValueError(f"{context} must include the resolved construction symbol")
     if notation["status"] == "unresolved" and expected_symbols:
         raise ValueError(f"{context} cannot invent a symbol for unresolved layer order")
-    return product_class
+    return product_class, expected_unit_orders
 
 
 def validate_eligibility(value: object, context: str) -> None:
@@ -708,7 +732,7 @@ def validate_case(
                     f"{context}.scopeFeatures claims moving layers but replay frame "
                     f"{frame['afterEventIndex']} contains both complete units"
                 )
-    product_class = validate_product_expectation(
+    product_class, expected_unit_orders = validate_product_expectation(
         case["productExpectation"],
         construction_kind,
         set(units),
@@ -747,6 +771,20 @@ def validate_case(
             "overlap as a Framework-v0 boundary"
         )
     validate_eligibility(case["inputEligibility"], f"{context}.inputEligibility")
+    if (
+        product_class == "positive"
+        and notation["status"] == "unresolved"
+        and any(
+            value["status"] == "eligible" for value in case["inputEligibility"].values()
+        )
+    ):
+        unit_order = tuple(units)
+        acceptable_orientations = {unit_order, tuple(reversed(unit_order))}
+        if expected_unit_orders != acceptable_orientations:
+            raise ValueError(
+                f"{context}.productExpectation must represent both orientations "
+                "before an unresolved construction is eligible"
+            )
 
     baseline = require_dict(case["registerBaseline"], f"{context}.registerBaseline")
     if observation_frames is None:
@@ -873,12 +911,14 @@ def validate_suite_payload(payload: dict) -> list[str]:
     require_fields(payload, TOP_LEVEL_FIELDS, "suite")
     if payload["schema"] != SUITE_SCHEMA:
         raise ValueError(f"suite.schema must be {SUITE_SCHEMA!r}")
-    if payload["status"] != "active-author-adjudicated-seed":
-        raise ValueError("suite.status must be 'active-author-adjudicated-seed'")
-    if payload["scoringAllowed"] is not False:
-        raise ValueError(
-            "suite.scoringAllowed must remain false until the adoption suite is frozen"
-        )
+    allowed_statuses = {
+        "active-author-adjudicated-seed": False,
+        "frozen-author-adjudicated-adoption": True,
+    }
+    if payload["status"] not in allowed_statuses:
+        raise ValueError("suite.status is unsupported")
+    if payload["scoringAllowed"] is not allowed_statuses[payload["status"]]:
+        raise ValueError("suite.status and scoringAllowed are inconsistent")
     if payload["authority"] != "product-policy-only-not-independent-ground-truth":
         raise ValueError("suite.authority must state its product-policy limitation")
     if payload["noteConvention"] != "MIDI 60 is C4; spellings are case-specific":
