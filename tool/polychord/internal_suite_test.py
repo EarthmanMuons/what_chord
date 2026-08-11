@@ -21,25 +21,25 @@ def case_by_id(payload: dict, case_id: str) -> dict:
 
 
 class InternalSuiteTest(unittest.TestCase):
-    def test_committed_seed_and_every_dependency_validate(self) -> None:
+    def test_committed_frozen_suite_and_every_dependency_validate(self) -> None:
         case_ids = subject.validate_suite(SUITE_PATH)
 
         self.assertEqual(len(case_ids), 17)
         self.assertEqual(case_ids, sorted(case_ids))
 
-    def test_seed_contains_all_product_policy_classes(self) -> None:
+    def test_frozen_suite_contains_all_product_policy_classes(self) -> None:
         payload = load_suite()
 
         self.assertEqual(
             {case["productExpectation"]["class"] for case in payload["cases"]},
             {"positive", "boundary", "negative-guard"},
         )
-        self.assertEqual(payload["status"], "active-author-adjudicated-seed")
-        self.assertFalse(payload["scoringAllowed"])
+        self.assertEqual(payload["status"], "frozen-author-adjudicated-adoption")
+        self.assertTrue(payload["scoringAllowed"])
 
     def test_status_and_scoring_permission_must_advance_together(self) -> None:
         payload = load_suite()
-        payload["scoringAllowed"] = True
+        payload["scoringAllowed"] = False
 
         with self.assertRaisesRegex(ValueError, "status and scoringAllowed"):
             subject.validate_suite_payload(payload)

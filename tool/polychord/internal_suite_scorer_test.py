@@ -228,9 +228,16 @@ class InternalSuiteScorerTest(unittest.TestCase):
                 prediction=candidate_from_expected(first),
             )
 
-    def test_active_seed_refuses_scoring(self) -> None:
-        with self.assertRaisesRegex(ValueError, "scoringAllowed must be true"):
-            subject.score_suite(SUITE_PATH, SUITE_PATH)
+    def test_non_scorable_suite_refuses_scoring(self) -> None:
+        suite = subject.internal_suite.load_json(SUITE_PATH)
+        suite["status"] = "active-author-adjudicated-seed"
+        suite["scoringAllowed"] = False
+        with tempfile.TemporaryDirectory() as temp_directory:
+            suite_path = Path(temp_directory) / "active-suite.json"
+            suite_path.write_text(json.dumps(suite, indent=2) + "\n")
+
+            with self.assertRaisesRegex(ValueError, "scoringAllowed must be true"):
+                subject.score_suite(suite_path, suite_path)
 
     def test_prediction_artifact_rejects_unversioned_reason_code(self) -> None:
         payload = {
@@ -299,16 +306,12 @@ class InternalSuiteScorerTest(unittest.TestCase):
                 "suite-digest",
             )
 
-    def _write_frozen_control_artifacts(
+    def _write_control_predictions(
         self,
         directory: Path,
-    ) -> tuple[Path, Path, dict]:
+    ) -> tuple[Path, dict]:
         suite = subject.internal_suite.load_json(SUITE_PATH)
-        suite["status"] = "frozen-author-adjudicated-adoption"
-        suite["scoringAllowed"] = True
-        suite_path = directory / "suite.json"
-        suite_path.write_text(json.dumps(suite, indent=2) + "\n")
-        suite_sha256 = hashlib.sha256(suite_path.read_bytes()).hexdigest()
+        suite_sha256 = hashlib.sha256(SUITE_PATH.read_bytes()).hexdigest()
 
         predictions = []
         for case in suite["cases"]:
@@ -340,15 +343,13 @@ class InternalSuiteScorerTest(unittest.TestCase):
         }
         prediction_path = directory / "predictions.json"
         prediction_path.write_text(json.dumps(prediction_payload, indent=2) + "\n")
-        return suite_path, prediction_path, prediction_payload
+        return prediction_path, prediction_payload
 
     def test_frozen_synthetic_control_exercises_complete_scorer(self) -> None:
         with tempfile.TemporaryDirectory() as temp_directory:
-            suite_path, prediction_path, _ = self._write_frozen_control_artifacts(
-                Path(temp_directory)
-            )
+            prediction_path, _ = self._write_control_predictions(Path(temp_directory))
 
-            result = subject.score_suite(suite_path, prediction_path)
+            result = subject.score_suite(SUITE_PATH, prediction_path)
 
         self.assertEqual(result["summary"]["eligiblePositiveCount"], 6)
         self.assertEqual(result["summary"]["positiveExactCount"], 6)
@@ -424,8 +425,8 @@ class InternalSuiteScorerTest(unittest.TestCase):
 
     def test_suite_scorer_rejects_selection_outside_frozen_candidates(self) -> None:
         with tempfile.TemporaryDirectory() as temp_directory:
-            suite_path, prediction_path, predictions = (
-                self._write_frozen_control_artifacts(Path(temp_directory))
+            prediction_path, predictions = self._write_control_predictions(
+                Path(temp_directory)
             )
             prediction = next(
                 value
@@ -443,4 +444,4 @@ class InternalSuiteScorerTest(unittest.TestCase):
             prediction_path.write_text(json.dumps(predictions, indent=2) + "\n")
 
             with self.assertRaisesRegex(ValueError, "frozen structural candidate"):
-                subject.score_suite(suite_path, prediction_path)
+                subject.score_suite(SUITE_PATH, prediction_path)

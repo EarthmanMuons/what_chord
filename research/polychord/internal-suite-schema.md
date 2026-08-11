@@ -1,15 +1,14 @@
 # Polychord internal-suite schema
 
-Status: active contract for `polychord-internal-suite/2`. This schema records an
+Status: frozen contract for `polychord-internal-suite/2`. This schema records an
 author-adjudicated product-policy suite. It is not an independently annotated
 ruler and does not authorize generalized accuracy claims. The representation,
-metrics, and adoption threshold are now fixed by
-`output-evaluation-contract.md`, but the active seed remains non-scorable until
-its source coverage satisfies `adoption-suite-plan.md` and the adoption suite is
-explicitly frozen.
+metrics, and adoption threshold are fixed by `output-evaluation-contract.md`.
+The source coverage satisfied `adoption-suite-plan.md`, and log 2026-08-11-03
+froze the suite before any selector result was read.
 
-The canonical validator is `tool/polychord/internal_suite.py`. The active seed
-suite is `data/internal-suite/suite-v0.json`.
+The canonical validator is `tool/polychord/internal_suite.py`. The frozen suite
+is `data/internal-suite/suite-v0.json`.
 
 ## Separation of claims
 
@@ -231,7 +230,7 @@ schema. Petrushka rehearsal 49 demonstrates the admissible form: its
 construction is assigned over a bounded replay window, while its register
 baseline is evaluated frame by frame and remains empty.
 
-Validate the active seed from the repository root:
+Validate the frozen suite from the repository root:
 
 ```sh
 python3 tool/polychord/internal_suite.py \

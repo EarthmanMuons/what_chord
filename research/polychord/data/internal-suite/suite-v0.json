@@ -1,13 +1,13 @@
 {
   "schema": "polychord-internal-suite/2",
-  "status": "active-author-adjudicated-seed",
-  "scoringAllowed": false,
+  "status": "frozen-author-adjudicated-adoption",
+  "scoringAllowed": true,
   "authority": "product-policy-only-not-independent-ground-truth",
   "noteConvention": "MIDI 60 is C4; spellings are case-specific",
   "dependencies": {
     "adoptionPlan": {
       "path": "research/polychord/adoption-suite-plan.md",
-      "sha256": "0cc41ef9c28c235679c7956198122d3678d854f86effcd644e1a62f38fd68b5b"
+      "sha256": "f80d4bce9a144c884e06e2caee7ad71e854ebdc2b23b12e42d8a26081a162791"
     },
     "framework": {
       "path": "research/polychord/FRAMEWORK.md",
@@ -15,11 +15,11 @@
     },
     "outputContract": {
       "path": "research/polychord/output-evaluation-contract.md",
-      "sha256": "492c023ee26784d80c997b7c83b80549952762e7fb95834164ff77ffd7ccd2eb"
+      "sha256": "e698a659800a16ea5bcb94942ed69fe1a5adb0fa4d60257bd1054979055ecb44"
     },
     "schemaDocument": {
       "path": "research/polychord/internal-suite-schema.md",
-      "sha256": "653d61120de28d26c146b6fba69228db599a1bacb44b0fa5237500a4e824e6ac"
+      "sha256": "657ba8f1ff2ffd8d5b6e4425e324dedaed976732ebdccace0ae90549d5abdeb8"
     },
     "registerCandidateSchema": {
       "path": "research/polychord/register-candidate-schema.md",

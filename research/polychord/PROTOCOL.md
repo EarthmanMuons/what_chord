@@ -6,13 +6,12 @@ theory-derived v0 product semantics and evidence boundaries as a working
 hypothesis. It is not an independently annotated ruler. The composite data and
 presentation contract, scoring model, adoption bar, stable-display policy, and
 performance budget are fixed by `output-evaluation-contract.md` and log
-2026-08-10-18. The complete adoption suite and selector remain unfrozen; no
-engine lever may be evaluated yet. The preregistered symmetric structural
-conformance matrix passed in log 2026-08-10-20. Product-policy coverage remains
-tracked normatively in `adoption-suite-plan.md`. Its required coverage and
-selector-independent control cells are now satisfied, but the adoption ruler
-remains non-scorable until a separate dated freeze audit updates its status and
-pins.
+2026-08-10-18. The complete author-adjudicated adoption suite is frozen by log
+2026-08-11-03. It is a product-policy conformance ruler, not independent ground
+truth. No selector result has been read, and no selector may be evaluated until
+its own versioned specification is preregistered. The symmetric structural
+conformance matrix passed in log 2026-08-10-20. The satisfied coverage and
+stopping record remains normative in `adoption-suite-plan.md`.
 
 ## Task and claim boundary
 
@@ -44,8 +43,8 @@ structural proposal surface for the register-only baseline.
 `output-evaluation-contract.md` fixes how a later selected proposal may coexist
 with the primary result and how that output must be measured.
 `adoption-suite-plan.md`, preregistered in log 2026-08-10-19, fixes the coverage
-and stopping rules that must be satisfied before the active seed becomes a
-scorable adoption ruler.
+and stopping rules satisfied before the active seed became the frozen scorable
+adoption ruler in log 2026-08-11-03.
 
 ## Research record and change control
 
@@ -283,13 +282,12 @@ integrated sixth, seventh, and extended chords; polychords from slash chords and
 upper-structure voicings; and constructional decompositions from perceptual or
 intentional claims.
 
-`internal-suite-schema.md` fixes the active author-adjudicated seed format, and
-`data/internal-suite/suite-v0.json` contains the first exact cases. Its
-`scoringAllowed` field remains false: the seed exercises provenance,
-eligibility, and structural generation but is not the frozen adoption ruler. The
-suite validator must reproduce every register-baseline candidate from the exact
-observation while keeping that mechanical result separate from the product
-expectation.
+`internal-suite-schema.md` fixes the author-adjudicated suite format, and
+`data/internal-suite/suite-v0.json` contains the frozen exact ruler. Its
+`scoringAllowed` field is true only under the paired
+`frozen-author-adjudicated-adoption` status. The suite validator must reproduce
+every register-baseline candidate from the exact observation while keeping that
+mechanical result separate from the product expectation.
 
 ### Deferred pilot and later external validation
 
@@ -321,8 +319,8 @@ collection, retain abstentions and raw disagreements, compute all pairwise
 comparisons before discussion, and never overwrite an original response with
 adjudication. One external response supplies face validation only.
 
-The complete internal suite, metrics, and adoption threshold must be frozen
-before any proposed engine rule is evaluated against it. Without independent
+The complete internal suite, metrics, and adoption threshold were frozen before
+any proposed engine rule was evaluated against them. Without independent
 validation, report results as agreement with the author-adjudicated product
 specification rather than accuracy against musical ground truth.
 
@@ -362,8 +360,8 @@ adopted in log 2026-08-10-18, additionally fixes:
   on-device note-storm performance budget.
 
 The contract freezes the interface and evaluation. It does not choose a
-selector. The complete adoption suite must be frozen before any selector result
-is read.
+selector. The complete adoption suite was frozen before any selector result was
+read.
 
 ## Statistics and reporting
 
@@ -422,35 +420,38 @@ The following work must be dated and completed in order:
    triadic-layer transition, but that evidence does not settle the user-facing
    label for its compact C9 and Gm7 endpoint collections. Channel or other
    source evidence remains a later ablation.
-3. Internal suite: score-verify literature examples, encode exact machine-input
-   fixtures, assign epistemic status, and keep construction evidence separate
-   from input eligibility. The non-scorable seed, schema, and validator are
-   fixed by `internal-suite-schema.md` and log 2026-08-10-04. Log 2026-08-10-17
-   admits the first literature-attested positive that the adjacent-register
-   baseline can recover: Ives's _Psalm 67_ opening yields `C|Gm` while retaining
-   `C9/G` as the exact single-chord alternative. The coverage and stopping rules
-   are preregistered in `adoption-suite-plan.md`; complete every applicable cell
-   before freezing the ruler. The selector-independent 3,300-combination
-   structural matrix and focused ambiguity controls passed in log 2026-08-10-20;
-   they do not fill source-attested cells. Log 2026-08-10-21 separately admits
-   recoverable source positives from Moreira's Herrmann transcription and
-   Stravinsky's 1922 _Three Movements from Petrouchka_ score, covering disjoint
-   units and a complete dominant-seventh layer without reading a selector or
-   corpus outcome. Log 2026-08-10-22 adds Petrushka rehearsal 49 as a bounded
-   event window without verticalizing its arpeggios. Log 2026-08-10-23 corrects
-   the Elektra chord's former bare-fifth classification and admits its
-   one-sounded-note overlapping cover as a theory-derived v0 boundary. Log
-   2026-08-10-24 adds a doubled two-hand Cmaj7 accompaniment whose exact
-   register split generates `Em|C` but whose product expectation remains the
-   integrated chord. Log 2026-08-10-25 promotes the conformance harness's
-   same-identity assignment ambiguity into an integrated Cmaj9 negative guard:
-   two boundaries generate `G|C` with different exact note assignments. Log
-   2026-08-11-01 fills the remaining source-backed scope cell with Waters's
-   A-minor-seventh-over-D analysis of _Maiden Voyage_, represented as a
-   disclosed octave normalization and an executable lone-bass boundary. Log
-   2026-08-11-02 resolves the freeze-order and multiple-answer scoring gaps,
-   adds the pinned exact scorer, and makes the input, temporal-support, and
-   stable-display controls executable without reading a selector result.
+3. Internal suite: complete. Score-verify literature examples, encode exact
+   machine-input fixtures, assign epistemic status, and keep construction
+   evidence separate from input eligibility. The non-scorable seed, schema, and
+   validator are fixed by `internal-suite-schema.md` and log 2026-08-10-04. Log
+   2026-08-10-17 admits the first literature-attested positive that the
+   adjacent-register baseline can recover: Ives's _Psalm 67_ opening yields
+   `C|Gm` while retaining `C9/G` as the exact single-chord alternative. The
+   coverage and stopping rules are preregistered in `adoption-suite-plan.md`;
+   complete every applicable cell before freezing the ruler. The
+   selector-independent 3,300-combination structural matrix and focused
+   ambiguity controls passed in log 2026-08-10-20; they do not fill
+   source-attested cells. Log 2026-08-10-21 separately admits recoverable source
+   positives from Moreira's Herrmann transcription and Stravinsky's 1922 _Three
+   Movements from Petrouchka_ score, covering disjoint units and a complete
+   dominant-seventh layer without reading a selector or corpus outcome. Log
+   2026-08-10-22 adds Petrushka rehearsal 49 as a bounded event window without
+   verticalizing its arpeggios. Log 2026-08-10-23 corrects the Elektra chord's
+   former bare-fifth classification and admits its one-sounded-note overlapping
+   cover as a theory-derived v0 boundary. Log 2026-08-10-24 adds a doubled
+   two-hand Cmaj7 accompaniment whose exact register split generates `Em|C` but
+   whose product expectation remains the integrated chord. Log 2026-08-10-25
+   promotes the conformance harness's same-identity assignment ambiguity into an
+   integrated Cmaj9 negative guard: two boundaries generate `G|C` with different
+   exact note assignments. Log 2026-08-11-01 fills the remaining source-backed
+   scope cell with Waters's A-minor-seventh-over-D analysis of _Maiden Voyage_,
+   represented as a disclosed octave normalization and an executable lone-bass
+   boundary. Log 2026-08-11-02 resolves the freeze-order and multiple-answer
+   scoring gaps, adds the pinned exact scorer, and makes the input,
+   temporal-support, and stable-display controls executable without reading a
+   selector result. Log 2026-08-11-03 records the final 17-case inventory and
+   coverage disposition, verifies the complete dependency closure, and freezes
+   the ruler before any selector is defined or evaluated.
 4. Output and evaluation freeze: complete. `output-evaluation-contract.md` and
    log 2026-08-10-18 fix the composite type, presentation, metrics, adoption
    threshold, stable-display behavior, and performance budget without choosing
