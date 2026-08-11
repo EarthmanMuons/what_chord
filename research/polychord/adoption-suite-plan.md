@@ -74,9 +74,11 @@ synthetic construction alone cannot satisfy a source-attested cell.
   dominant-seventh passage on printed page 37.
 - **Satisfied:** a literature construction excluded by overlapping register,
   supplied by the Stravinsky Augurs chord.
-- **Missing:** a moving or arpeggiated literature construction represented
-  without a false vertical snapshot. Petrushka rehearsal 49 is score-verified
-  but has no exact replay.
+- **Satisfied:** a moving or arpeggiated literature construction represented
+  without a false vertical snapshot. Petrushka rehearsal 49 is encoded as a
+  24-event score-normalized replay window. No frame contains either complete
+  triad, and the register baseline is evaluated per frame rather than against
+  the aggregate twelve-note union.
 
 The last two cells establish construct and input boundaries and are excluded
 from adjacent-register positive recall when ineligible. They still prevent the

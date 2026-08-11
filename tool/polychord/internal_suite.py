@@ -89,6 +89,7 @@ SCOPE_FEATURES = {
     "integrated-sixth-chord",
     "incomplete-lower-shell",
     "multiple-structural-identities",
+    "moving-arpeggiated-layers",
     "same-root-register-groups",
     "overlapping-register-layers",
     "integrated-extended-chord",
@@ -285,7 +286,7 @@ def observation_notes(
     value: object,
     replay_fixtures: dict[str, dict],
     context: str,
-) -> tuple[int, ...]:
+) -> tuple[tuple[int, ...], tuple[dict, ...] | None]:
     observation = require_dict(value, context)
     kind = observation.get("kind")
     if kind == "snapshot":
@@ -319,10 +320,61 @@ def observation_notes(
         if len(matching) != 1:
             raise ValueError(f"{context} must identify exactly one replay frame")
         notes = tuple(matching[0]["soundingMidiNotes"])
+    elif kind == "frame-replay-window":
+        require_fields(
+            observation,
+            {
+                "kind",
+                "fixtureId",
+                "firstEventIndex",
+                "lastEventIndex",
+                "spelledNotes",
+            },
+            context,
+        )
+        fixture_id = require_string(observation["fixtureId"], f"{context}.fixtureId")
+        if fixture_id not in replay_fixtures:
+            raise ValueError(f"{context}.fixtureId is not in the pinned manifest")
+        first_event_index = require_int(
+            observation["firstEventIndex"],
+            f"{context}.firstEventIndex",
+            0,
+            2**53 - 1,
+        )
+        last_event_index = require_int(
+            observation["lastEventIndex"],
+            f"{context}.lastEventIndex",
+            0,
+            2**53 - 1,
+        )
+        if first_event_index > last_event_index:
+            raise ValueError(
+                f"{context}.firstEventIndex must not exceed lastEventIndex"
+            )
+        frames = replay_fixtures[fixture_id]["frames"]
+        if last_event_index >= len(frames):
+            raise ValueError(f"{context} extends beyond the replay fixture")
+        selected_frames = tuple(frames[first_event_index : last_event_index + 1])
+        if any(
+            frame["afterEventIndex"] != first_event_index + offset
+            for offset, frame in enumerate(selected_frames)
+        ):
+            raise ValueError(f"{context} does not identify a contiguous replay window")
+        notes = tuple(
+            sorted(
+                {
+                    note
+                    for frame in selected_frames
+                    for note in frame["soundingMidiNotes"]
+                }
+            )
+        )
     else:
         raise ValueError(f"{context}.kind is unsupported: {kind!r}")
     validate_spellings(observation["spelledNotes"], notes, f"{context}.spelledNotes")
-    return notes
+    if kind == "frame-replay-window":
+        return notes, selected_frames
+    return notes, None
 
 
 def validate_unit(
@@ -549,7 +601,7 @@ def validate_case(
             f"{context}.scopeFeatures are unsupported: {sorted(unknown_features)}"
         )
     validate_source(case["source"], epistemic_status, f"{context}.source")
-    notes = observation_notes(
+    notes, observation_frames = observation_notes(
         case["observation"], replay_fixtures, f"{context}.observation"
     )
     construction_kind, units, notation = validate_construction(
@@ -569,6 +621,35 @@ def validate_case(
                 f"{context}.scopeFeatures claims disjoint pitch-class layers "
                 "that overlap"
             )
+    if "moving-arpeggiated-layers" in features:
+        if construction_kind != "polychord":
+            raise ValueError(
+                f"{context}.scopeFeatures claims moving layers for a "
+                "non-polychord construction"
+            )
+        if observation_frames is None:
+            raise ValueError(
+                f"{context}.scopeFeatures claims moving layers without a "
+                "frame-replay window"
+            )
+        if len({frame["timestampMs"] for frame in observation_frames}) < 2:
+            raise ValueError(
+                f"{context}.scopeFeatures claims moving layers in a "
+                "single-timestamp window"
+            )
+        unit_pitch_classes = [
+            set(unit["pitchClasses"]) for unit in case["construction"]["units"]
+        ]
+        for frame in observation_frames:
+            frame_pitch_classes = {note % 12 for note in frame["soundingMidiNotes"]}
+            if all(
+                pitch_classes <= frame_pitch_classes
+                for pitch_classes in unit_pitch_classes
+            ):
+                raise ValueError(
+                    f"{context}.scopeFeatures claims moving layers but replay frame "
+                    f"{frame['afterEventIndex']} contains both complete units"
+                )
     validate_product_expectation(
         case["productExpectation"],
         construction_kind,
@@ -579,15 +660,45 @@ def validate_case(
     validate_eligibility(case["inputEligibility"], f"{context}.inputEligibility")
 
     baseline = require_dict(case["registerBaseline"], f"{context}.registerBaseline")
-    require_fields(baseline, {"expectedCandidates"}, f"{context}.registerBaseline")
-    expected_candidates = require_list(
-        baseline["expectedCandidates"],
-        f"{context}.registerBaseline.expectedCandidates",
-    )
-    actual_candidates = [
-        candidate.as_dict()
-        for candidate in register_candidates.generate_register_candidates(notes)
-    ]
+    if observation_frames is None:
+        require_fields(baseline, {"expectedCandidates"}, f"{context}.registerBaseline")
+        expected_baseline = require_list(
+            baseline["expectedCandidates"],
+            f"{context}.registerBaseline.expectedCandidates",
+        )
+        actual_candidates = [
+            candidate.as_dict()
+            for candidate in register_candidates.generate_register_candidates(notes)
+        ]
+        actual_baseline = actual_candidates
+    else:
+        require_fields(
+            baseline,
+            {"expectedCandidateFrames"},
+            f"{context}.registerBaseline",
+        )
+        expected_baseline = require_list(
+            baseline["expectedCandidateFrames"],
+            f"{context}.registerBaseline.expectedCandidateFrames",
+        )
+        actual_baseline = []
+        actual_candidates = []
+        for frame in observation_frames:
+            frame_candidates = [
+                candidate.as_dict()
+                for candidate in register_candidates.generate_register_candidates(
+                    tuple(frame["soundingMidiNotes"])
+                )
+            ]
+            actual_candidates.extend(frame_candidates)
+            if frame_candidates:
+                actual_baseline.append(
+                    {
+                        "afterEventIndex": frame["afterEventIndex"],
+                        "timestampMs": frame["timestampMs"],
+                        "candidates": frame_candidates,
+                    }
+                )
     if "multiple-structural-identities" in features:
         structural_identities = {
             (
@@ -603,10 +714,10 @@ def validate_case(
                 f"{context}.scopeFeatures claims multiple structural "
                 "identities without multiple register identities"
             )
-    if expected_candidates != actual_candidates:
+    if expected_baseline != actual_baseline:
         raise ValueError(
-            f"{context}.registerBaseline.expectedCandidates do not match generation: "
-            f"expected {expected_candidates}, received {actual_candidates}"
+            f"{context}.registerBaseline does not match generation: "
+            f"expected {expected_baseline}, received {actual_baseline}"
         )
     return case_id
 

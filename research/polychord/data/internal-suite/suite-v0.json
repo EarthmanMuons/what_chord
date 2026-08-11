@@ -7,7 +7,7 @@
   "dependencies": {
     "adoptionPlan": {
       "path": "research/polychord/adoption-suite-plan.md",
-      "sha256": "9572316c6d3af3105c4d73c30e5c3b31f0c476a39cd73e2115b538d9044af9ca"
+      "sha256": "558ab5256fb0818ac94b1f691dcd97ed87c1b52bc9b30aa351fb14545b0bb544"
     },
     "framework": {
       "path": "research/polychord/FRAMEWORK.md",
@@ -19,7 +19,7 @@
     },
     "schemaDocument": {
       "path": "research/polychord/internal-suite-schema.md",
-      "sha256": "317e45300238b86a5f627058dbfe0c23bdf1f891b0e5c9a56ef783aa10334dda"
+      "sha256": "b60ff78b0c2e20412701fbd6f651057c7bbedd0648348572b64494fc9ae759f6"
     },
     "registerCandidateSchema": {
       "path": "research/polychord/register-candidate-schema.md",
@@ -27,11 +27,11 @@
     },
     "frameReplayManifest": {
       "path": "research/polychord/data/frame-replay/manifest.json",
-      "sha256": "5e1434e24f68650d25955647414e7e2a25b0b1e5ddfafad9d2bb66464269e04a"
+      "sha256": "d75da154da03079a69c4ceade54cc9989b24f36fdf477308ae797c3ac77e6cd4"
     },
     "validator": {
       "path": "tool/polychord/internal_suite.py",
-      "sha256": "b3df80b53a5cb32ab07741e64ed7a9f5f4e3b6e822b04cd48fcb3a2da3e7f07f"
+      "sha256": "4853e2f5e2777cf7c653fef71672d85edb9069db82e2872efdad9ef218f4f9e4"
     }
   },
   "cases": [
@@ -314,6 +314,103 @@
       },
       "registerBaseline": {
         "expectedCandidates": []
+      }
+    },
+    {
+      "id": "stravinsky-petrushka-r49-arpeggios",
+      "title": "Petrushka chord at rehearsal 49",
+      "epistemicStatus": "literature-attested-construction",
+      "scopeFeatures": [
+        "complete-triad-layers",
+        "disjoint-pitch-class-layers",
+        "moving-arpeggiated-layers"
+      ],
+      "source": {
+        "kind": "score",
+        "work": "Igor Stravinsky, Petrouchka",
+        "edition": "Berlin: Editions Russes de Musique, 1912, first-edition full score; UNC Music Library scan",
+        "sourceUrl": "https://archive.org/download/ptrouchkascn00stra/ptrouchkascn00stra.pdf",
+        "sourceIdentifier": "ptrouchkascn00stra",
+        "sha256": "8c753ed9ddc37e61d7fb1a261fd350cbe7b529d9bc957e9c2efcfab953532d64",
+        "scoreLocation": "Second tableau, rehearsal 49, first measure, final quarter note; printed page 64, PDF page 66"
+      },
+      "observation": {
+        "kind": "frame-replay-window",
+        "fixtureId": "stravinsky-petrushka-r49-arpeggios",
+        "firstEventIndex": 0,
+        "lastEventIndex": 23,
+        "spelledNotes": [
+          "F#3",
+          "A#3",
+          "C4",
+          "C#4",
+          "E4",
+          "F#4",
+          "G4",
+          "A#4",
+          "C5",
+          "C#5",
+          "E5",
+          "G5"
+        ]
+      },
+      "construction": {
+        "kind": "polychord",
+        "description": "The B-flat clarinet ascends through written D-F-sharp-A in two octaves, sounding C major, while the A clarinet synchronously ascends through written A-C-sharp-E in two octaves, sounding F-sharp major. The C-major stream remains six semitones above the F-sharp-major stream at every paired attack.",
+        "units": [
+          {
+            "id": "lower-f-sharp-major-stream",
+            "identity": "F#",
+            "rootPc": 6,
+            "quality": "major",
+            "midiNotes": [54, 58, 61, 66, 70, 73],
+            "spelledNotes": ["F#3", "A#3", "C#4", "F#4", "A#4", "C#5"],
+            "pitchClasses": [1, 6, 10]
+          },
+          {
+            "id": "upper-c-major-stream",
+            "identity": "C",
+            "rootPc": 0,
+            "quality": "major",
+            "midiNotes": [60, 64, 67, 72, 76, 79],
+            "spelledNotes": ["C4", "E4", "G4", "C5", "E5", "G5"],
+            "pitchClasses": [0, 4, 7]
+          }
+        ],
+        "notation": {
+          "status": "resolved",
+          "symbol": "C|F#",
+          "upperUnitId": "upper-c-major-stream",
+          "lowerUnitId": "lower-f-sharp-major-stream"
+        }
+      },
+      "productExpectation": {
+        "class": "positive",
+        "expectedPolychords": [
+          {
+            "unitIds": ["upper-c-major-stream", "lower-f-sharp-major-stream"],
+            "symbol": "C|F#"
+          }
+        ],
+        "primarySingleChordAlternatives": ["octatonic-derived collection"],
+        "reason": "The verified score's two separately transposed parallel major-triad streams support a secondary constructional reading, while the competing octatonic interpretation remains explicit in the research record."
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "ineligible",
+          "reason": "No replay frame contains either complete triad, so an adjacent-register snapshot cannot evaluate the construction."
+        },
+        "generalPitchRegisterSnapshot": {
+          "status": "ineligible",
+          "reason": "Verticalizing the window union would create a twelve-note state that the score never sounds."
+        },
+        "timestampedEventStream": {
+          "status": "eligible",
+          "reason": "The replay preserves every paired onset, release, and registered trajectory; assigning successive pitches to layers remains a named-model decision rather than fixture ground truth."
+        }
+      },
+      "registerBaseline": {
+        "expectedCandidateFrames": []
       }
     },
     {

@@ -7,7 +7,7 @@
   },
   "schemaDocument": {
     "path": "research/polychord/frame-replay-schema.md",
-    "sha256": "58f6c5cbc99c6e4ee7476e12f247f1ee0e526b3aee7bd5f595e8f712a0f0a1fa"
+    "sha256": "93cbfe0cb77cb570d4c444438b8cde8df82c04e68e0667c134ba21cde10e85b8"
   },
   "validator": {
     "path": "tool/polychord/frame_replay.py",
@@ -23,6 +23,11 @@
       "id": "pedal-release-and-repress",
       "file": "pedal-release-and-repress.json",
       "sha256": "dc46bdd95b403d8609dc5e6fd85645fb268cf05ef899de76d6006d1ca52ac7a0"
+    },
+    {
+      "id": "stravinsky-petrushka-r49-arpeggios",
+      "file": "stravinsky-petrushka-r49-arpeggios.json",
+      "sha256": "8e751d444245f4763aa379108441076079f387adff69dd6acb2f0db4ff955dc2"
     },
     {
       "id": "stravinsky-shrovetide-oblique-motion",

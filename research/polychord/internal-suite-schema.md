@@ -55,27 +55,30 @@ Every case contains exactly:
 - `epistemicStatus`: one label from `FRAMEWORK.md`;
 - `scopeFeatures`: the specific rule or boundary exercised;
 - `source`: an explicit synthetic generation recipe or a stable score record;
-- `observation`: one exact snapshot or one exact frame from the pinned replay
-  manifest;
+- `observation`: one exact snapshot, one exact replay frame, or one bounded
+  replay window from the pinned manifest;
 - `construction`: the author-adjudicated musical construction and exhaustive
   note-to-unit assignment;
 - `productExpectation`: positive, boundary, or negative-guard policy;
 - `inputEligibility`: separate judgments for adjacent-register snapshots,
   general pitch-and-register snapshots, and timestamped event streams; and
-- `registerBaseline.expectedCandidates`: the exact unranked JSON candidate list
-  required from `polychord-register-candidates/1`.
+- `registerBaseline`: the exact unranked JSON candidate output required from
+  `polychord-register-candidates/1`, either once for a snapshot or separately at
+  every frame in a replay window.
 
 Unknown fields are rejected.
 
-Two scope features carry executable claims rather than descriptive tags:
+Three scope features carry executable claims rather than descriptive tags:
 
 - `disjoint-pitch-class-layers` requires a two-unit polychord whose unit
   pitch-class sets do not intersect; and
 - `multiple-structural-identities` requires the exact observation to produce at
   least two distinct ordered chord identities, not merely two exact assignments
-  of one identity.
+  of one identity; and
+- `moving-arpeggiated-layers` requires a replay window spanning more than one
+  timestamp in which no frame contains both complete construction units.
 
-The validator rejects either feature when its claim is false. Source spellings
+The validator rejects any feature when its claim is false. Source spellings
 remain authoritative even when the register generator serializes the same pitch
 class with a neutral sharp spelling.
 
@@ -85,10 +88,17 @@ Every observed MIDI note has a parallel scientific-pitch spelling such as `C4`,
 `F#3`, or `Bb2`. The validator resolves accidentals across octave boundaries, so
 spellings such as `Cb3` and `Fb2` must sound at the recorded MIDI pitch.
 
-A snapshot stores `soundingMidiNotes` and `spelledNotes` directly. A replay
-observation stores a pinned `fixtureId`, `afterEventIndex`, and `spelledNotes`.
-The validator resolves that exact frame and does not accept an aggregate note
-set copied out of the event window.
+A snapshot stores `soundingMidiNotes` and `spelledNotes` directly. A
+single-frame replay observation stores a pinned `fixtureId`, `afterEventIndex`,
+and `spelledNotes`. A window observation instead stores `firstEventIndex` and
+`lastEventIndex`, inclusive. Its spellings describe the sorted union of distinct
+MIDI notes actually sounding in those frames, not a simultaneous sonority.
+
+Window construction assignments attach to distinct MIDI notes across the whole
+window. Schema 1 must therefore not encode a passage in which the same MIDI
+pitch changes construction units during the selected window. The frame replay
+continues to omit instrument and channel labels: a source-backed construction
+assignment is adjudicated evidence, not an observed MIDI source assignment.
 
 ## Construction and notation
 
@@ -101,8 +111,9 @@ Construction kinds are:
 
 Every unit records an identifier, musician-facing identity, root pitch class,
 quality, MIDI notes, spellings, and pitch classes. Units are disjoint at the
-MIDI-note level and together assign every observed note. Shared pitch classes
-remain possible through separate note instances.
+MIDI-note level and together assign every observed note, or every distinct
+observed note for a replay window. Shared pitch classes remain possible through
+separate note instances.
 
 Schema 1 validates each quality against its root-relative pitch classes. The
 supported unit qualities are major, minor, dominant seventh, major seventh,
@@ -141,10 +152,15 @@ construction record.
 
 ## Register baseline
 
-The register baseline is deliberately mechanical. Its expected list is the
-complete serialized output of the fixed candidate generator for the exact
-observation. The validator executes the generator and requires byte-independent
-JSON equality with that list.
+The register baseline is deliberately mechanical. For a snapshot or a
+single-frame replay, `expectedCandidates` is the complete serialized output of
+the fixed candidate generator for that exact state. For a replay window,
+`expectedCandidateFrames` lists only frames with nonempty output; every omitted
+frame is asserted to have no candidate. Each listed frame records
+`afterEventIndex`, `timestampMs`, and its complete `candidates` array. The
+validator runs the generator independently on every selected frame and requires
+byte-independent JSON equality. It never runs the generator on the window's
+aggregate note union.
 
 This produces two essential regression patterns:
 
@@ -160,10 +176,9 @@ The baseline list is not a product prediction and is not scored as one.
 Synthetic cases require a complete generation recipe. Literature cases require a
 stable score or analytical source record; a discovery webpage alone is not
 sufficient. No moving score passage enters until its exact event window has been
-transcribed into the frame-replay schema. In particular, the rehearsal-49
-Petrushka passage remains outside the active seed despite its verified
-construction because verticalizing its arpeggiated streams would create a false
-snapshot.
+transcribed into the frame-replay schema. Petrushka rehearsal 49 demonstrates
+the admissible form: its construction is assigned over a bounded replay window,
+while its register baseline is evaluated frame by frame and remains empty.
 
 Validate the active seed from the repository root:
 
