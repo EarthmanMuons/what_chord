@@ -9,7 +9,8 @@ performance budget are fixed by `output-evaluation-contract.md` and log
 2026-08-10-18. The complete adoption suite and selector remain unfrozen; no
 engine lever may be evaluated yet. The preregistered symmetric structural
 conformance matrix passed in log 2026-08-10-20; source-attested product-policy
-coverage remains incomplete.
+coverage remains incomplete, although log 2026-08-10-21 fills the recoverable
+disjoint and complete-seventh positive cells.
 
 ## Task and claim boundary
 
@@ -421,7 +422,11 @@ The following work must be dated and completed in order:
    are preregistered in `adoption-suite-plan.md`; complete every applicable cell
    before freezing the ruler. The selector-independent 3,300-combination
    structural matrix and focused ambiguity controls passed in log 2026-08-10-20;
-   they do not fill the missing source-attested cells.
+   they do not fill source-attested cells. Log 2026-08-10-21 separately admits
+   recoverable source positives from Moreira's Herrmann transcription and
+   Stravinsky's 1922 _Three Movements from Petrouchka_ score, covering disjoint
+   units and a complete dominant-seventh layer without reading a selector or
+   corpus outcome.
 4. Output and evaluation freeze: complete. `output-evaluation-contract.md` and
    log 2026-08-10-18 fix the composite type, presentation, metrics, adoption
    threshold, stable-display behavior, and performance budget without choosing

@@ -67,6 +67,18 @@ Every case contains exactly:
 
 Unknown fields are rejected.
 
+Two scope features carry executable claims rather than descriptive tags:
+
+- `disjoint-pitch-class-layers` requires a two-unit polychord whose unit
+  pitch-class sets do not intersect; and
+- `multiple-structural-identities` requires the exact observation to produce at
+  least two distinct ordered chord identities, not merely two exact assignments
+  of one identity.
+
+The validator rejects either feature when its claim is false. Source spellings
+remain authoritative even when the register generator serializes the same pitch
+class with a neutral sharp spelling.
+
 ## Human-readable observations
 
 Every observed MIDI note has a parallel scientific-pitch spelling such as `C4`,

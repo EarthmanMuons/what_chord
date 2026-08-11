@@ -65,11 +65,13 @@ synthetic construction alone cannot satisfy a source-attested cell.
 - **Satisfied:** a recoverable literature positive with a separate-note shared
   pitch class and concise integrated alternative. Ives's _Psalm 67_ supplies
   `C|Gm` versus `C9/G`.
-- **Missing:** a recoverable source-attested positive with disjoint chordal
-  units. Synthetic `F#|C` exists, but its exact voicing is not source-attested.
-- **Missing:** a recoverable source-attested positive containing at least one
-  complete seventh-chord layer. The Augurs chord verifies the construct, but its
-  layers overlap in register.
+- **Satisfied:** a recoverable source-attested positive with disjoint chordal
+  units. Moreira's Example 6 supplies the first A-flat-minor attack under a
+  sustained G-minor triad from Herrmann's “The Pass,” encoded as `Gm|Abm`.
+- **Satisfied:** a recoverable source-attested positive containing at least one
+  complete seventh-chord layer. Stravinsky's 1922 piano score and Hutchinson's
+  pedagogical analysis supply `G|Ab7` in the chromatically ascending
+  dominant-seventh passage on printed page 37.
 - **Satisfied:** a literature construction excluded by overlapping register,
   supplied by the Stravinsky Augurs chord.
 - **Missing:** a moving or arpeggiated literature construction represented
@@ -97,8 +99,8 @@ The frozen suite must include exact cases for:
 - a source-backed lone-bass or bare-fifth boundary;
 - an ordinary open, drop, modal, or doubled accompaniment voicing that could be
   mistaken for two layers;
-- multiple structural identities in one observation, which must not be chosen by
-  iteration order;
+- multiple structural identities in one observation, supplied by the
+  source-backed `G|Ab7` case and not to be chosen by iteration order;
 - an exact-assignment ambiguity within one identity if structurally feasible;
   and
 - a one-sounded-note overlapping cover, which remains outside v0 even when its
