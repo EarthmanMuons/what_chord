@@ -7,7 +7,7 @@
   "dependencies": {
     "adoptionPlan": {
       "path": "research/polychord/adoption-suite-plan.md",
-      "sha256": "720a50e34d38bd6cf1c02be9627e55247a10395dac59ac49b1d22348ff6014a0"
+      "sha256": "9572316c6d3af3105c4d73c30e5c3b31f0c476a39cd73e2115b538d9044af9ca"
     },
     "framework": {
       "path": "research/polychord/FRAMEWORK.md",
@@ -19,7 +19,7 @@
     },
     "schemaDocument": {
       "path": "research/polychord/internal-suite-schema.md",
-      "sha256": "c208e1ddc39e124462918ce973f1314f67ced55f4ab5c9d3f481e3c55b4ea415"
+      "sha256": "317e45300238b86a5f627058dbfe0c23bdf1f891b0e5c9a56ef783aa10334dda"
     },
     "registerCandidateSchema": {
       "path": "research/polychord/register-candidate-schema.md",
@@ -31,10 +31,109 @@
     },
     "validator": {
       "path": "tool/polychord/internal_suite.py",
-      "sha256": "32f3d2f756f2b5ef1069e4db92b9af760d0a7a691bd82d6a95cac3eea266bba2"
+      "sha256": "b3df80b53a5cb32ab07741e64ed7a9f5f4e3b6e822b04cd48fcb3a2da3e7f07f"
     }
   },
   "cases": [
+    {
+      "id": "herrmann-pass-first-a-flat-minor-attack",
+      "title": "The Pass first A-flat-minor attack",
+      "epistemicStatus": "literature-attested-construction",
+      "scopeFeatures": ["complete-triad-layers", "disjoint-pitch-class-layers"],
+      "source": {
+        "kind": "score",
+        "work": "Bernard Herrmann, The Pass from The Naked and the Dead",
+        "edition": "Analytical score transcription in Moreira 2025, Example 6",
+        "sourceUrl": "https://www.mtosmt.org/issues/mto.25.31.4/moreira_examples.pdf",
+        "sourceIdentifier": "doi:10.30535/mto.31.4.5-example-6",
+        "sha256": "09cd7f3bcbcee61a5def436d342c01576ca47d6481bdbb9932454616a04ecb62",
+        "scoreLocation": "Example 6, first notated measure, first A-flat-minor attack, PDF page 5"
+      },
+      "observation": {
+        "kind": "snapshot",
+        "soundingMidiNotes": [56, 59, 63, 67, 70, 74],
+        "spelledNotes": ["Ab3", "Cb4", "Eb4", "G4", "Bb4", "D5"]
+      },
+      "construction": {
+        "kind": "polychord",
+        "description": "Moreira transcribes a sustained G-minor trumpet triad above an A-flat-minor trombone attack and explicitly analyzes the registrally distinct units as A-flat minor below G minor.",
+        "units": [
+          {
+            "id": "lower-a-flat-minor",
+            "identity": "Abm",
+            "rootPc": 8,
+            "quality": "minor",
+            "midiNotes": [56, 59, 63],
+            "spelledNotes": ["Ab3", "Cb4", "Eb4"],
+            "pitchClasses": [3, 8, 11]
+          },
+          {
+            "id": "upper-g-minor",
+            "identity": "Gm",
+            "rootPc": 7,
+            "quality": "minor",
+            "midiNotes": [67, 70, 74],
+            "spelledNotes": ["G4", "Bb4", "D5"],
+            "pitchClasses": [2, 7, 10]
+          }
+        ],
+        "notation": {
+          "status": "resolved",
+          "symbol": "Gm|Abm",
+          "upperUnitId": "upper-g-minor",
+          "lowerUnitId": "lower-a-flat-minor"
+        }
+      },
+      "productExpectation": {
+        "class": "positive",
+        "expectedPolychords": [
+          {
+            "unitIds": ["upper-g-minor", "lower-a-flat-minor"],
+            "symbol": "Gm|Abm"
+          }
+        ],
+        "primarySingleChordAlternatives": ["Abm(maj9,#11)"],
+        "reason": "The peer-reviewed transcription and analysis establish two complete, pitch-class-disjoint minor triads in separate registers and attacks; the possible integrated extension is substantially less concise."
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "eligible",
+          "reason": "The adjacent E-flat 4 to G4 boundary preserves both complete source-attested minor triads."
+        },
+        "generalPitchRegisterSnapshot": {
+          "status": "eligible",
+          "reason": "The exact pitch and register assignment exposes the two complete disjoint units without requiring timbre or a hidden source label."
+        },
+        "timestampedEventStream": {
+          "status": "not-available",
+          "reason": "No frame-accurate performance of the source passage is committed."
+        }
+      },
+      "registerBaseline": {
+        "expectedCandidates": [
+          {
+            "splitAfterIndex": 2,
+            "lowerTopMidi": 63,
+            "upperBottomMidi": 67,
+            "gapSemitones": 4,
+            "lower": {
+              "rootPc": 8,
+              "quality": "minor",
+              "midiNotes": [56, 59, 63],
+              "pitchClasses": [3, 8, 11]
+            },
+            "upper": {
+              "rootPc": 7,
+              "quality": "minor",
+              "midiNotes": [67, 70, 74],
+              "pitchClasses": [2, 7, 10]
+            },
+            "sharedPitchClasses": [],
+            "symbol": "Gm|G#m"
+          }
+        ]
+      }
+    },
     {
       "id": "ives-psalm-67-opening",
       "title": "Psalm 67 opening sonority",
@@ -311,6 +410,130 @@
             },
             "sharedPitchClasses": [2, 10],
             "symbol": "Gm|A#"
+          }
+        ]
+      }
+    },
+    {
+      "id": "stravinsky-three-movements-g-over-a-flat-seven",
+      "title": "G major over A-flat dominant seventh",
+      "epistemicStatus": "literature-attested-construction",
+      "scopeFeatures": [
+        "complete-triad-layers",
+        "complete-seventh-layer",
+        "disjoint-pitch-class-layers",
+        "multiple-structural-identities"
+      ],
+      "source": {
+        "kind": "score",
+        "work": "Igor Stravinsky, Three Movements from Petrouchka, The Shrovetide Fair",
+        "edition": "1922 solo-piano score paired with Hutchinson section 32.4, Figure 32.4.3",
+        "sourceUrl": "https://petruccilibrary.us/autoindex/index.php?dir=imslp-us_files%2FStravinsky_Igor_1971%2F&file=Stravinsky_-_Petrushka_3mvts.pdf",
+        "sourceIdentifier": "Hutchinson Figure 32.4.3; IMSLP file Stravinsky_-_Petrushka_3mvts.pdf; plate R.M.V. 197b",
+        "sha256": "90d0b14d929697f33762eacb715c3331a6ebf0faf1e722e0f50598241ebf5664",
+        "scoreLocation": "Third movement, printed page 37, fourth right-hand attack after p sub. e staccatissimo; G major over the second A-flat-dominant-seventh attack"
+      },
+      "observation": {
+        "kind": "snapshot",
+        "soundingMidiNotes": [44, 48, 51, 54, 67, 71, 74],
+        "spelledNotes": ["Ab2", "C3", "Eb3", "Gb3", "G4", "B4", "D5"]
+      },
+      "construction": {
+        "kind": "polychord",
+        "description": "Stravinsky's score places a complete A-flat dominant seventh in the left hand below a complete G-major right-hand triad; Hutchinson identifies the passage as chromatically ascending dominant seventh chords against repeating G, F, and C triads in a polychord lesson.",
+        "units": [
+          {
+            "id": "lower-a-flat-seven",
+            "identity": "Ab7",
+            "rootPc": 8,
+            "quality": "dominant7",
+            "midiNotes": [44, 48, 51, 54],
+            "spelledNotes": ["Ab2", "C3", "Eb3", "Gb3"],
+            "pitchClasses": [0, 3, 6, 8]
+          },
+          {
+            "id": "upper-g-major",
+            "identity": "G",
+            "rootPc": 7,
+            "quality": "major",
+            "midiNotes": [67, 71, 74],
+            "spelledNotes": ["G4", "B4", "D5"],
+            "pitchClasses": [2, 7, 11]
+          }
+        ],
+        "notation": {
+          "status": "resolved",
+          "symbol": "G|Ab7",
+          "upperUnitId": "upper-g-major",
+          "lowerUnitId": "lower-a-flat-seven"
+        }
+      },
+      "productExpectation": {
+        "class": "positive",
+        "expectedPolychords": [
+          {
+            "unitIds": ["upper-g-major", "lower-a-flat-seven"],
+            "symbol": "G|Ab7"
+          }
+        ],
+        "primarySingleChordAlternatives": ["integrated seven-note sonority"],
+        "reason": "The score and pedagogical analysis establish disjoint complete units with different roots, while the union has no concise conventional single-chord symbol."
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "eligible",
+          "reason": "The adjacent G-flat 3 to G4 boundary preserves the complete source-attested A-flat 7 and G-major units."
+        },
+        "generalPitchRegisterSnapshot": {
+          "status": "ambiguous",
+          "reason": "The intended boundary is present, but the same observation also generates an A-flat-major below G-major-seven decomposition that a selector must not choose by iteration order."
+        },
+        "timestampedEventStream": {
+          "status": "not-available",
+          "reason": "The score fixes the simultaneous attack, but no frame-accurate performance is committed."
+        }
+      },
+      "registerBaseline": {
+        "expectedCandidates": [
+          {
+            "splitAfterIndex": 2,
+            "lowerTopMidi": 51,
+            "upperBottomMidi": 54,
+            "gapSemitones": 3,
+            "lower": {
+              "rootPc": 8,
+              "quality": "major",
+              "midiNotes": [44, 48, 51],
+              "pitchClasses": [0, 3, 8]
+            },
+            "upper": {
+              "rootPc": 7,
+              "quality": "major7",
+              "midiNotes": [54, 67, 71, 74],
+              "pitchClasses": [2, 6, 7, 11]
+            },
+            "sharedPitchClasses": [],
+            "symbol": "Gmaj7|G#"
+          },
+          {
+            "splitAfterIndex": 3,
+            "lowerTopMidi": 54,
+            "upperBottomMidi": 67,
+            "gapSemitones": 13,
+            "lower": {
+              "rootPc": 8,
+              "quality": "dominant7",
+              "midiNotes": [44, 48, 51, 54],
+              "pitchClasses": [0, 3, 6, 8]
+            },
+            "upper": {
+              "rootPc": 7,
+              "quality": "major",
+              "midiNotes": [67, 71, 74],
+              "pitchClasses": [2, 7, 11]
+            },
+            "sharedPitchClasses": [],
+            "symbol": "G|G#7"
           }
         ]
       }

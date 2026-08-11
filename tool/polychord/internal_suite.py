@@ -84,9 +84,11 @@ CONSTRUCTION_KINDS = {
 SCOPE_FEATURES = {
     "complete-triad-layers",
     "complete-seventh-layer",
+    "disjoint-pitch-class-layers",
     "shared-pitch-class-separate-notes",
     "integrated-sixth-chord",
     "incomplete-lower-shell",
+    "multiple-structural-identities",
     "same-root-register-groups",
     "overlapping-register-layers",
     "integrated-extended-chord",
@@ -553,6 +555,20 @@ def validate_case(
     construction_kind, units, notation = validate_construction(
         case["construction"], notes, f"{context}.construction"
     )
+    if "disjoint-pitch-class-layers" in features:
+        if construction_kind != "polychord":
+            raise ValueError(
+                f"{context}.scopeFeatures claims disjoint layers for a "
+                "non-polychord construction"
+            )
+        unit_pitch_classes = [
+            set(unit["pitchClasses"]) for unit in case["construction"]["units"]
+        ]
+        if unit_pitch_classes[0] & unit_pitch_classes[1]:
+            raise ValueError(
+                f"{context}.scopeFeatures claims disjoint pitch-class layers "
+                "that overlap"
+            )
     validate_product_expectation(
         case["productExpectation"],
         construction_kind,
@@ -572,6 +588,21 @@ def validate_case(
         candidate.as_dict()
         for candidate in register_candidates.generate_register_candidates(notes)
     ]
+    if "multiple-structural-identities" in features:
+        structural_identities = {
+            (
+                candidate["lower"]["rootPc"],
+                candidate["lower"]["quality"],
+                candidate["upper"]["rootPc"],
+                candidate["upper"]["quality"],
+            )
+            for candidate in actual_candidates
+        }
+        if len(structural_identities) < 2:
+            raise ValueError(
+                f"{context}.scopeFeatures claims multiple structural "
+                "identities without multiple register identities"
+            )
     if expected_candidates != actual_candidates:
         raise ValueError(
             f"{context}.registerBaseline.expectedCandidates do not match generation: "

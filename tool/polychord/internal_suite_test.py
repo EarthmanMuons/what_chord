@@ -24,7 +24,7 @@ class InternalSuiteTest(unittest.TestCase):
     def test_committed_seed_and_every_dependency_validate(self) -> None:
         case_ids = subject.validate_suite(SUITE_PATH)
 
-        self.assertEqual(len(case_ids), 10)
+        self.assertEqual(len(case_ids), 12)
         self.assertEqual(case_ids, sorted(case_ids))
 
     def test_seed_contains_all_product_policy_classes(self) -> None:
@@ -63,6 +63,39 @@ class InternalSuiteTest(unittest.TestCase):
         self.assertEqual(candidate["symbol"], "C|Gm")
         self.assertEqual(candidate["gapSemitones"], 2)
         self.assertEqual(candidate["sharedPitchClasses"], [7])
+
+    def test_herrmann_pass_supplies_a_disjoint_literature_positive(self) -> None:
+        case = case_by_id(load_suite(), "herrmann-pass-first-a-flat-minor-attack")
+
+        self.assertEqual(case["productExpectation"]["class"], "positive")
+        self.assertIn("disjoint-pitch-class-layers", case["scopeFeatures"])
+        self.assertEqual(
+            case["construction"]["notation"]["symbol"],
+            "Gm|Abm",
+        )
+        self.assertEqual(
+            [
+                candidate["symbol"]
+                for candidate in case["registerBaseline"]["expectedCandidates"]
+            ],
+            ["Gm|G#m"],
+        )
+
+    def test_stravinsky_page_37_supplies_a_seventh_literature_positive(self) -> None:
+        case = case_by_id(
+            load_suite(), "stravinsky-three-movements-g-over-a-flat-seven"
+        )
+
+        self.assertEqual(case["productExpectation"]["class"], "positive")
+        self.assertIn("complete-seventh-layer", case["scopeFeatures"])
+        self.assertEqual(case["construction"]["notation"]["symbol"], "G|Ab7")
+        candidates = case["registerBaseline"]["expectedCandidates"]
+        self.assertEqual(
+            [candidate["symbol"] for candidate in candidates],
+            ["Gmaj7|G#", "G|G#7"],
+        )
+        self.assertEqual(candidates[1]["lower"]["quality"], "dominant7")
+        self.assertEqual(candidates[1]["sharedPitchClasses"], [])
 
     def test_common_sevenths_are_exercised_in_both_layer_roles(self) -> None:
         payload = load_suite()
@@ -153,6 +186,22 @@ class InternalSuiteTest(unittest.TestCase):
         case["registerBaseline"]["expectedCandidates"] = []
 
         with self.assertRaisesRegex(ValueError, "do not match generation"):
+            subject.validate_suite_payload(payload)
+
+    def test_false_disjoint_scope_claim_is_rejected(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "ives-psalm-67-opening")
+        case["scopeFeatures"].append("disjoint-pitch-class-layers")
+
+        with self.assertRaisesRegex(ValueError, "claims disjoint.*overlap"):
+            subject.validate_suite_payload(payload)
+
+    def test_false_multiple_identity_scope_claim_is_rejected(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "herrmann-pass-first-a-flat-minor-attack")
+        case["scopeFeatures"].append("multiple-structural-identities")
+
+        with self.assertRaisesRegex(ValueError, "claims multiple structural"):
             subject.validate_suite_payload(payload)
 
     def test_unresolved_notation_cannot_invent_a_symbol(self) -> None:

@@ -50,6 +50,24 @@ regression guard, or unresolved candidate.
   single-chord alternative `C9/G`. Live input does not carry the score's choir
   assignment, so the secondary annotation remains an author-adjudicated product
   expectation rather than independent ground truth.
+- **Herrmann, “The Pass” from The Naked and the Dead**. Moreira's Example 6
+  transcribes a sustained G-minor trumpet triad above alternating A-flat-minor
+  trombone attacks in the first four measures. At the first lower-triad attack,
+  the exact sounding notes are A-flat 3, C-flat 4, E-flat 4 below G4, B-flat 4,
+  D5. The pitch-class-disjoint units and adjacent four-semitone boundary make
+  `Gm|Abm` the first recoverable literature positive that does not rely on
+  duplicated shared pitches. Moreira explicitly notes the possible integrated
+  extended-tertian reading; `Abm(maj9,#11)` remains the less concise primary
+  alternative rather than being erased.
+- **Stravinsky, Three Movements from Petrouchka, printed page 37**. Hutchinson's
+  polychord lesson identifies chromatically ascending dominant seventh chords in
+  the left hand against repeating G, F, and C triads in the right. The 1922
+  score's fourth right-hand attack after _p sub. e staccatissimo_ is G major
+  above the second A-flat 7 attack: A-flat 2, C3, E-flat 3, G-flat 3 below G4,
+  B4, D5. The source-backed `G|Ab7` positive verifies the symmetric seventh
+  scope with disjoint units. Its exact observation also generates the competing
+  mechanical identity `Gmaj7|Ab`, so it is a real selector-order guard rather
+  than a clean one-candidate demonstration.
 - **Copland, Appalachian Spring opening**. E major over A major; pcs
   {A,B,C#,E,G#} (the layers share E). Trap case: the pc set equals Amaj9
   exactly. Kleppinger (MTO 17.2) labels it a polychord; Amaj9 stays a defensible
@@ -152,11 +170,17 @@ unverified.
   by some observable evidence, and it must survive pitch-class traps: Ives
   equals C9 and Copland equals Amaj9 as sets. The first score checks show that
   register is useful but not universal: the Ives opening has an exact contiguous
-  split, Petrushka requires an event window, and the Augurs components overlap
-  in register. The latter two establish the broader musical construct but are
-  not evidence that the initial contiguous-register generator can recover it.
-- Whenever the lower layer contains a dominant third-plus-seventh tritone, the
-  single dominant symbol wins (all UST cases).
+  split, Herrmann's “The Pass” supplies disjoint complete triads, and the 1922
+  _Three Movements_ score supplies a recoverable complete seventh layer.
+  Petrushka rehearsal 49 still requires an event window, and the Augurs
+  components overlap in register. Those two establish the broader musical
+  construct but are not evidence that the initial contiguous-register generator
+  can recover it.
+- A complete lower dominant seventh is not automatically an integrated-chord
+  boundary. The single dominant symbol wins when an established extension names
+  the upper unit as an upper structure over that root; the source-backed `G|Ab7`
+  attack prevents that UST rule from becoming a categorical rejection of every
+  seventh-below-triad polychord.
 - Wide spacing of one chord's own notes never fires the split, even at
   four-octave separation.
 - Four of the positive cases share a pitch class between the layers (Ives shares
@@ -181,6 +205,7 @@ Sources:
 [So What chord](https://en.wikipedia.org/wiki/So_What_chord),
 [Slash chord](https://en.wikipedia.org/wiki/Slash_chord),
 [Puget Sound polychords](https://musictheory.pugetsound.edu/mt21c/polychords.html),
+[IMSLP: Petrushka](https://imslp.org/wiki/Petrushka_%28Stravinsky%2C_Igor_Fyodorovich%29),
 [Johnson, MTO 23.4, Example 11](https://mtosmt.org/issues/mto.17.23.4/johnson_examples.php?id=10&nonav=true),
 [Moreira, MTO 31.4](https://mtosmt.org/issues/mto.25.31.4/mto.25.31.4.moreira.html),
 [Kleppinger, MTO 17.2](https://mtosmt.org/issues/mto.11.17.2/mto.11.17.2.kleppinger.html),
