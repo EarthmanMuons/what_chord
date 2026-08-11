@@ -431,7 +431,10 @@ The following work must be dated and completed in order:
    corpus outcome. Log 2026-08-10-22 adds Petrushka rehearsal 49 as a bounded
    event window without verticalizing its arpeggios. Log 2026-08-10-23 corrects
    the Elektra chord's former bare-fifth classification and admits its
-   one-sounded-note overlapping cover as a theory-derived v0 boundary.
+   one-sounded-note overlapping cover as a theory-derived v0 boundary. Log
+   2026-08-10-24 adds a doubled two-hand Cmaj7 accompaniment whose exact
+   register split generates `Em|C` but whose product expectation remains the
+   integrated chord.
 4. Output and evaluation freeze: complete. `output-evaluation-contract.md` and
    log 2026-08-10-18 fix the composite type, presentation, metrics, adoption
    threshold, stable-display behavior, and performance budget without choosing

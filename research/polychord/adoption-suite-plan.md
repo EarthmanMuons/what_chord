@@ -99,8 +99,11 @@ The frozen suite must include exact cases for:
 - an incomplete seventh shell under an upper-structure triad, currently
   `C13(#11)`;
 - a source-backed lone-bass or bare-fifth boundary;
-- an ordinary open, drop, modal, or doubled accompaniment voicing that could be
-  mistaken for two layers;
+- **Satisfied:** a generated representative of an ordinary doubled
+  accompaniment-form voicing that can be mistaken for two layers. The two-hand
+  Cmaj7 case places C major below E minor with separate E and G instances,
+  requires the structural `Em|C` candidate, and keeps the product expectation on
+  the integrated Cmaj7 name. Its synthetic status makes no prevalence claim;
 - multiple structural identities in one observation, supplied by the
   source-backed `G|Ab7` case and not to be chosen by iteration order;
 - an exact-assignment ambiguity within one identity if structurally feasible;

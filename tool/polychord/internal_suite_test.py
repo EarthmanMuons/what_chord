@@ -24,7 +24,7 @@ class InternalSuiteTest(unittest.TestCase):
     def test_committed_seed_and_every_dependency_validate(self) -> None:
         case_ids = subject.validate_suite(SUITE_PATH)
 
-        self.assertEqual(len(case_ids), 14)
+        self.assertEqual(len(case_ids), 15)
         self.assertEqual(case_ids, sorted(case_ids))
 
     def test_seed_contains_all_product_policy_classes(self) -> None:
@@ -160,6 +160,31 @@ class InternalSuiteTest(unittest.TestCase):
                 for candidate in case["registerBaseline"]["expectedCandidates"]
             ],
             ["D|Cmaj7"],
+        )
+
+    def test_doubled_c_major_seventh_accompaniment_is_a_negative_guard(self) -> None:
+        case = case_by_id(load_suite(), "synthetic-c-major-seven-accompaniment")
+
+        self.assertEqual(case["construction"]["kind"], "integrated-chord")
+        self.assertIn(
+            "doubled-integrated-accompaniment",
+            case["scopeFeatures"],
+        )
+        self.assertEqual(
+            case["productExpectation"]["primarySingleChordAlternatives"],
+            ["Cmaj7"],
+        )
+        self.assertEqual(case["productExpectation"]["class"], "negative-guard")
+        self.assertEqual(
+            [
+                candidate["symbol"]
+                for candidate in case["registerBaseline"]["expectedCandidates"]
+            ],
+            ["Em|C"],
+        )
+        self.assertEqual(
+            case["registerBaseline"]["expectedCandidates"][0]["sharedPitchClasses"],
+            [4, 7],
         )
 
     def test_integrated_guard_can_require_a_structural_candidate(self) -> None:
@@ -342,6 +367,46 @@ class InternalSuiteTest(unittest.TestCase):
         case["scopeFeatures"].append("one-sounded-note-overlap")
 
         with self.assertRaisesRegex(ValueError, "non-polychord construction"):
+            subject.validate_suite_payload(payload)
+
+    def test_doubled_accompaniment_scope_requires_a_register_candidate(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "synthetic-same-root-c-major-registers")
+        case["scopeFeatures"].append("doubled-integrated-accompaniment")
+
+        with self.assertRaisesRegex(ValueError, "shared-tone register candidate"):
+            subject.validate_suite_payload(payload)
+
+    def test_doubled_accompaniment_scope_requires_two_doubled_pitch_classes(
+        self,
+    ) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "synthetic-c-major-seven-accompaniment")
+        case["observation"]["soundingMidiNotes"] = [48, 52, 55, 64, 71]
+        case["observation"]["spelledNotes"] = ["C3", "E3", "G3", "E4", "B4"]
+        unit = case["construction"]["units"][0]
+        unit["midiNotes"] = [48, 52, 55, 64, 71]
+        unit["spelledNotes"] = ["C3", "E3", "G3", "E4", "B4"]
+
+        with self.assertRaisesRegex(ValueError, "without two doubled pitch classes"):
+            subject.validate_suite_payload(payload)
+
+    def test_doubled_accompaniment_scope_requires_a_negative_guard(self) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "synthetic-c-major-seven-accompaniment")
+        case["productExpectation"]["class"] = "boundary"
+
+        with self.assertRaisesRegex(ValueError, "remain a negative guard"):
+            subject.validate_suite_payload(payload)
+
+    def test_doubled_accompaniment_scope_requires_integrated_construction(
+        self,
+    ) -> None:
+        payload = load_suite()
+        case = case_by_id(payload, "synthetic-layered-c-over-g-minor")
+        case["scopeFeatures"].append("doubled-integrated-accompaniment")
+
+        with self.assertRaisesRegex(ValueError, "non-integrated construction"):
             subject.validate_suite_payload(payload)
 
     def test_false_multiple_identity_scope_claim_is_rejected(self) -> None:

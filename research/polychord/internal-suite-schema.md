@@ -68,7 +68,7 @@ Every case contains exactly:
 
 Unknown fields are rejected.
 
-Four scope features carry executable claims rather than descriptive tags:
+Five scope features carry executable claims rather than descriptive tags:
 
 - `disjoint-pitch-class-layers` requires a two-unit polychord whose unit
   pitch-class sets do not intersect;
@@ -78,8 +78,12 @@ Four scope features carry executable claims rather than descriptive tags:
 - `moving-arpeggiated-layers` requires a replay window spanning more than one
   timestamp in which no frame contains both complete construction units; and
 - `one-sounded-note-overlap` requires a two-unit polychord in which exactly one
-  observed MIDI note is assigned to both units. Such a case must remain a
-  non-positive product boundary under Framework v0.
+  observed MIDI note is assigned to both units. Such a case must carry the
+  `boundary` product class under Framework v0; and
+- `doubled-integrated-accompaniment` requires an integrated-chord negative guard
+  with at least two pitch classes doubled as separate observed notes and at
+  least one register candidate that shares two or more of those pitch classes
+  across its proposed units.
 
 The validator rejects any feature when its claim is false. Source spellings
 remain authoritative even when the register generator serializes the same pitch
@@ -181,6 +185,12 @@ This produces two essential regression patterns:
   layers overlap or unfold over time; and
 - an integrated negative guard can correctly have a structural candidate that a
   later evidence or display policy must reject.
+
+The doubled-accompaniment feature makes the second pattern executable for a
+generated accompaniment-form texture rather than only for an abstract chord
+collection. It does not assert that every doubled chord is accompaniment, that
+doubling alone determines musical function, or that the exact voicing is common
+in a measured population.
 
 The baseline list is not a product prediction and is not scored as one.
 

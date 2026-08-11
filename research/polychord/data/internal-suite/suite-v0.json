@@ -7,7 +7,7 @@
   "dependencies": {
     "adoptionPlan": {
       "path": "research/polychord/adoption-suite-plan.md",
-      "sha256": "1ceee3181986a1fa6249903efeaac13195d2b865f2ae4a7a8f13486876e580ae"
+      "sha256": "807d6f59eb08ca8fe641bf2bb8de1e6cd19bd9e34e924ccdcadfd5672e8630ce"
     },
     "framework": {
       "path": "research/polychord/FRAMEWORK.md",
@@ -19,7 +19,7 @@
     },
     "schemaDocument": {
       "path": "research/polychord/internal-suite-schema.md",
-      "sha256": "daa2851cca88f8c0fdd3673423b183250f3b9ceb6213c93c396317a8acc5bb74"
+      "sha256": "c8958380f887fc5e6e254f8a8f06292dd0667452c9b6d007f84baf84b3cde38a"
     },
     "registerCandidateSchema": {
       "path": "research/polychord/register-candidate-schema.md",
@@ -31,7 +31,7 @@
     },
     "validator": {
       "path": "tool/polychord/internal_suite.py",
-      "sha256": "f163c5cfb4e6bfb92a95f6360bd9a7fc2504b017e46dad07953acab1d910414e"
+      "sha256": "84643bf0594df217f3f33e480401c2883678a60bb2c7ac35574dab1cc80a19e7"
     }
   },
   "cases": [
@@ -699,6 +699,87 @@
             },
             "sharedPitchClasses": [],
             "symbol": "G|G#7"
+          }
+        ]
+      }
+    },
+    {
+      "id": "synthetic-c-major-seven-accompaniment",
+      "title": "Generated two-hand doubled C-major-seventh accompaniment",
+      "epistemicStatus": "synthetic-regression-guard",
+      "scopeFeatures": [
+        "doubled-integrated-accompaniment",
+        "shared-pitch-class-separate-notes"
+      ],
+      "source": {
+        "kind": "synthetic",
+        "generation": "Voice one C-major-seventh chord in two-hand accompaniment form as a lower C-major triad C3-E3-G3 and an upper E-minor triad E4-G4-B4, doubling the integrated chord's third and fifth. This is a generated policy guard, not a corpus-frequency claim."
+      },
+      "observation": {
+        "kind": "snapshot",
+        "soundingMidiNotes": [48, 52, 55, 64, 67, 71],
+        "spelledNotes": ["C3", "E3", "G3", "E4", "G4", "B4"]
+      },
+      "construction": {
+        "kind": "integrated-chord",
+        "description": "All six notes are one generated two-hand C-major-seventh accompaniment-form voicing with its third and fifth doubled.",
+        "units": [
+          {
+            "id": "integrated-c-major-seven",
+            "identity": "Cmaj7",
+            "rootPc": 0,
+            "quality": "major7",
+            "midiNotes": [48, 52, 55, 64, 67, 71],
+            "spelledNotes": ["C3", "E3", "G3", "E4", "G4", "B4"],
+            "pitchClasses": [0, 4, 7, 11]
+          }
+        ],
+        "notation": {
+          "status": "not-applicable",
+          "reason": "The generated construction is one integrated C-major-seventh chord, not two independently named layers."
+        }
+      },
+      "productExpectation": {
+        "class": "negative-guard",
+        "expectedPolychords": [],
+        "primarySingleChordAlternatives": ["Cmaj7"],
+        "reason": "A two-hand realization explicitly generated as one seventh chord must not acquire an Em|C annotation merely because its lower three and upper three notes each form a complete triad."
+      },
+      "inputEligibility": {
+        "adjacentRegisterSnapshot": {
+          "status": "ambiguous",
+          "reason": "The nine-semitone hand boundary exposes exact C-major and E-minor triads, but the full pitch-class set is exactly C major seventh."
+        },
+        "generalPitchRegisterSnapshot": {
+          "status": "eligible",
+          "reason": "The complete pitch set, bass, and explicit generation recipe establish the integrated C-major-seventh regression expectation."
+        },
+        "timestampedEventStream": {
+          "status": "not-available",
+          "reason": "This generated snapshot carries no event history."
+        }
+      },
+      "registerBaseline": {
+        "expectedCandidates": [
+          {
+            "splitAfterIndex": 2,
+            "lowerTopMidi": 55,
+            "upperBottomMidi": 64,
+            "gapSemitones": 9,
+            "lower": {
+              "rootPc": 0,
+              "quality": "major",
+              "midiNotes": [48, 52, 55],
+              "pitchClasses": [0, 4, 7]
+            },
+            "upper": {
+              "rootPc": 4,
+              "quality": "minor",
+              "midiNotes": [64, 67, 71],
+              "pitchClasses": [4, 7, 11]
+            },
+            "sharedPitchClasses": [4, 7],
+            "symbol": "Em|C"
           }
         ]
       }
