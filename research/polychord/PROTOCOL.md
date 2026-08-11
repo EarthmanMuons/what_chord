@@ -9,13 +9,17 @@ performance budget are fixed by `output-evaluation-contract.md` and log
 2026-08-10-18. The complete author-adjudicated adoption suite is frozen by log
 2026-08-11-03. It is a product-policy conformance ruler, not independent ground
 truth. The register-only selector and its fixed diagnostic ablations are
-preregistered by `register-selector-v1.md` and log 2026-08-11-04. No selector
-product-policy or corpus result has been read. Independent Python and pure-Dart
-implementations produced identical complete decisions on the label-free
-structural matrix in log 2026-08-11-05. The frozen adoption suite has not been
-scored. A deterministic suite-evaluation harness is fixed by log 2026-08-11-06
-before the first prediction or score is generated. The satisfied coverage and
-stopping record remains normative in `adoption-suite-plan.md`.
+preregistered by `register-selector-v1.md` and log 2026-08-11-04. Independent
+Python and pure-Dart implementations produced identical complete decisions on
+the label-free structural matrix in log 2026-08-11-05. A deterministic
+suite-evaluation harness was fixed by log 2026-08-11-06 before the first
+prediction or score was generated. The single frozen-suite run in log
+2026-08-11-07 passes all internal exact gates for the full selector: six of six
+eligible positives and nine of nine guards. That is product-policy conformance,
+not the complete adoption bar or an external accuracy result. No
+development-corpus selector result has been read, and the 808-song POP909
+reserve remains untouched. The satisfied coverage and stopping record remains
+normative in `adoption-suite-plan.md`.
 
 ## Task and claim boundary
 
