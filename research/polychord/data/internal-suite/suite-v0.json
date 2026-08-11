@@ -7,7 +7,7 @@
   "dependencies": {
     "adoptionPlan": {
       "path": "research/polychord/adoption-suite-plan.md",
-      "sha256": "20099a7a4138d145923075fb2c2d58497b1000233fc7b20555af47c9b9182c82"
+      "sha256": "0cc41ef9c28c235679c7956198122d3678d854f86effcd644e1a62f38fd68b5b"
     },
     "framework": {
       "path": "research/polychord/FRAMEWORK.md",
@@ -15,11 +15,11 @@
     },
     "outputContract": {
       "path": "research/polychord/output-evaluation-contract.md",
-      "sha256": "881e8cb0355a857ddf044900fa480a0d4e2313c6330fe8c6466bb4040a505a58"
+      "sha256": "492c023ee26784d80c997b7c83b80549952762e7fb95834164ff77ffd7ccd2eb"
     },
     "schemaDocument": {
       "path": "research/polychord/internal-suite-schema.md",
-      "sha256": "33b707d4791003db2dd311a0ddbb480b68139736c5a7de2986a83c9cedbe7143"
+      "sha256": "653d61120de28d26c146b6fba69228db599a1bacb44b0fa5237500a4e824e6ac"
     },
     "registerCandidateSchema": {
       "path": "research/polychord/register-candidate-schema.md",
@@ -31,7 +31,11 @@
     },
     "validator": {
       "path": "tool/polychord/internal_suite.py",
-      "sha256": "49a0c65afa144905d5aea89f20e96d09570cb2f66c59e13ffc1248cced77e9b6"
+      "sha256": "255cce5e0c8db9c890e28492737e725378202b50ca0a7f83a5fada2b1771e278"
+    },
+    "scorer": {
+      "path": "tool/polychord/internal_suite_scorer.py",
+      "sha256": "0942adf1bc07c041a443be21d54da845c8adc17d296392bfee6adba868d177d9"
     }
   },
   "cases": [
@@ -160,6 +164,7 @@
         "class": "positive",
         "expectedPolychords": [
           {
+            "id": "g-minor-over-a-flat-minor",
             "unitIds": ["upper-g-minor", "lower-a-flat-minor"],
             "symbol": "Gm|Abm"
           }
@@ -262,6 +267,7 @@
         "class": "positive",
         "expectedPolychords": [
           {
+            "id": "c-major-over-g-minor",
             "unitIds": ["upper-c-major", "lower-g-minor"],
             "symbol": "C|Gm"
           }
@@ -431,6 +437,7 @@
         "class": "positive",
         "expectedPolychords": [
           {
+            "id": "f-flat-major-then-e-flat-seven",
             "unitIds": ["fb-major", "eb-dominant-seven"],
             "symbol": null
           }
@@ -528,6 +535,7 @@
         "class": "positive",
         "expectedPolychords": [
           {
+            "id": "c-major-over-f-sharp-major",
             "unitIds": ["upper-c-major-stream", "lower-f-sharp-major-stream"],
             "symbol": "C|F#"
           }
@@ -709,6 +717,7 @@
         "class": "positive",
         "expectedPolychords": [
           {
+            "id": "g-major-over-a-flat-seven",
             "unitIds": ["upper-g-major", "lower-a-flat-seven"],
             "symbol": "G|Ab7"
           }
@@ -1163,6 +1172,7 @@
         "class": "positive",
         "expectedPolychords": [
           {
+            "id": "d-sharp-seven-over-e-major",
             "unitIds": ["upper-d-sharp-seven", "lower-e-major"],
             "symbol": "D#7|E"
           }
@@ -1342,6 +1352,7 @@
         "class": "positive",
         "expectedPolychords": [
           {
+            "id": "c-major-over-g-minor",
             "unitIds": ["upper-c-major", "lower-g-minor"],
             "symbol": "C|Gm"
           }
@@ -1493,6 +1504,7 @@
         "class": "positive",
         "expectedPolychords": [
           {
+            "id": "f-sharp-major-over-c-major",
             "unitIds": ["upper-f-sharp-major", "lower-c-major"],
             "symbol": "F#|C"
           }

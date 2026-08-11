@@ -33,14 +33,14 @@ converted into an accuracy judgment.
 The top-level object contains:
 
 - `schema`: `polychord-internal-suite/2`;
-- `status`: `active-author-adjudicated-seed`;
-- `scoringAllowed`: `false` until the complete adoption suite is explicitly
-  frozen;
+- `status`: `active-author-adjudicated-seed` with `scoringAllowed: false`, or
+  `frozen-author-adjudicated-adoption` with `scoringAllowed: true` after the
+  dated freeze;
 - `authority`: `product-policy-only-not-independent-ground-truth`;
 - `noteConvention`: `MIDI 60 is C4; spellings are case-specific`;
 - `dependencies`: SHA-256 pins for the framework, output/evaluation contract,
   adoption-suite plan, this schema, register candidate schema, frame-replay
-  manifest, and validator; and
+  manifest, validator, and exact scorer; and
 - `cases`: cases ordered by stable identifier.
 
 The validator resolves every dependency from the repository root and rejects a
@@ -170,6 +170,15 @@ symbol only when notation order is resolved. Boundary and negative cases expect
 no polychord annotation even when the source construction has resolved layer
 order. Primary single-chord alternatives are retained rather than treated as
 annotation errors.
+
+Every acceptable positive answer has a stable `id`, two `unitIds`, and a
+nullable symbol. When construction notation is resolved, `unitIds` are ordered
+upper then lower and must agree with the resolved notation roles. Stable answer
+identifiers let the scorer report which acceptable answer won without relying on
+array position. Identifiers and ordered decompositions are unique within a case;
+two identifiers may not alias the same answer. An unresolved construction may
+retain an unordered analytical record, but it cannot enter an exact ordered gate
+for an input condition until acceptable orientations are explicitly represented.
 
 Eligibility statuses are `eligible`, `ineligible`, `ambiguous`, and
 `not-available`, each with a reason. They describe whether the named input
