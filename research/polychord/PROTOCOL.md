@@ -35,15 +35,15 @@ what evidence is sufficient to show it.
 The working constructional definition is two or more conventional chordal units
 combined in one sonority. "Polychord" names that construction or notation; it
 does not by itself claim concurrent keys, perceptually independent streams, or
-compositional intent. The current analyzer input contains sorted MIDI pitches,
-so the snapshot path can observe pitch content and register but not timbre,
-instrumentation, channel, or independent onset and motion cues. The live input
-stream can support timestamped note-on, note-off, and pedal evidence before that
-collapse. Successive frames expose exact transitions and retained sounding-note
-instances, but changed-pitch voice or layer continuity requires a declared
-assignment model. Those cues are a declared research avenue, not evidence the
-current analyzer already possesses. Any result must state which input evidence
-and assignment model it used.
+compositional intent. The current analyzer input contains sorted, distinct MIDI
+pitches, so the snapshot path can observe pitch content and register but not
+timbre, instrumentation, channel, or independent onset and motion cues. The live
+input stream can support timestamped note-on, note-off, and pedal evidence
+before that collapse. Successive frames expose exact transitions and retained
+sounding-note instances, but changed-pitch voice or layer continuity requires a
+declared assignment model. Those cues are a declared research avenue, not
+evidence the current analyzer already possesses. Any result must state which
+input evidence and assignment model it used.
 
 The scoping census measures voicings that satisfy declared split rules. It is
 not an accuracy test, a product detector, or evidence that its fires should be

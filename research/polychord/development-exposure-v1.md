@@ -76,8 +76,12 @@ Measurement ID:
 Use only the 59 entries in `splits.development` of
 `research/whatkey/data/splits/when-in-rome-v1.json` and their committed
 `whatkey-fixture/1` files. Supply only the event identifier, timestamp,
-duration, and `midiNotes` to the analysis path. Reference keys, figures,
-expected harmonies, and stored candidate lists are not selector inputs.
+duration, and a sorted, distinct projection of `midiNotes` to the analysis path.
+The fixtures may retain multiple voice occurrences of the same MIDI pitch, but
+WhatChord's channel-blind live observation contains one sounding instance of
+each pitch. Count and report every occurrence collapsed by this projection.
+Reference keys, figures, expected harmonies, and stored candidate lists are not
+selector inputs.
 
 These fixtures snapshot a voicing at committed chord-identity onset and omit
 same-identity revoicing. Their `durationMs` describes the committed primary
