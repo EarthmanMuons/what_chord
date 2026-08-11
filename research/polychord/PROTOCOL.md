@@ -19,9 +19,12 @@ eligible positives and nine of nine guards. That is product-policy conformance,
 not the complete adoption bar or an external accuracy result. No
 development-corpus selector result has been read. `development-exposure-v1.md`
 and log 2026-08-11-08 preregister the corpus roles, exact replay, stable-display
-timing, complete fire dispositions, and stopping rules for that next step. The
-808-song POP909 reserve remains untouched. The satisfied coverage and stopping
-record remains normative in `adoption-suite-plan.md`.
+timing, complete fire dispositions, and stopping rules for that next step. Log
+2026-08-11-09 records the synthetic-only harness implementation and restores the
+frozen output contract's pinned bytes after the previous entry's clarification
+inadvertently broke its dependency digest. No development-corpus selector result
+has been read. The 808-song POP909 reserve remains untouched. The satisfied
+coverage and stopping record remains normative in `adoption-suite-plan.md`.
 
 ## Task and claim boundary
 
@@ -494,12 +497,15 @@ The following work must be dated and completed in order:
    exists. The single run in log 2026-08-11-07 then records zero Python/Dart
    mismatches, six of six exact eligible positives, and nine of nine correct
    guards for the full selector, satisfying adoption-bar items 2 through 4 only.
-7. Implementation-shaped exposure: preregistered, implementation pending.
-   `development-exposure-v1.md` and log 2026-08-11-08 fix exact frame and stable
-   display exposure on raw ASAP development MIDI and the frozen POP909 sample,
-   plus a separately named committed-event proposal companion for When in Rome.
-   No development selector result has been read. Implement and commit the
-   synthetic-only harness controls before the first corpus run.
+7. Implementation-shaped exposure: preregistered and implemented; measurement
+   pending. `development-exposure-v1.md` and log 2026-08-11-08 fix exact frame
+   and stable display exposure on raw ASAP development MIDI and the frozen
+   POP909 sample, plus a separately named committed-event proposal companion for
+   When in Rome. Log 2026-08-11-09 records the pure-Dart exact-assignment
+   display reducer, label-blind replay adapters, complete provenance and
+   accounting controls, musician-readable review packet, append-only disposition
+   validation, and synthetic verification. No development selector result has
+   been read. Commit this boundary before the first corpus run.
 8. Optional external validation: use a newly registered, evidence-complete study
    before any reproducibility, independently validated ruler, or generalized
    accuracy claim. This is not a prerequisite for the preceding research work.
