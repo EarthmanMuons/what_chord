@@ -828,11 +828,26 @@ def episodes_by_profile_and_piece(
     return result
 
 
-def strict_fixture_from_normalized(normalized: dict) -> dict:
-    """Adapt unchanged development normalization to strict evidence replay."""
+def strict_fixture_from_normalized(
+    normalized: dict, *, through_event_index: int | None = None
+) -> dict:
+    """Adapt a relevant normalization prefix to strict evidence replay."""
+
+    source_events = normalized["events"]
+    source_frames = normalized["frames"]
+    if through_event_index is not None:
+        if (
+            isinstance(through_event_index, bool)
+            or not isinstance(through_event_index, int)
+            or through_event_index < 0
+            or through_event_index >= len(source_events)
+        ):
+            raise ValueError("through_event_index must identify a normalized event")
+        source_events = source_events[: through_event_index + 1]
+        source_frames = source_frames[: through_event_index + 1]
 
     events = []
-    for event in normalized["events"]:
+    for event in source_events:
         base = {
             "index": event["index"],
             "timestampMs": event["timestampMs"],
@@ -876,7 +891,7 @@ def strict_fixture_from_normalized(normalized: dict) -> dict:
                 "pedalDown",
             )
         }
-        for frame in normalized["frames"]
+        for frame in source_frames
     ]
     if fixture["frames"] != observed:
         raise ValueError("strict Liszt replay differs from normalized observations")
@@ -894,17 +909,8 @@ def liszt_source_case(path: Path) -> dict:
     normalized = development_exposure.normalize_midi_messages(
         messages, end_timestamp_ms
     )
-    fixture = strict_fixture_from_normalized(normalized)
-    onset_frames = onset_evidence.replay_onset_frames(fixture)
-    target_frames = []
-
-    for index, (frame, onset_frame) in enumerate(zip(fixture["frames"], onset_frames)):
-        next_timestamp_ms = (
-            fixture["frames"][index + 1]["timestampMs"]
-            if index + 1 < len(fixture["frames"])
-            else fixture["endTimestampMs"]
-        )
-        dwell_ms = next_timestamp_ms - frame["timestampMs"]
+    target_locations = []
+    for index, frame in enumerate(normalized["frames"]):
         target_candidates = [
             candidate
             for candidate in register_candidates.generate_register_candidates(
@@ -916,10 +922,29 @@ def liszt_source_case(path: Path) -> dict:
         ]
         if len(target_candidates) > 1:
             raise ValueError("Liszt frame contains a duplicated exact target")
-        if not target_candidates:
-            continue
+        if target_candidates:
+            target_locations.append((index, target_candidates[0]))
+    if not target_locations:
+        raise ValueError("Liszt replay contains no exact target opportunities")
+
+    last_target_index = target_locations[-1][0]
+    fixture = strict_fixture_from_normalized(
+        normalized, through_event_index=last_target_index
+    )
+    onset_frames = onset_evidence.replay_onset_frames(fixture)
+    target_frames = []
+
+    for index, target_candidate in target_locations:
+        frame = fixture["frames"][index]
+        onset_frame = onset_frames[index]
+        next_timestamp_ms = (
+            normalized["frames"][index + 1]["timestampMs"]
+            if index + 1 < len(normalized["frames"])
+            else normalized["endTimestampMs"]
+        )
+        dwell_ms = next_timestamp_ms - frame["timestampMs"]
         evidence_item = onset_evidence.candidate_onset_evidence(
-            target_candidates[0], onset_frame
+            target_candidate, onset_frame
         )
         target_frames.append(
             {
@@ -963,17 +988,16 @@ def liszt_source_case(path: Path) -> dict:
             "survivalSummaryByAppearanceDwellMs": summarize_episode_survival(episodes),
         }
 
-    expected_positive = {
+    expected_opportunities = {
         profile_id(gap): (2 if gap in {50, 80} else 0) for gap in ONSET_GAP_MINIMUMS_MS
     }
-    actual_positive = {
-        profile: data["summary"]["positiveCandidateInstances"]
-        for profile, data in profiles.items()
+    actual_opportunities = {
+        profile: len(data["episodes"]) for profile, data in profiles.items()
     }
-    if actual_positive != expected_positive:
+    if actual_opportunities != expected_opportunities:
         raise ValueError(
-            f"Liszt profile outcomes are {actual_positive}, "
-            f"expected {expected_positive}"
+            f"Liszt opportunity outcomes are {actual_opportunities}, "
+            f"expected {expected_opportunities}"
         )
     for profile in (profile_id(50), profile_id(80)):
         episodes = profiles[profile]["episodes"]
@@ -1010,6 +1034,11 @@ def liszt_source_case(path: Path) -> dict:
             "readCounts": read_counts,
             **normalized["normalization"],
             "normalizedEvents": len(normalized["events"]),
+            "strictOnsetReplayThroughEventIndex": last_target_index,
+            "laterEventsExcludedFromOnsetReplay": (
+                len(normalized["events"]) - last_target_index - 1
+            ),
+            "targetSearchReadEveryNormalizedFrame": True,
         },
         "target": {
             "symbol": LISZT_TARGET_SYMBOL,
