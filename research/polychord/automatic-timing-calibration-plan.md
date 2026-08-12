@@ -2,6 +2,8 @@
 
 Status: planning boundary. No alternate timing profile, selector, suite, corpus
 measurement, or product change is authorized by this document.
+`automatic-timing-sensitivity-preregistration.md` now fixes the first comparison
+family and stopping rules; it still authorizes no threshold choice.
 
 ## Why this step is necessary
 
@@ -134,10 +136,11 @@ Before another automatic selector is evaluated:
 5. Keep the 808-song POP909 reserve untouched until a selector, scorer, source
    coverage, and interpretation rule for that reserve have been preregistered.
 
-The comparison family itself is not fixed here. The already exposed 96-, 97-,
-125-, and 200-millisecond observations make a threshold grid chosen now
-development-informed by definition. The next dated measurement entry must say so
-explicitly and must freeze the grid before producing comparison results.
+The already exposed 96-, 97-, 125-, and 200-millisecond observations make a
+threshold grid chosen now development-informed by definition.
+`automatic-timing-sensitivity-preregistration.md` discloses that fact and
+freezes the first comparison grid before implementation or results. A later grid
+cannot replace it silently.
 
 ## Current consequence
 

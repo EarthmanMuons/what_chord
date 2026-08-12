@@ -10,7 +10,9 @@ The planning decision is recorded in log 2026-08-11-15. Log 2026-08-12-01
 records that the first two prospective motion positives did not satisfy the
 planned source coverage. Log 2026-08-12-02 records the bounded follow-up search
 and the methodological correction separating cue admission from display dwell.
-`automatic-timing-calibration-plan.md` fixes the next planning boundary.
+`automatic-timing-calibration-plan.md` fixes the planning boundary, and
+`automatic-timing-sensitivity-preregistration.md` fixes the first comparison
+before implementation or results.
 
 ## Purpose
 
