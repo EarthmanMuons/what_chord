@@ -1,10 +1,11 @@
 # Automatic timestamped-MIDI suite plan
 
-Status: paused at the source-evidence and timing-calibration prerequisites. This
-document preserves the planning boundary for the version-2 automatic suite, but
-no suite was constructed and no exact selector was defined or evaluated. It does
-not create a scorable suite, promote an onset or motion rule to a licensing cue,
-authorize corpus evaluation, or authorize use of the held POP909 reserve.
+Status: paused at the source-evidence prerequisite. The first timing comparison
+is complete and selected no profile. This document preserves the planning
+boundary for the version-2 automatic suite, but no suite was constructed and no
+exact selector was defined or evaluated. It does not create a scorable suite,
+promote an onset or motion rule to a licensing cue, authorize corpus evaluation,
+or authorize use of the held POP909 reserve.
 
 The planning decision is recorded in log 2026-08-11-15. Log 2026-08-12-01
 records that the first two prospective motion positives did not satisfy the
@@ -12,7 +13,8 @@ planned source coverage. Log 2026-08-12-02 records the bounded follow-up search
 and the methodological correction separating cue admission from display dwell.
 `automatic-timing-calibration-plan.md` fixes the planning boundary, and
 `automatic-timing-sensitivity-preregistration.md` fixes the first comparison
-before implementation or results.
+before implementation or results. Logs 2026-08-12-05 and 2026-08-12-06 preserve
+the first run's pre-output failure, correction, and successful result.
 
 ## Purpose
 
@@ -303,7 +305,8 @@ No onset or motion branch therefore supplies the candidate-bound source positive
 and matched cue-positive guard required before selector preregistration. This is
 a scoped coverage result, not a claim that no suitable source can exist. The
 automatic suite remains unencoded, both cues remain diagnostics, and no selector
-or corpus evaluation follows until the timing-calibration plan is completed.
+or corpus evaluation follows. The first timing comparison is now complete, but
+it selected no profile and did not fill the missing source coverage.
 
 ## Required coverage before freeze
 
@@ -328,7 +331,7 @@ do not imply that its positive result can authorize selection or display.
 
 ## Disposition after the source audit
 
-The first three steps of the revised freeze sequence are complete:
+The source audit and first timing comparison leave this disposition:
 
 1. The rejected Stravinsky and Herrmann leads remain coverage findings; neither
    was encoded as an automatic positive or used to tune a threshold.
@@ -338,9 +341,10 @@ The first three steps of the revised freeze sequence are complete:
 3. The audit exposed an invalid coupling between source admission and the
    inherited 200-millisecond display dwell. That coupling is removed; the
    measurements remain results under their named profiles.
-4. Automatic selector work pauses before suite schema, scorer, selector,
-   implementation, or corpus evaluation while the threshold-free evidence and
-   calibration plan is fixed.
+4. The first preregistered timing comparison is complete. It selected no onset
+   threshold or appearance dwell, so automatic selector work remains paused
+   before suite schema, scorer, selector, implementation, or corpus evaluation
+   while the missing source evidence is sought.
 
 The inactive downstream sequence would have encoded the referenced 17-case
 suite, completed synthetic and source-backed controls, frozen all selector and
@@ -348,10 +352,11 @@ display decisions, cross-checked Python and Dart implementations, and
 preregistered a new development source. None of those steps is authorized by the
 current evidence.
 
-Continuing this route requires the source coverage above and the prospective
-comparison defined in `automatic-timing-calibration-plan.md`. A paid or
-machine-transcribed file is not a substitute for the missing evidence merely
-because it is available.
+Continuing this route requires the source coverage above. Any later timing
+comparison must receive its own prospective record under
+`automatic-timing-calibration-plan.md`; it may not extend the completed grid
+after inspection. A paid or machine-transcribed file is not a substitute for the
+missing evidence merely because it is available.
 
 Previously exposed POP909, ASAP, and When in Rome material remains development
 evidence. The held 808-song POP909 reserve remains untouched. No automatic
