@@ -1,14 +1,17 @@
 # Automatic polychord output contract v2
 
 Status: preserved research contract for `polychord-output/2` under the
-`automaticTimestampedMidi` input condition, closed without an admitted selector.
-It defines the evidence and display boundary that any future reopening must
-obey. It does not choose a selector, score a new suite, authorize held-reserve
-use, or authorize product integration.
+`automaticTimestampedMidi` input condition. No selector has been admitted. It
+defines one evidence and display baseline; it does not make its 200-millisecond
+appearance dwell a polychord-perception threshold. It does not choose a
+selector, score a new suite, authorize held-reserve use, or authorize product
+integration.
 
 The decision and its provenance are recorded in log 2026-08-11-14. Logs
 2026-08-12-01 and 2026-08-12-02 record that no source-valid licensing branch met
-the contract, so work stopped before suite construction.
+the source-coverage requirements, so no suite or selector was built.
+`automatic-timing-calibration-plan.md` separates the cue and display parameters
+before any later attempt.
 
 ## Scope
 
@@ -204,6 +207,14 @@ sounding-instance binding. The 200-millisecond appearance timer runs only while
 one authorization key remains continuously selected with positive aggregate
 support.
 
+This duration is inherited from the app's measured primary-chord display policy.
+It is a conservative v2 presentation baseline, not a threshold for polychord
+construction, onset grouping, or automatic-decision correctness. Decision-level
+evaluation occurs before this gate. A correctly selected candidate that ends
+earlier is reported as display-suppressed under this profile rather than
+reclassified as an invalid source positive. Any alternate adopted dwell requires
+a separately named output or display profile and prospective evaluation.
+
 - Changing identity, MIDI-note assignment, or any bound sounding instance
   restarts the appearance timer.
 - Changing which cue supplies positive support does not restart the timer when
@@ -272,7 +283,7 @@ authorization key, reason semantics, or stable-display interaction requires a
 new output-contract version. Changing a cue interpretation or selector rule
 requires its own version without rewriting this contract.
 
-## Closed without freezing downstream choices
+## Downstream choices remain unfrozen
 
 This contract does not yet choose:
 
@@ -283,6 +294,7 @@ This contract does not yet choose:
 - a new development source or resampling design; or
 - any product presentation or release date.
 
-Those choices remain intentionally nonexistent. Reopening requires a new dated
-decision and the required source-attested temporal cases; changing this input or
-output claim requires a new contract version.
+Those choices remain intentionally nonexistent. Continuing requires the
+source-attested temporal cases and prospective timing comparison in
+`automatic-timing-calibration-plan.md`; changing this input or output claim
+requires a new contract version.

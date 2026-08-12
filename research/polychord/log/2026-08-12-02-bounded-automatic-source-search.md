@@ -1,8 +1,9 @@
-# 2026-08-12: Close the bounded automatic source search
+# 2026-08-12: Complete the bounded automatic source search
 
-**Goal.** Complete the bounded search required by log 2026-08-12-01 and decide
+**Goal.** Complete the bounded search required by log 2026-08-12-01, decide
 whether either frozen temporal cue has enough source evidence to become a
-licensing branch under `polychord-output/2`.
+licensing branch under `polychord-output/2`, and keep source admission separate
+from product display dwell.
 
 **Setup.** Tracked files began at clean commit
 `5c0984f473dd4e3d278e540e8df9706dc167f08b`. No selector was defined or run, no
@@ -148,15 +149,15 @@ the evidence record.
 
 ## Admission results
 
-| Source lead                            | Construction | Positive cue        | Exact note events   | 200 ms gate      | Matched cue-positive guard | Disposition                                                                                                              |
-| -------------------------------------- | ------------ | ------------------- | ------------------- | ---------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| Herrmann, “The Scar,” Moreira Ex. 3    | Yes          | Onset premise       | No                  | Unresolved       | No                         | Strongest new lead; retain as scholarly cue evidence, not a licensing positive                                           |
-| Ives, _Psalm 67_ opening               | Yes          | No                  | No                  | Not needed       | N/A                        | Simultaneous-onset construction control; first frame has no motion predecessor                                           |
-| Schuman, _Three-Score Set_ II, mm. 1-4 | Yes          | Motion premise      | No                  | Unresolved       | Existing guards only       | Contrary-motion construct without source-fixed per-note timing                                                           |
-| Stravinsky, “Shrovetide Fair”          | Boundary     | Motion              | Normalized only     | Not source-fixed | Yes                        | Existing construct and guard, not a product positive                                                                     |
-| Liszt, _Malediction_, printed p. 2     | Boundary     | Onset neutral       | Hand sequence       | 96 or 97 ms      | N/A                        | Alternating score construction; pedal-derived <code>F&#124;B</code> never reaches the frozen onset or display thresholds |
-| GiantMIDI-Piano relevant entries       | Unaligned    | Measurable          | Machine-transcribed | Measurable       | No                         | Not human-authored event ground truth; no pinned analytical measure and voicing for the available Milhaud MIDI           |
-| OSF _Detection of clash of keys_       | Study labels | Not candidate-bound | Audio only          | Measurable       | No                         | Perception resource; eight MP3 stimuli and no symbolic or note-event stimuli                                             |
+| Source lead                            | Construction | Positive cue            | Exact note events   | Current display profile   | Matched cue-positive guard | Disposition                                                                                                    |
+| -------------------------------------- | ------------ | ----------------------- | ------------------- | ------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Herrmann, “The Scar,” Moreira Ex. 3    | Yes          | Onset premise           | No                  | Unresolved                | No                         | Strongest new lead; retain as scholarly cue evidence, not a licensing positive                                 |
+| Ives, _Psalm 67_ opening               | Yes          | No                      | No                  | Not evaluated             | N/A                        | Simultaneous-onset construction control; first frame has no motion predecessor                                 |
+| Schuman, _Three-Score Set_ II, mm. 1-4 | Yes          | Motion premise          | No                  | Unresolved                | Existing guards only       | Contrary-motion construct without source-fixed per-note timing                                                 |
+| Stravinsky, “Shrovetide Fair”          | Boundary     | Motion                  | Normalized only     | Not source-fixed          | Yes                        | Existing construct and guard, not an automatic-decision positive                                               |
+| Liszt, _Malediction_, printed p. 2     | Boundary     | Neutral under 50/200 v1 | Hand sequence       | Suppressed at 96 or 97 ms | N/A                        | Alternating score construction; pedal-derived <code>F&#124;B</code> is a useful timing-sensitivity boundary    |
+| GiantMIDI-Piano relevant entries       | Unaligned    | Measurable              | Machine-transcribed | Measurable                | No                         | Not human-authored event ground truth; no pinned analytical measure and voicing for the available Milhaud MIDI |
+| OSF _Detection of clash of keys_       | Study labels | Not candidate-bound     | Audio only          | Measurable                | No                         | Perception resource; eight MP3 stimuli and no symbolic or note-event stimuli                                   |
 
 ### Strongest onset lead: “The Scar”
 
@@ -349,36 +350,68 @@ WhatChord can recognize those layers safely from live MIDI. A score tells us
 what was written; mixed audio tells us what was heard; machine transcription
 guesses what notes occurred; and a hand sequence fixes one realization rather
 than proving score simultaneity or a performance distribution. The Liszt
-sequence supplies exact events, but its only relevant candidate is subthreshold.
-No available source supplies a qualifying candidate and cue plus the closely
-matched guard required to license that branch.
+sequence supplies exact events, but its construction is a rapid-alternation
+boundary and its timing is neutral or suppressed only under the current named
+profiles. No available source supplies a qualifying candidate and cue plus the
+closely matched guard required to license that branch.
+
+## Methodological correction before commit
+
+The preregistered admission table coupled two independent 200-millisecond
+parameters. The onset rule used 200 milliseconds as a deliberately conservative
+positive-support condition inferred from analogous auditory-grouping work, not
+as an established polychord threshold. Borchert, Micheyl, and Oxenham tested one
+200-millisecond asynchrony condition for filtered complex tones; their method
+says the separate 200-millisecond silent-gap condition was chosen to create a
+clear interval while keeping trials short, and neither condition estimated a
+polychord boundary. The display gate inherited 200 milliseconds from the app's
+measured primary-chord stability policy. It controls when a selection appears;
+it does not determine whether the cue or construction is valid.
+
+Preregistration preserves the negative results under those exact named profiles.
+It does not turn either parameter into an immutable fact. In particular:
+
+- the Liszt onset result remains neutral under
+  `coherent-separated-onsets-50-200ms/1`;
+- its two candidates remain suppressed under the current 200-millisecond display
+  baseline;
+- neither observation establishes that a shorter onset profile or display dwell
+  would be scientifically wrong; and
+- Liszt remains a boundary because the score writes rapid alternation rather
+  than a static six-note vertical, independently of those thresholds.
+
+Source-positive admission is therefore corrected to require exact
+candidate-bound event evidence plus a matched cue-positive guard, while display
+survival becomes a separate coverage and scoring axis. This removes the
+conceptual confound without retuning either measured profile after seeing the
+data. `automatic-timing-calibration-plan.md` records the prospective sequence
+for any comparison.
 
 ## Decision
 
-Admit no onset or motion licensing branch. Stop automatic selector work under
-`polychord-output/2` before encoding `polychord-automatic-suite/1`, implementing
-a selector, running development data, or reading the held POP909 reserve.
+Admit no onset or motion licensing branch yet. Pause before encoding
+`polychord-automatic-suite/1`, implementing a selector, running development
+data, or reading the held POP909 reserve.
 
-Preserve `polychord-output/2` and the suite plan as closed research contracts so
-the evidence standard and null result remain reproducible. Keep onset, motion,
-release, and pedal trackers as useful diagnostic infrastructure. Do not weaken
-the 50/200-millisecond onset rule, the motion endpoint rule, the source-attested
-guard requirement, or the display gate after seeing this search.
+Preserve `polychord-output/2` and the existing 50/200-millisecond onset profile
+as named baselines so their results remain reproducible. Keep onset, motion,
+release, and pedal trackers as useful diagnostic infrastructure. Do not relabel
+either profile after seeing this search. A comparison requires prospective new
+identities and an explicit development-informed calibration record.
 
-This is a scoped stopping result, not a universal claim that no suitable source
-exists. Reopening requires a new dated decision that identifies either:
+This is a scoped source-coverage result, not a universal claim that no suitable
+source exists or that automatic inference is closed. Continuing requires both:
 
-- an authoritative timestamped note-level source satisfying the unchanged
-  admission rule; or
-- a deliberately different input or output claim under a new contract version,
-  with its own validation burden.
+- authoritative timestamped note-level source and guard coverage under the
+  corrected admission rule; and
+- the prospective comparison in `automatic-timing-calibration-plan.md` before
+  any alternate cue or display parameter is chosen.
 
 Do not make a paid or machine-transcribed download a prerequisite merely to keep
 the current route alive.
 
-**Next.** Return to a product path whose evidence is actually observable. The
-cleanest candidate is a separately contracted explicit-layer input, where a
-musician supplies the upper and lower units rather than the app inferring them.
-That work may reuse the frozen notation, presentation, candidate, accessibility,
-and temporal-diagnostic infrastructure, but it must start with its own input
-semantics and must not be described as automatic detection.
+**Next.** Preserve the explicit-layer input as a viable independent product
+path, but do not abandon automatic research solely because the current examples
+miss 200 milliseconds. First freeze the timing comparison family and seek the
+source-positive and guard coverage specified by the calibration plan. Automatic
+selector work remains ineligible until those prerequisites are met.

@@ -19,10 +19,11 @@ collision that requires evidence beyond register for automatic version 2.
 requirements that must be satisfied before an exact version-2 selector is
 preregistered. Log 2026-08-12-01 records that neither prospective motion source
 positive met those requirements. Log 2026-08-12-02 records that the bounded
-follow-up source search also admitted no onset or motion branch and closes
-automatic selector work under `polychord-output/2` before suite construction.
-The satisfied v0 coverage and stopping record remains normative in
-`adoption-suite-plan.md`.
+follow-up source search also admitted no onset or motion branch, corrects the
+coupling of source admission to display dwell, and pauses selector work before
+suite construction. `automatic-timing-calibration-plan.md` fixes the next
+planning boundary without choosing alternate parameters. The satisfied v0
+coverage and stopping record remains normative in `adoption-suite-plan.md`.
 
 ## Task and claim boundary
 
@@ -411,6 +412,13 @@ The contract freezes the interface and evaluation. It does not choose a
 selector. The complete adoption suite was frozen before any selector result was
 read.
 
+The 200-millisecond appearance gate is a product display profile inherited from
+the measured primary-chord stability work. It is not a construction label, a cue
+threshold, or a polychord-perception claim. Cue interpretation, automatic
+decision, and display survival must be reported separately. The independent
+200-millisecond onset parameter remains only one conservative named ablation;
+`automatic-timing-calibration-plan.md` governs any prospective comparison.
+
 ## Statistics and reporting
 
 - Report event counts and duration-weighted exposure together, per corpus and
@@ -553,12 +561,12 @@ The following work must be dated and completed in order:
     17-case suite by pinned reference, classify its three event-complete cases
     and 14 temporal coverage exclusions, and fix separate construction, cue,
     decision, and display scoring axes. A licensing branch requires a
-    source-attested automatic positive that can remain authorized through the
-    200-millisecond gate plus a source-backed cue-positive guard. The Stravinsky
-    ascending-sevenths passage is the first motion lead; onset remains
-    diagnostic because its current source evidence does not establish the
-    ablation's millisecond threshold. No automatic suite or selector has been
-    run.
+    source-attested automatic-decision positive with exact candidate-bound event
+    evidence plus a source-backed cue-positive guard; display survival is a
+    separate scoring axis. The Stravinsky ascending-sevenths passage is the
+    first motion lead; onset remains diagnostic because its current source
+    evidence does not establish the ablation's millisecond threshold. No
+    automatic suite or selector has been run.
 11. First automatic motion-source audit: complete with no admitted positive. Log
     2026-08-12-01 records that score rhythm and attack spacing cannot substitute
     for sounding-instance dwell. A public sequence corroborates 125-millisecond
@@ -567,24 +575,26 @@ The following work must be dated and completed in order:
     oblique-motion construct, but its useful endpoints are separated by a
     noncandidate gap that no frozen causal endpoint rule may bridge. The active
     suite plan triggered a bounded search for a source with authoritative
-    note-level timing before suite construction. No selector or corpus outcome
-    was read.
-12. Bounded automatic source search: complete with a stopping result. Log
-    2026-08-12-02 screens the frozen source cases, Moreira's complete official
-    examples supplement, relevant GiantMIDI-Piano and specialist archive
-    entries, the public _Detection of clash of keys_ materials, and targeted
-    open symbolic-source leads. Moreira's “The Scar” strengthens the onset
-    premise with explicitly asynchronous complete triads and article-hosted
-    audio. A hand-sequenced _Malediction_ supplies exact source-fixed events,
-    but its pedal-derived candidate and onset separation are both subthreshold;
-    the score also corrects that backlog case from a static positive to an
+    note-level timing before suite construction. Falling below that display
+    baseline is a display-coverage result, not a cue or construction label. No
+    selector or corpus outcome was read.
+12. Bounded automatic source search: complete with a coverage and calibration
+    result. Log 2026-08-12-02 screens the frozen source cases, Moreira's
+    complete official examples supplement, relevant GiantMIDI-Piano and
+    specialist archive entries, the public _Detection of clash of keys_
+    materials, and targeted open symbolic-source leads. Moreira's “The Scar”
+    strengthens the onset premise with explicitly asynchronous complete triads
+    and article-hosted audio. A hand-sequenced _Malediction_ supplies exact
+    source-fixed events; its pedal-derived candidate is neutral under the named
+    50/200 onset profile and suppressed under the current display baseline. The
+    score independently corrects that backlog case from a static positive to an
     alternating-chord boundary. No source satisfies a licensing branch together
     with its required matched cue-positive guard. The Ives opening is confirmed
-    as a simultaneous-onset control, not a license. Stop automatic selector work
-    under `polychord-output/2`; do not encode its suite, evaluate a selector, or
-    read the held reserve. A future reopening requires a new dated decision and
-    either evidence satisfying the unchanged admission rule or a new versioned
-    input or output claim.
+    as a simultaneous-onset control, not a license. Pause before encoding the
+    suite, evaluating a selector, or reading the held reserve. Continuing
+    requires the corrected source coverage plus the prospective work in
+    `automatic-timing-calibration-plan.md`; existing results retain their exact
+    named profiles.
 13. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding

@@ -1,11 +1,13 @@
 # Automatic polychord selection v2 plan
 
-Status: closed at the source-admission prerequisite. This post-v1 research
-decision is not an exact selector preregistration, does not amend the frozen v0
-suite in place, and does not authorize held-reserve use or product integration.
+Status: paused at the source-evidence and timing-calibration prerequisites. This
+post-v1 research decision is not an exact selector preregistration, does not
+amend the frozen v0 suite in place, and does not authorize held-reserve use or
+product integration.
 
 The evidence boundary is recorded in log 2026-08-11-13. Logs 2026-08-12-01 and
-2026-08-12-02 record the failed source admissions and the resulting stop.
+2026-08-12-02 record the source-coverage audit. The latter also corrects the
+coupling of source admission to the inherited display dwell.
 
 ## Why a second selection contract is necessary
 
@@ -68,6 +70,12 @@ in the exact selector preregistration. A new rule may reuse one unchanged, but
 it may not loosen either rule after inspecting the existing zero-positive POP909
 results and call the result confirmatory.
 
+A prospectively named comparison may evaluate alternate parameters as
+development-informed calibration. It must retain the original profiles, report
+the full declared sensitivity comparison, and reserve later material for any
+confirmation claim. `automatic-timing-calibration-plan.md` defines that
+boundary.
+
 Release and pedal state remains raw evidence. The bounded audit and the v1
 display review do not justify treating pedal-down state or sustained notes as a
 categorical rejection. The primary analyzer may remain a reported parallel
@@ -91,14 +99,15 @@ Complete the following in order:
    the branch-admission and coverage requirements. Static positives without
    adequate event evidence remain transparent coverage exclusions for that input
    condition, not false negatives and not deleted cases.
-3. **Not satisfied; stopping condition reached:** admit at least one
-   evidence-complete, source-attested positive for every cue branch that could
-   authorize a display, with a matched ordinary integrated control. The bounded
-   search in log 2026-08-12-02 found no source satisfying the frozen evidence
-   and display requirements.
-4. **Not started:** freeze the exact cue interpretation, branch combination,
-   assignment rule, stability behavior, suite, scorer, and development protocol
-   before reading new selector output.
+3. **Not satisfied:** admit at least one evidence-complete, source-attested
+   automatic-decision positive for every cue branch that could authorize a
+   candidate, with a matched ordinary integrated control. Display survival is a
+   separate coverage axis. The bounded search in log 2026-08-12-02 found no
+   source satisfying the candidate-bound cue and guard requirements.
+4. **Plan recorded; comparison not frozen:**
+   `automatic-timing-calibration-plan.md` separates cue interpretation,
+   automatic decision, and display policy. The exact comparison family still
+   must be frozen before it is run.
 5. **Not started:** identify a new development source or a predeclared
    resampling design. Previously exposed POP909, ASAP, and When in Rome outcomes
    remain development evidence and cannot serve as independent confirmation.
@@ -106,13 +115,14 @@ Complete the following in order:
    selector reached development evaluation.
 
 Log 2026-08-12-01 completes the first source-admission attempt with a negative
-result. The Stravinsky closing-passage lead does not establish 200 milliseconds
-of continuous sounding-instance authorization, and a public sequence
-corroborates 125-millisecond note duration in the staccatissimo passage. The
-Herrmann “The Pass” alternative places its useful motion endpoints across a
-noncandidate gap for which no causal lookback rule is frozen. Neither motion nor
-onset currently satisfies item 3, so no exact version-2 selector or automatic
-suite was eligible to be built at that point.
+result. The Stravinsky closing-passage lead lacks an authoritative note-for-note
+event representation, while a public sequence independently demonstrates that
+source inter-onset spacing does not establish candidate dwell: it uses
+125-millisecond notes in the staccatissimo passage. The Herrmann “The Pass”
+alternative places its useful motion endpoints across a noncandidate gap for
+which no causal lookback rule is frozen. Neither motion nor onset currently
+satisfies item 3, so no exact version-2 selector or automatic suite was eligible
+to be built at that point.
 
 Log 2026-08-12-02 completes the bounded follow-up search. Moreira's “The Scar”
 is strong scholarly evidence for asynchronous attacks separating complete
@@ -120,11 +130,13 @@ chordal layers, but its score transcription and mixed audio do not provide
 authoritative per-note event timing or the required matched integrated guard.
 The same search corrects the Liszt _Malediction_ backlog case: the score rapidly
 alternates B-major and F-major chords, while a pinned hand sequence produces
-only subthreshold pedal overlap. The other screened score, corpus, and
-perception sources fail complementary coverage requirements. Item 3 is therefore
-a stopping result: the automatic suite remains unencoded, onset and motion
-remain diagnostic, and no exact version-2 selector will be built under this
-contract.
+brief pedal overlap that is neutral under the existing onset profile and
+display-suppressed under the existing dwell. The other screened score, corpus,
+and perception sources fail complementary coverage requirements. Item 3
+therefore remains unmet: the automatic suite stays unencoded, onset and motion
+remain diagnostic, and no exact version-2 selector is built yet. The
+sub-200-millisecond observations are not the reason the Liszt construction is a
+boundary and no longer close the automatic avenue.
 
 ## Rejected shortcuts
 
@@ -144,9 +156,8 @@ contract.
 
 ## Success criterion for this planning stage
 
-This planning stage is complete. The static observability limitation is
-explicit, and the bounded source search did not establish source-valid,
-observable positive support. Automatic polychord display is therefore not
-justified for the current input surface and cue set. Reopening the route
-requires a new dated decision and either newly available evidence satisfying the
-unchanged admission rule or a new versioned input or output claim.
+This planning stage has identified the static observability limitation and the
+missing source-valid, candidate-bound cue evidence. Automatic polychord display
+is not yet justified for the current input surface and cue set. The next
+eligible step is prospective timing calibration plus source and guard coverage,
+not automatic selector evaluation or held-reserve use.
