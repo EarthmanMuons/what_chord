@@ -18,8 +18,10 @@ collision that requires evidence beyond register for automatic version 2.
 `automatic-suite-v2-plan.md` fixes the suite construction and source-coverage
 requirements that must be satisfied before an exact version-2 selector is
 preregistered. Log 2026-08-12-01 records that neither prospective motion source
-positive met those requirements; no version-2 licensing branch is admitted. The
-satisfied v0 coverage and stopping record remains normative in
+positive met those requirements. Log 2026-08-12-02 records that the bounded
+follow-up source search also admitted no onset or motion branch and closes
+automatic selector work under `polychord-output/2` before suite construction.
+The satisfied v0 coverage and stopping record remains normative in
 `adoption-suite-plan.md`.
 
 ## Task and claim boundary
@@ -546,7 +548,7 @@ The following work must be dated and completed in order:
    appearance gate runs only while authorization is continuous. Static v1
    eligibility and explicit manual grouping remain separate input conditions. No
    licensing cue, selector, suite, or new corpus result is chosen here.
-10. Version-2 automatic-suite plan: complete; suite construction not begun.
+10. Version-2 automatic-suite plan: complete; suite construction did not begin.
     `automatic-suite-v2-plan.md` and log 2026-08-11-15 preserve the frozen
     17-case suite by pinned reference, classify its three event-complete cases
     and 14 temporal coverage exclusions, and fix separate construction, cue,
@@ -564,10 +566,26 @@ The following work must be dated and completed in order:
     200-millisecond display gate. Moreira's “The Pass” supplies an exact
     oblique-motion construct, but its useful endpoints are separated by a
     noncandidate gap that no frozen causal endpoint rule may bridge. The active
-    suite plan now requires a bounded search for a source with authoritative
+    suite plan triggered a bounded search for a source with authoritative
     note-level timing before suite construction. No selector or corpus outcome
     was read.
-12. Optional external validation: use a newly registered, evidence-complete
+12. Bounded automatic source search: complete with a stopping result. Log
+    2026-08-12-02 screens the frozen source cases, Moreira's complete official
+    examples supplement, relevant GiantMIDI-Piano and specialist archive
+    entries, the public _Detection of clash of keys_ materials, and targeted
+    open symbolic-source leads. Moreira's “The Scar” strengthens the onset
+    premise with explicitly asynchronous complete triads and article-hosted
+    audio. A hand-sequenced _Malediction_ supplies exact source-fixed events,
+    but its pedal-derived candidate and onset separation are both subthreshold;
+    the score also corrects that backlog case from a static positive to an
+    alternating-chord boundary. No source satisfies a licensing branch together
+    with its required matched cue-positive guard. The Ives opening is confirmed
+    as a simultaneous-onset control, not a license. Stop automatic selector work
+    under `polychord-output/2`; do not encode its suite, evaluate a selector, or
+    read the held reserve. A future reopening requires a new dated decision and
+    either evidence satisfying the unchanged admission rule or a new versioned
+    input or output claim.
+13. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding
     research work.

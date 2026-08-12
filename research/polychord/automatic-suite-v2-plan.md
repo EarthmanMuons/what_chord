@@ -1,14 +1,16 @@
 # Automatic timestamped-MIDI suite plan
 
-Status: preregistered construction plan for the version-2 automatic suite. This
-document fixes the suite boundary and required coverage before any exact
-selector is defined or evaluated. It does not create a scorable suite, promote
-an onset or motion rule to a licensing cue, authorize corpus evaluation, or
-authorize use of the held POP909 reserve.
+Status: closed at the source-admission prerequisite. This document preserves the
+preregistered boundary for the version-2 automatic suite, but no suite was
+constructed and no exact selector was defined or evaluated. It does not create a
+scorable suite, promote an onset or motion rule to a licensing cue, authorize
+corpus evaluation, or authorize use of the held POP909 reserve.
 
 The planning decision is recorded in log 2026-08-11-15. Log 2026-08-12-01
 records that the first two prospective motion positives did not satisfy this
-plan's admission rule.
+plan's admission rule. Log 2026-08-12-02 records the bounded follow-up source
+search and the decision to stop this automatic-selector route under
+`polychord-output/2`.
 
 ## Purpose
 
@@ -223,16 +225,78 @@ per-note MIDI; it can corroborate the passage but cannot establish the exact
 attack span of every candidate note. The existing generated 400-millisecond
 control proves mechanics only.
 
-Consequently, onset must remain diagnostic in the first exact selector unless a
-new source supplies defensible note-level timing and a matched onset-positive
-integrated guard. This is a coverage result, not evidence that onset is
-musically irrelevant and not a reason to tune the 50/200-millisecond thresholds
-against the current examples.
+Consequently, onset remains diagnostic research evidence and is not a licensing
+cue. This is a coverage result, not evidence that onset is musically irrelevant
+and not a reason to tune the 50/200-millisecond thresholds against the current
+examples.
 
 The official MTO verification artifacts are the examples PDF, SHA-256
 `09cd7f3bcbcee61a5def436d342c01576ca47d6481bdbb9932454616a04ecb62`, and Example
 6 audio, SHA-256
 `84bb6602bc0f66b130b82304118ebeda45ed6e96a4c5f605de3e7d86c9f31e37`.
+
+## Bounded source search: no branch admitted
+
+Log 2026-08-12-02 completes the search required by log 2026-08-12-01. It
+screened the frozen source inventory, all 34 examples in Moreira's official
+supplement, the public GiantMIDI-Piano index, specialist human-sequenced MIDI
+archives, and the public OSF materials for _Detection of clash of keys_. It also
+followed targeted searches for open symbolic versions of the strongest Ives,
+Stravinsky, Schuman, Herrmann, Milhaud, and Liszt leads. A paid MuseScore
+download was neither required nor purchased.
+
+The strongest additional onset lead is Moreira's Example 3, Bernard Herrmann's
+“The Scar.” The peer-reviewed analysis identifies two registrally distinct
+tritone-related minor triads, explains that their contrasting rhythms produce
+onset asynchrony, and supplies both a score transcription and article-hosted
+audio. Those sources establish the construction and the musical relevance of the
+cue, but the audio is a mixed performance rather than authoritative per-note
+event data. It cannot establish every note-on span, note-off, and
+sounding-instance binding required by `polychord-output/2`. No matched
+source-backed ordinary integrated guard with the same positive onset rule was
+found.
+
+The opening of Ives's _Psalm 67_ gives the opposite control. Johnson's reduction
+and the published score preview show the complete lower and upper units
+attacking together. It is useful simultaneous-onset evidence for a known
+construction, but it cannot license onset support and has no prior endpoint from
+which to derive motion support.
+
+Liszt's _Malediction_ corrected a premise in the candidate backlog but did not
+admit a cue branch. The public-domain score and Dean's BIS-2100 commentary show
+rapidly alternating B-major and F-major chords that blur together, not a
+sustained six-note vertical. Laviano's hand-sequenced score realization is an
+exact, source-fixed event representation. Under the same channel-blind,
+pedal-aware normalization used by the development measurement, it produces the
+registered candidate `F|B` twice for only 96 or 97 milliseconds. The relevant
+layer attacks are 96 or 97 milliseconds apart, so onset support is neutral; the
+direct predecessor contains no complete source candidate for motion and no
+causal lookback rule is frozen; and the target binding never reaches the
+200-millisecond display gate. The case therefore moves from the positive backlog
+to the temporal/perceptual boundary backlog.
+
+The remaining sources fail for complementary reasons:
+
+- Moreira's Schuman example attests contrary-moving chordal layers but provides
+  notation without a source-fixed millisecond performance or exact note-event
+  file.
+- Other Moreira examples either lack authoritative per-note timing, use a layer
+  outside the frozen complete-common vocabulary, provide only parallel or static
+  motion under the frozen rule, or are compact integrated guards rather than
+  product positives.
+- GiantMIDI-Piano supplies machine-transcribed performance MIDI, not
+  human-authored note-event ground truth. Its relevant index lacks Ives's _Psalm
+  67_ and an eligible Petrushka MIDI, while its Milhaud suite transcription has
+  no pinned analytical measure and exact voicing to align to the unresolved
+  candidate.
+- The OSF clash-of-keys project supplies eight audio stimuli and no symbolic or
+  note-event stimulus files. It can inform perception research but not exact
+  candidate binding.
+
+No onset or motion branch therefore satisfies the licensing-branch admission
+rule. This is a scoped stopping result, not a claim that no suitable source can
+exist. The automatic suite remains unencoded, both cues remain diagnostics, and
+no selector or corpus evaluation follows from this plan.
 
 ## Required coverage before freeze
 
@@ -255,29 +319,30 @@ The automatic suite must contain executable cases for every applicable row:
 Rows for a non-licensing diagnostic cue test only its declared cue record; they
 do not imply that its positive result can authorize selection or display.
 
-## Revised freeze sequence after the source audit
+## Disposition after the source audit
 
-Complete these steps without reading selector output:
+The first three steps of the revised freeze sequence are complete:
 
-1. Preserve the rejected Stravinsky and Herrmann leads as coverage findings; do
-   not encode either as an automatic positive or tune a threshold against it.
-2. Run a bounded source search for an analytically attested passage with
-   authoritative timestamped note-level data that satisfies one licensing branch
-   and the display gate.
-3. If no branch meets the admission rule, stop automatic selector work under
-   `polychord-output/2`. Changing the input or output claim requires a separate
-   dated decision and contract version.
-4. Only after a branch is admitted, encode and validate the new schema with all
-   17 frozen-case references and explicit temporal coverage dispositions.
-5. Finish that branch's synthetic contract matrix and source-backed guards.
-6. Freeze the suite, exact cue IDs, correspondence and endpoint selection,
-   structural policy, scorer, stable-display reducer, and all dependency pins.
-7. Implement the selector independently in Python and pure Dart, then run
-   label-free equivalence checks before evaluating the suite once.
-8. Preregister a new development source or resampling design before reading any
-   new corpus outcome.
+1. The rejected Stravinsky and Herrmann leads remain coverage findings; neither
+   was encoded as an automatic positive or used to tune a threshold.
+2. The bounded source search found no analytically attested passage with the
+   authoritative timestamped note-level data and matched guard needed to admit a
+   licensing branch.
+3. Automatic selector work under `polychord-output/2` stops before suite schema,
+   scorer, selector, implementation, or corpus evaluation.
+
+The inactive downstream sequence would have encoded the referenced 17-case
+suite, completed synthetic and source-backed controls, frozen all selector and
+display decisions, cross-checked Python and Dart implementations, and
+preregistered a new development source. None of those steps is authorized by the
+current evidence.
+
+Reopening this route requires a new dated decision that identifies either an
+authoritative timestamped note-level source satisfying the unchanged admission
+rule or a different input or output claim under a new contract version. A paid
+or machine-transcribed file is not a substitute for the missing evidence merely
+because it is available.
 
 Previously exposed POP909, ASAP, and When in Rome material remains development
-evidence. The held 808-song POP909 reserve remains untouched. Failure to admit a
-source-valid automatic positive is an acceptable result and means that no
-automatic selector using the current cue set is justified.
+evidence. The held 808-song POP909 reserve remains untouched. No automatic
+selector using the current cue set is justified.
