@@ -104,10 +104,12 @@ Complete the following in order:
    candidate, with a matched ordinary integrated control. Display survival is a
    separate coverage axis. The bounded search in log 2026-08-12-02 found no
    source satisfying the candidate-bound cue and guard requirements.
-4. **Plan recorded; comparison not frozen:**
+4. **Comparison preregistered; implementation not started:**
    `automatic-timing-calibration-plan.md` separates cue interpretation,
-   automatic decision, and display policy. The exact comparison family still
-   must be frozen before it is run.
+   automatic decision, and display policy.
+   `automatic-timing-sensitivity-preregistration.md` fixes the first onset-gap
+   and appearance-dwell family, inputs, metrics, and stopping rules before its
+   implementation or result.
 5. **Not started:** identify a new development source or a predeclared
    resampling design. Previously exposed POP909, ASAP, and When in Rome outcomes
    remain development evidence and cannot serve as independent confirmation.

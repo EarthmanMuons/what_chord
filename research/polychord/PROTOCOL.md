@@ -22,8 +22,11 @@ positive met those requirements. Log 2026-08-12-02 records that the bounded
 follow-up source search also admitted no onset or motion branch, corrects the
 coupling of source admission to display dwell, and pauses selector work before
 suite construction. `automatic-timing-calibration-plan.md` fixes the next
-planning boundary without choosing alternate parameters. The satisfied v0
-coverage and stopping record remains normative in `adoption-suite-plan.md`.
+planning boundary without choosing alternate parameters.
+`automatic-timing-sensitivity-preregistration.md` fixes the first exploratory
+onset-gap and appearance-dwell comparison without authorizing a threshold
+choice. The satisfied v0 coverage and stopping record remains normative in
+`adoption-suite-plan.md`.
 
 ## Task and claim boundary
 
@@ -595,7 +598,15 @@ The following work must be dated and completed in order:
     requires the corrected source coverage plus the prospective work in
     `automatic-timing-calibration-plan.md`; existing results retain their exact
     named profiles.
-13. Optional external validation: use a newly registered, evidence-complete
+13. Automatic timing sensitivity: preregistered; implementation and measurement
+    not started. `automatic-timing-sensitivity-preregistration.md` freezes the
+    development-informed 50/80/100/200/300-millisecond onset-gap comparison,
+    independent 0/50/100/200/300-millisecond authorization-survival comparison,
+    fixed POP909 and Liszt inputs, raw evidence requirements, monotonicity and
+    baseline checks, and stopping rules. The within-layer maximum remains 50
+    milliseconds and is not validated by this sweep. No row may be selected as
+    product policy, no selector is run, and the held reserve remains untouched.
+14. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding
     research work.
