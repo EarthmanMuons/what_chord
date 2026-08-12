@@ -107,6 +107,15 @@ Complete the following in order:
    bar passes. A quiet selector is not sufficient; every development display
    must still receive a complete musical disposition.
 
+Log 2026-08-12-01 completes the first source-admission attempt with a negative
+result. The Stravinsky closing-passage lead does not establish 200 milliseconds
+of continuous sounding-instance authorization, and a public sequence
+corroborates 125-millisecond note duration in the staccatissimo passage. The
+Herrmann “The Pass” alternative places its useful motion endpoints across a
+noncandidate gap for which no causal lookback rule is frozen. Neither motion nor
+onset currently satisfies item 3, so no exact version-2 selector or automatic
+suite may yet be built.
+
 ## Rejected shortcuts
 
 - **Broaden every integrated-chord mask to every root.** This catches many v1

@@ -17,8 +17,10 @@ collision that requires evidence beyond register for automatic version 2.
 `automatic-output-contract-v2.md` fixes that input and output boundary, and
 `automatic-suite-v2-plan.md` fixes the suite construction and source-coverage
 requirements that must be satisfied before an exact version-2 selector is
-preregistered. The satisfied v0 coverage and stopping record remains normative
-in `adoption-suite-plan.md`.
+preregistered. Log 2026-08-12-01 records that neither prospective motion source
+positive met those requirements; no version-2 licensing branch is admitted. The
+satisfied v0 coverage and stopping record remains normative in
+`adoption-suite-plan.md`.
 
 ## Task and claim boundary
 
@@ -555,7 +557,17 @@ The following work must be dated and completed in order:
     diagnostic because its current source evidence does not establish the
     ablation's millisecond threshold. No automatic suite or selector has been
     run.
-11. Optional external validation: use a newly registered, evidence-complete
+11. First automatic motion-source audit: complete with no admitted positive. Log
+    2026-08-12-01 records that score rhythm and attack spacing cannot substitute
+    for sounding-instance dwell. A public sequence corroborates 125-millisecond
+    releases in the Stravinsky staccatissimo passage, below the frozen
+    200-millisecond display gate. Moreira's “The Pass” supplies an exact
+    oblique-motion construct, but its useful endpoints are separated by a
+    noncandidate gap that no frozen causal endpoint rule may bridge. The active
+    suite plan now requires a bounded search for a source with authoritative
+    note-level timing before suite construction. No selector or corpus outcome
+    was read.
+12. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding
     research work.

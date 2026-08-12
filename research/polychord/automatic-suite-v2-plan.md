@@ -6,7 +6,9 @@ selector is defined or evaluated. It does not create a scorable suite, promote
 an onset or motion rule to a licensing cue, authorize corpus evaluation, or
 authorize use of the held POP909 reserve.
 
-The planning decision and source audit are recorded in log 2026-08-11-15.
+The planning decision is recorded in log 2026-08-11-15. Log 2026-08-12-01
+records that the first two prospective motion positives did not satisfy this
+plan's admission rule.
 
 ## Purpose
 
@@ -131,44 +133,62 @@ branch. Other cue records remain diagnostics. There is no requirement to ship
 onset and motion together or to weaken their existing interpretations for
 symmetry.
 
-## Source-attested motion lead
+## Motion-source audit: no admitted lead
 
-The strongest current lead is the passage identified as polychordal in Robert
-Hutchinson's open _Music Theory for the 21st-Century Classroom_, section 32.4:
-chromatically ascending dominant seventh chords in the left hand against a
-repeating G-F-C triad cycle in the right hand. The public-domain 1922 piano
-score of Stravinsky's _Three Movements from Petrouchka_, printed page 37, shows
-the relevant attacks.
+The passage identified as polychordal in Robert Hutchinson's open _Music Theory
+for the 21st-Century Classroom_, section 32.4, remains a valid construction and
+motion lead: chromatically ascending dominant seventh chords in the left hand
+against a repeating G-F-C triad cycle in the right hand. The public-domain 1922
+piano score of Stravinsky's _Three Movements from Petrouchka_, printed page 37,
+shows the relevant attacks under _p sub. e staccatissimo_.
 
-The first two attacks after _p sub. e staccatissimo_ are the candidate window:
+Log 2026-08-11-15 proposed an exact two-attack transcription and
+register-role-preserving contrary-motion hypothesis. Log 2026-08-12-01 retains
+that proposal for provenance but does not admit its exact note assignment: the
+independent sequence located during the audit does not corroborate it
+note-for-note.
 
-| Endpoint | Lower source unit    | Upper source unit | Sounding MIDI notes      |
-| -------- | -------------------- | ----------------- | ------------------------ |
-| Source   | F7: F2 A2 C3 Eb3     | G major: G4 B4 D5 | `41 45 48 51 / 67 71 74` |
-| Target   | Gb7: Gb2 Bb2 Db3 Fb3 | F major: F4 A4 C5 | `42 46 49 52 / 65 69 72` |
+It is not an automatic display-positive case. High-resolution score inspection
+can establish the notated construction, attack order, rhythm, and articulation,
+but it cannot turn the written staccatissimo into an exact note-off time. An
+independently authored public MIDI sequence of the closing passage spaces
+successive attacks about 428.571 milliseconds apart while releasing the notes
+after 125 milliseconds. That sequence is corroboration rather than ground truth,
+and its exact voicings must not replace the score transcription. It does,
+however, demonstrate why inter-onset spacing is not display dwell: the intended
+candidate ceases to be authorized when its sounding instances release, and the
+following silence cannot count toward the frozen 200-millisecond appearance
+gate.
 
-Under the register-role-preserving hypothesis, the lower unit translates up one
-semitone and the upper unit translates down two semitones. The frozen
-`rigid-layers-oblique-or-contrary/1` interpretation therefore has a
-threshold-free contrary-motion hypothesis. The source frame generates exactly
-`G|F7`. The target generates both `Fmaj7|F#` at an earlier split and the
-source-hand assignment `F|F#7`; candidate-specific motion can distinguish the
-intended assignment without relying on generator order.
+No fixture may lengthen these attacks merely to make the gate pass. The proposed
+pitch assignment also remains provisional unless it is reused in a later
+score-pinned construct check; the public sequence does not supply note-for-note
+confirmation of it.
 
-This is a lead, not yet an admitted automatic positive. Before admission:
+Moreira's Example 6 from Bernard Herrmann's “The Pass” supplies a second exact
+motion lead. Its notation and analysis name A-flat minor below G minor followed
+later by F-sharp minor below G minor. The two registered states each generate
+one candidate, and a role-preserving comparison gives oblique motion: the lower
+triad moves down two semitones while the upper triad remains static.
 
-- verify the exact attacks and spellings against the pinned score at high
-  resolution and record the source location unambiguously;
-- encode the complete release, attack, and sounding-state window without
-  deleting zero-dwell intermediate frames;
-- pin a source-supported temporal scale and verify that the intended target
-  remains continuously authorized for 200 milliseconds; if that cannot be
-  established, retain the passage as a motion construct check rather than a
-  display-positive case;
-- retain both target structural candidates and every primary single-chord
-  alternative; and
-- admit the product expectation in a new dated entry before any selector output
-  is read.
+That pair is not admitted either. The notation places a noncandidate gap between
+the two sections, and the current motion program defines no causal endpoint,
+lookback, or memory rule that may bridge it. The frozen corpus endpoint rule
+deliberately does not skip a positive-duration noncandidate state. Silently
+deleting the gap from a suite fixture would manufacture evidence that the source
+does not contain. The example also lacks authoritative per-note millisecond
+timing for the display gate.
+
+These are negative source-audit results, not reasons to retune the motion rule
+or display threshold. Motion remains diagnostic until a source provides all of
+the following in one observation:
+
+- an analytically or notationally attested polychord decomposition;
+- exact timestamped note-on and note-off evidence;
+- a direct candidate-to-candidate transition under a preregistered causal
+  endpoint rule;
+- positive support for the intended exact candidate and assignment; and
+- at least 200 milliseconds of continuous target authorization.
 
 The current verification artifacts are:
 
@@ -177,7 +197,15 @@ The current verification artifacts are:
   `7b59a70a0ea33bdc88242afbb459451e3b547593b471d837bcee7af7d2e00904`; and
 - score PDF:
   <https://petruccilibrary.us/autoindex/index.php?dir=imslp-us_files%2FStravinsky_Igor_1971%2F&file=Stravinsky_-_Petrushka_3mvts.pdf>,
-  SHA-256 `90d0b14d929697f33762eacb715c3331a6ebf0faf1e722e0f50598241ebf5664`.
+  SHA-256 `90d0b14d929697f33762eacb715c3331a6ebf0faf1e722e0f50598241ebf5664`;
+- public David Siu MIDI listing: <https://www.midi-karaoke.info/215c5051.html>,
+  locally captured with SHA-256
+  `c1632a84c30cd3f83c722589c843b45d61bd9b216b3d3805b73ff2f34406b395`;
+- public David Siu MIDI sequence: <https://www.midi-karaoke.info/215c5051.mid>,
+  SHA-256 `5430dffb2056f226bc82a79fe8f9a3244aaf9744c1db07a04226714bd359ebf8`;
+  and
+- Moreira examples PDF, SHA-256
+  `09cd7f3bcbcee61a5def436d342c01576ca47d6481bdbb9932454616a04ecb62`.
 
 ## Onset branch remains diagnostic
 
@@ -227,22 +255,26 @@ The automatic suite must contain executable cases for every applicable row:
 Rows for a non-licensing diagnostic cue test only its declared cue record; they
 do not imply that its positive result can authorize selection or display.
 
-## Freeze sequence
+## Revised freeze sequence after the source audit
 
 Complete these steps without reading selector output:
 
-1. encode and validate the new schema with all 17 frozen-case references and
-   explicit temporal coverage dispositions;
-2. resolve the motion lead, including display dwell, and either admit it or
-   record why it cannot satisfy automatic-positive coverage;
-3. decide which evidence branches meet the admission rule; onset remains
-   diagnostic unless its missing source coverage is filled;
-4. finish the synthetic contract matrix and source-backed guards;
-5. freeze the suite, exact cue IDs, correspondence and endpoint selection,
-   structural policy, scorer, stable-display reducer, and all dependency pins;
-6. implement the selector independently in Python and pure Dart, then run
-   label-free equivalence checks before evaluating the suite once; and
-7. preregister a new development source or resampling design before reading any
+1. Preserve the rejected Stravinsky and Herrmann leads as coverage findings; do
+   not encode either as an automatic positive or tune a threshold against it.
+2. Run a bounded source search for an analytically attested passage with
+   authoritative timestamped note-level data that satisfies one licensing branch
+   and the display gate.
+3. If no branch meets the admission rule, stop automatic selector work under
+   `polychord-output/2`. Changing the input or output claim requires a separate
+   dated decision and contract version.
+4. Only after a branch is admitted, encode and validate the new schema with all
+   17 frozen-case references and explicit temporal coverage dispositions.
+5. Finish that branch's synthetic contract matrix and source-backed guards.
+6. Freeze the suite, exact cue IDs, correspondence and endpoint selection,
+   structural policy, scorer, stable-display reducer, and all dependency pins.
+7. Implement the selector independently in Python and pure Dart, then run
+   label-free equivalence checks before evaluating the suite once.
+8. Preregister a new development source or resampling design before reading any
    new corpus outcome.
 
 Previously exposed POP909, ASAP, and When in Rome material remains development
