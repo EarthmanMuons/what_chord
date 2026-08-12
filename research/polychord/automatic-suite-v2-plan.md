@@ -1,24 +1,25 @@
 # Automatic timestamped-MIDI suite plan
 
-Status: closed at the source-admission prerequisite. This document preserves the
-preregistered boundary for the version-2 automatic suite, but no suite was
-constructed and no exact selector was defined or evaluated. It does not create a
-scorable suite, promote an onset or motion rule to a licensing cue, authorize
-corpus evaluation, or authorize use of the held POP909 reserve.
+Status: paused at the source-evidence and timing-calibration prerequisites. This
+document preserves the planning boundary for the version-2 automatic suite, but
+no suite was constructed and no exact selector was defined or evaluated. It does
+not create a scorable suite, promote an onset or motion rule to a licensing cue,
+authorize corpus evaluation, or authorize use of the held POP909 reserve.
 
 The planning decision is recorded in log 2026-08-11-15. Log 2026-08-12-01
-records that the first two prospective motion positives did not satisfy this
-plan's admission rule. Log 2026-08-12-02 records the bounded follow-up source
-search and the decision to stop this automatic-selector route under
-`polychord-output/2`.
+records that the first two prospective motion positives did not satisfy the
+planned source coverage. Log 2026-08-12-02 records the bounded follow-up search
+and the methodological correction separating cue admission from display dwell.
+`automatic-timing-calibration-plan.md` fixes the next planning boundary.
 
 ## Purpose
 
 The frozen `data/internal-suite/suite-v0.json` answers a product-policy question
 for static and source-adjudicated constructions. Version 2 asks a narrower,
 input-dependent question: whether a normalized timestamped MIDI stream contains
-enough observed evidence to authorize one exact polychord candidate and keep it
-authorized through the display gate.
+enough observed evidence to authorize one exact polychord candidate. Whether
+that authorized decision persists through a named display gate is a separate
+product-policy question.
 
 Those questions must not be collapsed. A source-established polychord can be
 unrecoverable from the automatic input, while an ordinary integrated chord can
@@ -62,7 +63,7 @@ Each automatic case must keep these outcomes separate:
 5. **Automatic decision:** the selected exact candidate or the one expected
    abstention reason, with all true predicates retained.
 6. **Display behavior:** the authorization key, pending interval, display,
-   persistence, reset, and clear events around the 200-millisecond gate.
+   persistence, reset, and clear events under each named display profile.
 
 An automatic decision can be scored even when a positive construction is a
 coverage exclusion for automatic positive recall. For example, a moving source
@@ -114,9 +115,10 @@ following:
 
 1. at least one evidence-complete, source-attested automatic positive for which
    the exact intended candidate receives that cue's positive support;
-2. continuous positive authorization of that exact candidate and sounding-note
-   binding for at least 200 milliseconds, or a documented source-fixed timing
-   representation that can test the gate without choosing a favorable tempo;
+2. a documented source-fixed timing representation that preserves the exact
+   authorization lifetime without choosing a favorable tempo; survival under
+   each named display profile is reported separately and does not control source
+   admission;
 3. at least one source-backed boundary or ordinary integrated control that can
    receive positive support from the same cue but must abstain;
 4. synthetic positive, neutral, unavailable, invalidation, and exact-threshold
@@ -150,17 +152,16 @@ that proposal for provenance but does not admit its exact note assignment: the
 independent sequence located during the audit does not corroborate it
 note-for-note.
 
-It is not an automatic display-positive case. High-resolution score inspection
-can establish the notated construction, attack order, rhythm, and articulation,
-but it cannot turn the written staccatissimo into an exact note-off time. An
+It is not a source-fixed automatic case. High-resolution score inspection can
+establish the notated construction, attack order, rhythm, and articulation, but
+it cannot turn the written staccatissimo into an exact note-off time. An
 independently authored public MIDI sequence of the closing passage spaces
 successive attacks about 428.571 milliseconds apart while releasing the notes
 after 125 milliseconds. That sequence is corroboration rather than ground truth,
 and its exact voicings must not replace the score transcription. It does,
 however, demonstrate why inter-onset spacing is not display dwell: the intended
 candidate ceases to be authorized when its sounding instances release, and the
-following silence cannot count toward the frozen 200-millisecond appearance
-gate.
+following silence cannot count toward an appearance gate.
 
 No fixture may lengthen these attacks merely to make the gate pass. The proposed
 pitch assignment also remains provisional unless it is reused in a later
@@ -182,7 +183,7 @@ does not contain. The example also lacks authoritative per-note millisecond
 timing for the display gate.
 
 These are negative source-audit results, not reasons to retune the motion rule
-or display threshold. Motion remains diagnostic until a source provides all of
+or a display threshold. Motion remains diagnostic until a source provides all of
 the following in one observation:
 
 - an analytically or notationally attested polychord decomposition;
@@ -190,7 +191,8 @@ the following in one observation:
 - a direct candidate-to-candidate transition under a preregistered causal
   endpoint rule;
 - positive support for the intended exact candidate and assignment; and
-- at least 200 milliseconds of continuous target authorization.
+- a matched source-backed guard whose cue is also positive but whose decision
+  must abstain.
 
 The current verification artifacts are:
 
@@ -269,11 +271,13 @@ sustained six-note vertical. Laviano's hand-sequenced score realization is an
 exact, source-fixed event representation. Under the same channel-blind,
 pedal-aware normalization used by the development measurement, it produces the
 registered candidate `F|B` twice for only 96 or 97 milliseconds. The relevant
-layer attacks are 96 or 97 milliseconds apart, so onset support is neutral; the
-direct predecessor contains no complete source candidate for motion and no
-causal lookback rule is frozen; and the target binding never reaches the
-200-millisecond display gate. The case therefore moves from the positive backlog
-to the temporal/perceptual boundary backlog.
+layer attacks are 96 or 97 milliseconds apart, so the existing onset profile is
+neutral; the direct predecessor contains no complete source candidate for motion
+and no causal lookback rule is frozen; and the target binding is
+display-suppressed under the current 200-millisecond profile. The case moves
+from the positive backlog to the temporal/perceptual boundary backlog because
+the score establishes rapid alternation rather than a static vertical, not
+because either measured duration falls below 200 milliseconds.
 
 The remaining sources fail for complementary reasons:
 
@@ -293,10 +297,11 @@ The remaining sources fail for complementary reasons:
   note-event stimulus files. It can inform perception research but not exact
   candidate binding.
 
-No onset or motion branch therefore satisfies the licensing-branch admission
-rule. This is a scoped stopping result, not a claim that no suitable source can
-exist. The automatic suite remains unencoded, both cues remain diagnostics, and
-no selector or corpus evaluation follows from this plan.
+No onset or motion branch therefore supplies the candidate-bound source positive
+and matched cue-positive guard required before selector preregistration. This is
+a scoped coverage result, not a claim that no suitable source can exist. The
+automatic suite remains unencoded, both cues remain diagnostics, and no selector
+or corpus evaluation follows until the timing-calibration plan is completed.
 
 ## Required coverage before freeze
 
@@ -304,7 +309,7 @@ The automatic suite must contain executable cases for every applicable row:
 
 | Coverage family               | Minimum requirement                                                                                                                                                               |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Licensing evidence            | One source-attested automatic positive per licensing cue branch, satisfying the 200-millisecond authorization requirement.                                                        |
+| Licensing evidence            | One source-attested automatic-decision positive per licensing cue branch, with exact candidate-bound event evidence; display survival is scored separately.                       |
 | Cue-positive guard            | One source-backed boundary or integrated reading per licensing branch whose cue is positive but whose decision abstains.                                                          |
 | Construction/input separation | A source positive with complete event history but no simultaneous structural candidate, retaining expected abstention and positive-coverage exclusion separately.                 |
 | Synthetic mechanics           | Positive and neutral controls for every licensing cue, plus diagnostic-only cues if their implementation is present.                                                              |
@@ -328,8 +333,12 @@ The first three steps of the revised freeze sequence are complete:
 2. The bounded source search found no analytically attested passage with the
    authoritative timestamped note-level data and matched guard needed to admit a
    licensing branch.
-3. Automatic selector work under `polychord-output/2` stops before suite schema,
-   scorer, selector, implementation, or corpus evaluation.
+3. The audit exposed an invalid coupling between source admission and the
+   inherited 200-millisecond display dwell. That coupling is removed; the
+   measurements remain results under their named profiles.
+4. Automatic selector work pauses before suite schema, scorer, selector,
+   implementation, or corpus evaluation while the threshold-free evidence and
+   calibration plan is fixed.
 
 The inactive downstream sequence would have encoded the referenced 17-case
 suite, completed synthetic and source-backed controls, frozen all selector and
@@ -337,12 +346,11 @@ display decisions, cross-checked Python and Dart implementations, and
 preregistered a new development source. None of those steps is authorized by the
 current evidence.
 
-Reopening this route requires a new dated decision that identifies either an
-authoritative timestamped note-level source satisfying the unchanged admission
-rule or a different input or output claim under a new contract version. A paid
-or machine-transcribed file is not a substitute for the missing evidence merely
+Continuing this route requires the source coverage above and the prospective
+comparison defined in `automatic-timing-calibration-plan.md`. A paid or
+machine-transcribed file is not a substitute for the missing evidence merely
 because it is available.
 
 Previously exposed POP909, ASAP, and When in Rome material remains development
 evidence. The held 808-song POP909 reserve remains untouched. No automatic
-selector using the current cue set is justified.
+selector is justified yet.
