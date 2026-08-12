@@ -77,10 +77,12 @@ labels or unregistered selector inputs.
 
 Complete the following in order:
 
-1. Write a versioned output amendment for automatic timestamped input. It must
-   define the layer-separation support result, abstention semantics, history
-   fallback, stability interaction, and machine-readable reason vocabulary. The
-   frozen `polychord-output/1` contract remains the record governing v1.
+1. **Complete:** `automatic-output-contract-v2.md` and log 2026-08-11-14 define
+   `polychord-output/2` for automatic timestamped input, including exact
+   candidate and sounding-instance binding, three-state support aggregation,
+   abstention semantics, causal history fallback, support-aware stability, and
+   machine-readable reason vocabulary. The frozen `polychord-output/1` contract
+   remains the record governing v1.
 2. Create a new versioned suite instead of editing suite v0. Preserve every
    construction label and static candidate expectation, but score automatic
    temporal eligibility separately. Static positives without adequate event
