@@ -83,11 +83,14 @@ Complete the following in order:
    abstention semantics, causal history fallback, support-aware stability, and
    machine-readable reason vocabulary. The frozen `polychord-output/1` contract
    remains the record governing v1.
-2. Create a new versioned suite instead of editing suite v0. Preserve every
-   construction label and static candidate expectation, but score automatic
-   temporal eligibility separately. Static positives without adequate event
-   evidence become transparent coverage exclusions for that input condition, not
-   false negatives and not deleted cases.
+2. **Plan complete; suite construction has not begun:**
+   `automatic-suite-v2-plan.md` and log 2026-08-11-15 fix the new schema
+   boundary, preserve all 17 frozen construction and static-candidate records by
+   pinned reference, classify their existing temporal coverage, and preregister
+   the branch-admission and coverage requirements. The versioned suite must now
+   be encoded and frozen. Static positives without adequate event evidence
+   remain transparent coverage exclusions for that input condition, not false
+   negatives and not deleted cases.
 3. Admit at least one evidence-complete, source-attested positive for every cue
    branch that could authorize a display. Synthetic cases may test mechanics but
    cannot be the only evidence that a branch represents useful musical behavior.
