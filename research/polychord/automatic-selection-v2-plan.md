@@ -1,13 +1,15 @@
 # Automatic polychord selection v2 plan
 
-Status: paused at the source-evidence and timing-calibration prerequisites. This
-post-v1 research decision is not an exact selector preregistration, does not
-amend the frozen v0 suite in place, and does not authorize held-reserve use or
-product integration.
+Status: paused at the source-evidence prerequisite. The first timing comparison
+is complete and selected no profile. This post-v1 research decision is not an
+exact selector preregistration, does not amend the frozen v0 suite in place, and
+does not authorize held-reserve use or product integration.
 
 The evidence boundary is recorded in log 2026-08-11-13. Logs 2026-08-12-01 and
 2026-08-12-02 record the source-coverage audit. The latter also corrects the
-coupling of source admission to the inherited display dwell.
+coupling of source admission to the inherited display dwell. Logs 2026-08-12-05
+and 2026-08-12-06 preserve the first timing run's pre-output failure,
+correction, and successful result.
 
 ## Why a second selection contract is necessary
 
@@ -101,15 +103,18 @@ Complete the following in order:
    condition, not false negatives and not deleted cases.
 3. **Not satisfied:** admit at least one evidence-complete, source-attested
    automatic-decision positive for every cue branch that could authorize a
-   candidate, with a matched ordinary integrated control. Display survival is a
-   separate coverage axis. The bounded search in log 2026-08-12-02 found no
-   source satisfying the candidate-bound cue and guard requirements.
-4. **Comparison preregistered; implementation not started:**
-   `automatic-timing-calibration-plan.md` separates cue interpretation,
-   automatic decision, and display policy.
+   candidate, with a source-backed cue-positive boundary or ordinary integrated
+   guard. Display survival is a separate coverage axis. The bounded search in
+   log 2026-08-12-02 found no source satisfying the candidate-bound cue and
+   guard requirements.
+4. **Complete; no profile selected:** `automatic-timing-calibration-plan.md`
+   separates cue interpretation, automatic decision, and display policy.
    `automatic-timing-sensitivity-preregistration.md` fixes the first onset-gap
    and appearance-dwell family, inputs, metrics, and stopping rules before its
-   implementation or result.
+   implementation or result. Log 2026-08-12-06 records zero positives in every
+   POP909 row and two brief Liszt boundary episodes at the 50- and
+   80-millisecond onset rows. Those results select neither an onset threshold
+   nor an appearance dwell.
 5. **Not started:** identify a new development source or a predeclared
    resampling design. Previously exposed POP909, ASAP, and When in Rome outcomes
    remain development evidence and cannot serve as independent confirmation.
@@ -140,6 +145,14 @@ remain diagnostic, and no exact version-2 selector is built yet. The
 sub-200-millisecond observations are not the reason the Liszt construction is a
 boundary and no longer close the automatic avenue.
 
+Log 2026-08-12-06 completes the first prospective timing comparison. Lowering
+only the between-layer onset minimum did not change the POP909 null because all
+33 candidates whose two layers met the unchanged compactness limit were
+synchronous. The lower rows detected two 96- and 97-millisecond Liszt overlap
+episodes, but that source remains an alternating-chord boundary. The comparison
+therefore calibrates no licensing or display parameter and leaves item 3 as the
+next prerequisite.
+
 ## Rejected shortcuts
 
 - **Broaden every integrated-chord mask to every root.** This catches many v1
@@ -161,5 +174,6 @@ boundary and no longer close the automatic avenue.
 This planning stage has identified the static observability limitation and the
 missing source-valid, candidate-bound cue evidence. Automatic polychord display
 is not yet justified for the current input surface and cue set. The next
-eligible step is prospective timing calibration plus source and guard coverage,
-not automatic selector evaluation or held-reserve use.
+eligible step is source and guard coverage, not automatic selector evaluation or
+held-reserve use. Any further timing family requires a new prospective record
+rather than a post hoc extension of the completed comparison.

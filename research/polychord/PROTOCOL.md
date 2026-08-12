@@ -21,11 +21,12 @@ preregistered. Log 2026-08-12-01 records that neither prospective motion source
 positive met those requirements. Log 2026-08-12-02 records that the bounded
 follow-up source search also admitted no onset or motion branch, corrects the
 coupling of source admission to display dwell, and pauses selector work before
-suite construction. `automatic-timing-calibration-plan.md` fixes the next
-planning boundary without choosing alternate parameters.
-`automatic-timing-sensitivity-preregistration.md` fixes the first exploratory
-onset-gap and appearance-dwell comparison without authorizing a threshold
-choice. The satisfied v0 coverage and stopping record remains normative in
+suite construction. `automatic-timing-calibration-plan.md` governs prospective
+timing work. `automatic-timing-sensitivity-preregistration.md` fixes the first
+exploratory onset-gap and appearance-dwell comparison without authorizing a
+threshold choice. Log 2026-08-12-06 records its successful result: no timing
+profile was selected, and source coverage remains the next prerequisite. The
+satisfied v0 coverage and stopping record remains normative in
 `adoption-suite-plan.md`.
 
 ## Task and claim boundary
@@ -595,11 +596,11 @@ The following work must be dated and completed in order:
     with its required matched cue-positive guard. The Ives opening is confirmed
     as a simultaneous-onset control, not a license. Pause before encoding the
     suite, evaluating a selector, or reading the held reserve. Continuing
-    requires the corrected source coverage plus the prospective work in
-    `automatic-timing-calibration-plan.md`; existing results retain their exact
-    named profiles.
-13. Automatic timing sensitivity: preregistered and implemented; the first
-    measurement attempt failed before output and the correction awaits commit.
+    requires the corrected source coverage; existing results retain their exact
+    named profiles, and any further timing comparison remains governed by
+    `automatic-timing-calibration-plan.md`.
+13. Automatic timing sensitivity: complete. The first measurement attempt failed
+    before output and its correction was committed separately.
     `automatic-timing-sensitivity-preregistration.md` freezes the
     development-informed 50/80/100/200/300-millisecond onset-gap comparison,
     independent 0/50/100/200/300-millisecond authorization-survival comparison,
@@ -611,10 +612,16 @@ The following work must be dated and completed in order:
     the complete Liszt stream contained a later channel-collapsed unmatched
     release that the strict evidence-fixture grammar cannot represent. The
     correction searches every normalized frame for the exact target, then
-    strictly replays only through the final relevant frame. The within-layer
-    maximum remains 50 milliseconds and is not validated by this sweep. No row
-    may be selected as product policy, no selector is run, and the held reserve
-    remains untouched.
+    strictly replays only through the final relevant frame. Log 2026-08-12-06
+    records the successful clean-commit measurement. Every POP909 profile stayed
+    at zero: all 33 instances with two layers inside the fixed 50-millisecond
+    span were synchronous, so lowering only the between-layer minimum could not
+    change them. The Liszt boundary supplied two cue-positive episodes at the 50
+    and 80-millisecond profiles; both survived 0 and 50-millisecond dwells and
+    neither survived 100 milliseconds. This selects no row: the within-layer
+    maximum remains unvalidated, Liszt remains a boundary, no matched
+    cue-positive guard exists, no selector is run, and the held reserve remains
+    untouched.
 14. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding

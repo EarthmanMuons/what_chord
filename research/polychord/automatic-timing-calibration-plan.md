@@ -1,9 +1,10 @@
 # Automatic polychord timing calibration plan
 
-Status: planning boundary. No alternate timing profile, selector, suite, corpus
-measurement, or product change is authorized by this document.
-`automatic-timing-sensitivity-preregistration.md` now fixes the first comparison
-family and stopping rules; it still authorizes no threshold choice.
+Status: first comparison complete; no timing profile selected. No alternate
+timing profile, selector, suite, held-corpus measurement, or product change is
+authorized by this document. `automatic-timing-sensitivity-preregistration.md`
+fixed the first comparison family and stopping rules before implementation. Log
+2026-08-12-06 records the result under those rules.
 
 ## Why this step is necessary
 
@@ -144,11 +145,28 @@ cannot replace it silently.
 
 ## Current consequence
 
+The first comparison reproduced every disclosed expectation. All five POP909
+onset profiles produced zero positives. The 200-millisecond between-layer
+minimum therefore did not cause that corpus null: all 33 instances whose two
+layers met the unchanged 50-millisecond within-layer maximum had zero onset
+separation. This result does not validate the within-layer maximum or establish
+that onset evidence is useless.
+
+The Liszt boundary became cue-positive at 50 and 80 milliseconds only. Its two
+96- and 97-millisecond authorization episodes survived 0 and 50-millisecond
+appearance dwells, but neither survived 100, 200, or 300 milliseconds. That is a
+useful sensitivity guard for the lower-gap rows; it remains rapid score-attested
+alternation rather than a source-attested static polychord.
+
+No row is selected. The comparison has no source-attested automatic-decision
+positive and no matched cue-positive integrated or boundary guard from which to
+calibrate a licensing threshold. Choosing 50 or 80 milliseconds from Liszt alone
+would tune to a disclosed boundary case and leave the product claim unvalidated.
+
 The bounded source search remains useful and its exact measurements stand. It
 did not supply the candidate-bound source positives and matched guards needed to
-preregister an automatic selector. That is a pause at the evidence-calibration
-prerequisite, not proof that automatic polychord inference is impossible and not
-justification for closing the avenue because examples miss 200 milliseconds.
+preregister an automatic selector. That is a pause at the source-coverage
+prerequisite, not proof that automatic polychord inference is impossible.
 
 The current 200-millisecond display policy may remain the conservative
 `polychord-output/2` baseline while this work proceeds. It must not be used as a
