@@ -57,6 +57,7 @@ app.*.map.json
 .venv/
 .wrangler/
 node_modules/
+/tmp/
 
 # Generated website output
 /docs/site/dist/

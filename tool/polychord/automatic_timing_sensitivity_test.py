@@ -6,6 +6,7 @@ import copy
 import unittest
 
 import automatic_timing_sensitivity as subject
+import frame_replay
 import onset_support
 
 
@@ -258,6 +259,76 @@ class AutomaticTimingSensitivityTest(unittest.TestCase):
         self.assertEqual(len(controls["onsetBoundaryControls"]), 10)
         self.assertEqual(len(controls["dwellBoundaryControls"]), 9)
         self.assertEqual(len(controls["matchedHistoryControls"]), 2)
+
+    def test_strict_adapter_can_stop_after_the_evidence_window(self) -> None:
+        normalized = {
+            "events": [
+                {
+                    "index": 0,
+                    "rawMessageIndex": 0,
+                    "timestampMs": 0,
+                    "type": "noteOn",
+                    "sourceChannel": 0,
+                    "midiNote": 60,
+                    "velocity": 96,
+                },
+                {
+                    "index": 1,
+                    "rawMessageIndex": 1,
+                    "timestampMs": 10,
+                    "type": "pedal",
+                    "sourceChannel": 0,
+                    "down": True,
+                    "controller": 64,
+                },
+                {
+                    "index": 2,
+                    "rawMessageIndex": 2,
+                    "timestampMs": 20,
+                    "type": "noteOff",
+                    "sourceChannel": 0,
+                    "midiNote": 64,
+                    "velocity": 0,
+                },
+            ],
+            "frames": [
+                {
+                    "afterEventIndex": 0,
+                    "timestampMs": 0,
+                    "pressedMidiNotes": [60],
+                    "sustainedMidiNotes": [],
+                    "soundingMidiNotes": [60],
+                    "pedalDown": False,
+                },
+                {
+                    "afterEventIndex": 1,
+                    "timestampMs": 10,
+                    "pressedMidiNotes": [60],
+                    "sustainedMidiNotes": [],
+                    "soundingMidiNotes": [60],
+                    "pedalDown": True,
+                },
+                {
+                    "afterEventIndex": 2,
+                    "timestampMs": 20,
+                    "pressedMidiNotes": [60],
+                    "sustainedMidiNotes": [64],
+                    "soundingMidiNotes": [60, 64],
+                    "pedalDown": True,
+                },
+            ],
+            "endTimestampMs": 30,
+        }
+
+        with self.assertRaisesRegex(ValueError, "not pressed"):
+            subject.strict_fixture_from_normalized(normalized)
+        prefix = subject.strict_fixture_from_normalized(
+            normalized, through_event_index=1
+        )
+
+        frame_replay.validate_fixture(prefix)
+        self.assertEqual(len(prefix["events"]), 2)
+        self.assertEqual(prefix["frames"], normalized["frames"][:2])
 
 
 if __name__ == "__main__":
