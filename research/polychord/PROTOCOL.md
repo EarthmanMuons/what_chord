@@ -213,6 +213,10 @@ does not retroactively change the v0 contract, the v1 result, the musical
 definition, or a future explicit manual-layer condition.
 `automatic-selection-v2-plan.md` fixes the prerequisites that must be completed
 before an exact version-2 selector is preregistered.
+`automatic-output-contract-v2.md` and log 2026-08-11-14 complete the first
+prerequisite as `polychord-output/2`: automatic timestamped selection requires
+candidate-specific positive support bound to the current sounding instances,
+with causal invalidation and a support-aware 200-millisecond display gate.
 
 Temporal ablations require frame-accurate replay. Committed-event fixtures
 cannot evaluate them because they omit within-event revoicing and note-event
@@ -534,9 +538,18 @@ The following work must be dated and completed in order:
    controls before an exact selector using evidence beyond register is
    preregistered. This is a research plan, not a version-2 selector or
    permission to use the reserve.
-9. Optional external validation: use a newly registered, evidence-complete study
-   before any reproducibility, independently validated ruler, or generalized
-   accuracy claim. This is not a prerequisite for the preceding research work.
+9. Version-2 output contract: complete. `automatic-output-contract-v2.md` and
+   log 2026-08-11-14 define `polychord-output/2` for `automaticTimestampedMidi`.
+   Positive support binds one exact candidate and its current sounding
+   instances; neutral or unavailable support abstains; reattack, reset, or
+   support loss invalidates authorization; and the existing 200-millisecond
+   appearance gate runs only while authorization is continuous. Static v1
+   eligibility and explicit manual grouping remain separate input conditions. No
+   licensing cue, selector, suite, or new corpus result is chosen here.
+10. Optional external validation: use a newly registered, evidence-complete
+    study before any reproducibility, independently validated ruler, or
+    generalized accuracy claim. This is not a prerequisite for the preceding
+    research work.
 
 ## Engine and product guards
 
