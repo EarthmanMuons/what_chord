@@ -1,10 +1,11 @@
 # Automatic polychord selection v2 plan
 
-Status: post-v1 research decision and prerequisite plan. This is not an exact
-selector preregistration, does not amend the frozen v0 suite in place, and does
-not authorize held-reserve use or product integration.
+Status: closed at the source-admission prerequisite. This post-v1 research
+decision is not an exact selector preregistration, does not amend the frozen v0
+suite in place, and does not authorize held-reserve use or product integration.
 
-The decision and its evidence are recorded in log 2026-08-11-13.
+The evidence boundary is recorded in log 2026-08-11-13. Logs 2026-08-12-01 and
+2026-08-12-02 record the failed source admissions and the resulting stop.
 
 ## Why a second selection contract is necessary
 
@@ -83,29 +84,26 @@ Complete the following in order:
    abstention semantics, causal history fallback, support-aware stability, and
    machine-readable reason vocabulary. The frozen `polychord-output/1` contract
    remains the record governing v1.
-2. **Plan complete; suite construction has not begun:**
+2. **Plan complete; suite construction did not begin:**
    `automatic-suite-v2-plan.md` and log 2026-08-11-15 fix the new schema
    boundary, preserve all 17 frozen construction and static-candidate records by
    pinned reference, classify their existing temporal coverage, and preregister
-   the branch-admission and coverage requirements. The versioned suite must now
-   be encoded and frozen. Static positives without adequate event evidence
-   remain transparent coverage exclusions for that input condition, not false
-   negatives and not deleted cases.
-3. Admit at least one evidence-complete, source-attested positive for every cue
-   branch that could authorize a display. Synthetic cases may test mechanics but
-   cannot be the only evidence that a branch represents useful musical behavior.
-   Include ordinary integrated controls with closely matched static structures.
-4. Freeze the exact cue interpretation, branch combination, assignment rule,
-   stability behavior, suite, scorer, and development protocol before reading
-   new selector output.
-5. Treat all previously exposed POP909, ASAP, and When in Rome outcomes as
-   development evidence. A retrospective temporal filter on those artifacts may
-   diagnose implementation behavior, but it cannot serve as independent
-   confirmation. Identify a new development source or a predeclared resampling
-   design before making a safety claim.
-6. Keep the 808-song POP909 reserve untouched until the version-2 development
-   bar passes. A quiet selector is not sufficient; every development display
-   must still receive a complete musical disposition.
+   the branch-admission and coverage requirements. Static positives without
+   adequate event evidence remain transparent coverage exclusions for that input
+   condition, not false negatives and not deleted cases.
+3. **Not satisfied; stopping condition reached:** admit at least one
+   evidence-complete, source-attested positive for every cue branch that could
+   authorize a display, with a matched ordinary integrated control. The bounded
+   search in log 2026-08-12-02 found no source satisfying the frozen evidence
+   and display requirements.
+4. **Not started:** freeze the exact cue interpretation, branch combination,
+   assignment rule, stability behavior, suite, scorer, and development protocol
+   before reading new selector output.
+5. **Not started:** identify a new development source or a predeclared
+   resampling design. Previously exposed POP909, ASAP, and When in Rome outcomes
+   remain development evidence and cannot serve as independent confirmation.
+6. **Preserved:** keep the 808-song POP909 reserve untouched. No version-2
+   selector reached development evaluation.
 
 Log 2026-08-12-01 completes the first source-admission attempt with a negative
 result. The Stravinsky closing-passage lead does not establish 200 milliseconds
@@ -114,7 +112,19 @@ corroborates 125-millisecond note duration in the staccatissimo passage. The
 Herrmann “The Pass” alternative places its useful motion endpoints across a
 noncandidate gap for which no causal lookback rule is frozen. Neither motion nor
 onset currently satisfies item 3, so no exact version-2 selector or automatic
-suite may yet be built.
+suite was eligible to be built at that point.
+
+Log 2026-08-12-02 completes the bounded follow-up search. Moreira's “The Scar”
+is strong scholarly evidence for asynchronous attacks separating complete
+chordal layers, but its score transcription and mixed audio do not provide
+authoritative per-note event timing or the required matched integrated guard.
+The same search corrects the Liszt _Malediction_ backlog case: the score rapidly
+alternates B-major and F-major chords, while a pinned hand sequence produces
+only subthreshold pedal overlap. The other screened score, corpus, and
+perception sources fail complementary coverage requirements. Item 3 is therefore
+a stopping result: the automatic suite remains unencoded, onset and motion
+remain diagnostic, and no exact version-2 selector will be built under this
+contract.
 
 ## Rejected shortcuts
 
@@ -134,9 +144,9 @@ suite may yet be built.
 
 ## Success criterion for this planning stage
 
-This stage is complete when the static observability limitation is explicit and
-the next selector cannot be mistaken for a larger chord-name blacklist. It does
-not predict that temporal evidence will be sufficient. Failure to find
-source-valid, observable positive support is an acceptable outcome and would
-mean that automatic polychord display is not justified for the current input
-surface.
+This planning stage is complete. The static observability limitation is
+explicit, and the bounded source search did not establish source-valid,
+observable positive support. Automatic polychord display is therefore not
+justified for the current input surface and cue set. Reopening the route
+requires a new dated decision and either newly available evidence satisfying the
+unchanged admission rule or a new versioned input or output claim.

@@ -77,8 +77,6 @@ regression guard, or unresolved candidate.
 - **Milhaud, Copacabana** (Saudades do Brasil). B major against G major; pcs
   {G,B,D}+{B,D#,F#} (shared B). This corrects the earlier attribution to
   Corcovado; exact measures and voicing still require score verification.
-- **Liszt, Malediction**. F major plus B major, the historical antecedent of
-  Petrushka; pcs {F,A,C}+{B,D#,F#}.
 - **Fred Steiner, Perry Mason theme**. D major over C minor; pcs
   {D,F#,A}+{C,Eb,G}. Cited directly as a D/Cm polychord.
 - **F# major over C** (Lippincott). The auxiliary-diminished/octatonic sound;
@@ -90,6 +88,17 @@ regression guard, or unresolved candidate.
 
 ## Boundary (single symbol expected; polychord at most an alternative)
 
+- **Liszt, Malediction, cadenza-like passage on printed page 2**. The published
+  score rapidly alternates martellato B-major and F-major chords rather than
+  writing the two triads as one sustained vertical. Dean's BIS-2100 notes
+  describe the alternation as blurring together and identify it as a historical
+  antecedent to the simultaneous tritone-related triads in _Petrushka_. In
+  Laviano's hand-sequenced 2008 MIDI realization, pedal carry briefly produces
+  the exact registered candidate `F|B` twice, but each occurrence lasts only 96
+  or 97 milliseconds and the layer attacks are only 96 or 97 milliseconds apart.
+  This is a valuable temporal and perceptual boundary, not a score-attested
+  snapshot positive or evidence for the frozen onset rule. Log 2026-08-12-02
+  pins the score, commentary, sequence, analysis code, and result.
 - **Elektra chord** (Strauss). The conventional analytical decomposition is
   D-flat major over E major, not D-flat major over an E-B bare fifth. Its
   five-note form E-B-Db-F-Ab uses the one sounded A-flat enharmonically as
