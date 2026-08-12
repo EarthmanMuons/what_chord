@@ -8,23 +8,17 @@ presentation contract, scoring model, adoption bar, stable-display policy, and
 performance budget are fixed by `output-evaluation-contract.md` and log
 2026-08-10-18. The complete author-adjudicated adoption suite is frozen by log
 2026-08-11-03. It is a product-policy conformance ruler, not independent ground
-truth. The register-only selector and its fixed diagnostic ablations are
-preregistered by `register-selector-v1.md` and log 2026-08-11-04. Independent
-Python and pure-Dart implementations produced identical complete decisions on
-the label-free structural matrix in log 2026-08-11-05. A deterministic
-suite-evaluation harness was fixed by log 2026-08-11-06 before the first
-prediction or score was generated. The single frozen-suite run in log
-2026-08-11-07 passes all internal exact gates for the full selector: six of six
-eligible positives and nine of nine guards. That is product-policy conformance,
-not the complete adoption bar or an external accuracy result. No
-development-corpus selector result has been read. `development-exposure-v1.md`
-and log 2026-08-11-08 preregister the corpus roles, exact replay, stable-display
-timing, complete fire dispositions, and stopping rules for that next step. Log
-2026-08-11-09 records the synthetic-only harness implementation and restores the
-frozen output contract's pinned bytes after the previous entry's clarification
-inadvertently broke its dependency digest. No development-corpus selector result
-has been read. The 808-song POP909 reserve remains untouched. The satisfied
-coverage and stopping record remains normative in `adoption-suite-plan.md`.
+truth. The register-only selector passed its frozen author-adjudicated suite but
+failed the development exposure gate: log 2026-08-11-12 dispositions all 73
+stable POP909 displays as ordinary integrated harmonies or zero-duration
+serialization artifacts. No v1 selector reached the held 808-song POP909 reserve
+or product integration. Log 2026-08-11-13 records the static observability
+collision that requires evidence beyond register for automatic version 2.
+`automatic-output-contract-v2.md` fixes that input and output boundary, and
+`automatic-suite-v2-plan.md` fixes the suite construction and source-coverage
+requirements that must be satisfied before an exact version-2 selector is
+preregistered. The satisfied v0 coverage and stopping record remains normative
+in `adoption-suite-plan.md`.
 
 ## Task and claim boundary
 
@@ -217,6 +211,10 @@ before an exact version-2 selector is preregistered.
 prerequisite as `polychord-output/2`: automatic timestamped selection requires
 candidate-specific positive support bound to the current sounding instances,
 with causal invalidation and a support-aware 200-millisecond display gate.
+`automatic-suite-v2-plan.md` and log 2026-08-11-15 complete the next planning
+prerequisite: all frozen construction records remain pinned, temporal coverage
+and automatic scoring stay separate, and a cue branch cannot license display
+without a source-attested automatic positive plus source-backed guards.
 
 Temporal ablations require frame-accurate replay. Committed-event fixtures
 cannot evaluate them because they omit within-event revoicing and note-event
@@ -546,7 +544,18 @@ The following work must be dated and completed in order:
    appearance gate runs only while authorization is continuous. Static v1
    eligibility and explicit manual grouping remain separate input conditions. No
    licensing cue, selector, suite, or new corpus result is chosen here.
-10. Optional external validation: use a newly registered, evidence-complete
+10. Version-2 automatic-suite plan: complete; suite construction not begun.
+    `automatic-suite-v2-plan.md` and log 2026-08-11-15 preserve the frozen
+    17-case suite by pinned reference, classify its three event-complete cases
+    and 14 temporal coverage exclusions, and fix separate construction, cue,
+    decision, and display scoring axes. A licensing branch requires a
+    source-attested automatic positive that can remain authorized through the
+    200-millisecond gate plus a source-backed cue-positive guard. The Stravinsky
+    ascending-sevenths passage is the first motion lead; onset remains
+    diagnostic because its current source evidence does not establish the
+    ablation's millisecond threshold. No automatic suite or selector has been
+    run.
+11. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding
     research work.
