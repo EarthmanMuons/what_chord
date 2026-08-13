@@ -18,11 +18,21 @@ final class PolychordOnsetOrigin {
     required this.timestampMs,
     required this.velocity,
   }) {
-    if (eventIndex < 0) {
-      throw RangeError.range(eventIndex, 0, null, 'eventIndex');
+    if (eventIndex < 0 || eventIndex > _maximumExactJsonInteger) {
+      throw RangeError.range(
+        eventIndex,
+        0,
+        _maximumExactJsonInteger,
+        'eventIndex',
+      );
     }
-    if (timestampMs < 0) {
-      throw RangeError.range(timestampMs, 0, null, 'timestampMs');
+    if (timestampMs < 0 || timestampMs > _maximumExactJsonInteger) {
+      throw RangeError.range(
+        timestampMs,
+        0,
+        _maximumExactJsonInteger,
+        'timestampMs',
+      );
     }
     if (velocity < 1 || velocity > 127) {
       throw RangeError.range(velocity, 1, 127, 'velocity');
@@ -276,3 +286,4 @@ final class PolychordCandidateOnsetEvidence {
 
 const _intListEquality = ListEquality<int>();
 const _noteListEquality = ListEquality<PolychordSoundingNoteOnset>();
+const _maximumExactJsonInteger = 9007199254740991;

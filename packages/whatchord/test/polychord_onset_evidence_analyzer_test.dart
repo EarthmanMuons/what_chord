@@ -165,6 +165,22 @@ void main() {
       throwsRangeError,
     );
     expect(
+      () => PolychordOnsetOrigin(
+        eventIndex: 9007199254740992,
+        timestampMs: 0,
+        velocity: 1,
+      ),
+      throwsRangeError,
+    );
+    expect(
+      () => PolychordOnsetOrigin(
+        eventIndex: 0,
+        timestampMs: 9007199254740992,
+        velocity: 1,
+      ),
+      throwsRangeError,
+    );
+    expect(
       () => PolychordOnsetOrigin(eventIndex: 0, timestampMs: 0, velocity: 0),
       throwsRangeError,
     );
