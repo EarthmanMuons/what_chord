@@ -23,3 +23,5 @@ The format is based on [Keep a Changelog][1], and this package adheres to
 - Polychord analysis primitives: symmetric register candidate generation,
   conservative selector diagnostics, secondary-annotation stability, and
   threshold-free per-note onset evidence.
+- Pure-Dart temporal polychord tracking for normalized note and sustain-pedal
+  events, including carried-in notes, reattacks, and exact onset provenance.
