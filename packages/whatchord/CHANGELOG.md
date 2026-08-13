@@ -27,3 +27,5 @@ The format is based on [Keep a Changelog][1], and this package adheres to
   events, including carried-in notes, reattacks, and exact onset provenance.
 - Threshold-free release and sustain-pedal provenance for polychord candidates,
   including current-state origins and prior sustained-instance releases.
+- Frame-transition evidence and the separately named rigid-layer motion-support
+  interpretation, with no inferred voice assignments or endpoint policy.
