@@ -27,6 +27,8 @@ export 'src/models/tonality.dart';
 
 // Polychord analysis
 export 'src/polychord/models/polychord_candidate.dart';
+export 'src/polychord/models/polychord_onset_evidence.dart';
+export 'src/polychord/services/polychord_onset_evidence_analyzer.dart';
 export 'src/polychord/services/polychord_register_candidate_generator.dart';
 export 'src/polychord/services/polychord_register_selector.dart';
 export 'src/polychord/services/polychord_stable_display_gate.dart';
