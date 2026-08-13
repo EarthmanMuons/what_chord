@@ -20,17 +20,23 @@ requirements that must be satisfied before an exact version-2 selector is
 preregistered. Log 2026-08-12-01 records that neither prospective motion source
 positive met those requirements. Log 2026-08-12-02 records that the bounded
 follow-up source search also admitted no onset or motion branch, corrects the
-coupling of source admission to display dwell, and pauses selector work before
-suite construction. `automatic-timing-calibration-plan.md` governs prospective
-timing work. `automatic-timing-sensitivity-preregistration.md` fixes the first
-exploratory onset-gap and appearance-dwell comparison without authorizing a
-threshold choice. Log 2026-08-12-06 records its successful result: no timing
-profile was selected, and source coverage remains the next prerequisite. Log
-2026-08-12-07 corrects the result's guard interpretation: Liszt fills the onset
-boundary-guard cell at the 50- and 80-millisecond profiles, while the
-source-positive and ordinary-integrated-control cells remain empty. The
-satisfied v0 coverage and stopping record remains normative in
-`adoption-suite-plan.md`.
+coupling of source admission to display dwell, and pauses scientific-validation
+selector work before suite construction. `automatic-timing-calibration-plan.md`
+governs prospective timing work.
+`automatic-timing-sensitivity-preregistration.md` fixes the first exploratory
+onset-gap and appearance-dwell comparison without authorizing a threshold
+choice. Log 2026-08-12-06 records its successful result: no timing profile was
+selected, and source coverage remains the next prerequisite for that
+scientific-validation route. Log 2026-08-12-07 corrects the result's guard
+interpretation: Liszt fills the onset boundary-guard cell at the 50- and
+80-millisecond profiles, while the source-positive and
+ordinary-integrated-control cells remain empty. The satisfied v0 coverage and
+stopping record remains normative in `adoption-suite-plan.md`. That
+source-admission route remains the prerequisite for an independently validated
+or publication-oriented claim, not for an explicitly author-adjudicated product
+policy. `product-completion-plan.md` and log 2026-08-13-08 define a separate
+product track under a new output and selector identity without weakening the
+preserved `polychord-output/2` contract.
 
 ## Task and claim boundary
 
@@ -628,7 +634,16 @@ The following work must be dated and completed in order:
     under either profile, no selector is run, and the held reserve remains
     untouched. Log 2026-08-12-07 preserves the correction to the initial guard
     interpretation and the stronger frozen control requirement.
-14. Optional external validation: use a newly registered, evidence-complete
+14. Product completion track: active. `product-completion-plan.md` and log
+    2026-08-13-08 separate the product claim from the stronger source-validation
+    claim. The product route uses an author-adjudicated automatic ruler, a new
+    output and selector identity, onset-only licensing under a fixed first
+    hypothesis, frozen prior-art adapters, development false-display exposure,
+    complete engine and presentation guards, and one final run on the untouched
+    POP909 pool. It does not claim generalized accuracy or independent
+    validation. Freeze the exact output contract, selector, suite, scorer, and
+    baseline adapters before implementation or prediction.
+15. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding
     research work.

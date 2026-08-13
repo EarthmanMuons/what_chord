@@ -1,9 +1,12 @@
 # Automatic polychord selection v2 plan
 
-Status: paused at the source-evidence prerequisite. The first timing comparison
-is complete and selected no profile. This post-v1 research decision is not an
-exact selector preregistration, does not amend the frozen v0 suite in place, and
-does not authorize held-reserve use or product integration.
+Status: preserved scientific-validation route, paused at the source-evidence
+prerequisite. The first timing comparison is complete and selected no profile.
+This post-v1 research decision is not an exact selector preregistration, does
+not amend the frozen v0 suite in place, and does not authorize held-reserve use
+or product integration. `product-completion-plan.md` defines a separate
+author-adjudicated product route under a new output and selector identity; it
+does not satisfy or weaken this route's source-admission rule.
 
 The evidence boundary is recorded in log 2026-08-11-13. Logs 2026-08-12-01 and
 2026-08-12-02 record the source-coverage audit. The latter also corrects the
@@ -120,9 +123,10 @@ Complete the following in order:
    POP909 row and two brief Liszt boundary episodes at the 50- and
    80-millisecond onset rows. Those results select neither an onset threshold
    nor an appearance dwell.
-5. **Not started:** identify a new development source or a predeclared
-   resampling design. Previously exposed POP909, ASAP, and When in Rome outcomes
-   remain development evidence and cannot serve as independent confirmation.
+5. **Not started on this scientific-validation route:** identify a new
+   development source or a predeclared resampling design. Previously exposed
+   POP909, ASAP, and When in Rome outcomes remain development evidence and
+   cannot serve as independent confirmation.
 6. **Preserved:** keep the 808-song POP909 reserve untouched. No version-2
    selector reached development evaluation.
 
@@ -179,11 +183,13 @@ cue-positive ordinary integrated control.
 
 ## Success criterion for this planning stage
 
-This planning stage has identified the static observability limitation and the
-missing source-valid, candidate-bound cue evidence. Automatic polychord display
-is not yet justified for the current input surface and cue set. The next
-eligible step is an event-complete source-attested positive and cue-positive
-ordinary integrated control under one named profile, not automatic selector
-evaluation or held-reserve use. Any further timing family requires a new
-prospective record rather than a post hoc extension of the completed comparison,
-and would need its own boundary and integrated-control coverage.
+This scientific-validation stage has identified the static observability
+limitation and the missing source-valid, candidate-bound cue evidence. A
+source-validated automatic polychord display is not yet justified for the
+current input surface and cue set. The next eligible step on this route is an
+event-complete source-attested positive and cue-positive ordinary integrated
+control under one named profile, not automatic selector evaluation or
+held-reserve use. Any further timing family requires a new prospective record
+rather than a post hoc extension of the completed comparison, and would need its
+own boundary and integrated-control coverage. The separately versioned product
+route may proceed under its narrower author-adjudicated claim and gates.

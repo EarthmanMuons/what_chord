@@ -1,11 +1,14 @@
 # Automatic timestamped-MIDI suite plan
 
-Status: paused at the source-evidence prerequisite. The first timing comparison
-is complete and selected no profile. This document preserves the planning
-boundary for the version-2 automatic suite, but no suite was constructed and no
-exact selector was defined or evaluated. It does not create a scorable suite,
-promote an onset or motion rule to a licensing cue, authorize corpus evaluation,
-or authorize use of the held POP909 reserve.
+Status: preserved scientific-validation route, paused at the source-evidence
+prerequisite. The first timing comparison is complete and selected no profile.
+This document preserves the planning boundary for the version-2 automatic suite,
+but no suite was constructed and no exact selector was defined or evaluated. It
+does not create a scorable suite, promote an onset or motion rule to a licensing
+cue, authorize corpus evaluation, or authorize use of the held POP909 reserve.
+`product-completion-plan.md` defines a separate author-adjudicated product suite
+and delivery route under new identities; it does not satisfy this plan's
+source-validation coverage.
 
 The planning decision is recorded in log 2026-08-11-15. Log 2026-08-12-01
 records that the first two prospective motion positives did not satisfy the
@@ -371,4 +374,6 @@ substitute for the missing evidence merely because it is available.
 
 Previously exposed POP909, ASAP, and When in Rome material remains development
 evidence. The held 808-song POP909 reserve remains untouched. No automatic
-selector is justified yet.
+selector is justified under this source-validation route. A separately versioned
+author-adjudicated product experiment may proceed only under the claims, order,
+and gates in `product-completion-plan.md`.
