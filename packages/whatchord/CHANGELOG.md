@@ -31,3 +31,5 @@ The format is based on [Keep a Changelog][1], and this package adheres to
   interpretation, with no inferred voice assignments or endpoint policy.
 - The separately named conservative onset-cohort interpretation, kept distinct
   from selector licensing and display policy.
+- Exact reset-scoped candidate-to-sounding-instance binding and revalidation,
+  including explicit incomplete carried-in history.

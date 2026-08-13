@@ -1,6 +1,7 @@
 import '../models/polychord_candidate.dart';
 import '../models/polychord_frame_transition_evidence.dart';
 import '../models/polychord_release_pedal_evidence.dart';
+import '../models/polychord_sounding_instance_key.dart';
 import 'polychord_register_candidate_generator.dart';
 
 /// Enumerates exact candidate-transition facts without voice assignment.
@@ -201,13 +202,12 @@ PolychordLayerRole _layerForNote(PolychordCandidate candidate, int midiNote) {
   );
 }
 
-({int midiNote, int? onsetEventIndex}) _instanceKey(
-  PolychordSoundingNoteHistory note,
-) => (midiNote: note.midiNote, onsetEventIndex: note.onset?.eventIndex);
+PolychordSoundingInstanceKey _instanceKey(PolychordSoundingNoteHistory note) =>
+    PolychordSoundingInstanceKey.fromHistory(note);
 
 int _compareInstanceKeys(
-  ({int midiNote, int? onsetEventIndex}) left,
-  ({int midiNote, int? onsetEventIndex}) right,
+  PolychordSoundingInstanceKey left,
+  PolychordSoundingInstanceKey right,
 ) {
   final midiComparison = left.midiNote.compareTo(right.midiNote);
   if (midiComparison != 0) return midiComparison;

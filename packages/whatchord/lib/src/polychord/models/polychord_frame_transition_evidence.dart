@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'polychord_candidate.dart';
 import 'polychord_onset_evidence.dart';
 import 'polychord_release_pedal_evidence.dart';
+import 'polychord_sounding_instance_key.dart';
 import 'polychord_temporal_event.dart';
 
 /// Endpoint register role assigned by one structural candidate.
@@ -90,16 +91,18 @@ final class PolychordSoundingInstanceIdentity {
   final int? onsetEventIndex;
   final int? onsetTimestampMs;
 
+  PolychordSoundingInstanceKey get key => PolychordSoundingInstanceKey.internal(
+    midiNote: midiNote,
+    onsetEventIndex: onsetEventIndex,
+  );
+
   Map<String, Object?> toJson() => <String, Object?>{
     'midiNote': midiNote,
     'onsetEventIndex': onsetEventIndex,
     'onsetTimestampMs': onsetTimestampMs,
   };
 
-  Map<String, Object?> toCompactJson() => <String, Object?>{
-    'midiNote': midiNote,
-    'onsetEventIndex': onsetEventIndex,
-  };
+  Map<String, Object?> toCompactJson() => key.toJson();
 
   @override
   bool operator ==(Object other) =>
