@@ -4,7 +4,8 @@ Status: first comparison complete; no timing profile selected. No alternate
 timing profile, selector, suite, held-corpus measurement, or product change is
 authorized by this document. `automatic-timing-sensitivity-preregistration.md`
 fixed the first comparison family and stopping rules before implementation. Log
-2026-08-12-06 records the result under those rules.
+2026-08-12-06 records the result under those rules. Log 2026-08-12-07 corrects
+the post-result guard accounting without selecting a profile.
 
 ## Why this step is necessary
 
@@ -120,9 +121,10 @@ one absolute threshold is not mistaken for a tempo-invariant musical law.
 
 Before another automatic selector is evaluated:
 
-1. Admit source-attested construction positives and matched ordinary integrated
-   or boundary guards based on construction, exact event coverage, and
-   candidate-bound cue evidence. Do not require them to survive a display dwell.
+1. Admit source-attested construction positives, source-backed cue-positive
+   boundaries, and matched cue-positive ordinary integrated controls based on
+   construction, exact event coverage, and candidate-bound cue evidence. Do not
+   require them to survive a display dwell.
 2. Freeze a finite family of onset interpretations and display dwells before
    running them. The family must include the existing profiles unchanged, state
    the literature and product rationale for every comparison, and expose a
@@ -158,15 +160,19 @@ appearance dwells, but neither survived 100, 200, or 300 milliseconds. That is a
 useful sensitivity guard for the lower-gap rows; it remains rapid score-attested
 alternation rather than a source-attested static polychord.
 
-No row is selected. The comparison has no source-attested automatic-decision
-positive and no matched cue-positive integrated or boundary guard from which to
-calibrate a licensing threshold. Choosing 50 or 80 milliseconds from Liszt alone
-would tune to a disclosed boundary case and leave the product claim unvalidated.
+No row is selected. In accordance with the preregistered stopping rule, Liszt is
+a source-backed cue-positive boundary guard for the 50- and 80-millisecond onset
+profiles. Neither profile has a source-attested automatic-decision positive from
+which to calibrate a licensing threshold, and neither has the cue-positive
+ordinary integrated controls required by the frozen output contract. Choosing 50
+or 80 milliseconds from Liszt alone would tune to a disclosed boundary case and
+leave the product claim unvalidated.
 
 The bounded source search remains useful and its exact measurements stand. It
-did not supply the candidate-bound source positives and matched guards needed to
-preregister an automatic selector. That is a pause at the source-coverage
-prerequisite, not proof that automatic polychord inference is impossible.
+did not supply a candidate-bound source positive or cue-positive ordinary
+integrated control under any named cue profile. That is a pause at the source
+coverage prerequisite, not proof that automatic polychord inference is
+impossible.
 
 The current 200-millisecond display policy may remain the conservative
 `polychord-output/2` baseline while this work proceeds. It must not be used as a
