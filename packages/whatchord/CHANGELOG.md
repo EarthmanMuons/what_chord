@@ -33,3 +33,5 @@ The format is based on [Keep a Changelog][1], and this package adheres to
   from selector licensing and display policy.
 - Exact reset-scoped candidate-to-sounding-instance binding and revalidation,
   including explicit incomplete carried-in history.
+- Candidate-bound diagnostic onset cue records with exact observation provenance
+  and nullable support for incomplete history.
