@@ -25,3 +25,5 @@ The format is based on [Keep a Changelog][1], and this package adheres to
   threshold-free per-note onset evidence.
 - Pure-Dart temporal polychord tracking for normalized note and sustain-pedal
   events, including carried-in notes, reattacks, and exact onset provenance.
+- Threshold-free release and sustain-pedal provenance for polychord candidates,
+  including current-state origins and prior sustained-instance releases.
