@@ -29,3 +29,5 @@ The format is based on [Keep a Changelog][1], and this package adheres to
   including current-state origins and prior sustained-instance releases.
 - Frame-transition evidence and the separately named rigid-layer motion-support
   interpretation, with no inferred voice assignments or endpoint policy.
+- The separately named conservative onset-cohort interpretation, kept distinct
+  from selector licensing and display policy.
