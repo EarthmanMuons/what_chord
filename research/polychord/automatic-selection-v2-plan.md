@@ -9,7 +9,8 @@ The evidence boundary is recorded in log 2026-08-11-13. Logs 2026-08-12-01 and
 2026-08-12-02 record the source-coverage audit. The latter also corrects the
 coupling of source admission to the inherited display dwell. Logs 2026-08-12-05
 and 2026-08-12-06 preserve the first timing run's pre-output failure,
-correction, and successful result.
+correction, and successful result. Log 2026-08-12-07 corrects the post-result
+guard accounting without selecting a profile or changing the frozen result.
 
 ## Why a second selection contract is necessary
 
@@ -101,12 +102,16 @@ Complete the following in order:
    the branch-admission and coverage requirements. Static positives without
    adequate event evidence remain transparent coverage exclusions for that input
    condition, not false negatives and not deleted cases.
-3. **Not satisfied:** admit at least one evidence-complete, source-attested
-   automatic-decision positive for every cue branch that could authorize a
-   candidate, with a source-backed cue-positive boundary or ordinary integrated
-   guard. Display survival is a separate coverage axis. The bounded search in
-   log 2026-08-12-02 found no source satisfying the candidate-bound cue and
-   guard requirements.
+3. **Not satisfied; current boundary-guard cells are filled:** admit at least
+   one evidence-complete, source-attested automatic-decision positive for every
+   cue branch that could authorize a candidate, with matched source-backed
+   cue-positive ordinary integrated controls. The Shrovetide transition supplies
+   motion boundary coverage. Under the later sensitivity profiles, Liszt
+   supplies onset boundary coverage at 50 and 80 milliseconds. Boundary cases do
+   not replace the frozen ordinary-integrated-control requirement. No
+   source-attested automatic-decision positive or cue-positive ordinary
+   integrated control satisfies either branch. Display survival is a separate
+   coverage axis.
 4. **Complete; no profile selected:** `automatic-timing-calibration-plan.md`
    separates cue interpretation, automatic decision, and display policy.
    `automatic-timing-sensitivity-preregistration.md` fixes the first onset-gap
@@ -150,8 +155,11 @@ only the between-layer onset minimum did not change the POP909 null because all
 33 candidates whose two layers met the unchanged compactness limit were
 synchronous. The lower rows detected two 96- and 97-millisecond Liszt overlap
 episodes, but that source remains an alternating-chord boundary. The comparison
-therefore calibrates no licensing or display parameter and leaves item 3 as the
-next prerequisite.
+therefore calibrates no licensing or display parameter. Under the
+preregistration's stopping rule, however, it fills the source-backed onset-guard
+cell for the 50- and 80-millisecond profiles. Item 3 remains unmet only because
+neither profile has a source-attested automatic-decision positive or a
+cue-positive ordinary integrated control.
 
 ## Rejected shortcuts
 
@@ -174,6 +182,8 @@ next prerequisite.
 This planning stage has identified the static observability limitation and the
 missing source-valid, candidate-bound cue evidence. Automatic polychord display
 is not yet justified for the current input surface and cue set. The next
-eligible step is source and guard coverage, not automatic selector evaluation or
-held-reserve use. Any further timing family requires a new prospective record
-rather than a post hoc extension of the completed comparison.
+eligible step is an event-complete source-attested positive and cue-positive
+ordinary integrated control under one named profile, not automatic selector
+evaluation or held-reserve use. Any further timing family requires a new
+prospective record rather than a post hoc extension of the completed comparison,
+and would need its own boundary and integrated-control coverage.

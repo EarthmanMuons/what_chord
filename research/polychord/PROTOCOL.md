@@ -25,7 +25,10 @@ suite construction. `automatic-timing-calibration-plan.md` governs prospective
 timing work. `automatic-timing-sensitivity-preregistration.md` fixes the first
 exploratory onset-gap and appearance-dwell comparison without authorizing a
 threshold choice. Log 2026-08-12-06 records its successful result: no timing
-profile was selected, and source coverage remains the next prerequisite. The
+profile was selected, and source coverage remains the next prerequisite. Log
+2026-08-12-07 corrects the result's guard interpretation: Liszt fills the onset
+boundary-guard cell at the 50- and 80-millisecond profiles, while the
+source-positive and ordinary-integrated-control cells remain empty. The
 satisfied v0 coverage and stopping record remains normative in
 `adoption-suite-plan.md`.
 
@@ -619,9 +622,12 @@ The following work must be dated and completed in order:
     change them. The Liszt boundary supplied two cue-positive episodes at the 50
     and 80-millisecond profiles; both survived 0 and 50-millisecond dwells and
     neither survived 100 milliseconds. This selects no row: the within-layer
-    maximum remains unvalidated, Liszt remains a boundary, no matched
-    cue-positive guard exists, no selector is run, and the held reserve remains
-    untouched.
+    maximum remains unvalidated, Liszt remains a boundary and supplies the
+    preregistered onset boundary guard for those two profiles, no
+    source-attested positive or cue-positive ordinary integrated control exists
+    under either profile, no selector is run, and the held reserve remains
+    untouched. Log 2026-08-12-07 preserves the correction to the initial guard
+    interpretation and the stronger frozen control requirement.
 14. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding

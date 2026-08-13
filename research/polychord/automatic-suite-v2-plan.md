@@ -14,7 +14,9 @@ and the methodological correction separating cue admission from display dwell.
 `automatic-timing-calibration-plan.md` fixes the planning boundary, and
 `automatic-timing-sensitivity-preregistration.md` fixes the first comparison
 before implementation or results. Logs 2026-08-12-05 and 2026-08-12-06 preserve
-the first run's pre-output failure, correction, and successful result.
+the first run's pre-output failure, correction, and successful result. Log
+2026-08-12-07 corrects the post-result guard accounting without selecting a
+profile or changing the frozen result.
 
 ## Purpose
 
@@ -123,8 +125,9 @@ following:
    authorization lifetime without choosing a favorable tempo; survival under
    each named display profile is reported separately and does not control source
    admission;
-3. at least one source-backed boundary or ordinary integrated control that can
-   receive positive support from the same cue but must abstain;
+3. at least one source-backed boundary that can receive positive support from
+   the same cue but must abstain, plus matched source-backed ordinary integrated
+   controls with the same property;
 4. synthetic positive, neutral, unavailable, invalidation, and exact-threshold
    controls; and
 5. explicit behavior when several structural candidates or cue hypotheses are
@@ -132,9 +135,10 @@ following:
 
 Synthetic generation may prove an implementation invariant but cannot satisfy
 item 1 or item 3. A scholarly construction label without an eligible automatic
-observation cannot satisfy item 1. Cue support does not replace product policy:
-the positive cue must bind the intended exact assignment, and the selector must
-still reject source-backed compact integrated readings.
+observation cannot satisfy item 1. A boundary cannot substitute for the frozen
+ordinary-integrated-control requirement. Cue support does not replace product
+policy: the positive cue must bind the intended exact assignment, and the
+selector must still reject source-backed compact integrated readings.
 
 If only one branch satisfies this rule, the first selector may license only that
 branch. Other cue records remain diagnostics. There is no requirement to ship
@@ -301,12 +305,14 @@ The remaining sources fail for complementary reasons:
   note-event stimulus files. It can inform perception research but not exact
   candidate binding.
 
-No onset or motion branch therefore supplies the candidate-bound source positive
-and matched cue-positive guard required before selector preregistration. This is
-a scoped coverage result, not a claim that no suitable source can exist. The
-automatic suite remains unencoded, both cues remain diagnostics, and no selector
-or corpus evaluation follows. The first timing comparison is now complete, but
-it selected no profile and did not fill the missing source coverage.
+At the end of the bounded search, no onset or motion branch supplied the
+complete source-positive, boundary, and ordinary-integrated-control package
+required before selector preregistration. This is a scoped coverage result, not
+a claim that no suitable source can exist. The later timing comparison selected
+no profile, but it did make Liszt a source-backed onset boundary at the 50- and
+80-millisecond profiles. The automatic suite remains unencoded, both cues remain
+diagnostics, and no selector or corpus evaluation follows while the
+source-positive and ordinary-integrated-control cells remain empty.
 
 ## Required coverage before freeze
 
@@ -315,7 +321,8 @@ The automatic suite must contain executable cases for every applicable row:
 | Coverage family               | Minimum requirement                                                                                                                                                               |
 | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Licensing evidence            | One source-attested automatic-decision positive per licensing cue branch, with exact candidate-bound event evidence; display survival is scored separately.                       |
-| Cue-positive guard            | One source-backed boundary or integrated reading per licensing branch whose cue is positive but whose decision abstains.                                                          |
+| Cue-positive boundary         | One source-backed boundary per licensing branch whose cue is positive but whose decision abstains.                                                                                |
+| Ordinary integrated controls  | Matched source-backed ordinary integrated readings whose cue is positive but whose decision abstains, as required by the frozen output contract.                                  |
 | Construction/input separation | A source positive with complete event history but no simultaneous structural candidate, retaining expected abstention and positive-coverage exclusion separately.                 |
 | Synthetic mechanics           | Positive and neutral controls for every licensing cue, plus diagnostic-only cues if their implementation is present.                                                              |
 | Matched static state          | The same exact candidate and assignment with positive, neutral, and unavailable histories where the cue permits such matching.                                                    |
@@ -336,15 +343,17 @@ The source audit and first timing comparison leave this disposition:
 1. The rejected Stravinsky and Herrmann leads remain coverage findings; neither
    was encoded as an automatic positive or used to tune a threshold.
 2. The bounded source search found no analytically attested passage with the
-   authoritative timestamped note-level data and matched guard needed to admit a
-   licensing branch.
+   authoritative timestamped note-level data needed for an automatic-decision
+   positive, or matched cue-positive ordinary integrated controls.
 3. The audit exposed an invalid coupling between source admission and the
    inherited 200-millisecond display dwell. That coupling is removed; the
    measurements remain results under their named profiles.
 4. The first preregistered timing comparison is complete. It selected no onset
-   threshold or appearance dwell, so automatic selector work remains paused
-   before suite schema, scorer, selector, implementation, or corpus evaluation
-   while the missing source evidence is sought.
+   threshold or appearance dwell. It does fill the onset boundary-guard cell at
+   50 and 80 milliseconds, as the preregistration required. Automatic selector
+   work remains paused before suite schema, scorer, selector, implementation, or
+   corpus evaluation while an event-complete source positive and matched
+   cue-positive ordinary integrated controls are sought.
 
 The inactive downstream sequence would have encoded the referenced 17-case
 suite, completed synthetic and source-backed controls, frozen all selector and
@@ -352,11 +361,13 @@ display decisions, cross-checked Python and Dart implementations, and
 preregistered a new development source. None of those steps is authorized by the
 current evidence.
 
-Continuing this route requires the source coverage above. Any later timing
-comparison must receive its own prospective record under
+Continuing this route requires a source-attested automatic-decision positive and
+matched cue-positive ordinary integrated controls under one named cue profile.
+Any later timing comparison must receive its own prospective record under
 `automatic-timing-calibration-plan.md`; it may not extend the completed grid
-after inspection. A paid or machine-transcribed file is not a substitute for the
-missing evidence merely because it is available.
+after inspection and would require both boundary and integrated-control coverage
+under its own named profile. A paid or machine-transcribed file is not a
+substitute for the missing evidence merely because it is available.
 
 Previously exposed POP909, ASAP, and When in Rome material remains development
 evidence. The held 808-song POP909 reserve remains untouched. No automatic
