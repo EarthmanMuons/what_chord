@@ -20,3 +20,6 @@ The format is based on [Keep a Changelog][1], and this package adheres to
 - Temporal module: `ChordEvent` (a committed chord from live play) and
   `ChordEventSegmenter`, the capture model that feeds key detection and future
   temporal-context analysis.
+- Polychord analysis primitives: symmetric register candidate generation,
+  conservative selector diagnostics, secondary-annotation stability, and
+  threshold-free per-note onset evidence.
