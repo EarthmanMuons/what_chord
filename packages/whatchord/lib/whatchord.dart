@@ -27,13 +27,16 @@ export 'src/models/tonality.dart';
 
 // Polychord analysis
 export 'src/polychord/models/polychord_candidate.dart';
+export 'src/polychord/models/polychord_candidate_instance_binding.dart';
 export 'src/polychord/models/polychord_frame_transition_evidence.dart';
 export 'src/polychord/models/polychord_motion_support.dart';
 export 'src/polychord/models/polychord_onset_evidence.dart';
 export 'src/polychord/models/polychord_onset_support.dart';
 export 'src/polychord/models/polychord_onset_tracking_frame.dart';
 export 'src/polychord/models/polychord_release_pedal_evidence.dart';
+export 'src/polychord/models/polychord_sounding_instance_key.dart';
 export 'src/polychord/models/polychord_temporal_event.dart';
+export 'src/polychord/services/polychord_candidate_instance_binder.dart';
 export 'src/polychord/services/polychord_onset_evidence_analyzer.dart';
 export 'src/polychord/services/polychord_onset_tracker.dart';
 export 'src/polychord/services/polychord_coherent_separated_onset_interpreter.dart';
