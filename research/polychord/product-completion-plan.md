@@ -1,9 +1,11 @@
 # Polychord product completion plan
 
-Status: active product-development plan. This plan permits an author-adjudicated
-product-policy experiment and delivery path. It does not claim independent
-annotation, perceptual validity, generalized detection accuracy, or
-publication-ready source coverage.
+Status: active product-development plan. The exact product output contract and
+first onset-licensed selector are frozen by log 2026-08-13-09. The product
+suite, scorer, and baseline adapter contract remain the next prospective unit.
+This plan permits an author-adjudicated product-policy experiment and delivery
+path. It does not claim independent annotation, perceptual validity, generalized
+detection accuracy, or publication-ready source coverage.
 
 The decision is recorded in log 2026-08-13-08. The stricter `polychord-output/2`
 source-admission route remains preserved in `automatic-selection-v2-plan.md` and
@@ -219,10 +221,13 @@ an implementation exists.
 
 Proceed in this order:
 
-1. Commit this plan and its dated decision record.
-2. Freeze `polychord-output/3`, the exact onset selector, the automatic product
-   suite schema, the complete case inventory, the scorer, and the baseline
-   adapter contract.
+1. **Complete:** commit this plan and its dated decision record.
+2. **Output and selector complete; suite and baselines next:**
+   `product-output-contract-v3.md`, `onset-register-selector-v1.md`, and log
+   2026-08-13-09 freeze `polychord-output/3`, the onset-only cue, exact selector
+   order and reasons, authorization key, and stable-display behavior. Freeze the
+   automatic product suite schema, complete case inventory, scorer, and baseline
+   adapter contract before implementation or prediction.
 3. Implement and cross-check Python and pure-Dart policy paths without reading
    predictions from the scorer or development corpora.
 4. Run the frozen product suite and prior-art comparison once, retaining all

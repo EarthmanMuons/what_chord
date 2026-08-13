@@ -641,8 +641,11 @@ The following work must be dated and completed in order:
     hypothesis, frozen prior-art adapters, development false-display exposure,
     complete engine and presentation guards, and one final run on the untouched
     POP909 pool. It does not claim generalized accuracy or independent
-    validation. Freeze the exact output contract, selector, suite, scorer, and
-    baseline adapters before implementation or prediction.
+    validation. `product-output-contract-v3.md`,
+    `onset-register-selector-v1.md`, and log 2026-08-13-09 now freeze the exact
+    onset-only output and selector policy before implementation or prediction.
+    The author-adjudicated product suite, scorer, and baseline adapters remain
+    the next prospective unit.
 15. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding
