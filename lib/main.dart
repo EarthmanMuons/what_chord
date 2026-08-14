@@ -11,6 +11,7 @@ import 'package:whatchord_app/features/home/home.dart';
 import 'package:whatchord_app/features/key/key.dart';
 import 'package:whatchord_app/features/links/links.dart';
 import 'package:whatchord_app/features/midi/midi.dart';
+import 'package:whatchord_app/features/theory/theory.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +45,7 @@ class MyApp extends ConsumerWidget {
     ref.watch(appAudioMonitorLifecycleProvider);
     ref.watch(appChordHistoryLifecycleProvider);
     ref.watch(appInternalKeyLifecycleProvider);
+    ref.watch(appPolychordLifecycleProvider);
     ref.watch(appDeepLinkProvider);
 
     final themeMode = ref.watch(appThemeModeProvider);

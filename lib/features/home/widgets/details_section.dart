@@ -9,6 +9,7 @@ import 'package:whatchord_app/features/input/input.dart';
 import 'package:whatchord_app/features/theory/theory.dart';
 
 import '../models/home_layout_config.dart';
+import 'analysis_secondary_results.dart';
 import 'chord_ranking_details_sheet.dart';
 import 'demo_mode_explanation.dart';
 
@@ -41,16 +42,15 @@ class DetailsSection extends ConsumerWidget {
                 padding: const EdgeInsets.only(top: 8),
                 child: KeyedSubtree(
                   key: tourKeys.alternatives,
-                  child: AlternativeChordCandidatesList(
-                    enabled: true,
+                  child: AnalysisSecondaryResults(
                     alignment: Alignment.topLeft,
                     textAlign: TextAlign.left,
-                    gap: 6,
-                    padding: EdgeInsets.only(bottom: listBottomPad),
+                    alternativeGap: 6,
+                    alternativePadding: EdgeInsets.only(bottom: listBottomPad),
                     textScaleMultiplier: config.alternativeTextScale,
                     showScrollbarWhenOverflow: true,
-                    tappableWhenEmpty: identity is ChordDisplay,
-                    onTap: () => unawaited(
+                    tappableWhenAlternativesEmpty: identity is ChordDisplay,
+                    onAlternativesTap: () => unawaited(
                       showChordRankingDetailsSheet(
                         context,
                         snapshot: ChordRankingDetailsSnapshot.capture(ref),

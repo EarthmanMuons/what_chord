@@ -7,6 +7,7 @@ export 'presentation/services/tone_ledger.dart';
 
 export 'presentation/widgets/alternative_chord_candidates_list.dart';
 export 'presentation/widgets/key_signature_staff_preview.dart';
+export 'presentation/widgets/polychord_annotation.dart';
 export 'presentation/widgets/scale_degree_roman_text.dart';
 export 'presentation/widgets/scale_degrees.dart';
 export 'presentation/widgets/tonality_bar_view.dart';
@@ -26,5 +27,7 @@ export 'state/providers/identity_display_provider.dart';
 export 'state/providers/implied_root_notes_provider.dart';
 export 'state/providers/pitch_class_names_provider.dart';
 export 'state/providers/playing_context_notifier.dart';
+export 'state/providers/polychord_presentation_provider.dart';
+export 'state/providers/polychord_product_provider.dart';
 export 'state/providers/selected_tonality_notifier.dart';
 export 'state/providers/theory_preferences_notifier.dart';
