@@ -1,12 +1,12 @@
 # Automatic polychord product suite v1
 
-Status: preregistered schema, complete case inventory, scoring contract, and
-acceptance rule for `polychord-product-suite/1`. The isolated 19-fixture product
-manifest and its replay validation were implemented on 2026-08-14. No
-`polychord-onset-register-policy/1` implementation or product prediction has
-been produced. The machine-readable suite, complete suite validator, and scorer
-must implement this document exactly and be committed with final dependency
-digests before scoring is enabled.
+Status: frozen author-adjudicated conformance ruler for
+`polychord-product-suite/1`. The isolated 19-fixture manifest, 20-case and
+108-checkpoint machine suite, strict validator, independent exact scorer, and
+synthetic pass/failure controls were frozen on 2026-08-14. No
+`polychord-onset-register-policy/1` implementation, product prediction,
+prior-art output, development output, or held output had been produced or read
+at freeze.
 
 This is an author-adjudicated conformance ruler. It tests whether the product
 implements its declared policy. It is not an independently annotated dataset, a
@@ -93,9 +93,9 @@ primary availability, and reset are not MIDI notes or sustain events.
 The implemented manifest pins four inherited replays and fifteen authored
 product realizations. The 20-case inventory reuses the basic positive
 realization for two cases whose difference is entirely in product-control
-actions. `tool/polychord/product_suite.py` currently validates this fixture
-substrate; its suite-schema validation is deliberately still incomplete and
-scoring remains disabled.
+actions. `tool/polychord/product_suite.py` validates both this substrate and the
+complete strict suite schema. Scoring is enabled only for the frozen suite and a
+digest- and version-matched prediction document.
 
 ## Case and action objects
 
@@ -153,6 +153,35 @@ exact candidate identity additionally includes ordered MIDI assignments.
 Expected authorization keys also include the tracker epoch and every current
 note-on event identity. Human-readable symbols never substitute for these
 machine fields.
+
+### Machine normalization
+
+The machine suite assigns case-local `candidate-N` identifiers in first-seen
+order. Each identifier resolves once to the exact ordered upper/lower root pitch
+class and quality plus both complete MIDI-note assignments. Checkpoint candidate
+and stage lists contain these identifiers in canonical generator order. A
+candidate identifier is only a compact reference inside one case; it is never a
+musical label, cross-case identity, or selector input.
+
+Every cue binding and authorization key lists all assigned sounding notes in
+ascending MIDI order as `(midiNote, onsetEventIndex)`. The candidate reference
+supplies the ordered identities and assignments, and `trackerEpoch` scopes the
+event identifiers. The first tracker version used by the suite is
+`polychord-onset-tracker/1`.
+
+The display projection uses `key` for the current pending or visible
+authorization key and uses `deadlineMs` only while pending. Entering pending
+emits `pending`; a repeated observation before the deadline emits `none` while
+retaining `awaiting-display-stability`; equality at the deadline emits
+`appearance`; and a repeated visible observation emits `stable`. A different
+valid key enters a new pending state with `authorization-key-changed`. Losing an
+active pending or visible key emits `clear`; an already absent display remains
+`none` with no display reason. These are diagnostic transition semantics and do
+not create primary history events.
+
+A reset checkpoint retains the case-level construction expectation but has null
+frame, raw-decision, and authorization fields, empty candidate and cue lists,
+and an absent display with `tracker-reset`. No action follows reset in suite v1.
 
 ## Frozen automatic case inventory
 
@@ -279,12 +308,12 @@ they were native input.
 
 ## Exact scorer
 
-The canonical scorer will accept only a frozen suite with `scoringAllowed: true`
-and one prediction document whose version IDs and suite digest match. It must
-not import or call the implementation being scored. The validator may use the
-frozen frame replayer and structural generator to validate fixture and candidate
-facts; expected cue, raw-selection, authorization, and display values remain
-literal suite data.
+The canonical scorer accepts only a frozen suite with `scoringAllowed: true` and
+one prediction document whose version IDs and suite digest match. It must not
+import or call the implementation being scored. The validator may use the frozen
+frame replayer and structural generator to validate fixture and candidate facts;
+expected cue, raw-selection, authorization, and display values remain literal
+suite data.
 
 Per applicable checkpoint it records:
 
@@ -326,11 +355,11 @@ product-completion gates.
 
 ## Freeze and change control
 
-Implement fixtures, validator, scorer, and synthetic control predictions before
-implementing the new selector. Synthetic control predictions must include at
-least one deliberate failure in each scored dimension, and the scorer must
-reject each one. Then pin every digest, verify the inventory and non-vacuous
-denominators, set `scoringAllowed: true`, and record a dated freeze.
+The freeze implemented fixtures, validator, scorer, and synthetic control
+predictions before the new selector. The controls contain one exact pass plus a
+deliberate failure in each scored dimension; the scorer accepts the pass and
+rejects every failure. The dated freeze records the final digests, inventory,
+coverage, and non-vacuous denominators.
 
 After that freeze, no expected value may change in response to a product or
 baseline result. A fixture, expectation, action order, scorer rule, or case

@@ -1,0 +1,85 @@
+{
+  "schema": "polychord-product-scorer-controls/1",
+  "suiteSha256": "f3891fb35466ef8019c3785c21bd21fcbfad12375b10283e2c364bf544406af4",
+  "exactProducerId": "synthetic-exact-control/1",
+  "materialization": "Copy every literal suite checkpoint into the prediction schema, then apply at most one declared mutation.",
+  "deliberateFailures": [
+    {
+      "id": "frame-mismatch",
+      "dimension": "frame",
+      "caseId": "lower-seventh-multiple-identities-positive",
+      "actionId": "event-6",
+      "mutation": {
+        "operation": "replace",
+        "path": "/frame/trackerEpoch",
+        "value": 9
+      }
+    },
+    {
+      "id": "construction-mismatch",
+      "dimension": "construction",
+      "caseId": "lower-seventh-multiple-identities-positive",
+      "actionId": "event-6",
+      "mutation": {
+        "operation": "replace",
+        "path": "/construction/reason",
+        "value": "deliberate construction failure"
+      }
+    },
+    {
+      "id": "candidate-order-mismatch",
+      "dimension": "candidates",
+      "caseId": "lower-seventh-multiple-identities-positive",
+      "actionId": "event-6",
+      "mutation": {
+        "operation": "reverse",
+        "path": "/candidates",
+        "value": null
+      }
+    },
+    {
+      "id": "cue-mismatch",
+      "dimension": "cueRecords",
+      "caseId": "lower-seventh-multiple-identities-positive",
+      "actionId": "event-6",
+      "mutation": {
+        "operation": "append",
+        "path": "/cueRecords/0/reasonCodes",
+        "value": "deliberate-cue-failure"
+      }
+    },
+    {
+      "id": "raw-decision-mismatch",
+      "dimension": "rawDecision",
+      "caseId": "lower-seventh-multiple-identities-positive",
+      "actionId": "event-6",
+      "mutation": {
+        "operation": "replace",
+        "path": "/rawDecision/reason",
+        "value": "deliberate-raw-failure"
+      }
+    },
+    {
+      "id": "authorization-mismatch",
+      "dimension": "authorization",
+      "caseId": "lower-seventh-multiple-identities-positive",
+      "actionId": "event-6",
+      "mutation": {
+        "operation": "replace",
+        "path": "/authorization/reason",
+        "value": "deliberate-authorization-failure"
+      }
+    },
+    {
+      "id": "display-mismatch",
+      "dimension": "display",
+      "caseId": "lower-seventh-multiple-identities-positive",
+      "actionId": "event-6",
+      "mutation": {
+        "operation": "replace",
+        "path": "/display/deadlineMs",
+        "value": 999
+      }
+    }
+  ]
+}
