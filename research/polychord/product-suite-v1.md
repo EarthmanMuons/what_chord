@@ -67,7 +67,9 @@ exactly:
   and display identities;
 - `dependencies`: repository-relative paths and SHA-256 digests for the output
   contract, selector, this schema, inherited suite, existing replay manifest,
-  product fixture manifest, validator, scorer, and baseline contract;
+  product fixture manifest, validator, scorer, baseline contract, and the
+  adapter-freeze manifest committed before the first product or prior-art
+  result;
 - `inheritedCases`: the ordered 17-case roster above with its automatic role;
 - `cases`: the ordered automatic cases frozen below; and
 - `baselineTargets`: named-snapshot and adapted-stream targets without expected

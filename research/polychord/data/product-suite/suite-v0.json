@@ -25,7 +25,7 @@
     },
     "suiteSpecification": {
       "path": "research/polychord/product-suite-v1.md",
-      "sha256": "5a91354a41f8e4fe4527ab44bbd97246274b45cab9a80a61c05a30233d867412"
+      "sha256": "497ee2a52f630eb34b65056609fca381f990fe6a96326fe1417d904179a91e07"
     },
     "internalSuite": {
       "path": "research/polychord/data/internal-suite/suite-v0.json",
@@ -41,7 +41,7 @@
     },
     "validator": {
       "path": "tool/polychord/product_suite.py",
-      "sha256": "7d5a950dfabe69c110617eff01ceba5ab2c9c812fe22bc8090548ff217ed14d9"
+      "sha256": "8f86f006b312b4bb73d3442a48728f3120b38f9975048e6d79e230cfe31db887"
     },
     "scorer": {
       "path": "tool/polychord/product_suite_scorer.py",
@@ -50,6 +50,10 @@
     "baselineContract": {
       "path": "research/polychord/prior-art-baseline-contract-v1.md",
       "sha256": "4d5766117891254bbf64e54ce4689f380610f53d4b90bad35f4bb1f6cde3e75d"
+    },
+    "baselineFreeze": {
+      "path": "research/polychord/baselines/adapter-freeze-v1.json",
+      "sha256": "d2a6f898297badcfb248e47be52ab2022985ee2b67ad93bf7de4e9d268ca3cb4"
     }
   },
   "inheritedCases": [

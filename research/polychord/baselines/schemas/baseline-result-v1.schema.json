@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whatchord.app/research/polychord/baseline-result-v1.schema.json",
+  "title": "Polychord prior-art baseline result v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "baseline",
+    "observationId",
+    "inputSha256",
+    "adapterInput",
+    "options",
+    "runtime",
+    "rawReturn",
+    "rawStdout",
+    "rawStderr",
+    "elapsedMicroseconds",
+    "status",
+    "normalizedAlternatives"
+  ],
+  "properties": {
+    "schema": {
+      "const": "polychord-prior-art-baseline-result/1"
+    },
+    "baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "pin"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pin": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "observationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "inputSha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "adapterInput": true,
+    "options": true,
+    "runtime": true,
+    "rawReturn": true,
+    "rawStdout": {
+      "type": "string"
+    },
+    "rawStderr": {
+      "type": "string"
+    },
+    "elapsedMicroseconds": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "status": {
+      "enum": [
+        "ok",
+        "no-output",
+        "exception",
+        "timeout",
+        "build-unavailable",
+        "unparseable"
+      ]
+    },
+    "normalizedAlternatives": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/alternative"
+      }
+    }
+  },
+  "$defs": {
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rootPc", "quality"],
+      "properties": {
+        "rootPc": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 11
+        },
+        "quality": {
+          "enum": ["major", "minor", "dominant7", "major7", "minor7"]
+        }
+      }
+    },
+    "assignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["upperMidiNotes", "lowerMidiNotes"],
+      "properties": {
+        "upperMidiNotes": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 127
+          }
+        },
+        "lowerMidiNotes": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 127
+          }
+        }
+      }
+    },
+    "alternative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nativeIndex",
+        "classification",
+        "upper",
+        "lower",
+        "components",
+        "assignment",
+        "rawLabel",
+        "reason"
+      ],
+      "properties": {
+        "nativeIndex": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "classification": {
+          "enum": [
+            "ordered-composite",
+            "single-chord-output",
+            "unsupported-composite",
+            "unparseable"
+          ]
+        },
+        "upper": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/component"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lower": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/component"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/component"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "assignment": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/assignment"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rawLabel": {
+          "type": ["string", "null"]
+        },
+        "reason": {
+          "type": ["string", "null"]
+        }
+      }
+    }
+  }
+}

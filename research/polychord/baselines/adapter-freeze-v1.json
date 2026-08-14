@@ -1,0 +1,129 @@
+{
+  "schema": "polychord-prior-art-adapter-freeze/1",
+  "status": "frozen-before-product-or-baseline-result",
+  "preAdapterSuiteSha256": "f3891fb35466ef8019c3785c21bd21fcbfad12375b10283e2c364bf544406af4",
+  "artifacts": {
+    "baselineContract": {
+      "path": "research/polychord/prior-art-baseline-contract-v1.md",
+      "sha256": "4d5766117891254bbf64e54ce4689f380610f53d4b90bad35f4bb1f6cde3e75d"
+    },
+    "baselineResultSchema": {
+      "path": "research/polychord/baselines/schemas/baseline-result-v1.schema.json",
+      "sha256": "4f7e7b71b7a8d60cea078a951117dd7299293c99bf519d74bb23e001cc4edfd0"
+    },
+    "baselineSourceManifest": {
+      "path": "research/polychord/baselines/source-manifest-v1.json",
+      "sha256": "5187ad4deb5fd11bba4bf830ec0c26f169eeba041e8c10f81431db4be6bf842a"
+    },
+    "chordrecgenWrapper": {
+      "path": "tool/polychord/chordrecgen_adapter/main.swift",
+      "sha256": "236eb11558f47a8fdfa274f01f5d2796d0b27bf63875b86f5716028a28b59318"
+    },
+    "environmentBuilder": {
+      "path": "tool/polychord/prepare_prior_art_baselines.py",
+      "sha256": "2164108f38d24a21fa0d94875d514b3d4773b61c4f39dedfb630bfb1fe13824e"
+    },
+    "mingusDependencyLock": {
+      "path": "research/polychord/baselines/mingus-6558cac-requirements.txt",
+      "sha256": "576593bea82cbb3294589e64d65a89f759f4bfcea9d7f3255ecb76653e626f95"
+    },
+    "musicpyDependencyLock": {
+      "path": "research/polychord/baselines/musicpy-7.15-requirements.txt",
+      "sha256": "526969f57fa6e51c12ff0c67647f0a3f49e7bba27a55902ba54600eebf58db9f"
+    },
+    "neutralObservationSchema": {
+      "path": "research/polychord/baselines/schemas/neutral-observation-v1.schema.json",
+      "sha256": "a22fde09eb18d76cec901961ce2a8b2e1ef6fa95d95e3f5e7e7ea25003d423e4"
+    },
+    "priorArtAdapter": {
+      "path": "tool/polychord/prior_art_baselines.py",
+      "sha256": "232ae18dbc1077c50f638b44463533cf54a40f7ad508f049fa1f89330261f80e"
+    },
+    "priorArtAdapterTests": {
+      "path": "tool/polychord/prior_art_baseline_test.py",
+      "sha256": "650e74e86146f50cb194cc23b0d74b00ffa4972222a6d931f4664a8b1888c520"
+    },
+    "productPolicyBatch": {
+      "path": "tool/polychord/product_policy_batch.dart",
+      "sha256": "e2c70602720674a2d8911483cd4dda606100b115656be0ea9f69b6bc3bd1ce4f"
+    },
+    "productPredictionProjection": {
+      "path": "tool/polychord/product_prediction_projection.py",
+      "sha256": "e573e70fc51eab4eb75050b5788b2d7c76ad4aff4a9bb4af45927b9c7dd74746"
+    },
+    "productPredictionProjectionTests": {
+      "path": "tool/polychord/product_prediction_projection_test.py",
+      "sha256": "f0eebe4df3bfbbeb2a7a8828a175bb5fcba3ae5426737c371f3c07da55f9c6b1"
+    },
+    "productSuiteSpecification": {
+      "path": "research/polychord/product-suite-v1.md",
+      "sha256": "497ee2a52f630eb34b65056609fca381f990fe6a96326fe1417d904179a91e07"
+    },
+    "productSuiteValidator": {
+      "path": "tool/polychord/product_suite.py",
+      "sha256": "8f86f006b312b4bb73d3442a48728f3120b38f9975048e6d79e230cfe31db887"
+    },
+    "pythonWorker": {
+      "path": "tool/polychord/prior_art_python_worker.py",
+      "sha256": "75b2c10cd23f0b6271256a7eaa83810484b3221f1cb1b37e28f67da0e517d6e3"
+    },
+    "smokeHarness": {
+      "path": "tool/polychord/prior_art_baseline_smoke.py",
+      "sha256": "154ef6676e50dbce0f1265cf63b13138281adde2c9aebf063a0f5fd1dccfb833"
+    },
+    "whatChordDartWorker": {
+      "path": "tool/polychord/prior_art_whatchord_batch.dart",
+      "sha256": "264d09d7a8414fb9aa322b71f1ba35a877dba229ddaf16e27e2486bc9ebc2ea2"
+    }
+  },
+  "generatedEvidence": {
+    "runtimeManifest": {
+      "path": "build/polychord/prior-art-env-v1/runtime-manifest-v1.json",
+      "sha256": "67d3c364565e2347a72cf779465b5f52eb7f9a8b3ccd1157b95c464a63ff11d5"
+    },
+    "smokeReport": {
+      "path": "build/polychord/prior-art-adapter-smoke-v1.json",
+      "sha256": "b945f9b7110b07a3e72649831ee3d8779301982822ca8f53055faf537d246038"
+    }
+  },
+  "runtimes": {
+    "chordrecgen-3790a4d-swift": {
+      "archiveSha256": "6f5bb36fda9156e1dff518387dcf8e95e788f342ec1963cb715573d3541994eb",
+      "executableSha256": "5951eeeab551d582994464d252ea25498cbf7d22a308113c6cf84e856c72ca4a",
+      "swiftVersion": "Apple Swift version 6.3.3 (swiftlang-6.3.3.1.3 clang-2100.1.1.101), arm64-apple-macosx26.0"
+    },
+    "musicpy-7.15-poly-chord-first": {
+      "archiveSha256": "b6e10025648632a666ce99b0647655158a87dc554ebd9edbb9547d87fbf2a3e1",
+      "distributions": {
+        "mido_fix": "1.2.12",
+        "musicpy": "7.15",
+        "pip": "25.0.1",
+        "pygame-ce": "2.5.8",
+        "setuptools": "80.9.0",
+        "wheel": "0.45.1"
+      },
+      "platform": "macOS-26.5.2-arm64-arm-64bit",
+      "pythonVersion": "3.12.13"
+    },
+    "python-mingus-6558cac-polychords": {
+      "archiveSha256": "b0723787b69943940ca7ad1c7dffa3cb27eb83755a2a1bc25f8a8f90cd935462",
+      "distributions": {
+        "mingus": "0.6.1",
+        "pip": "25.0.1",
+        "setuptools": "80.9.0",
+        "six": "1.17.0",
+        "wheel": "0.45.1"
+      },
+      "platform": "macOS-26.5.2-arm64-arm-64bit",
+      "pythonVersion": "3.12.13"
+    }
+  },
+  "smoke": {
+    "baselineCount": 4,
+    "controlCountPerBaseline": 7,
+    "allPass": true,
+    "suiteTargetsExecuted": 0,
+    "productPredictionsProduced": 0,
+    "productScoresProduced": 0
+  }
+}
