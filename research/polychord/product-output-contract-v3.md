@@ -133,8 +133,7 @@ The selector's exact reason vocabulary is:
 - `ambiguous-exact-assignment`;
 - `integrated-tertian-reading`;
 - `layer-separation-not-supported`; and
-- `missing-layer-separation-history`; and
-- `multiple-unresolved-identities`.
+- `missing-layer-separation-history`.
 
 These are diagnostic tokens, not user-facing messages.
 
@@ -185,8 +184,8 @@ The reducer has `absent`, `pending`, and `visible` states:
 - Loss of authorization clears pending or visible state immediately.
 - A different valid key clears the old visible state, starts a new pending
   interval at the current timestamp, and cannot inherit elapsed time.
-- Silence, primary-display loss, support loss, changed assignment or instance,
-  and tracker reset clear immediately.
+- Silence, primary-display loss, raw-selector abstention, changed assignment or
+  instance, and tracker reset clear immediately.
 - A timer observation at the pending deadline promotes only when the latest
   product observation still carries the same valid key.
 
@@ -202,17 +201,15 @@ Stable-display diagnostic reasons are:
   selector abstains;
 - `primary-not-displayable`;
 - `silence`;
-- `layer-separation-support-lost` when the exact candidate and instance binding
-  remain but its onset record is no longer positive;
 - `invalidated-support-binding` when the candidate assignment remains equal but
   an onset-event identity changes;
 - `authorization-key-changed` for any other new valid key; and
 - `tracker-reset`.
 
 When several descriptions apply, reset precedes silence, primary loss,
-invalidated binding, support loss, raw abstention, and key change. The complete
-product observation retains the underlying facts so this transition reason does
-not hide the selector reason.
+invalidated binding, raw abstention, and key change. The complete product
+observation retains the underlying facts so this transition reason does not hide
+the selector reason.
 
 ## Presentation and feature isolation
 

@@ -13,7 +13,7 @@ polychords have separated attacks.
 
 | Artifact                            | SHA-256                                                            |
 | ----------------------------------- | ------------------------------------------------------------------ |
-| Product-completion plan             | `1ed73d03051cf65cfc0c7217af61f5d544d481d9f9fc87eac3be9afc3ef73b7f` |
+| Product-completion plan             | `d8c8de418fc5fda1cfd2ad5648632057a84be9c806431f1e4141a767fba16eb3` |
 | Framework v0                        | `3694429bca2c4e4782d9a9c2b32fec00558d7b2ba8d3dd59890a1b7c5cf13615` |
 | Output/evaluation contract v1       | `e698a659800a16ea5bcb94942ed69fe1a5adb0fa4d60257bd1054979055ecb44` |
 | Register-candidate schema           | `533c20205d07e14291029af3455c366e0605d1a5c4b96311be85879069f22538` |
@@ -148,10 +148,9 @@ For every frame:
    positive. If none remains and at least one candidate entering this step has
    complete neutral support, abstain with `layer-separation-not-supported`.
    Otherwise abstain with `missing-layer-separation-history`.
-5. Find the greatest adjacent-register `gapSemitones` among the positively
-   supported survivors. If exactly one candidate has that gap, select its exact
-   identity, assignment, and sounding-instance binding. Otherwise abstain with
-   `multiple-unresolved-identities`.
+5. Select the sole positive survivor with its exact identity, assignment, and
+   sounding-instance binding. The invariant below proves that a valid input
+   cannot contain more than one positive survivor.
 
 Every comparison is inclusive where stated. Candidate enumeration order,
 identity spelling, root height, layer cardinality, onset order, velocity,
@@ -162,6 +161,24 @@ records differ between assignments. That sacrifices possible coverage rather
 than allowing a temporal rule to resolve a structural ambiguity in the first
 product version.
 
+### Positive-survivor uniqueness
+
+For two different adjacent-register split points, take any note in the nonempty
+register interval between them. At the earlier split that note is in the upper
+layer while every note below the earlier split is in the lower layer. Positive
+support therefore requires their onset intervals to be separated by at least 80
+milliseconds. At the later split those same notes are together in the lower
+layer, whose complete onset interval must span at most 50 milliseconds. Both
+conditions cannot hold because 80 is greater than 50.
+
+The five-quality exact vocabulary also yields at most one identity for either
+side of a fixed split. Therefore at most one exact structural candidate can have
+positive onset support in a valid frame. Assignment and integrated-tertian
+removal cannot increase that count. This makes register-gap ranking unnecessary
+and prevents a structural heuristic from overriding candidate-bound temporal
+evidence. The implementation must assert this invariant, and any violation is an
+implementation or contract defect rather than a musical abstention result.
+
 ## Diagnostics and reason precedence
 
 Each original candidate retains:
@@ -170,7 +187,6 @@ Each original candidate retains:
 - compact, rooted-ninth, and rooted-seventh-extension results;
 - its complete onset cue record and aggregate support;
 - removal by assignment, integrated-tertian, or support stage;
-- greatest-gap membership among positive survivors; and
 - final selection status.
 
 The frame retains the candidate list after each numbered stage. The single
@@ -183,7 +199,6 @@ ambiguous-exact-assignment
 integrated-tertian-reading
 layer-separation-not-supported
 missing-layer-separation-history
-multiple-unresolved-identities
 ```
 
 At the support stage, neutral precedes missing history when both occur because a
@@ -199,8 +214,9 @@ The implementation must provide independent Python and pure-Dart paths and
 establish exact equivalence before the product suite or new corpus output is
 read. Tests must cover all 12 transpositions of the integrated masks, both onset
 orders, exact and just-outside 50/80-millisecond boundaries, incomplete history,
-same-identity assignment ambiguity, widest-gap uniqueness and ties, shared-tone
-and disjoint candidates, and candidate-order invariance.
+same-identity assignment ambiguity, positive-survivor uniqueness across the
+complete structural matrix, shared-tone and disjoint candidates, and
+candidate-order invariance.
 
 The product suite, scorer, baseline adapters, development exposure, app
 integration, and held run remain separate prospective steps. A failure may

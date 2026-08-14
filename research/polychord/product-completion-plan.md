@@ -1,11 +1,14 @@
 # Polychord product completion plan
 
 Status: active product-development plan. The exact product output contract and
-first onset-licensed selector are frozen by log 2026-08-13-09. The product
-suite, scorer, and baseline adapter contract remain the next prospective unit.
-This plan permits an author-adjudicated product-policy experiment and delivery
-path. It does not claim independent annotation, perceptual validity, generalized
-detection accuracy, or publication-ready source coverage.
+first onset-licensed selector are frozen by log 2026-08-13-09 and corrected
+before implementation by log 2026-08-13-10. The product-suite schema, complete
+case inventory, scoring contract, and prior-art adapter contract are now
+preregistered. Their machine-readable fixtures, validator, scorer, dependency
+locks, and adapters are the next implementation unit. This plan permits an
+author-adjudicated product-policy experiment and delivery path. It does not
+claim independent annotation, perceptual validity, generalized detection
+accuracy, or publication-ready source coverage.
 
 The decision is recorded in log 2026-08-13-08. The stricter `polychord-output/2`
 source-admission route remains preserved in `automatic-selection-v2-plan.md` and
@@ -75,9 +78,10 @@ before implementation or evaluation:
    intervals.
 4. Treat neutral, incomplete, unavailable, stale, or differently bound onset
    evidence as automatic abstention.
-5. Resolve multiple supported candidates only by a rule frozen before results;
-   no primary-chord label, source label, corpus annotation, or case identity may
-   be used as a tie-breaker.
+5. Require the onset rule to leave at most one supported adjacent-register
+   candidate. Under the fixed 50/80-millisecond parameters, two different split
+   points cannot both be positive, so no label, register-gap, or iteration-order
+   tie-breaker is permitted.
 6. Require 200 milliseconds of continuous authorization before display and clear
    immediately when authorization or sounding-instance binding is lost.
 
@@ -111,9 +115,10 @@ The product suite must:
 - label authored or score-normalized event timing honestly rather than calling
   it captured performance or independent evidence;
 - cover both layer orders, shared-tone and disjoint candidates, triad and
-  seventh-chord layers, assignment and identity ambiguity, simultaneous and
-  incomplete onsets, exact 50/80-millisecond timing boundaries, sustain,
-  reattack, release, reset, and display transitions; and
+  seventh-chord layers, assignment ambiguity, candidate-bound resolution of
+  multiple structural identities, simultaneous and incomplete onsets, exact
+  50/80-millisecond timing boundaries, sustain, reattack, release, reset, and
+  display transitions; and
 - score construction, cue interpretation, selector decision, and display
   behavior separately.
 
@@ -213,33 +218,40 @@ but no rerun on the same pool may be described as a fresh held result. A later
 release decision must either reserve a new untouched safety source or explicitly
 accept that only development-exposure evidence remains.
 
-The exact product-suite inventory and selector reason precedence still require
-prospective specifications. They are the next work, not optional cleanup after
-an implementation exists.
+`product-suite-v1.md` and `prior-art-baseline-contract-v1.md` now fix the exact
+product-case inventory, scorer behavior, adapter inputs, versions, invocations,
+normalization, and reporting boundaries. They must be implemented and frozen
+before the new selector is implemented or any suite or baseline prediction is
+read.
 
 ## Delivery sequence
 
 Proceed in this order:
 
 1. **Complete:** commit this plan and its dated decision record.
-2. **Output and selector complete; suite and baselines next:**
+2. **Complete, including pre-implementation corrections:**
    `product-output-contract-v3.md`, `onset-register-selector-v1.md`, and log
    2026-08-13-09 freeze `polychord-output/3`, the onset-only cue, exact selector
-   order and reasons, authorization key, and stable-display behavior. Freeze the
-   automatic product suite schema, complete case inventory, scorer, and baseline
-   adapter contract before implementation or prediction.
-3. Implement and cross-check Python and pure-Dart policy paths without reading
+   order and reasons, authorization key, and stable-display behavior. Log
+   2026-08-13-10 records the reachability correction made before implementation
+   or prediction.
+3. **Specification complete; implementation next:** `product-suite-v1.md` and
+   `prior-art-baseline-contract-v1.md` freeze the automatic suite schema,
+   complete case inventory, scorer, acceptance rule, and baseline adapters.
+   Implement their fixtures, validator, scorer, hash-locked environments,
+   adapters, and smoke controls, then freeze the machine-readable artifacts.
+4. Implement and cross-check Python and pure-Dart policy paths without reading
    predictions from the scorer or development corpora.
-4. Run the frozen product suite and prior-art comparison once, retaining all
+5. Run the frozen product suite and prior-art comparison once, retaining all
    case-level outputs.
-5. Run POP909-sample and ASAP development exposure, disposition every stable
+6. Run POP909-sample and ASAP development exposure, disposition every stable
    display, and version any policy correction.
-6. Integrate the passing selector and secondary presentation behind the normal
+7. Integrate the passing selector and secondary presentation behind the normal
    product path, then run all engine, app, accessibility, and performance
    guards.
-7. Freeze the release candidate and run the untouched 808-song POP909 pool once
+8. Freeze the release candidate and run the untouched 808-song POP909 pool once
    as a false-display safety check.
-8. Ship only if every gate passes. Preserve the stronger source-validation and
+9. Ship only if every gate passes. Preserve the stronger source-validation and
    independent-review work as an optional later research track.
 
 This sequence completes a useful and testable product without disguising

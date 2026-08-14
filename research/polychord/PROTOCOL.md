@@ -644,8 +644,14 @@ The following work must be dated and completed in order:
     validation. `product-output-contract-v3.md`,
     `onset-register-selector-v1.md`, and log 2026-08-13-09 now freeze the exact
     onset-only output and selector policy before implementation or prediction.
-    The author-adjudicated product suite, scorer, and baseline adapters remain
-    the next prospective unit.
+    Log 2026-08-13-10 records two pre-implementation reachability corrections:
+    unchanged bindings cannot lose onset support, and the 50/80-ms rule permits
+    at most one positive adjacent split. `product-suite-v1.md` and
+    `prior-art-baseline-contract-v1.md` preregister the complete automatic case
+    inventory, exact scoring rule, and pinned adapter behavior. Their
+    machine-readable fixtures, validator, scorer, locks, adapters, and smoke
+    controls remain the next prospective unit; no product or baseline prediction
+    has been read.
 15. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding
