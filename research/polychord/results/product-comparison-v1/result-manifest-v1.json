@@ -1,0 +1,32 @@
+{
+  "schema": "polychord-product-comparison-result-manifest/1",
+  "status": "retained-frozen-result",
+  "measurementSourceCommit": "14bcde6b9b3cff26895c1698f2f3992bc9ebeb6d",
+  "suiteSha256": "a32b1cf11562dd591a51dd4382dcbfbd472334a5bbc19632ec83fe0583cb214d",
+  "artifacts": {
+    "priorArtCaseLevelReport": {
+      "path": "research/polychord/results/product-comparison-v1/prior-art-comparison-v1.json",
+      "sha256": "5b638a682375d3869c484226dd136969cc41b5be2d3d576cf99cfb990a8118ab"
+    },
+    "productPredictions": {
+      "path": "research/polychord/results/product-comparison-v1/product-predictions-v1.json",
+      "sha256": "d637c5416aa12edb886a86669206b610a4a8947841c7aeb2b8619fee838a59cc"
+    },
+    "productScore": {
+      "path": "research/polychord/results/product-comparison-v1/product-score-v1.json",
+      "sha256": "308d2cb83bbc7f67056bb6616ffbcd4bce518d8a1eb84b7a1fb8bf460ef957c5"
+    },
+    "derivedSummary": {
+      "path": "research/polychord/results/product-comparison-v1/comparison-summary-v1.json",
+      "sha256": "661c8d147eb69340cf909efbcd4b27c8f6ad4cde45581c82205f5d40d8c7140f"
+    },
+    "resultVerifier": {
+      "path": "tool/polychord/prior_art_comparison_result_verify.py",
+      "sha256": "c558d29c828b1945886b767e92056982ad25325878aecaeefdd90270d6d47e0f"
+    },
+    "resultVerifierTests": {
+      "path": "tool/polychord/prior_art_comparison_result_verify_test.py",
+      "sha256": "4057c32b6ec81bf78afb3e6f69bd6b7c3394dc133eb047b9bb3a67055eb3936b"
+    }
+  }
+}
