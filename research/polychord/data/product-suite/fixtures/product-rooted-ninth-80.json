@@ -1,0 +1,160 @@
+{
+  "schema": "polychord-frame-replay/1",
+  "id": "product-rooted-ninth-80",
+  "description": "C major followed by G major forms a rooted C-major-ninth collection despite separated onset cohorts.",
+  "timeBase": "milliseconds",
+  "initialState": {
+    "pressedMidiNotes": [],
+    "sustainedMidiNotes": [],
+    "pedalDown": false
+  },
+  "events": [
+    {
+      "index": 0,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 48,
+      "velocity": 96
+    },
+    {
+      "index": 1,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 52,
+      "velocity": 96
+    },
+    {
+      "index": 2,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 55,
+      "velocity": 96
+    },
+    {
+      "index": 3,
+      "timestampMs": 80,
+      "type": "noteOn",
+      "midiNote": 67,
+      "velocity": 96
+    },
+    {
+      "index": 4,
+      "timestampMs": 80,
+      "type": "noteOn",
+      "midiNote": 71,
+      "velocity": 96
+    },
+    {
+      "index": 5,
+      "timestampMs": 80,
+      "type": "noteOn",
+      "midiNote": 74,
+      "velocity": 96
+    }
+  ],
+  "frames": [
+    {
+      "afterEventIndex": 0,
+      "timestampMs": 0,
+      "pressedMidiNotes": [
+        48
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        48
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 1,
+      "timestampMs": 0,
+      "pressedMidiNotes": [
+        48,
+        52
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        48,
+        52
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 2,
+      "timestampMs": 0,
+      "pressedMidiNotes": [
+        48,
+        52,
+        55
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        48,
+        52,
+        55
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 3,
+      "timestampMs": 80,
+      "pressedMidiNotes": [
+        48,
+        52,
+        55,
+        67
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        48,
+        52,
+        55,
+        67
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 4,
+      "timestampMs": 80,
+      "pressedMidiNotes": [
+        48,
+        52,
+        55,
+        67,
+        71
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        48,
+        52,
+        55,
+        67,
+        71
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 5,
+      "timestampMs": 80,
+      "pressedMidiNotes": [
+        48,
+        52,
+        55,
+        67,
+        71,
+        74
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        48,
+        52,
+        55,
+        67,
+        71,
+        74
+      ],
+      "pedalDown": false
+    }
+  ],
+  "endTimestampMs": 400
+}

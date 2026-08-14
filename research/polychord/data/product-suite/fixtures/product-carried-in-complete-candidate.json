@@ -1,0 +1,51 @@
+{
+  "schema": "polychord-frame-replay/1",
+  "id": "product-carried-in-complete-candidate",
+  "description": "A complete C-major-over-G-minor sonority is present at reset without note-on provenance; a pedal event creates a frame but no onset history.",
+  "timeBase": "milliseconds",
+  "initialState": {
+    "pressedMidiNotes": [
+      43,
+      46,
+      50,
+      60,
+      64,
+      67
+    ],
+    "sustainedMidiNotes": [],
+    "pedalDown": false
+  },
+  "events": [
+    {
+      "index": 0,
+      "timestampMs": 0,
+      "type": "pedal",
+      "down": true
+    }
+  ],
+  "frames": [
+    {
+      "afterEventIndex": 0,
+      "timestampMs": 0,
+      "pressedMidiNotes": [
+        43,
+        46,
+        50,
+        60,
+        64,
+        67
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        43,
+        46,
+        50,
+        60,
+        64,
+        67
+      ],
+      "pedalDown": true
+    }
+  ],
+  "endTimestampMs": 400
+}
