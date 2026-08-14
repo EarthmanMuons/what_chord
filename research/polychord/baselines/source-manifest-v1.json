@@ -1,0 +1,39 @@
+{
+  "schema": "polychord-prior-art-source-manifest/1",
+  "pythonRuntime": "3.12.13",
+  "sources": {
+    "musicpy-7.15-poly-chord-first": {
+      "archiveName": "musicpy-7.15.tar.gz",
+      "archiveSha256": "b6e10025648632a666ce99b0647655158a87dc554ebd9edbb9547d87fbf2a3e1",
+      "archiveUrl": "https://files.pythonhosted.org/packages/33/0d/bf46de4e00961fc8371af9cf90315f9cf55f51cae417a5f0f0c3dae5413b/musicpy-7.15.tar.gz",
+      "dependencyLock": "research/polychord/baselines/musicpy-7.15-requirements.txt",
+      "distribution": "musicpy",
+      "distributionVersion": "7.15"
+    },
+    "python-mingus-6558cac-polychords": {
+      "archiveName": "python-mingus-6558cacffeaab4f084a3eedda12b0e86fd24c430.tar.gz",
+      "archiveSha256": "b0723787b69943940ca7ad1c7dffa3cb27eb83755a2a1bc25f8a8f90cd935462",
+      "archiveUrl": "https://github.com/bspaans/python-mingus/archive/6558cacffeaab4f084a3eedda12b0e86fd24c430.tar.gz",
+      "dependencyLock": "research/polychord/baselines/mingus-6558cac-requirements.txt",
+      "distribution": "mingus",
+      "distributionVersion": "0.6.1"
+    },
+    "chordrecgen-3790a4d-swift": {
+      "archiveName": "ChordRecGen-3790a4df5f1c3bbef4ff0a27c43ddacc020a6639.tar.gz",
+      "archiveSha256": "6f5bb36fda9156e1dff518387dcf8e95e788f342ec1963cb715573d3541994eb",
+      "archiveUrl": "https://github.com/derrickward/ChordRecGen/archive/3790a4df5f1c3bbef4ff0a27c43ddacc020a6639.tar.gz",
+      "sourceRoot": "ChordRecGen-3790a4df5f1c3bbef4ff0a27c43ddacc020a6639/IOS/ChordRecognizeGenerate/ChordRecognizeGenerate",
+      "sourceFiles": {
+        "Chord.swift": "5e6066350634027d1dbec80bd37066a7a3fc3a878baf2423ecee1fe7c35aace1",
+        "ChordDefs.swift": "54fee85c4fdc07d584bfc1caf8c4507f46cd27e8fd188fcb62f25cf1184b829f",
+        "ChordGenerator.swift": "c6280bc57cbce2d4959cbfdee1343d416f1664e6197d1d78cb759acb054356fc",
+        "ChordGroup.swift": "227c78f2464037bc256105dfe15a33801281b46d16181d158b2e5ccbf9ba0860",
+        "ChordRecognizer.swift": "298cd864d529eee14f7d993097e8919f746f8972609f886f01bbc156a69179c2",
+        "Designator.swift": "6f8dc4179fa00c973bdce672881dd7db6cc6dcaf473f2ca063c1b62dc7141b4a",
+        "MIDIConstants.swift": "e1dec2198558be30c73d0dfc13a00db0e106f7bd93d538169dbdb82f2de4dd87",
+        "Tone.swift": "1bfc7687dc30bcea21687fb382cbcba0a5207c2fff377b08e4b4ec52ebcb6f1a",
+        "Triad.swift": "475b1bc77c5943b1c4cba1eb902a6f43ea52dc5668c40d878885b14e911affdf"
+      }
+    }
+  }
+}

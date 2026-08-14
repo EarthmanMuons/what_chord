@@ -34,6 +34,7 @@ DEPENDENCY_FIELDS = {
     "validator",
     "scorer",
     "baselineContract",
+    "baselineFreeze",
 }
 SUITE_FIELDS = {
     "schema",

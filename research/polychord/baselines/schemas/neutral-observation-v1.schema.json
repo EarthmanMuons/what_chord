@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whatchord.app/research/polychord/neutral-observation-v1.schema.json",
+  "title": "Polychord prior-art neutral observation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "observationId",
+    "orderedMidiNotes",
+    "scientificPitchSharps",
+    "pitchClassSharps"
+  ],
+  "properties": {
+    "observationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "orderedMidiNotes": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 127
+      },
+      "uniqueItems": true
+    },
+    "scientificPitchSharps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-G](?:#)?-?[0-9]+$"
+      }
+    },
+    "pitchClassSharps": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "C",
+          "C#",
+          "D",
+          "D#",
+          "E",
+          "F",
+          "F#",
+          "G",
+          "G#",
+          "A",
+          "A#",
+          "B"
+        ]
+      }
+    }
+  }
+}

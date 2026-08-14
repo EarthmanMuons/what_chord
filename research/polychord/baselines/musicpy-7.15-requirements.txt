@@ -1,0 +1,11 @@
+# Hash-locked build and runtime dependencies for the verified musicpy 7.15
+# source distribution. The source archive itself is pinned separately in
+# source-manifest-v1.json.
+setuptools==80.9.0 \
+    --hash=sha256:062d34222ad13e0cc312a4c02d73f059e86a4acbfbdea8f8f76b28c99f306922
+wheel==0.45.1 \
+    --hash=sha256:708e7481cc80179af0e556bbf0cc00b8444c7321e2700b8d8580231d13017248
+mido-fix==1.2.12 \
+    --hash=sha256:8ce7ad87f847de36c7dd3048876581113c4d83367d1f392e5a7a9f9562b3374e
+pygame-ce==2.5.8 \
+    --hash=sha256:0ae2141c81595b4b13b780d325b9ea0016c6647f8b3a6004278b00765a96664d

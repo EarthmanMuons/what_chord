@@ -1,6 +1,6 @@
 {
   "schema": "polychord-product-scorer-controls/1",
-  "suiteSha256": "f3891fb35466ef8019c3785c21bd21fcbfad12375b10283e2c364bf544406af4",
+  "suiteSha256": "a32b1cf11562dd591a51dd4382dcbfbd472334a5bbc19632ec83fe0583cb214d",
   "exactProducerId": "synthetic-exact-control/1",
   "materialization": "Copy every literal suite checkpoint into the prediction schema, then apply at most one declared mutation.",
   "deliberateFailures": [
