@@ -1,0 +1,41 @@
+{
+  "schema": "polychord-prior-art-comparison-freeze/1",
+  "status": "frozen-before-first-baseline-suite-output",
+  "suite": {
+    "path": "research/polychord/data/product-suite/suite-v0.json",
+    "sha256": "a32b1cf11562dd591a51dd4382dcbfbd472334a5bbc19632ec83fe0583cb214d"
+  },
+  "contract": {
+    "path": "research/polychord/prior-art-baseline-contract-v1.md",
+    "sha256": "4d5766117891254bbf64e54ce4689f380610f53d4b90bad35f4bb1f6cde3e75d"
+  },
+  "adapterFreeze": {
+    "path": "research/polychord/baselines/adapter-freeze-v1.json",
+    "sha256": "d2a6f898297badcfb248e47be52ab2022985ee2b67ad93bf7de4e9d268ca3cb4"
+  },
+  "runner": {
+    "path": "tool/polychord/prior_art_baseline_comparison.py",
+    "sha256": "ef29275f7825b469135f3914482d042985cf1abbfa1aea651622c2491f9b2fbe"
+  },
+  "runnerTests": {
+    "path": "tool/polychord/prior_art_baseline_comparison_test.py",
+    "sha256": "a1a398c24ab7a41ff6e69ed1a8ddf7296c9e523211fef018f86541ab548dc49a"
+  },
+  "runtimeManifest": {
+    "path": "build/polychord/prior-art-env-v1/runtime-manifest-v1.json",
+    "sha256": "67d3c364565e2347a72cf779465b5f52eb7f9a8b3ccd1157b95c464a63ff11d5"
+  },
+  "preparedInputs": {
+    "path": "build/polychord/product-comparison-v1/prior-art-inputs-v1.json",
+    "sha256": "7af5f387d7ffc5a21791cbfa90740b430d9b3b77f0d02dfa0cda0190b9b57897",
+    "namedTargetCount": 29,
+    "namedInvocationCount": 28,
+    "streamCount": 20,
+    "changedSoundingFrameCount": 157,
+    "adapterObservationCount": 185
+  },
+  "evaluationWrapper": {
+    "status": "not-run",
+    "reason": "Version 1 reports native static-detector frames; no common temporal wrapper was preregistered."
+  }
+}
