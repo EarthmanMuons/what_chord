@@ -34,6 +34,9 @@ export 'src/polychord/models/polychord_onset_evidence.dart';
 export 'src/polychord/models/polychord_onset_cue_record.dart';
 export 'src/polychord/models/polychord_onset_support.dart';
 export 'src/polychord/models/polychord_onset_tracking_frame.dart';
+export 'src/polychord/models/polychord_product_decision.dart';
+export 'src/polychord/models/polychord_product_onset_cue_record.dart';
+export 'src/polychord/models/polychord_product_output.dart';
 export 'src/polychord/models/polychord_release_pedal_evidence.dart';
 export 'src/polychord/models/polychord_sounding_instance_key.dart';
 export 'src/polychord/models/polychord_temporal_event.dart';
@@ -43,12 +46,18 @@ export 'src/polychord/services/polychord_onset_cue_record_builder.dart';
 export 'src/polychord/services/polychord_onset_tracker.dart';
 export 'src/polychord/services/polychord_coherent_separated_onset_interpreter.dart';
 export 'src/polychord/services/polychord_frame_transition_evidence_analyzer.dart';
+export 'src/polychord/services/polychord_continuous_authorization_gate.dart';
+export 'src/polychord/services/polychord_onset_register_selector.dart';
 export 'src/polychord/services/polychord_register_candidate_generator.dart';
 export 'src/polychord/services/polychord_register_selector.dart';
 export 'src/polychord/services/polychord_release_pedal_evidence_analyzer.dart';
 export 'src/polychord/services/polychord_release_pedal_tracker.dart';
 export 'src/polychord/services/polychord_rigid_layer_motion_interpreter.dart';
 export 'src/polychord/services/polychord_stable_display_gate.dart';
+export 'src/polychord/services/polychord_product_authorizer.dart';
+export 'src/polychord/services/polychord_product_engine.dart';
+export 'src/polychord/services/polychord_product_onset_cue_record_builder.dart';
+export 'src/polychord/services/polychord_product_onset_interpreter.dart';
 
 // Domain services
 export 'src/services/chord_member_degree_formatter.dart';
