@@ -1,0 +1,433 @@
+{
+  "authority": "derived-description-raw-case-level-results-are-authoritative",
+  "baselines": [
+    {
+      "adaptedStreams": {
+        "changedSoundingFrameCount": 157,
+        "compositeFrameCount": 15,
+        "exceptionFrames": 0,
+        "failureFrames": 0,
+        "identityChanges": 16,
+        "knownCompositeDwellMs": 3640,
+        "noOutputFrames": 142,
+        "resultStatusCounts": {
+          "build-unavailable": 0,
+          "exception": 0,
+          "no-output": 142,
+          "ok": 15,
+          "timeout": 0,
+          "unparseable": 0
+        },
+        "streamCount": 20
+      },
+      "baselineId": "whatchord-register-policy-1",
+      "namedSnapshots": {
+        "assignmentExact": {
+          "count": 14,
+          "eligible": 14
+        },
+        "compositeEmitted": {
+          "count": 14,
+          "eligible": 28
+        },
+        "coverageExclusionCount": 1,
+        "evaluatedTargetCount": 28,
+        "failureCount": 0,
+        "guardAbstention": {
+          "count": 13,
+          "eligible": 13
+        },
+        "guardViolationTargetIds": [],
+        "orderedCompositeExact": {
+          "count": 14,
+          "eligible": 14
+        },
+        "orderedCoverageExclusionTargetIds": [
+          "named-internal-stravinsky-augurs-r13"
+        ],
+        "positiveExactTargetIds": [
+          "named-internal-herrmann-pass-first-a-flat-minor-attack",
+          "named-internal-ives-psalm-67-opening",
+          "named-internal-stravinsky-three-movements-g-over-a-flat-seven",
+          "named-internal-synthetic-d-sharp-seven-over-e",
+          "named-internal-synthetic-layered-c-over-g-minor",
+          "named-internal-synthetic-separated-f-sharp-over-c",
+          "named-disjoint-upper-first-80-positive",
+          "named-upper-seventh-positive",
+          "named-lower-seventh-multiple-identities-positive",
+          "named-synchronous-cohorts-neutral",
+          "named-carried-in-onsets-incomplete",
+          "named-cohort-50-gap-80-positive",
+          "named-cohort-51-neutral",
+          "named-gap-79-neutral"
+        ],
+        "positiveMissedTargetIds": [],
+        "resultStatusCounts": {
+          "build-unavailable": 0,
+          "exception": 0,
+          "no-output": 14,
+          "ok": 14,
+          "timeout": 0,
+          "unparseable": 0
+        },
+        "targetCount": 29,
+        "unorderedComponents": {
+          "eligible": 30,
+          "matched": 28
+        }
+      }
+    },
+    {
+      "adaptedStreams": {
+        "changedSoundingFrameCount": 157,
+        "compositeFrameCount": 36,
+        "exceptionFrames": 9,
+        "failureFrames": 9,
+        "identityChanges": 3,
+        "knownCompositeDwellMs": 3970,
+        "noOutputFrames": 0,
+        "resultStatusCounts": {
+          "build-unavailable": 0,
+          "exception": 9,
+          "no-output": 0,
+          "ok": 148,
+          "timeout": 0,
+          "unparseable": 0
+        },
+        "streamCount": 20
+      },
+      "baselineId": "musicpy-7.15-poly-chord-first",
+      "namedSnapshots": {
+        "assignmentExact": {
+          "count": 5,
+          "eligible": 14
+        },
+        "compositeEmitted": {
+          "count": 18,
+          "eligible": 28
+        },
+        "coverageExclusionCount": 1,
+        "evaluatedTargetCount": 28,
+        "failureCount": 0,
+        "guardAbstention": {
+          "count": 10,
+          "eligible": 13
+        },
+        "guardViolationTargetIds": [
+          "named-internal-strauss-elektra-chord-overlap",
+          "named-internal-synthetic-d-over-c-major-seven",
+          "named-rooted-seventh-extension-before-cue"
+        ],
+        "orderedCompositeExact": {
+          "count": 5,
+          "eligible": 14
+        },
+        "orderedCoverageExclusionTargetIds": [
+          "named-internal-stravinsky-augurs-r13"
+        ],
+        "positiveExactTargetIds": [
+          "named-internal-herrmann-pass-first-a-flat-minor-attack",
+          "named-internal-synthetic-d-sharp-seven-over-e",
+          "named-internal-synthetic-separated-f-sharp-over-c",
+          "named-disjoint-upper-first-80-positive",
+          "named-upper-seventh-positive"
+        ],
+        "positiveMissedTargetIds": [
+          "named-internal-ives-psalm-67-opening",
+          "named-internal-stravinsky-three-movements-g-over-a-flat-seven",
+          "named-internal-synthetic-layered-c-over-g-minor",
+          "named-lower-seventh-multiple-identities-positive",
+          "named-synchronous-cohorts-neutral",
+          "named-carried-in-onsets-incomplete",
+          "named-cohort-50-gap-80-positive",
+          "named-cohort-51-neutral",
+          "named-gap-79-neutral"
+        ],
+        "resultStatusCounts": {
+          "build-unavailable": 0,
+          "exception": 0,
+          "no-output": 0,
+          "ok": 28,
+          "timeout": 0,
+          "unparseable": 0
+        },
+        "targetCount": 29,
+        "unorderedComponents": {
+          "eligible": 30,
+          "matched": 12
+        }
+      }
+    },
+    {
+      "adaptedStreams": {
+        "changedSoundingFrameCount": 157,
+        "compositeFrameCount": 5,
+        "exceptionFrames": 0,
+        "failureFrames": 0,
+        "identityChanges": 5,
+        "knownCompositeDwellMs": 600,
+        "noOutputFrames": 84,
+        "resultStatusCounts": {
+          "build-unavailable": 0,
+          "exception": 0,
+          "no-output": 84,
+          "ok": 73,
+          "timeout": 0,
+          "unparseable": 0
+        },
+        "streamCount": 20
+      },
+      "baselineId": "python-mingus-6558cac-polychords",
+      "namedSnapshots": {
+        "assignmentExact": {
+          "count": 0,
+          "eligible": 0
+        },
+        "compositeEmitted": {
+          "count": 8,
+          "eligible": 28
+        },
+        "coverageExclusionCount": 1,
+        "evaluatedTargetCount": 28,
+        "failureCount": 0,
+        "guardAbstention": {
+          "count": 7,
+          "eligible": 13
+        },
+        "guardViolationTargetIds": [
+          "named-internal-hancock-maiden-voyage-a-minor-seven-over-d",
+          "named-internal-synthetic-c-major-seven-accompaniment",
+          "named-internal-synthetic-integrated-d-six",
+          "named-internal-synthetic-same-root-c-major-registers",
+          "named-compact-integrated-before-cue",
+          "named-rooted-ninth-before-cue"
+        ],
+        "orderedCompositeExact": {
+          "count": 2,
+          "eligible": 14
+        },
+        "orderedCoverageExclusionTargetIds": [
+          "named-internal-stravinsky-augurs-r13"
+        ],
+        "positiveExactTargetIds": [
+          "named-internal-synthetic-separated-f-sharp-over-c",
+          "named-disjoint-upper-first-80-positive"
+        ],
+        "positiveMissedTargetIds": [
+          "named-internal-herrmann-pass-first-a-flat-minor-attack",
+          "named-internal-ives-psalm-67-opening",
+          "named-internal-stravinsky-three-movements-g-over-a-flat-seven",
+          "named-internal-synthetic-d-sharp-seven-over-e",
+          "named-internal-synthetic-layered-c-over-g-minor",
+          "named-upper-seventh-positive",
+          "named-lower-seventh-multiple-identities-positive",
+          "named-synchronous-cohorts-neutral",
+          "named-carried-in-onsets-incomplete",
+          "named-cohort-50-gap-80-positive",
+          "named-cohort-51-neutral",
+          "named-gap-79-neutral"
+        ],
+        "resultStatusCounts": {
+          "build-unavailable": 0,
+          "exception": 0,
+          "no-output": 20,
+          "ok": 8,
+          "timeout": 0,
+          "unparseable": 0
+        },
+        "targetCount": 29,
+        "unorderedComponents": {
+          "eligible": 30,
+          "matched": 4
+        }
+      }
+    },
+    {
+      "adaptedStreams": {
+        "changedSoundingFrameCount": 157,
+        "compositeFrameCount": 6,
+        "exceptionFrames": 0,
+        "failureFrames": 0,
+        "identityChanges": 1,
+        "knownCompositeDwellMs": 800,
+        "noOutputFrames": 42,
+        "resultStatusCounts": {
+          "build-unavailable": 0,
+          "exception": 0,
+          "no-output": 42,
+          "ok": 115,
+          "timeout": 0,
+          "unparseable": 0
+        },
+        "streamCount": 20
+      },
+      "baselineId": "chordrecgen-3790a4d-swift",
+      "namedSnapshots": {
+        "assignmentExact": {
+          "count": 2,
+          "eligible": 14
+        },
+        "compositeEmitted": {
+          "count": 7,
+          "eligible": 28
+        },
+        "coverageExclusionCount": 1,
+        "evaluatedTargetCount": 28,
+        "failureCount": 0,
+        "guardAbstention": {
+          "count": 11,
+          "eligible": 13
+        },
+        "guardViolationTargetIds": [
+          "named-internal-synthetic-d-over-c-major-seven",
+          "named-rooted-seventh-extension-before-cue"
+        ],
+        "orderedCompositeExact": {
+          "count": 2,
+          "eligible": 14
+        },
+        "orderedCoverageExclusionTargetIds": [
+          "named-internal-stravinsky-augurs-r13"
+        ],
+        "positiveExactTargetIds": [
+          "named-internal-stravinsky-three-movements-g-over-a-flat-seven",
+          "named-lower-seventh-multiple-identities-positive"
+        ],
+        "positiveMissedTargetIds": [
+          "named-internal-herrmann-pass-first-a-flat-minor-attack",
+          "named-internal-ives-psalm-67-opening",
+          "named-internal-synthetic-d-sharp-seven-over-e",
+          "named-internal-synthetic-layered-c-over-g-minor",
+          "named-internal-synthetic-separated-f-sharp-over-c",
+          "named-disjoint-upper-first-80-positive",
+          "named-upper-seventh-positive",
+          "named-synchronous-cohorts-neutral",
+          "named-carried-in-onsets-incomplete",
+          "named-cohort-50-gap-80-positive",
+          "named-cohort-51-neutral",
+          "named-gap-79-neutral"
+        ],
+        "resultStatusCounts": {
+          "build-unavailable": 0,
+          "exception": 0,
+          "no-output": 0,
+          "ok": 28,
+          "timeout": 0,
+          "unparseable": 0
+        },
+        "targetCount": 29,
+        "unorderedComponents": {
+          "eligible": 30,
+          "matched": 4
+        }
+      }
+    }
+  ],
+  "inputSummary": {
+    "adapterObservationCount": 185,
+    "changedSoundingFrameCount": 157,
+    "namedInvocationCount": 28,
+    "namedTargetCount": 29,
+    "streamCount": 20
+  },
+  "product": {
+    "checkpointCount": 108,
+    "producerId": "whatchord-polychord-product-dart/1",
+    "scorerId": "polychord-product-exact-scorer/1",
+    "suiteExactGatePass": true,
+    "suiteSha256": "a32b1cf11562dd591a51dd4382dcbfbd472334a5bbc19632ec83fe0583cb214d",
+    "summaryByStratum": {
+      "authored-contract-mechanics": {
+        "authorization": {
+          "eligible": 32,
+          "exact": 32
+        },
+        "candidates": {
+          "eligible": 32,
+          "exact": 32
+        },
+        "construction": {
+          "eligible": 32,
+          "exact": 32
+        },
+        "cueRecords": {
+          "eligible": 32,
+          "exact": 32
+        },
+        "display": {
+          "eligible": 32,
+          "exact": 32
+        },
+        "frame": {
+          "eligible": 32,
+          "exact": 32
+        },
+        "rawDecision": {
+          "eligible": 32,
+          "exact": 32
+        }
+      },
+      "authored-musical-policy": {
+        "authorization": {
+          "eligible": 28,
+          "exact": 28
+        },
+        "candidates": {
+          "eligible": 28,
+          "exact": 28
+        },
+        "construction": {
+          "eligible": 28,
+          "exact": 28
+        },
+        "cueRecords": {
+          "eligible": 28,
+          "exact": 28
+        },
+        "display": {
+          "eligible": 28,
+          "exact": 28
+        },
+        "frame": {
+          "eligible": 28,
+          "exact": 28
+        },
+        "rawDecision": {
+          "eligible": 28,
+          "exact": 28
+        }
+      },
+      "inherited-source": {
+        "authorization": {
+          "eligible": 48,
+          "exact": 48
+        },
+        "candidates": {
+          "eligible": 48,
+          "exact": 48
+        },
+        "construction": {
+          "eligible": 24,
+          "exact": 24
+        },
+        "cueRecords": {
+          "eligible": 48,
+          "exact": 48
+        },
+        "display": {
+          "eligible": 48,
+          "exact": 48
+        },
+        "frame": {
+          "eligible": 48,
+          "exact": 48
+        },
+        "rawDecision": {
+          "eligible": 48,
+          "exact": 48
+        }
+      }
+    }
+  },
+  "schema": "polychord-product-comparison-summary/1"
+}

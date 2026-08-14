@@ -1,0 +1,1645 @@
+{
+  "schema": "polychord-product-score/1",
+  "scorerId": "polychord-product-exact-scorer/1",
+  "suiteSha256": "a32b1cf11562dd591a51dd4382dcbfbd472334a5bbc19632ec83fe0583cb214d",
+  "producerId": "whatchord-polychord-product-dart/1",
+  "results": [
+    {
+      "caseId": "petrushka-r49-structural-abstention",
+      "stratum": "inherited-source",
+      "checkpoints": [
+        {
+          "actionId": "event-0",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-1",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-2",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-3",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-4",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-6",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-7",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-8",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-9",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-10",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-11",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-12",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-13",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-14",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-15",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-16",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-17",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-18",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-19",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-20",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-21",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-22",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-23",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": null,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "shrovetide-integrated-boundary",
+      "stratum": "inherited-source",
+      "checkpoints": [
+        {
+          "actionId": "event-0",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-1",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-2",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-3",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-4",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-6",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-7",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-8",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-9",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-10",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-11",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-12",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-13",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-14",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-15",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-16",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-17",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "shared-lower-first-positive-and-release",
+      "stratum": "inherited-source",
+      "checkpoints": [
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-599",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-600",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-601",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-6",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-11",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "disjoint-upper-first-80-positive",
+      "stratum": "authored-musical-policy",
+      "checkpoints": [
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-279",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-280",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "upper-seventh-positive",
+      "stratum": "authored-musical-policy",
+      "checkpoints": [
+        {
+          "actionId": "event-7",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-279",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-280",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "lower-seventh-multiple-identities-positive",
+      "stratum": "authored-musical-policy",
+      "checkpoints": [
+        {
+          "actionId": "event-6",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-279",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-280",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "assignment-ambiguity-before-cue",
+      "stratum": "authored-musical-policy",
+      "checkpoints": [
+        {
+          "actionId": "event-6",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-280",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "compact-integrated-before-cue",
+      "stratum": "authored-musical-policy",
+      "checkpoints": [
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-280",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "rooted-ninth-before-cue",
+      "stratum": "authored-musical-policy",
+      "checkpoints": [
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-280",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "rooted-seventh-extension-before-cue",
+      "stratum": "authored-musical-policy",
+      "checkpoints": [
+        {
+          "actionId": "event-6",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-280",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "synchronous-cohorts-neutral",
+      "stratum": "authored-musical-policy",
+      "checkpoints": [
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-200",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "carried-in-onsets-incomplete",
+      "stratum": "authored-musical-policy",
+      "checkpoints": [
+        {
+          "actionId": "event-0",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-200",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "cohort-50-gap-80-positive",
+      "stratum": "authored-musical-policy",
+      "checkpoints": [
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-379",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-380",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "cohort-51-neutral",
+      "stratum": "authored-musical-policy",
+      "checkpoints": [
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-381",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "gap-79-neutral",
+      "stratum": "authored-musical-policy",
+      "checkpoints": [
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-279",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "pedal-held-release-stable-then-silence",
+      "stratum": "authored-contract-mechanics",
+      "checkpoints": [
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-279",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-280",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-6",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-7",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-8",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-9",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-10",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-11",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-12",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-13",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "reattack-invalidates-binding",
+      "stratum": "authored-contract-mechanics",
+      "checkpoints": [
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-279",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-280",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-6",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-7",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-8",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "primary-gate-clears-and-restarts",
+      "stratum": "authored-contract-mechanics",
+      "checkpoints": [
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-279",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-280",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "primaryAvailability-300",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "primaryAvailability-310",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-509",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-510",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "tracker-reset-clears",
+      "stratum": "authored-contract-mechanics",
+      "checkpoints": [
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-280",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "trackerReset-300",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    },
+    {
+      "caseId": "pending-key-change-restarts-deadline",
+      "stratum": "authored-contract-mechanics",
+      "checkpoints": [
+        {
+          "actionId": "event-5",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "event-6",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-280",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-299",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        },
+        {
+          "actionId": "timer-300",
+          "metrics": {
+            "frameExact": true,
+            "constructionExact": true,
+            "candidatesExact": true,
+            "cueRecordsExact": true,
+            "rawDecisionExact": true,
+            "authorizationExact": true,
+            "displayExact": true
+          },
+          "checkpointExact": true
+        }
+      ],
+      "caseExact": true
+    }
+  ],
+  "summaryByStratum": {
+    "inherited-source": {
+      "frame": {
+        "exact": 48,
+        "eligible": 48
+      },
+      "construction": {
+        "exact": 24,
+        "eligible": 24
+      },
+      "candidates": {
+        "exact": 48,
+        "eligible": 48
+      },
+      "cueRecords": {
+        "exact": 48,
+        "eligible": 48
+      },
+      "rawDecision": {
+        "exact": 48,
+        "eligible": 48
+      },
+      "authorization": {
+        "exact": 48,
+        "eligible": 48
+      },
+      "display": {
+        "exact": 48,
+        "eligible": 48
+      }
+    },
+    "authored-musical-policy": {
+      "frame": {
+        "exact": 28,
+        "eligible": 28
+      },
+      "construction": {
+        "exact": 28,
+        "eligible": 28
+      },
+      "candidates": {
+        "exact": 28,
+        "eligible": 28
+      },
+      "cueRecords": {
+        "exact": 28,
+        "eligible": 28
+      },
+      "rawDecision": {
+        "exact": 28,
+        "eligible": 28
+      },
+      "authorization": {
+        "exact": 28,
+        "eligible": 28
+      },
+      "display": {
+        "exact": 28,
+        "eligible": 28
+      }
+    },
+    "authored-contract-mechanics": {
+      "frame": {
+        "exact": 32,
+        "eligible": 32
+      },
+      "construction": {
+        "exact": 32,
+        "eligible": 32
+      },
+      "candidates": {
+        "exact": 32,
+        "eligible": 32
+      },
+      "cueRecords": {
+        "exact": 32,
+        "eligible": 32
+      },
+      "rawDecision": {
+        "exact": 32,
+        "eligible": 32
+      },
+      "authorization": {
+        "exact": 32,
+        "eligible": 32
+      },
+      "display": {
+        "exact": 32,
+        "eligible": 32
+      }
+    }
+  },
+  "suiteExactGatePass": true
+}
