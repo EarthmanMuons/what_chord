@@ -11,6 +11,7 @@ import 'package:whatchord_app/features/input/input.dart';
 import 'package:whatchord_app/features/theory/theory.dart';
 
 import '../models/home_layout_config.dart';
+import 'analysis_secondary_results.dart';
 import 'chord_ranking_details_sheet.dart';
 import 'identity_card.dart';
 
@@ -137,15 +138,15 @@ class AnalysisSection extends ConsumerWidget {
                                 ),
                                 child: KeyedSubtree(
                                   key: tourKeys.alternatives,
-                                  child: AlternativeChordCandidatesList(
-                                    enabled: true,
+                                  child: AnalysisSecondaryResults(
                                     alignment: Alignment.topCenter,
                                     textAlign: TextAlign.center,
-                                    gap: 8,
+                                    alternativeGap: 8,
                                     textScaleMultiplier:
                                         config.alternativeTextScale,
-                                    tappableWhenEmpty: identity is ChordDisplay,
-                                    onTap: () => unawaited(
+                                    tappableWhenAlternativesEmpty:
+                                        identity is ChordDisplay,
+                                    onAlternativesTap: () => unawaited(
                                       showChordRankingDetailsSheet(
                                         context,
                                         snapshot:

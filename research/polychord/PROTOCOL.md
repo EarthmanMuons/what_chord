@@ -38,6 +38,13 @@ policy. `product-completion-plan.md` and log 2026-08-13-08 define a separate
 product track under a new output and selector identity without weakening the
 preserved `polychord-output/2` contract.
 
+The author-adjudicated product path has since passed its frozen suite,
+development exposure, and prior-art comparison through log 2026-08-14-06. Log
+2026-08-14-07 records app integration and automated presentation, history,
+diagnostic, primary-isolation, and unchanged-engine guards. The dedicated
+polychord performance and hands-on device checks remain; the held POP909 reserve
+has not been opened.
+
 ## Task and claim boundary
 
 Determine whether WhatChord should name a sonority as two chordal layers, when
@@ -634,24 +641,17 @@ The following work must be dated and completed in order:
     under either profile, no selector is run, and the held reserve remains
     untouched. Log 2026-08-12-07 preserves the correction to the initial guard
     interpretation and the stronger frozen control requirement.
-14. Product completion track: active. `product-completion-plan.md` and log
-    2026-08-13-08 separate the product claim from the stronger source-validation
-    claim. The product route uses an author-adjudicated automatic ruler, a new
-    output and selector identity, onset-only licensing under a fixed first
-    hypothesis, frozen prior-art adapters, development false-display exposure,
-    complete engine and presentation guards, and one final run on the untouched
-    POP909 pool. It does not claim generalized accuracy or independent
-    validation. `product-output-contract-v3.md`,
-    `onset-register-selector-v1.md`, and log 2026-08-13-09 now freeze the exact
-    onset-only output and selector policy before implementation or prediction.
-    Log 2026-08-13-10 records two pre-implementation reachability corrections:
-    unchanged bindings cannot lose onset support, and the 50/80-ms rule permits
-    at most one positive adjacent split. `product-suite-v1.md` and
-    `prior-art-baseline-contract-v1.md` preregister the complete automatic case
-    inventory, exact scoring rule, and pinned adapter behavior. Their
-    machine-readable fixtures, validator, scorer, locks, adapters, and smoke
-    controls remain the next prospective unit; no product or baseline prediction
-    has been read.
+14. Product completion track: active. `product-completion-plan.md` and logs
+    2026-08-13-08 through 2026-08-14-06 preserve the frozen contract, policy,
+    suite, equivalent Python and Dart implementations, development exposure, and
+    prior-art comparison. Log 2026-08-14-07 records integration into the app's
+    normalized timestamped-event path and accessible secondary output. Automated
+    engine, app, presentation, diagnostic, history-isolation, and
+    unchanged-primary benchmark guards pass. Dedicated polychord performance
+    measurement and hands-on MIDI, accessibility, and note-storm checks remain
+    before the release candidate can be frozen. The held POP909 reserve remains
+    untouched, and the product claim remains author-adjudicated rather than an
+    independently validated accuracy claim.
 15. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding

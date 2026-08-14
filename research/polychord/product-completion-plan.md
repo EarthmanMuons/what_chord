@@ -1,14 +1,14 @@
 # Polychord product completion plan
 
-Status: active product-development plan. The exact product output contract and
-first onset-licensed selector are frozen by log 2026-08-13-09 and corrected
-before implementation by log 2026-08-13-10. The product-suite schema, complete
-case inventory, scoring contract, and prior-art adapter contract are now
-preregistered. Their machine-readable fixtures, validator, scorer, dependency
-locks, and adapters are the next implementation unit. This plan permits an
-author-adjudicated product-policy experiment and delivery path. It does not
-claim independent annotation, perceptual validity, generalized detection
-accuracy, or publication-ready source coverage.
+Status: active product-development plan. The exact product contract, selector,
+suite, implementations, development exposure, and prior-art comparison are
+complete through log 2026-08-14-06. Log 2026-08-14-07 records integration of the
+passing pure-Dart policy into the app's normalized MIDI path and secondary
+presentation. Dedicated polychord performance measurement, hands-on device and
+accessibility checks, release-candidate freeze, and the one final held exposure
+remain. This plan permits an author-adjudicated product-policy experiment and
+delivery path. It does not claim independent annotation, perceptual validity,
+generalized detection accuracy, or publication-ready source coverage.
 
 The decision is recorded in log 2026-08-13-08. The stricter `polychord-output/2`
 source-admission route remains preserved in `automatic-selection-v2-plan.md` and
@@ -235,20 +235,20 @@ Proceed in this order:
    order and reasons, authorization key, and stable-display behavior. Log
    2026-08-13-10 records the reachability correction made before implementation
    or prediction.
-3. **Specification complete; implementation next:** `product-suite-v1.md` and
-   `prior-art-baseline-contract-v1.md` freeze the automatic suite schema,
-   complete case inventory, scorer, acceptance rule, and baseline adapters.
-   Implement their fixtures, validator, scorer, hash-locked environments,
-   adapters, and smoke controls, then freeze the machine-readable artifacts.
-4. Implement and cross-check Python and pure-Dart policy paths without reading
-   predictions from the scorer or development corpora.
-5. Run the frozen product suite and prior-art comparison once, retaining all
-   case-level outputs.
-6. Run POP909-sample and ASAP development exposure, disposition every stable
-   display, and version any policy correction.
-7. Integrate the passing selector and secondary presentation behind the normal
-   product path, then run all engine, app, accessibility, and performance
-   guards.
+3. **Complete:** freeze and implement the product suite, scorer, locks, baseline
+   adapters, fixtures, validator, and smoke controls.
+4. **Complete:** implement and cross-check the Python and pure-Dart policy paths
+   without reading predictions early.
+5. **Complete:** run the frozen product suite and prior-art comparison once,
+   retaining all case-level outputs.
+6. **Complete:** run POP909-sample and ASAP development exposure and disposition
+   every stable display.
+7. **Integration implemented; release guards remain:** the normal app path now
+   owns the normalized event adapter, passing selector, complete diagnostics,
+   stable timer, and accessible secondary presentation. Package and app
+   regressions and the unchanged primary benchmark pass. Complete the dedicated
+   polychord performance measurement and hands-on MIDI, accessibility, and
+   note-storm checks before freezing a release candidate.
 8. Freeze the release candidate and run the untouched 808-song POP909 pool once
    as a false-display safety check.
 9. Ship only if every gate passes. Preserve the stronger source-validation and

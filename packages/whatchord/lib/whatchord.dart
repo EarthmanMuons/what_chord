@@ -37,6 +37,7 @@ export 'src/polychord/models/polychord_onset_tracking_frame.dart';
 export 'src/polychord/models/polychord_product_decision.dart';
 export 'src/polychord/models/polychord_product_onset_cue_record.dart';
 export 'src/polychord/models/polychord_product_output.dart';
+export 'src/polychord/models/polychord_presentation.dart';
 export 'src/polychord/models/polychord_release_pedal_evidence.dart';
 export 'src/polychord/models/polychord_sounding_instance_key.dart';
 export 'src/polychord/models/polychord_temporal_event.dart';
@@ -58,6 +59,7 @@ export 'src/polychord/services/polychord_product_authorizer.dart';
 export 'src/polychord/services/polychord_product_engine.dart';
 export 'src/polychord/services/polychord_product_onset_cue_record_builder.dart';
 export 'src/polychord/services/polychord_product_onset_interpreter.dart';
+export 'src/polychord/services/polychord_presentation_builder.dart';
 
 // Domain services
 export 'src/services/chord_member_degree_formatter.dart';
