@@ -1,0 +1,124 @@
+{
+  "schema": "polychord-product-fixture-manifest/1",
+  "fixtureSchema": "polychord-frame-replay/1",
+  "frameReplayValidator": {
+    "path": "tool/polychord/frame_replay.py",
+    "sha256": "826a593721f14e673a8a70a351ba78f1179b58977a5574fa6f9ece0c430f31f0"
+  },
+  "fixtures": [
+    {
+      "id": "stravinsky-petrushka-r49-arpeggios",
+      "path": "research/polychord/data/frame-replay/stravinsky-petrushka-r49-arpeggios.json",
+      "sha256": "8e751d444245f4763aa379108441076079f387adff69dd6acb2f0db4ff955dc2",
+      "origin": "inherited-replay"
+    },
+    {
+      "id": "stravinsky-shrovetide-oblique-motion",
+      "path": "research/polychord/data/frame-replay/stravinsky-shrovetide-oblique-motion.json",
+      "sha256": "f0c5d955fa97409bea437d3bc729d5560a7d3f229f8a6c8262cc86103dce877b",
+      "origin": "inherited-replay"
+    },
+    {
+      "id": "synchronous-six-note-cohort",
+      "path": "research/polychord/data/frame-replay/synchronous-six-note-cohort.json",
+      "sha256": "76ea3de1622cf5f9955b45109ccd507da33044778f616987768be50a19261146",
+      "origin": "inherited-replay"
+    },
+    {
+      "id": "two-register-held-cohorts",
+      "path": "research/polychord/data/frame-replay/two-register-held-cohorts.json",
+      "sha256": "4026012d9c2073c262a1b3b05608e54cccf5ebe8bad043fe4d868f135d63e05e",
+      "origin": "inherited-replay"
+    },
+    {
+      "id": "product-assignment-ambiguity-80",
+      "path": "research/polychord/data/product-suite/fixtures/product-assignment-ambiguity-80.json",
+      "sha256": "9f36b60548646eb8beb1d5f635852fae24717fca93deee95111460cabb880fd5",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-basic-positive-80",
+      "path": "research/polychord/data/product-suite/fixtures/product-basic-positive-80.json",
+      "sha256": "fa6bd1292aaa9e43fc77bf258ce1d676773eea87cc7f9dba0dd40c58c39861f4",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-carried-in-complete-candidate",
+      "path": "research/polychord/data/product-suite/fixtures/product-carried-in-complete-candidate.json",
+      "sha256": "588b4839351b8d4df345bee81c0146ebe147d8113d7e4e94c4c1abe18b68beb3",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-cohort-50-gap-80",
+      "path": "research/polychord/data/product-suite/fixtures/product-cohort-50-gap-80.json",
+      "sha256": "99f14cd263af7ade9290a8e7e7dc44fba0cc4bb53da29b5d39a8d8f836529fa1",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-cohort-51-gap-80",
+      "path": "research/polychord/data/product-suite/fixtures/product-cohort-51-gap-80.json",
+      "sha256": "64439490708adfa5551b39a3f9fa62e2a75c03580b78669079bc97c2902ff40f",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-compact-integrated-80",
+      "path": "research/polychord/data/product-suite/fixtures/product-compact-integrated-80.json",
+      "sha256": "9f2da9671ba3ca57266657d2c54d97b572ef309030d2cd628ebb3aaa88630274",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-disjoint-upper-first-80",
+      "path": "research/polychord/data/product-suite/fixtures/product-disjoint-upper-first-80.json",
+      "sha256": "6a78af2778f5146fcee14eda68255505ce1a26a4b9c89eb122dfa1bd928797dd",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-gap-79",
+      "path": "research/polychord/data/product-suite/fixtures/product-gap-79.json",
+      "sha256": "16b56334011756add7684f06f20e1c8fc41c9dd3351d040af463b7881bf24aca",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-lower-seventh-multiple-identities-80",
+      "path": "research/polychord/data/product-suite/fixtures/product-lower-seventh-multiple-identities-80.json",
+      "sha256": "354ac45bbd8bf05d3b3ea3b631fe31a499e1203f770be448e8fe896d578479bb",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-pedal-held-release",
+      "path": "research/polychord/data/product-suite/fixtures/product-pedal-held-release.json",
+      "sha256": "a5a5799145ef0be32fb15547df44af0a1e3a879479d13a93945e4909a9b6e858",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-pending-key-change",
+      "path": "research/polychord/data/product-suite/fixtures/product-pending-key-change.json",
+      "sha256": "efbcde058d42e421cddddc5b072f51969c8df9614459bb948160912b4691ad76",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-reattack-binding",
+      "path": "research/polychord/data/product-suite/fixtures/product-reattack-binding.json",
+      "sha256": "ae808703f0cf406ab8d7bee093612571f93dab6a54268827b6a978b97f78f584",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-rooted-ninth-80",
+      "path": "research/polychord/data/product-suite/fixtures/product-rooted-ninth-80.json",
+      "sha256": "21fdbad66d1c23ad5c93df7dec2bc89f2e02c61d33721ea27d92fc19dfcf249b",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-rooted-seventh-extension-80",
+      "path": "research/polychord/data/product-suite/fixtures/product-rooted-seventh-extension-80.json",
+      "sha256": "8590adef9fc8fa3a64886014f0740a03858e57be1489ed765724db06a956d127",
+      "origin": "authored-product-realization"
+    },
+    {
+      "id": "product-upper-seventh-80",
+      "path": "research/polychord/data/product-suite/fixtures/product-upper-seventh-80.json",
+      "sha256": "bdbff6f47458270e392cfd7a718320b864f857620ebad934e69a7af3153d580b",
+      "origin": "authored-product-realization"
+    }
+  ]
+}

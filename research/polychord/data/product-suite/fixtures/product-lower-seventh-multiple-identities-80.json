@@ -1,0 +1,191 @@
+{
+  "schema": "polychord-frame-replay/1",
+  "id": "product-lower-seventh-multiple-identities-80",
+  "description": "An A-flat-dominant-seventh lower cohort is followed by G major, exposing two structural identities with candidate-bound onset evidence.",
+  "timeBase": "milliseconds",
+  "initialState": {
+    "pressedMidiNotes": [],
+    "sustainedMidiNotes": [],
+    "pedalDown": false
+  },
+  "events": [
+    {
+      "index": 0,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 44,
+      "velocity": 96
+    },
+    {
+      "index": 1,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 48,
+      "velocity": 96
+    },
+    {
+      "index": 2,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 51,
+      "velocity": 96
+    },
+    {
+      "index": 3,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 54,
+      "velocity": 96
+    },
+    {
+      "index": 4,
+      "timestampMs": 80,
+      "type": "noteOn",
+      "midiNote": 67,
+      "velocity": 96
+    },
+    {
+      "index": 5,
+      "timestampMs": 80,
+      "type": "noteOn",
+      "midiNote": 71,
+      "velocity": 96
+    },
+    {
+      "index": 6,
+      "timestampMs": 80,
+      "type": "noteOn",
+      "midiNote": 74,
+      "velocity": 96
+    }
+  ],
+  "frames": [
+    {
+      "afterEventIndex": 0,
+      "timestampMs": 0,
+      "pressedMidiNotes": [
+        44
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        44
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 1,
+      "timestampMs": 0,
+      "pressedMidiNotes": [
+        44,
+        48
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        44,
+        48
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 2,
+      "timestampMs": 0,
+      "pressedMidiNotes": [
+        44,
+        48,
+        51
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        44,
+        48,
+        51
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 3,
+      "timestampMs": 0,
+      "pressedMidiNotes": [
+        44,
+        48,
+        51,
+        54
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        44,
+        48,
+        51,
+        54
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 4,
+      "timestampMs": 80,
+      "pressedMidiNotes": [
+        44,
+        48,
+        51,
+        54,
+        67
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        44,
+        48,
+        51,
+        54,
+        67
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 5,
+      "timestampMs": 80,
+      "pressedMidiNotes": [
+        44,
+        48,
+        51,
+        54,
+        67,
+        71
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        44,
+        48,
+        51,
+        54,
+        67,
+        71
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 6,
+      "timestampMs": 80,
+      "pressedMidiNotes": [
+        44,
+        48,
+        51,
+        54,
+        67,
+        71,
+        74
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        44,
+        48,
+        51,
+        54,
+        67,
+        71,
+        74
+      ],
+      "pedalDown": false
+    }
+  ],
+  "endTimestampMs": 400
+}

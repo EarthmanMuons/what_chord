@@ -1,11 +1,12 @@
 # Automatic polychord product suite v1
 
 Status: preregistered schema, complete case inventory, scoring contract, and
-acceptance rule for `polychord-product-suite/1`. No
+acceptance rule for `polychord-product-suite/1`. The isolated 19-fixture product
+manifest and its replay validation were implemented on 2026-08-14. No
 `polychord-onset-register-policy/1` implementation or product prediction has
-been produced. The machine-readable suite, validator, and scorer must implement
-this document exactly and be committed with final dependency digests before
-scoring is enabled.
+been produced. The machine-readable suite, complete suite validator, and scorer
+must implement this document exactly and be committed with final dependency
+digests before scoring is enabled.
 
 This is an author-adjudicated conformance ruler. It tests whether the product
 implements its declared policy. It is not an independently annotated dataset, a
@@ -88,6 +89,13 @@ under `data/product-suite/fixtures/`. Every referenced fixture still conforms to
 `polychord-frame-replay/1` and is validated by the unchanged replay state
 machine. Product controls do not enter the musical fixture because timer,
 primary availability, and reset are not MIDI notes or sustain events.
+
+The implemented manifest pins four inherited replays and fifteen authored
+product realizations. The 20-case inventory reuses the basic positive
+realization for two cases whose difference is entirely in product-control
+actions. `tool/polychord/product_suite.py` currently validates this fixture
+substrate; its suite-schema validation is deliberately still incomplete and
+scoring remains disabled.
 
 ## Case and action objects
 

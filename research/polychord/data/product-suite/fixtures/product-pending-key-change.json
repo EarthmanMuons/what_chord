@@ -1,0 +1,191 @@
+{
+  "schema": "polychord-frame-replay/1",
+  "id": "product-pending-key-change",
+  "description": "A positive C-major-over-G-minor binding gains a doubled upper root before its first display deadline.",
+  "timeBase": "milliseconds",
+  "initialState": {
+    "pressedMidiNotes": [],
+    "sustainedMidiNotes": [],
+    "pedalDown": false
+  },
+  "events": [
+    {
+      "index": 0,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 43,
+      "velocity": 96
+    },
+    {
+      "index": 1,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 46,
+      "velocity": 96
+    },
+    {
+      "index": 2,
+      "timestampMs": 0,
+      "type": "noteOn",
+      "midiNote": 50,
+      "velocity": 96
+    },
+    {
+      "index": 3,
+      "timestampMs": 80,
+      "type": "noteOn",
+      "midiNote": 60,
+      "velocity": 96
+    },
+    {
+      "index": 4,
+      "timestampMs": 80,
+      "type": "noteOn",
+      "midiNote": 64,
+      "velocity": 96
+    },
+    {
+      "index": 5,
+      "timestampMs": 80,
+      "type": "noteOn",
+      "midiNote": 67,
+      "velocity": 96
+    },
+    {
+      "index": 6,
+      "timestampMs": 100,
+      "type": "noteOn",
+      "midiNote": 72,
+      "velocity": 96
+    }
+  ],
+  "frames": [
+    {
+      "afterEventIndex": 0,
+      "timestampMs": 0,
+      "pressedMidiNotes": [
+        43
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        43
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 1,
+      "timestampMs": 0,
+      "pressedMidiNotes": [
+        43,
+        46
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        43,
+        46
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 2,
+      "timestampMs": 0,
+      "pressedMidiNotes": [
+        43,
+        46,
+        50
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        43,
+        46,
+        50
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 3,
+      "timestampMs": 80,
+      "pressedMidiNotes": [
+        43,
+        46,
+        50,
+        60
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        43,
+        46,
+        50,
+        60
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 4,
+      "timestampMs": 80,
+      "pressedMidiNotes": [
+        43,
+        46,
+        50,
+        60,
+        64
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        43,
+        46,
+        50,
+        60,
+        64
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 5,
+      "timestampMs": 80,
+      "pressedMidiNotes": [
+        43,
+        46,
+        50,
+        60,
+        64,
+        67
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        43,
+        46,
+        50,
+        60,
+        64,
+        67
+      ],
+      "pedalDown": false
+    },
+    {
+      "afterEventIndex": 6,
+      "timestampMs": 100,
+      "pressedMidiNotes": [
+        43,
+        46,
+        50,
+        60,
+        64,
+        67,
+        72
+      ],
+      "sustainedMidiNotes": [],
+      "soundingMidiNotes": [
+        43,
+        46,
+        50,
+        60,
+        64,
+        67,
+        72
+      ],
+      "pedalDown": false
+    }
+  ],
+  "endTimestampMs": 500
+}
