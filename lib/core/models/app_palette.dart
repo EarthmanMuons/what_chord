@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 enum AppPalette { blue, teal, green, orange, pink, purple, neutral }
 

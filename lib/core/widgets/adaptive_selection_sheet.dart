@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'modal_panel_header.dart';
 import 'modal_sheet_sizing.dart';

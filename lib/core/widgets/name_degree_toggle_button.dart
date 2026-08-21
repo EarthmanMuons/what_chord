@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A compact toggle that switches a tone display between note names and degree
 /// numbers. Shared by the Explore Chords and Explore Scales tone strips.

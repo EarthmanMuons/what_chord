@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A horizontally scrubbable, infinitely cyclic picker. The selected value sits
 /// centered with faded neighbors; tapping a neighbor or scrubbing selects it.

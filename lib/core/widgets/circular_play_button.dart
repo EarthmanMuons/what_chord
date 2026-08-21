@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A circular filled-tonal play button, shared by the Explore play affordances.
 class CircularPlayButton extends StatelessWidget {
