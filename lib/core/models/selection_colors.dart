@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Shared treatment for a selected full-width list row, so row selection looks
 /// identical wherever it appears (the Scale Explorer chord and scale lists, the

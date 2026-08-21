@@ -42,6 +42,7 @@ dependencies:
   whatkey:
     path: packages/whatkey
 
+  material_ui: any
 dev_dependencies:
   crypto: ^3.0.7
   flutter_test:

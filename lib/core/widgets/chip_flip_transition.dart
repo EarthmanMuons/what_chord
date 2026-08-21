@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Rotates a switcher child around its horizontal axis, as if a compact chip
 /// were flipping to reveal its next label.
