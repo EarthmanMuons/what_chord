@@ -11,14 +11,14 @@
     "@astrojs/check": "^0.9.10",
     "@astrojs/sitemap": "3.7.3",
     "@tonaljs/tonal": "4.10.0",
-    "astro": "^7.1.6",
+    "astro": "^7.2.2",
     "prettier": "3.9.6",
     "prettier-plugin-astro": "0.14.1",
     "stylelint": "17.14.1",
-    "stylelint-config-recess-order": "7.7.0",
+    "stylelint-config-recess-order": "7.8.0",
     "stylelint-config-standard": "40.0.0",
     "typescript": "6.0.3",
-    "wrangler": "^4.120.0"
+    "wrangler": "^4.123.0"
   },
   "allowScripts": {
     "esbuild@0.28.1": true,
