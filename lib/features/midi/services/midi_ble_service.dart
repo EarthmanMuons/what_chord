@@ -150,10 +150,8 @@ class MidiBleService {
         'Connection timed out. Make sure the device is powered on and nearby.',
       fmc.MidiPairingRejectedException() =>
         'Pairing was declined. Try again and accept the pairing request.',
-      fmc.MidiPairingFailedException() =>
-        'Pairing failed. Try again, or forget the device in system Bluetooth settings first.',
-      fmc.MidiPairingInfoRemovedException() =>
-        'This device no longer recognizes its pairing. Forget it in system Bluetooth settings, then pair again.',
+      fmc.MidiPairingFailedException() => 'Pairing failed. Try again, or forget the device in system Bluetooth settings first.',
+      fmc.MidiPairingInfoRemovedException() => 'This device no longer recognizes its pairing. Forget it in system Bluetooth settings, then pair again.',
       fmc.MidiServiceDiscoveryException() =>
         'This device does not offer MIDI over Bluetooth.',
       fmc.MidiNotificationSubscriptionException() =>

@@ -60,9 +60,8 @@ class IdentityCard extends ConsumerWidget {
 
     final primaryStyle = base.copyWith(color: cs.onPrimary, height: 1.0);
 
-    final secondaryStyle = scaleStyle(
-      theme.textTheme.titleMedium!,
-    ).copyWith(color: cs.onPrimary.withValues(alpha: 0.85), height: 1.1);
+    final secondaryStyle = scaleStyle(theme.textTheme.titleMedium!)
+        .copyWith(color: cs.onPrimary.withValues(alpha: 0.85), height: 1.1);
 
     final rootStyle = primaryStyle.copyWith(
       fontWeight: FontWeight.w500,
@@ -153,9 +152,8 @@ class IdentityCard extends ConsumerWidget {
     Widget switchedChild() {
       void openExplore() {
         unawaited(
-          Navigator.of(
-            context,
-          ).push(ExploreChordPage.route(seedIdentity: exploreSeedIdentity)),
+          Navigator.of(context)
+              .push(ExploreChordPage.route(seedIdentity: exploreSeedIdentity)),
         );
       }
 
@@ -218,9 +216,8 @@ class IdentityCard extends ConsumerWidget {
                           builder: (context, c) {
                             final maxH = c.maxHeight;
                             final hasMax = maxH.isFinite && maxH > 0;
-                            final textScale = MediaQuery.textScalerOf(
-                              context,
-                            ).scale(1.0);
+                            final textScale = MediaQuery.textScalerOf(context)
+                                .scale(1.0);
                             final gapScale = 1 / textScale.clamp(1.0, 1.6);
                             const gap = 0.0;
                             final maxW = c.maxWidth.isFinite
@@ -355,9 +352,8 @@ class IdentityCard extends ConsumerWidget {
       elevation: 0,
       color: cs.primary,
       child: InkWell(
-        onTap: () => Navigator.of(
-          context,
-        ).push(ExploreChordPage.route(seedIdentity: exploreSeedIdentity)),
+        onTap: () => Navigator.of(context)
+            .push(ExploreChordPage.route(seedIdentity: exploreSeedIdentity)),
         onLongPress: display == null
             ? null
             : () => showAnalysisDetailsSheet(context, identity: display),

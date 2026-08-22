@@ -42,9 +42,9 @@ const _scoredCategories = ['ok', 'extra-tones', 'mismatch'];
 void main(List<String> args) {
   final options = _parseArgs(args);
   final fixtureSet = FixtureSet.load(Directory(options['fixtures']!));
-  final labels =
-      jsonDecode(File(options['labels']!).readAsStringSync())
-          as Map<String, dynamic>;
+  final labels = jsonDecode(
+    File(options['labels']!).readAsStringSync(),
+  ) as Map<String, dynamic>;
   final pieces = (labels['pieces'] as Map).cast<String, dynamic>();
 
   var selected = fixtureSet.fixtures;

@@ -1150,9 +1150,8 @@ List<String> _readNoteTokens(List<String> args) {
 ) {
   if (rawNoteTokens.length != 1) return null;
 
-  final match = RegExp(
-    r'^(\d+(?:-\d+)*)_b(\d+)$',
-  ).firstMatch(rawNoteTokens.single);
+  final match = RegExp(r'^(\d+(?:-\d+)*)_b(\d+)$')
+      .firstMatch(rawNoteTokens.single);
   if (match == null) return null;
 
   final pcs = match
@@ -1209,9 +1208,8 @@ String? _displayOptionalNoteLabel(String? noteName) {
 String _formatPcMask(int mask) => mask.toRadixString(2).padLeft(12, '0');
 
 String _formatPcNumbers(List<({String label, int pc})> pcDisplays) {
-  return [
-    for (final display in pcDisplays) '${display.label}=${display.pc}',
-  ].join('  ');
+  return [for (final display in pcDisplays) '${display.label}=${display.pc}']
+      .join('  ');
 }
 
 /// Converts CostReason entries into compact CLI tokens.

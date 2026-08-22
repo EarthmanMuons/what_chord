@@ -35,9 +35,9 @@ const _legalColors = {1, 2, 5, 6, 7, 8, 9};
 
 void main(List<String> args) {
   final options = _parseArgs(args);
-  final suite =
-      jsonDecode(File(options['suite']!).readAsStringSync())
-          as Map<String, dynamic>;
+  final suite = jsonDecode(
+    File(options['suite']!).readAsStringSync(),
+  ) as Map<String, dynamic>;
   final cases = (suite['cases'] as List).cast<Map>();
   final analyzer = ChordAnalyzer();
 

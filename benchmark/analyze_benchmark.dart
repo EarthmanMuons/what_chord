@@ -88,9 +88,8 @@ Future<void> main(List<String> args) async {
 
   final result = await _runBenchmark();
 
-  File(
-    outPath,
-  ).writeAsStringSync(const JsonEncoder.withIndent('  ').convert(result));
+  File(outPath)
+      .writeAsStringSync(const JsonEncoder.withIndent('  ').convert(result));
   if (printSummary) _printSummary(result);
   final verdict = printComparison
       ? _maybePrintComparison(outPath, result, check: check)
@@ -624,9 +623,8 @@ Future<void> _calibrateNoise() async {
     },
     'metrics': metrics,
   };
-  File(
-    _noisePath,
-  ).writeAsStringSync(const JsonEncoder.withIndent('  ').convert(noise));
+  File(_noisePath)
+      .writeAsStringSync(const JsonEncoder.withIndent('  ').convert(noise));
   stdout.writeln('Wrote $_noisePath');
   _reportBaselineStaleness(baseline, metrics);
 }

@@ -652,8 +652,7 @@ class MidiConnectionNotifier extends Notifier<MidiConnectionState> {
     if (!_reconnectAborted) {
       state = MidiConnectionState(
         phase: MidiConnectionPhase.deviceUnavailable,
-        message:
-            'Unable to reconnect. Make sure the device is powered on and nearby.',
+        message: 'Unable to reconnect. Make sure the device is powered on and nearby.',
         attempt: _maxAttempts,
         nextDelay: null,
       );

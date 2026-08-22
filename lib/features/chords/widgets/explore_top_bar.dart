@@ -20,9 +20,8 @@ class ExploreTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final titleStyle = Theme.of(
-      context,
-    ).textTheme.titleLarge?.copyWith(letterSpacing: -0.2);
+    final titleStyle = Theme.of(context).textTheme.titleLarge
+        ?.copyWith(letterSpacing: -0.2);
 
     // Match the standard AppBar leading-control position while the title and
     // content retain their shared horizontal inset.

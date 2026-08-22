@@ -463,9 +463,8 @@ class _CandidateCostBack extends StatelessWidget {
     // Push over the open sheet without dismissing it, so returning from Explore
     // reveals the same "Why This Chord?" view (flipped cards and scroll intact).
     unawaited(
-      Navigator.of(
-        context,
-      ).push(ExploreChordPage.route(seedIdentity: row.candidate.identity)),
+      Navigator.of(context)
+          .push(ExploreChordPage.route(seedIdentity: row.candidate.identity)),
     );
   }
 
@@ -812,10 +811,8 @@ class _RankBadge extends StatelessWidget {
         ),
         child: Text(
           '$rank',
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: foreground,
-            fontWeight: FontWeight.w800,
-          ),
+          style: Theme.of(context).textTheme.labelLarge
+              ?.copyWith(color: foreground, fontWeight: FontWeight.w800),
         ),
       ),
     );

@@ -36,9 +36,9 @@ final _analyzer = ChordAnalyzer();
 void main(List<String> args) {
   final options = _parseArgs(args);
   final fixtureSet = FixtureSet.load(Directory(options['fixtures']!));
-  final labels =
-      jsonDecode(File(options['labels']!).readAsStringSync())
-          as Map<String, dynamic>;
+  final labels = jsonDecode(
+    File(options['labels']!).readAsStringSync(),
+  ) as Map<String, dynamic>;
   final pieces = (labels['pieces'] as Map).cast<String, dynamic>();
 
   final splitFile = SplitFile.load(File(options['split-file']!));
@@ -156,9 +156,8 @@ void main(List<String> args) {
       'take': _take,
       'minNotes': _minNotes,
       'behavior': behavior.name,
-      'detector': HmmKeyDetector(
-        decayHalfLife: behavior.emissionHalfLife,
-      ).configuration,
+      'detector': HmmKeyDetector(decayHalfLife: behavior.emissionHalfLife)
+          .configuration,
       'neutralContext': fixtureSet.manifest['context'],
     },
     'pooled': {

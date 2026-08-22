@@ -10,12 +10,11 @@ import '../../state/providers/theory_preferences_notifier.dart';
 import 'scale_degrees.dart';
 import 'tonality_picker_sheet.dart';
 
-typedef TonalitySideSheetPresenter =
-    void Function({
-      required BuildContext context,
-      required String barrierLabel,
-      required WidgetBuilder builder,
-    });
+typedef TonalitySideSheetPresenter = void Function({
+  required BuildContext context,
+  required String barrierLabel,
+  required WidgetBuilder builder,
+});
 
 class TonalityBarView extends ConsumerWidget {
   const TonalityBarView({
