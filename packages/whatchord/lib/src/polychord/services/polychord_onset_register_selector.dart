@@ -11,80 +11,72 @@ import 'polychord_register_selector.dart';
 final class PolychordOnsetRegisterSelector {
   const PolychordOnsetRegisterSelector();
 
-  PolychordOnsetRegisterDecision decide(PolychordOnsetTrackingFrame frame) =>
-      decideRecords(
-        frame,
-        const PolychordProductOnsetCueRecordBuilder().build(frame),
-      );
+  PolychordOnsetRegisterDecision decide(PolychordOnsetTrackingFrame frame) {
+    final generated = const PolychordRegisterCandidateGenerator().generateSet(
+      frame.soundingMidiNotes,
+    );
+    final records = const PolychordProductOnsetCueRecordBuilder()
+        .buildGenerated(frame, generated);
+    return _decideOrdered(frame, generated, records);
+  }
 
   /// Decides from a complete record set without treating its order as evidence.
   PolychordOnsetRegisterDecision decideRecords(
     PolychordOnsetTrackingFrame frame,
     Iterable<PolychordProductOnsetCueRecord> candidateRecords,
   ) {
-    final candidates = const PolychordRegisterCandidateGenerator().generate(
+    final generated = const PolychordRegisterCandidateGenerator().generateSet(
       frame.soundingMidiNotes,
     );
-    final supplied = List<PolychordProductOnsetCueRecord>.of(candidateRecords);
-    if (supplied.length != candidates.length) {
-      throw ArgumentError.value(
-        candidateRecords,
-        'candidateRecords',
-        'must cover the complete generated candidate set',
-      );
-    }
-    final byCandidate = <PolychordCandidate, PolychordProductOnsetCueRecord>{};
-    for (final record in supplied) {
-      if (record.targetObservation != frame) {
-        throw ArgumentError.value(
-          candidateRecords,
-          'candidateRecords',
-          'must target the selected frame',
-        );
-      }
-      if (byCandidate.containsKey(record.targetBinding.candidate)) {
-        throw ArgumentError.value(
-          candidateRecords,
-          'candidateRecords',
-          'must not contain duplicate candidates',
-        );
-      }
-      byCandidate[record.targetBinding.candidate] = record;
-    }
-    if (!candidates.every(byCandidate.containsKey)) {
-      throw ArgumentError.value(
-        candidateRecords,
-        'candidateRecords',
-        'must match the complete generated candidate set',
-      );
-    }
-    final records = [
-      for (final candidate in candidates) byCandidate[candidate]!,
-    ];
+    final records = _validateAndOrderRecords(
+      frame,
+      generated.candidates,
+      candidateRecords,
+    );
+    return _decideOrdered(frame, generated, records);
+  }
 
-    final staticDecision = const PolychordRegisterSelector().decideCandidates(
-      frame.soundingMidiNotes,
-      candidates,
+  PolychordOnsetRegisterDecision _decideOrdered(
+    PolychordOnsetTrackingFrame frame,
+    PolychordGeneratedCandidateSet generated,
+    List<PolychordProductOnsetCueRecord> records,
+  ) {
+    final candidates = generated.candidates;
+    final staticTraces = const PolychordRegisterSelector().evaluateGenerated(
+      generated,
       profile: PolychordRegisterSelectorProfile.withoutGapResolution,
     );
-    final staticByCandidate = {
-      for (final trace in staticDecision.traces) trace.candidate: trace,
-    };
-    final assignment = [
-      for (final candidate in candidates)
-        if (!staticByCandidate[candidate]!.removedByAssignmentVeto) candidate,
-    ];
-    final integrated = [
-      for (final candidate in assignment)
-        if (!staticByCandidate[candidate]!.removedByIntegratedTertianVeto)
-          candidate,
-    ];
-    final positive = [
-      for (final candidate in integrated)
-        if (_aggregate(byCandidate[candidate]!) ==
-            PolychordProductAggregateSupport.positive)
-          candidate,
-    ];
+    final assignment = <PolychordCandidate>[];
+    final integrated = <PolychordCandidate>[];
+    final positive = <PolychordCandidate>[];
+    final aggregateSupport = <PolychordProductAggregateSupport>[];
+    final removals = <PolychordProductRemovalStage?>[];
+    var hasNeutralIntegratedCandidate = false;
+    for (var index = 0; index < candidates.length; index++) {
+      final candidate = candidates[index];
+      final staticTrace = staticTraces[index];
+      final aggregate = _aggregate(records[index]);
+      aggregateSupport.add(aggregate);
+      if (staticTrace.removedByAssignmentVeto) {
+        removals.add(PolychordProductRemovalStage.assignment);
+        continue;
+      }
+      assignment.add(candidate);
+      if (staticTrace.removedByIntegratedTertianVeto) {
+        removals.add(PolychordProductRemovalStage.integrated);
+        continue;
+      }
+      integrated.add(candidate);
+      if (aggregate == PolychordProductAggregateSupport.neutral) {
+        hasNeutralIntegratedCandidate = true;
+      }
+      if (aggregate != PolychordProductAggregateSupport.positive) {
+        removals.add(PolychordProductRemovalStage.support);
+        continue;
+      }
+      positive.add(candidate);
+      removals.add(null);
+    }
     if (positive.length > 1) {
       throw StateError('positive-survivor uniqueness was violated');
     }
@@ -99,26 +91,16 @@ final class PolychordOnsetRegisterSelector {
       (false, true, _, _) => 'ambiguous-exact-assignment',
       (false, false, true, _) => 'integrated-tertian-reading',
       (false, false, false, true) =>
-        integrated.any(
-              (candidate) =>
-                  _aggregate(byCandidate[candidate]!) ==
-                  PolychordProductAggregateSupport.neutral,
-            )
+        hasNeutralIntegratedCandidate
             ? 'layer-separation-not-supported'
             : 'missing-layer-separation-history',
       (false, false, false, false) => null,
     };
     final selected = positive.isEmpty ? null : positive.single;
     final traces = <PolychordProductCandidateTrace>[];
-    for (final candidate in candidates) {
-      final staticTrace = staticByCandidate[candidate]!;
-      final removal = !assignment.contains(candidate)
-          ? PolychordProductRemovalStage.assignment
-          : !integrated.contains(candidate)
-          ? PolychordProductRemovalStage.integrated
-          : !positive.contains(candidate)
-          ? PolychordProductRemovalStage.support
-          : null;
+    for (var index = 0; index < candidates.length; index++) {
+      final candidate = candidates[index];
+      final staticTrace = staticTraces[index];
       traces.add(
         PolychordProductCandidateTrace(
           candidate: candidate,
@@ -129,8 +111,8 @@ final class PolychordOnsetRegisterSelector {
             rootedSeventhExtension:
                 staticTrace.integratedTertian.rootedSeventhExtension,
           ),
-          aggregateSupport: _aggregate(byCandidate[candidate]!),
-          removedAt: removal,
+          aggregateSupport: aggregateSupport[index],
+          removedAt: removals[index],
           selected: candidate == selected,
         ),
       );
@@ -150,11 +132,52 @@ final class PolychordOnsetRegisterSelector {
       selected: selected,
       selectedBinding: selected == null
           ? null
-          : byCandidate[selected]!.targetBinding,
+          : records[candidates.indexOf(selected)].targetBinding,
       reasonCode: reasonCode,
       terminalPredicates: _terminalPredicates(stages, reasonCode),
     );
   }
+}
+
+List<PolychordProductOnsetCueRecord> _validateAndOrderRecords(
+  PolychordOnsetTrackingFrame frame,
+  List<PolychordCandidate> candidates,
+  Iterable<PolychordProductOnsetCueRecord> candidateRecords,
+) {
+  final supplied = List<PolychordProductOnsetCueRecord>.of(candidateRecords);
+  if (supplied.length != candidates.length) {
+    throw ArgumentError.value(
+      candidateRecords,
+      'candidateRecords',
+      'must cover the complete generated candidate set',
+    );
+  }
+  final byCandidate = <PolychordCandidate, PolychordProductOnsetCueRecord>{};
+  for (final record in supplied) {
+    if (record.targetObservation != frame) {
+      throw ArgumentError.value(
+        candidateRecords,
+        'candidateRecords',
+        'must target the selected frame',
+      );
+    }
+    if (byCandidate.containsKey(record.targetBinding.candidate)) {
+      throw ArgumentError.value(
+        candidateRecords,
+        'candidateRecords',
+        'must not contain duplicate candidates',
+      );
+    }
+    byCandidate[record.targetBinding.candidate] = record;
+  }
+  if (!candidates.every(byCandidate.containsKey)) {
+    throw ArgumentError.value(
+      candidateRecords,
+      'candidateRecords',
+      'must match the complete generated candidate set',
+    );
+  }
+  return [for (final candidate in candidates) byCandidate[candidate]!];
 }
 
 PolychordProductAggregateSupport _aggregate(

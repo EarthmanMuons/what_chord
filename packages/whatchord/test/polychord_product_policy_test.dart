@@ -138,15 +138,21 @@ void main() {
                   72,
                 );
                 final notes = [...lower, ...upper]..sort();
-                final decision = const PolychordOnsetRegisterSelector().decide(
-                  _frame(notes, [
-                    ...List.filled(lower.length, 0),
-                    ...List.filled(upper.length, 80),
-                  ]),
-                );
+                final frame = _frame(notes, [
+                  ...List.filled(lower.length, 0),
+                  ...List.filled(upper.length, 80),
+                ]);
+                const selector = PolychordOnsetRegisterSelector();
+                final decision = selector.decide(frame);
+                final records = const PolychordProductOnsetCueRecordBuilder()
+                    .build(frame);
                 expect(
                   decision.stageSurvivors.positiveSupport.length,
                   lessThanOrEqualTo(1),
+                );
+                expect(
+                  decision.toJson(),
+                  selector.decideRecords(frame, records).toJson(),
                 );
                 checked++;
               }

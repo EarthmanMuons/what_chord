@@ -1,32 +1,78 @@
+import 'package:meta/meta.dart';
+
 import '../models/polychord_candidate.dart';
+
+/// One validated note collection and its complete generated candidate set.
+///
+/// This package-internal proof object lets product orchestration reuse one
+/// generation without weakening validation at public API boundaries.
+@internal
+final class PolychordGeneratedCandidateSet {
+  const PolychordGeneratedCandidateSet._({
+    required this.midiNotes,
+    required this.pitchClassMask,
+    required this.candidates,
+  });
+
+  final List<int> midiNotes;
+  final int pitchClassMask;
+  final List<PolychordCandidate> candidates;
+}
 
 /// Pure-Dart implementation of `polychord-register-candidates/1`.
 final class PolychordRegisterCandidateGenerator {
   const PolychordRegisterCandidateGenerator();
 
   /// Enumerates every v1 candidate at every adjacent register boundary.
-  List<PolychordCandidate> generate(Iterable<int> midiNotes) {
+  List<PolychordCandidate> generate(Iterable<int> midiNotes) =>
+      generateSet(midiNotes).candidates;
+
+  /// Generates one reusable, validated structural set for package internals.
+  @internal
+  PolychordGeneratedCandidateSet generateSet(Iterable<int> midiNotes) {
     final notes = _validateMidiNotes(midiNotes);
+    final suffixMasks = List<int>.filled(notes.length + 1, 0);
+    for (var index = notes.length - 1; index >= 0; index--) {
+      suffixMasks[index] = suffixMasks[index + 1] | (1 << (notes[index] % 12));
+    }
+
     final candidates = <PolychordCandidate>[];
+    var lowerPitchClassMask = 0;
     for (
       var splitAfterIndex = 0;
       splitAfterIndex < notes.length - 1;
       splitAfterIndex++
     ) {
+      lowerPitchClassMask |= 1 << (notes[splitAfterIndex] % 12);
+      final upperPitchClassMask = suffixMasks[splitAfterIndex + 1];
+      if (!_canBeSupportedLayer(lowerPitchClassMask) ||
+          !_canBeSupportedLayer(upperPitchClassMask)) {
+        continue;
+      }
+
       final lowerNotes = notes.sublist(0, splitAfterIndex + 1);
       final upperNotes = notes.sublist(splitAfterIndex + 1);
-      final lowerMatches = _chordMatches(lowerNotes);
-      final upperMatches = _chordMatches(upperNotes);
+      final lowerMatches = _chordMatches(lowerPitchClassMask);
+      final upperMatches = _chordMatches(upperPitchClassMask);
+      final lowerPitchClasses = _pitchClasses(lowerPitchClassMask);
+      final upperPitchClasses = _pitchClasses(upperPitchClassMask);
 
       for (final lowerIdentity in lowerMatches) {
         for (final upperIdentity in upperMatches) {
           if (lowerIdentity.rootPc == upperIdentity.rootPc) continue;
-          final lower = _layerCandidate(lowerNotes, lowerIdentity);
-          final upper = _layerCandidate(upperNotes, upperIdentity);
-          final lowerPitchClasses = lower.pitchClasses.toSet();
-          final sharedPitchClasses = upper.pitchClasses
-              .where(lowerPitchClasses.contains)
-              .toList();
+          final lower = _layerCandidate(
+            lowerNotes,
+            lowerPitchClasses,
+            lowerIdentity,
+          );
+          final upper = _layerCandidate(
+            upperNotes,
+            upperPitchClasses,
+            upperIdentity,
+          );
+          final sharedPitchClasses = _pitchClasses(
+            lowerPitchClassMask & upperPitchClassMask,
+          );
           candidates.add(
             PolychordCandidate(
               splitAfterIndex: splitAfterIndex,
@@ -43,7 +89,11 @@ final class PolychordRegisterCandidateGenerator {
     }
 
     candidates.sort(_compareCandidates);
-    return List<PolychordCandidate>.unmodifiable(candidates);
+    return PolychordGeneratedCandidateSet._(
+      midiNotes: notes,
+      pitchClassMask: suffixMasks.first,
+      candidates: List<PolychordCandidate>.unmodifiable(candidates),
+    );
   }
 }
 
@@ -65,15 +115,16 @@ List<int> _validateMidiNotes(Iterable<int> midiNotes) {
   return List<int>.unmodifiable(notes);
 }
 
-List<PolychordLayerIdentity> _chordMatches(List<int> midiNotes) {
-  final pitchClasses = midiNotes.map((note) => note % 12).toSet().toList()
-    ..sort();
+bool _canBeSupportedLayer(int pitchClassMask) {
+  final count = _bitCount(pitchClassMask);
+  return count == 3 || count == 4;
+}
+
+List<PolychordLayerIdentity> _chordMatches(int pitchClassMask) {
+  final pitchClasses = _pitchClasses(pitchClassMask);
   final matches = <PolychordLayerIdentity>[];
   for (final rootPc in pitchClasses) {
-    var relativeMask = 0;
-    for (final pitchClass in pitchClasses) {
-      relativeMask |= 1 << ((pitchClass - rootPc) % 12);
-    }
+    final relativeMask = _relativeMask(pitchClassMask, rootPc);
     final quality = _qualityByRelativeMask[relativeMask];
     if (quality != null) {
       matches.add(PolychordLayerIdentity(rootPc: rootPc, quality: quality));
@@ -90,15 +141,37 @@ List<PolychordLayerIdentity> _chordMatches(List<int> midiNotes) {
 
 PolychordLayerCandidate _layerCandidate(
   List<int> midiNotes,
+  List<int> pitchClasses,
   PolychordLayerIdentity identity,
-) {
-  final pitchClasses = midiNotes.map((note) => note % 12).toSet().toList()
-    ..sort();
-  return PolychordLayerCandidate(
-    identity: identity,
-    midiNotes: midiNotes,
-    pitchClasses: pitchClasses,
-  );
+) => PolychordLayerCandidate(
+  identity: identity,
+  midiNotes: midiNotes,
+  pitchClasses: pitchClasses,
+);
+
+List<int> _pitchClasses(int mask) => [
+  for (var pitchClass = 0; pitchClass < 12; pitchClass++)
+    if ((mask & (1 << pitchClass)) != 0) pitchClass,
+];
+
+int _relativeMask(int pitchClassMask, int rootPc) {
+  var result = 0;
+  for (var pitchClass = 0; pitchClass < 12; pitchClass++) {
+    if ((pitchClassMask & (1 << pitchClass)) != 0) {
+      result |= 1 << ((pitchClass - rootPc) % 12);
+    }
+  }
+  return result;
+}
+
+int _bitCount(int value) {
+  var count = 0;
+  var remaining = value;
+  while (remaining != 0) {
+    count += remaining & 1;
+    remaining >>= 1;
+  }
+  return count;
 }
 
 int _compareCandidates(PolychordCandidate a, PolychordCandidate b) {

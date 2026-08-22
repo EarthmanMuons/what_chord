@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import '../models/polychord_candidate.dart';
 import '../models/polychord_candidate_instance_binding.dart';
 import '../models/polychord_onset_evidence.dart';
@@ -17,9 +19,25 @@ final class PolychordCandidateInstanceBinder {
   /// Binds every candidate generated from one current sounding state.
   List<PolychordCandidateInstanceBinding> bindOnsetFrame(
     PolychordOnsetTrackingFrame frame,
-  ) => _bindFrame(
-    trackerEpoch: frame.trackerEpoch,
-    soundingNotes: frame.soundingNoteOnsets,
+  ) {
+    final evidence = const PolychordOnsetEvidenceAnalyzer().analyzeFrame(
+      frame.soundingNoteOnsets,
+    );
+    return bindOnsetEvidence(
+      trackerEpoch: frame.trackerEpoch,
+      evidence: evidence,
+    );
+  }
+
+  /// Binds package-internal evidence without regenerating its candidates.
+  @internal
+  List<PolychordCandidateInstanceBinding> bindOnsetEvidence({
+    required int trackerEpoch,
+    required Iterable<PolychordCandidateOnsetEvidence> evidence,
+  }) => List<PolychordCandidateInstanceBinding>.unmodifiable(
+    evidence.map(
+      (item) => _bindEvidence(trackerEpoch: trackerEpoch, evidence: item),
+    ),
   );
 
   /// Binds every candidate in one richer release/pedal tracking frame.
@@ -77,10 +95,9 @@ List<PolychordCandidateInstanceBinding> _bindFrame({
   final evidence = const PolychordOnsetEvidenceAnalyzer().analyzeFrame(
     soundingNotes,
   );
-  return List<PolychordCandidateInstanceBinding>.unmodifiable(
-    evidence.map(
-      (item) => _bindEvidence(trackerEpoch: trackerEpoch, evidence: item),
-    ),
+  return const PolychordCandidateInstanceBinder().bindOnsetEvidence(
+    trackerEpoch: trackerEpoch,
+    evidence: evidence,
   );
 }
 
