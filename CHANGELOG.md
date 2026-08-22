@@ -10,6 +10,11 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- The minimum supported iOS version is now 15, up from 13. Devices on iOS 13 or
+  14 can no longer install WhatChord.
+
 ### Fixed
 
 - Website navigation now identifies the current page for screen-reader users,
