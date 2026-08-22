@@ -150,3 +150,18 @@ tool/benchmark.sh --out=benchmark/baseline.json
 
 and diff future runs against it. Because of timing noise, gate regressions on
 counters, meaningful memory movement, and normalized time, not raw microseconds.
+
+## Automatic polychord product path
+
+The separate automatic-polychord qualification compares the complete pure-Dart
+product path with cold primary analysis in the same process:
+
+```bash
+tool/polychord_benchmark.sh --check
+```
+
+It writes the uncommitted `benchmark/polychord_last_run.json`. The frozen
+workload, 5% gate, structural controls, memory method, and stress traces are
+specified in `research/polychord/product-performance-benchmark-v1.md`. Use
+`--validate-only` to check fixture projection and control reachability without
+performing a timed measurement.
