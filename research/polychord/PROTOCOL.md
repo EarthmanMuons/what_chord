@@ -42,7 +42,9 @@ The author-adjudicated product path has since passed its frozen suite,
 development exposure, and prior-art comparison through log 2026-08-14-06. Log
 2026-08-14-07 records app integration and automated presentation, history,
 diagnostic, primary-isolation, and unchanged-engine guards. The dedicated
-polychord benchmark is frozen prospectively by log 2026-08-22-01; its timed run
+polychord benchmark v1 was frozen by log 2026-08-22-01 and failed in log
+2026-08-22-02. Log 2026-08-22-03 records equivalence-guarded optimization, and
+log 2026-08-22-04 prospectively freezes corrected benchmark v2; its timed run
 and the hands-on device checks remain. The held POP909 reserve has not been
 opened.
 
@@ -648,9 +650,12 @@ The following work must be dated and completed in order:
     prior-art comparison. Log 2026-08-14-07 records integration into the app's
     normalized timestamped-event path and accessible secondary output. Automated
     engine, app, presentation, diagnostic, history-isolation, and
-    unchanged-primary benchmark guards pass. Log 2026-08-22-01 freezes the
-    dedicated pure-Dart performance benchmark without running its timed
-    measurement. That run and hands-on MIDI, accessibility, and device
+    unchanged-primary behavioral guards pass. Log 2026-08-22-01 freezes the v1
+    pure-Dart performance benchmark; its failed result is retained by log
+    2026-08-22-02. Log 2026-08-22-03 records semantics-preserving optimization,
+    and log 2026-08-22-04 freezes a v2 measurement that gates the live core,
+    stabilizes the structural timing batch, and null-controls allocation-probe
+    overhead. Its timed run and hands-on MIDI, accessibility, and device
     note-storm checks remain before the release candidate can be frozen. The
     held POP909 reserve remains untouched, and the product claim remains
     author-adjudicated rather than an independently validated accuracy claim.

@@ -1,7 +1,7 @@
 // Dedicated performance qualification for the automatic polychord path.
 //
 // Measures the pure-Dart product engine independently of Flutter/Riverpod UI
-// scheduling. See research/polychord/product-performance-benchmark-v1.md for
+// scheduling. See research/polychord/product-performance-benchmark-v2.md for
 // the frozen workload, metric definitions, and adoption gate.
 
 import 'dart:convert';
@@ -18,7 +18,7 @@ import 'src/polychord_workload.dart';
 import 'src/reference.dart';
 import 'src/stats.dart';
 
-const String _schema = 'whatchord-polychord-benchmark/1';
+const String _schema = 'whatchord-polychord-benchmark/2';
 const String _defaultOutPath = 'benchmark/polychord_last_run.json';
 const double _targetRelCi = 0.015;
 const double _budgetRatio = 0.05;
@@ -89,6 +89,7 @@ Future<Map<String, Object?>> _runBenchmark(
   final corpusResults = <String, Object?>{};
   for (final entry in corpora.entries) {
     final cases = entry.value;
+    final finalRepetitions = finalTimingRepetitions(cases.length);
     final primaryFinal = _measurePrimaryFinal(cases, context);
     final productCoreFinal = _measureProductFinal(cases, serialize: false);
     final productSerializedFinal = _measureProductFinal(cases, serialize: true);
@@ -99,6 +100,8 @@ Future<Map<String, Object?>> _runBenchmark(
     corpusResults[entry.key] = <String, Object?>{
       'caseCount': cases.length,
       'eventCount': diagnostics.eventCount,
+      'finalTimingRepetitions': finalRepetitions,
+      'finalTimedEventsPerSample': cases.length * finalRepetitions,
       'time': {
         'primaryFinal': _timeJson(primaryFinal, reference),
         'productCoreFinal': _timeJson(productCoreFinal, reference),
@@ -106,10 +109,7 @@ Future<Map<String, Object?>> _runBenchmark(
         'primaryEntry': _timeJson(primaryEntry, reference),
         'productSerializedEntry': _timeJson(productEntry, reference),
       },
-      'budget': _budgetJson(
-        primary: primaryFinal,
-        product: productSerializedFinal,
-      ),
+      'budget': _budgetJson(primary: primaryFinal, product: productCoreFinal),
       'practicalEntryOverhead': _ratioJson(
         numerator: productEntry,
         denominator: primaryEntry,
@@ -145,6 +145,8 @@ Future<Map<String, Object?>> _runBenchmark(
       'dartVersion': Platform.version,
       'targetRelCi95': _targetRelCi,
       'budgetRatio': _budgetRatio,
+      'minimumTimedFinalEventsPerSample': minimumTimedFinalEventsPerSample,
+      'minimumAllocationEvents': minimumAllocationEvents,
       'referenceIterations': referenceIterations,
       'referenceDisplayScale': referenceDisplayScale,
       'oracleFixtureSha256': _sha256File('tool/chord/oracle_reviewed.json'),
@@ -234,18 +236,26 @@ Stats _measurePrimaryFinal(
   List<PolychordBenchmarkCase> cases,
   AnalysisContext context,
 ) {
-  final analyzer = ChordAnalyzer();
+  final repetitions = finalTimingRepetitions(cases.length);
+  final analyzers = [
+    for (var index = 0; index < repetitions; index++) ChordAnalyzer(),
+  ];
+  final timedEventCount = cases.length * repetitions;
   return collect(
     () {
-      analyzer.clearCache();
+      for (final analyzer in analyzers) {
+        analyzer.clearCache();
+      }
       return _timeMicros(() {
-            for (final benchmarkCase in cases) {
-              _sink ^= analyzer
-                  .analyze(benchmarkCase.input, context: context)
-                  .length;
+            for (final analyzer in analyzers) {
+              for (final benchmarkCase in cases) {
+                _sink ^= analyzer
+                    .analyze(benchmarkCase.input, context: context)
+                    .length;
+              }
             }
           }) /
-          cases.length;
+          timedEventCount;
     },
     budget: const Duration(seconds: 30),
     targetRelCi: _targetRelCi,
@@ -256,8 +266,10 @@ Stats _measureProductFinal(
   List<PolychordBenchmarkCase> cases, {
   required bool serialize,
 }) {
+  final repetitions = finalTimingRepetitions(cases.length);
+  final timedEventCount = cases.length * repetitions;
   final engines = [
-    for (var index = 0; index < cases.length; index++)
+    for (var index = 0; index < timedEventCount; index++)
       PolychordProductEngine(initialPrimaryDisplayable: true),
   ];
   var generation = 0;
@@ -265,9 +277,10 @@ Stats _measureProductFinal(
     () {
       generation += 1000;
       final lastEvents = <PolychordTemporalEvent>[];
-      for (var index = 0; index < cases.length; index++) {
+      for (var index = 0; index < timedEventCount; index++) {
         final engine = engines[index];
-        final events = cases[index].noteOnEvents(generation);
+        final benchmarkCase = cases[index % cases.length];
+        final events = benchmarkCase.noteOnEvents(generation);
         engine.reset(timestampMs: generation);
         for (final event in events.take(events.length - 1)) {
           engine.observeEvent(event);
@@ -275,14 +288,14 @@ Stats _measureProductFinal(
         lastEvents.add(events.last);
       }
       return _timeMicros(() {
-            for (var index = 0; index < cases.length; index++) {
+            for (var index = 0; index < timedEventCount; index++) {
               final observation = engines[index].observeEvent(
                 lastEvents[index],
               );
               _consumeObservation(observation, serialize: serialize);
             }
           }) /
-          cases.length;
+          timedEventCount;
     },
     budget: const Duration(seconds: 30),
     targetRelCi: _targetRelCi,
@@ -393,87 +406,130 @@ Future<Map<String, Object?>> _measureMemory(
   List<PolychordBenchmarkCase> cases,
 ) async {
   final probe = await AllocationProbe.connect();
-  final engine = PolychordProductEngine(initialPrimaryDisplayable: true);
-  var baseTimestampMs = 0;
-  var eventCount = 0;
+  final eventsPerPass = cases.fold<int>(
+    0,
+    (total, benchmarkCase) => total + benchmarkCase.midiNotes.length,
+  );
+  final churnPassCount = allocationPassRepetitions(eventsPerPass);
+  final churnReplays = memoryReplays(cases, churnPassCount);
+  final retentionReplays = memoryReplays(cases, _retentionPasses + 1);
 
-  void pass() {
-    for (final benchmarkCase in cases) {
-      engine.reset(timestampMs: baseTimestampMs);
-      for (final event in benchmarkCase.noteOnEvents(baseTimestampMs)) {
-        eventCount++;
-        _consumeObservation(engine.observeEvent(event), serialize: true);
-      }
-      baseTimestampMs += 1000;
-    }
-  }
+  await probe.resetAndGc();
+  _consumeNullReplays(churnReplays);
+  final nullControl = await probe.sample();
 
+  final churnEngine = PolychordProductEngine(initialPrimaryDisplayable: true);
+  await probe.resetAndGc();
+  _consumeMemoryReplays(churnEngine, churnReplays);
+  final gross = await probe.sample();
+  final netChurnBytes = math.max(0, gross.churnBytes - nullControl.churnBytes);
+  final netChurnObjects = math.max(
+    0,
+    gross.churnObjects - nullControl.churnObjects,
+  );
+
+  final retentionEngine = PolychordProductEngine(
+    initialPrimaryDisplayable: true,
+  );
+  await probe.resetAndGc();
   final baselineHeap = (await probe.sample()).heapUsage;
   await probe.resetAndGc();
-  eventCount = 0;
-  pass();
-  final firstPassEvents = eventCount;
+  _consumeMemoryReplays(retentionEngine, retentionReplays.take(cases.length));
   final first = await probe.sample();
   final firstRetainedBytes = first.heapUsage - baselineHeap;
 
   await probe.resetAndGc();
-  eventCount = 0;
-  for (var passIndex = 0; passIndex < _retentionPasses; passIndex++) {
-    pass();
-  }
+  _consumeMemoryReplays(retentionEngine, retentionReplays.skip(cases.length));
   final repeated = await probe.sample();
   await probe.dispose();
 
   return <String, Object?>{
     'corpus': corpusName,
-    'eventCount': firstPassEvents,
-    'churnBytes': first.churnBytes,
-    'churnObjects': first.churnObjects,
-    'churnBytesPerEvent': first.churnBytes / firstPassEvents,
-    'churnObjectsPerEvent': first.churnObjects / firstPassEvents,
+    'eventsPerPass': eventsPerPass,
+    'churnPassCount': churnPassCount,
+    'churnEventCount': eventsPerPass * churnPassCount,
+    'grossChurnBytes': gross.churnBytes,
+    'grossChurnObjects': gross.churnObjects,
+    'nullControlChurnBytes': nullControl.churnBytes,
+    'nullControlChurnObjects': nullControl.churnObjects,
+    'netChurnBytes': netChurnBytes,
+    'netChurnObjects': netChurnObjects,
+    'netChurnBytesPerEvent': netChurnBytes / (eventsPerPass * churnPassCount),
+    'netChurnObjectsPerEvent':
+        netChurnObjects / (eventsPerPass * churnPassCount),
     'retainedBytesAfterOnePass': firstRetainedBytes,
     'liveHeapBytesAfterOnePass': first.heapUsage,
     'repeatedPassCount': _retentionPasses,
-    'repeatedEventCount': eventCount,
+    'repeatedEventCount': eventsPerPass * _retentionPasses,
     'retainedGrowthBytesAfterRepeatedPasses':
         repeated.heapUsage - first.heapUsage,
     'liveHeapBytesAfterRepeatedPasses': repeated.heapUsage,
   };
 }
 
+void _consumeNullReplays(Iterable<PolychordMemoryReplay> replays) {
+  for (final replay in replays) {
+    _sink ^= replay.timestampMs;
+    for (final event in replay.events) {
+      _sink ^= event.timestampMs;
+    }
+  }
+}
+
+void _consumeMemoryReplays(
+  PolychordProductEngine engine,
+  Iterable<PolychordMemoryReplay> replays,
+) {
+  for (final replay in replays) {
+    engine.reset(timestampMs: replay.timestampMs);
+    for (final event in replay.events) {
+      _consumeObservation(engine.observeEvent(event), serialize: true);
+    }
+  }
+}
+
 Map<String, Object?> _measureStress({
   required String id,
   required List<PolychordTemporalEvent> Function(int) relativeEvents,
 }) {
-  final engine = PolychordProductEngine(initialPrimaryDisplayable: true);
-  var generation = 0;
   final eventCount = relativeEvents(0).length;
-  final time = collect(
-    () {
-      generation += 1000;
-      final events = relativeEvents(generation);
-      engine.reset(timestampMs: generation);
-      return _timeMicros(() {
-        for (final event in events) {
-          _consumeObservation(engine.observeEvent(event), serialize: true);
-        }
-      });
-    },
-    targetRelCi: 0.02,
-    budget: const Duration(seconds: 20),
-  );
+  Stats measure({required bool serialize}) {
+    final engine = PolychordProductEngine(initialPrimaryDisplayable: true);
+    var generation = 0;
+    return collect(
+      () {
+        generation += 1000;
+        final events = relativeEvents(generation);
+        engine.reset(timestampMs: generation);
+        return _timeMicros(() {
+          for (final event in events) {
+            _consumeObservation(
+              engine.observeEvent(event),
+              serialize: serialize,
+            );
+          }
+        });
+      },
+      targetRelCi: 0.02,
+      budget: const Duration(seconds: 20),
+    );
+  }
 
-  generation += 1000;
-  engine.reset(timestampMs: generation);
+  final coreTime = measure(serialize: false);
+  final serializedTime = measure(serialize: true);
+
+  final engine = PolychordProductEngine(initialPrimaryDisplayable: true);
   final candidateCounts = <int>[];
-  for (final event in relativeEvents(generation)) {
+  for (final event in relativeEvents(0)) {
     candidateCounts.add(engine.observeEvent(event).candidates.length);
   }
   return <String, Object?>{
     'id': id,
     'eventCount': eventCount,
-    'traceUs': time.toJson(targetRelCi: 0.02),
-    'meanUsPerEvent': time.mean / eventCount,
+    'coreTraceUs': coreTime.toJson(targetRelCi: 0.02),
+    'coreMeanUsPerEvent': coreTime.mean / eventCount,
+    'serializedTraceUs': serializedTime.toJson(targetRelCi: 0.02),
+    'serializedMeanUsPerEvent': serializedTime.mean / eventCount,
     'candidatesPerFrame': _Distribution.from(candidateCounts).toJson(),
   };
 }
@@ -496,7 +552,11 @@ Map<String, Object?> _budgetJson({
   );
   final lower = math.max(0.0, ratio * (1 - relCi95));
   final upper = ratio * (1 + relCi95);
-  final status = ratio <= _budgetRatio
+  final primaryConverged = primary.relCi95 <= _targetRelCi;
+  final productConverged = product.relCi95 <= _targetRelCi;
+  final status = !primaryConverged || !productConverged
+      ? 'indeterminate'
+      : ratio <= _budgetRatio
       ? 'pass'
       : lower <= _budgetRatio
       ? 'indeterminate'
@@ -507,6 +567,8 @@ Map<String, Object?> _budgetJson({
     'ratioRelCi95': relCi95,
     'ratioCi95Lower': lower,
     'ratioCi95Upper': upper,
+    'primaryConverged': primaryConverged,
+    'productConverged': productConverged,
     'status': status,
   };
 }
@@ -544,10 +606,13 @@ void _consumeObservation(
 void _validateWorkloads(Map<String, List<PolychordBenchmarkCase>> corpora) {
   for (final entry in corpora.entries) {
     final diagnostics = _diagnoseCorpus(entry.value);
+    final repetitions = finalTimingRepetitions(entry.value.length);
     stdout.writeln(
       '${entry.key}: ${entry.value.length} cases, '
       '${diagnostics.eventCount} events, '
-      'max ${diagnostics.candidates.max} candidates/frame',
+      'max ${diagnostics.candidates.max} candidates/frame, '
+      '$repetitions final-timing repetitions '
+      '(${entry.value.length * repetitions} events/sample)',
     );
   }
   stdout.writeln(
@@ -566,7 +631,7 @@ void _printSummary(Map<String, Object?> result) {
     '${'Primary'.padLeft(12)}'
     '${'Product'.padLeft(12)}'
     '${'+ toJson'.padLeft(12)}'
-    '${'Budget'.padLeft(11)}',
+    '${'Core budget'.padLeft(16)}',
   );
   for (final corpusName in ['oracle', 'common', 'structural']) {
     final corpus = corpora[corpusName]! as Map<String, Object?>;
@@ -583,7 +648,7 @@ void _printSummary(Map<String, Object?> result) {
       '${mean('productCoreFinal').toStringAsFixed(3).padLeft(12)}'
       '${mean('productSerializedFinal').toStringAsFixed(3).padLeft(12)}'
       '${('${((budget['productToPrimaryRatio']! as num) * 100).toStringAsFixed(2)}% '
-          '${budget['status']}').padLeft(11)}',
+          '${budget['status']}').padLeft(16)}',
     );
   }
 
@@ -607,9 +672,9 @@ void _printSummary(Map<String, Object?> result) {
     final memory = memoryByCorpus[corpusName]! as Map<String, Object?>;
     stdout.writeln(
       '  ${corpusName.padRight(10)}'
-      '${(memory['churnBytesPerEvent']! as num).toStringAsFixed(0).padLeft(8)} '
+      '${(memory['netChurnBytesPerEvent']! as num).toStringAsFixed(0).padLeft(8)} '
       'bytes/event, '
-      '${(memory['churnObjectsPerEvent']! as num).toStringAsFixed(1).padLeft(6)} '
+      '${(memory['netChurnObjectsPerEvent']! as num).toStringAsFixed(1).padLeft(6)} '
       'objects/event, retained growth '
       '${memory['retainedGrowthBytesAfterRepeatedPasses']} bytes',
     );
@@ -617,16 +682,17 @@ void _printSummary(Map<String, Object?> result) {
 
   final stress = result['stress']! as Map<String, Object?>;
   stdout.writeln('');
-  stdout.writeln('Serialized stress traces');
+  stdout.writeln('Stress traces');
   for (final key in ['fullMidiRange', 'positiveReattack']) {
     final value = stress[key]! as Map<String, Object?>;
-    final trace = value['traceUs']! as Map<String, Object?>;
+    final core = value['coreTraceUs']! as Map<String, Object?>;
+    final serialized = value['serializedTraceUs']! as Map<String, Object?>;
     stdout.writeln(
       '  ${(value['id']! as String).padRight(20)}'
       '${(value['eventCount']! as num).toString().padLeft(4)} events, '
-      '${(trace['mean']! as num).toStringAsFixed(1).padLeft(9)} us/trace, '
-      '${(value['meanUsPerEvent']! as num).toStringAsFixed(2).padLeft(7)} '
-      'us/event',
+      '${(core['mean']! as num).toStringAsFixed(1).padLeft(9)} us core, '
+      '${(serialized['mean']! as num).toStringAsFixed(1).padLeft(9)} us '
+      'with toJson',
     );
   }
 }

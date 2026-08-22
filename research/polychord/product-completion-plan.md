@@ -4,12 +4,13 @@ Status: active product-development plan. The exact product contract, selector,
 suite, implementations, development exposure, and prior-art comparison are
 complete through log 2026-08-14-06. Log 2026-08-14-07 records integration of the
 passing pure-Dart policy into the app's normalized MIDI path and secondary
-presentation. Log 2026-08-22-01 prospectively freezes the dedicated polychord
-performance benchmark; its timed run, hands-on device and accessibility checks,
-release-candidate freeze, and the one final held exposure remain. This plan
-permits an author-adjudicated product-policy experiment and delivery path. It
-does not claim independent annotation, perceptual validity, generalized
-detection accuracy, or publication-ready source coverage.
+presentation. Benchmark v1, frozen in log 2026-08-22-01, failed in log
+2026-08-22-02. Logs 2026-08-22-03 and -04 record equivalence-guarded
+optimization and prospective benchmark v2. Its timed run, hands-on device and
+accessibility checks, release-candidate freeze, and the one final held exposure
+remain. This plan permits an author-adjudicated product-policy experiment and
+delivery path. It does not claim independent annotation, perceptual validity,
+generalized detection accuracy, or publication-ready source coverage.
 
 The decision is recorded in log 2026-08-13-08. The stricter `polychord-output/2`
 source-admission route remains preserved in `automatic-selection-v2-plan.md` and
@@ -247,10 +248,12 @@ Proceed in this order:
 7. **Integration implemented; release guards remain:** the normal app path now
    owns the normalized event adapter, passing selector, complete diagnostics,
    stable timer, and accessible secondary presentation. Package and app
-   regressions and the unchanged primary benchmark pass. The dedicated polychord
-   benchmark is frozen by log 2026-08-22-01 but has not been timed. Complete
-   that measurement and hands-on MIDI, accessibility, and note-storm checks
-   before freezing a release candidate.
+   regressions and unchanged-primary behavioral guards pass. The dedicated
+   polychord v1 benchmark failed in log 2026-08-22-02; separate primary timing
+   baseline maintenance is also required after the Dart 3.13.1 upgrade. The
+   optimized path and corrected v2 measurement are recorded in logs
+   2026-08-22-03 and -04. Complete the v2 run and hands-on MIDI, accessibility,
+   and note-storm checks before freezing a release candidate.
 8. Freeze the release candidate and run the untouched 808-song POP909 pool once
    as a false-display safety check.
 9. Ship only if every gate passes. Preserve the stronger source-validation and
