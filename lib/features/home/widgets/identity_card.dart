@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:material_ui/material_ui.dart';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:whatchord_app/features/chords/chords.dart';
 import 'package:whatchord_app/features/theory/theory.dart';

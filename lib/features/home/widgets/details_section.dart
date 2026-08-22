@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:material_ui/material_ui.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:whatchord_app/features/demo/demo.dart';
 import 'package:whatchord_app/features/input/input.dart';
