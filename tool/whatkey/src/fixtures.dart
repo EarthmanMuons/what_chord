@@ -32,9 +32,9 @@ class FixtureSet {
       (manifest['source'] as Map).cast<String, dynamic>();
 
   static FixtureSet load(Directory directory) {
-    final manifest =
-        jsonDecode(File('${directory.path}/manifest.json').readAsStringSync())
-            as Map<String, dynamic>;
+    final manifest = jsonDecode(
+      File('${directory.path}/manifest.json').readAsStringSync(),
+    ) as Map<String, dynamic>;
     final context = parseTonality(manifest['context'] as String);
     // Read and decode each fixture once, keeping the raw content for hashing so
     // the aggregate hash does not re-read the corpus from disk.

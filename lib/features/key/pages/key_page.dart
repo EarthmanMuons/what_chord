@@ -363,9 +363,8 @@ class _KeyTopBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cs = Theme.of(context).colorScheme;
-    final titleStyle = Theme.of(
-      context,
-    ).textTheme.titleLarge?.copyWith(letterSpacing: -0.2);
+    final titleStyle = Theme.of(context).textTheme.titleLarge
+        ?.copyWith(letterSpacing: -0.2);
 
     // Match the standard AppBar leading-control position while the title and
     // content retain their shared horizontal inset.

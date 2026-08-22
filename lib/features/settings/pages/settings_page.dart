@@ -592,12 +592,12 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                         FilledButton(
                           onPressed: () => Navigator.of(context).pop(true),
                           style: FilledButton.styleFrom(
-                            backgroundColor: Theme.of(
-                              context,
-                            ).colorScheme.error,
-                            foregroundColor: Theme.of(
-                              context,
-                            ).colorScheme.onError,
+                            backgroundColor: Theme.of(context)
+                                .colorScheme
+                                .error,
+                            foregroundColor: Theme.of(context)
+                                .colorScheme
+                                .onError,
                           ),
                           child: const Text('Reset'),
                         ),

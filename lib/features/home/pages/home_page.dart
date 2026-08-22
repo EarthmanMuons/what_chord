@@ -71,9 +71,8 @@ class _HomePageState extends ConsumerState<HomePage> {
             ? '$baseText\nTour ended'
             : baseText;
 
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(text)));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(text)));
       }
     });
   }

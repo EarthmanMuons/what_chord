@@ -75,8 +75,7 @@ final midiConnectionStatusProvider = Provider<MidiConnectionStatus>((ref) {
       };
 
       final detail = switch (reason) {
-        BluetoothUnavailability.adapterOff =>
-          'Turn on Bluetooth to discover wireless MIDI devices. Wired USB MIDI devices may still be available.',
+        BluetoothUnavailability.adapterOff => 'Turn on Bluetooth to discover wireless MIDI devices. Wired USB MIDI devices may still be available.',
         BluetoothUnavailability.permissionDenied =>
           Platform.isAndroid
               ? 'Allow the Nearby devices permission to scan and connect to wireless Bluetooth MIDI devices.'
@@ -85,10 +84,8 @@ final midiConnectionStatusProvider = Provider<MidiConnectionStatus>((ref) {
           Platform.isAndroid
               ? 'Enable the Nearby devices permission in system settings for this app.'
               : 'Enable Bluetooth access for this app in system settings. Wired USB MIDI devices may still be available.',
-        BluetoothUnavailability.unsupported =>
-          'This device does not support Bluetooth MIDI. Wired USB MIDI devices may still be available.',
-        BluetoothUnavailability.notReady || null =>
-          'Bluetooth is not ready yet for wireless MIDI discovery. Try again, or connect a wired USB MIDI device.',
+        BluetoothUnavailability.unsupported => 'This device does not support Bluetooth MIDI. Wired USB MIDI devices may still be available.',
+        BluetoothUnavailability.notReady || null => 'Bluetooth is not ready yet for wireless MIDI discovery. Try again, or connect a wired USB MIDI device.',
       };
 
       return MidiConnectionStatus(

@@ -91,11 +91,9 @@ void main() {
         const MidiMessage(type: MidiMessageType.noteOff, note: 60, velocity: 0),
       );
       await pumpEventQueue();
-      expect(
-        container.read(midiNoteStateProvider).sustained,
-        {60},
-        reason: 'sustained under the touch pedal',
-      );
+      expect(container.read(midiNoteStateProvider).sustained, {
+        60,
+      }, reason: 'sustained under the touch pedal');
 
       controller().toggle();
       await pumpEventQueue();

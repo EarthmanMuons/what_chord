@@ -144,9 +144,8 @@ class LastConnectedDeviceCard extends ConsumerWidget {
           .clearLastConnectedDevice();
 
       if (!context.mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Device forgotten')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Device forgotten')));
       await HapticFeedback.lightImpact();
     }
 

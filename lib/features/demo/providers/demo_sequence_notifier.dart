@@ -150,8 +150,7 @@ class DemoSequenceNotifier extends Notifier<DemoSequenceState> {
     const DemoStep(
       notes: {},
       tonality: Tonality(Tonic.c, TonalityMode.major),
-      promptText:
-          'Take a quick tour by tapping the card arrows.\nConnect a MIDI device anytime to start playing.',
+      promptText: 'Take a quick tour by tapping the card arrows.\nConnect a MIDI device anytime to start playing.',
     ),
     // 2) C major -- a chord is named instantly.
     const DemoStep(
@@ -165,16 +164,14 @@ class DemoSequenceNotifier extends Notifier<DemoSequenceState> {
     const DemoStep(
       notes: {60, 64, 67, 69, 74},
       tonality: Tonality(Tonic.c, TonalityMode.major),
-      promptText:
-          'Inversions and extensions are recognized automatically.\nTap the chord card to explore variations.',
+      promptText: 'Inversions and extensions are recognized automatically.\nTap the chord card to explore variations.',
       targets: [DemoTarget.chordCard],
     ),
     // 4) Bm7(b5) -- alternative readings.
     const DemoStep(
       notes: {59, 62, 65, 69},
       tonality: Tonality(Tonic.c, TonalityMode.major),
-      promptText:
-          'Some voicings have more than one reading.\nTap any alternative to see how they were ranked.',
+      promptText: 'Some voicings have more than one reading.\nTap any alternative to see how they were ranked.',
       targets: [DemoTarget.alternatives],
     ),
     // 5) Key context and scales. Dm is the ii of C major, so the scale-degree
@@ -182,16 +179,14 @@ class DemoSequenceNotifier extends Notifier<DemoSequenceState> {
     const DemoStep(
       notes: {62, 65, 69},
       tonality: Tonality(Tonic.c, TonalityMode.major),
-      promptText:
-          'Set your key so chords are named in context.\nTap the scale strip to explore scales.',
+      promptText: 'Set your key so chords are named in context.\nTap the scale strip to explore scales.',
       targets: [DemoTarget.tonalityBar],
     ),
     // 6) No MIDI -- manual lookup.
     const DemoStep(
       notes: {},
       tonality: Tonality(Tonic.c, TonalityMode.major),
-      promptText:
-          'No MIDI device? Tap search to pick notes by name.\nConnect a device anytime to play.',
+      promptText: 'No MIDI device? Tap search to pick notes by name.\nConnect a device anytime to play.',
       targets: [DemoTarget.lookupButton, DemoTarget.midiIcon],
     ),
   ];

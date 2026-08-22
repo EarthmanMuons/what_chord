@@ -13,9 +13,8 @@ class SubsectionLabel extends StatelessWidget {
         header: true,
         child: Text(
           title,
-          style: Theme.of(
-            context,
-          ).textTheme.titleSmall?.copyWith(color: cs.onSurface),
+          style: Theme.of(context).textTheme.titleSmall
+              ?.copyWith(color: cs.onSurface),
         ),
       ),
     );

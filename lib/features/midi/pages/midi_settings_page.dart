@@ -89,15 +89,14 @@ class _MidiSettingsPageState extends ConsumerState<MidiSettingsPage> {
                   subtitle: const Text('Scan for available MIDI devices'),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () async {
-                    await showAdaptiveMidiDevicePicker(context).whenComplete(
-                      () {
-                        unawaited(
-                          ref
-                              .read(midiConnectionStateProvider.notifier)
-                              .stopScanning(),
-                        );
-                      },
-                    );
+                    await showAdaptiveMidiDevicePicker(context)
+                        .whenComplete(() {
+                          unawaited(
+                            ref
+                                .read(midiConnectionStateProvider.notifier)
+                                .stopScanning(),
+                          );
+                        });
                   },
                 ),
               ),

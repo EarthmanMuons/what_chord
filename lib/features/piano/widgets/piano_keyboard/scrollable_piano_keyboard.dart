@@ -543,8 +543,7 @@ class _ScrollablePianoKeyboardState
               Semantics(
                 container: true,
                 label: 'Piano keyboard',
-                hint:
-                    'Horizontally scrollable. Use the center keyboard action to recenter on active notes.',
+                hint: 'Horizontally scrollable. Use the center keyboard action to recenter on active notes.',
                 customSemanticsActions: {
                   const CustomSemanticsAction(
                     label: 'Center keyboard on active notes',

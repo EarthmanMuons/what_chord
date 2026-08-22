@@ -112,13 +112,10 @@ void main() {
     // The lock, Python REPORT_DATA_KEYS, and this list must stay identical or
     // `reproducibility.py verify` reports a spurious MISMATCH. Python is checked
     // against the lock at verify time; this pins the Dart side to the same lock.
-    final lock =
-        jsonDecode(
-              File(
-                'research/whatkey/results/reproduction-v2026.7.14.json',
-              ).readAsStringSync(),
-            )
-            as Map<String, dynamic>;
+    final lock = jsonDecode(
+      File('research/whatkey/results/reproduction-v2026.7.14.json')
+          .readAsStringSync(),
+    ) as Map<String, dynamic>;
     expect(lock['resultDataFields'], resultDataFields);
   });
 

@@ -405,8 +405,7 @@ class _MidiDevicePickerState extends ConsumerState<MidiDevicePicker> {
     return _buildEmptyState(
       icon: Icons.music_off,
       title: 'No devices found',
-      message:
-          'Tap Refresh to scan again.\nCheck that devices are powered on and USB cables are plugged in.',
+      message: 'Tap Refresh to scan again.\nCheck that devices are powered on and USB cables are plugged in.',
     );
   }
 

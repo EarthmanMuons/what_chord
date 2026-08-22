@@ -118,8 +118,7 @@ class _SupportSheetContent extends StatelessWidget {
                   ],
                   const _SupportInstruction(
                     action: 'Tap the chord card',
-                    description:
-                        'to explore chords with different roots, qualities, extensions, and bass notes.',
+                    description: 'to explore chords with different roots, qualities, extensions, and bass notes.',
                   ),
                   const SizedBox(height: 8),
                   const _SupportInstruction(
@@ -130,14 +129,12 @@ class _SupportSheetContent extends StatelessWidget {
                   const SizedBox(height: 8),
                   const _SupportInstruction(
                     action: 'Tap the scale-degree strip',
-                    description:
-                        'to explore scale tones, keyboard patterns, and diatonic chords.',
+                    description: 'to explore scale tones, keyboard patterns, and diatonic chords.',
                   ),
                   const SizedBox(height: 8),
                   const _SupportInstruction(
                     action: 'Long-press the chord card',
-                    description:
-                        'to show diagnostic details for reporting a chord result.',
+                    description: 'to show diagnostic details for reporting a chord result.',
                   ),
                   const SizedBox(height: 16),
                   const _SupportSectionTitle('Reference'),
