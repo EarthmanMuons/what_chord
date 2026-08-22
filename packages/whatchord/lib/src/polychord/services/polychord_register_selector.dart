@@ -141,12 +141,10 @@ final class PolychordRegisterSelector {
     PolychordRegisterSelectorProfile profile =
         PolychordRegisterSelectorProfile.full,
   }) {
-    final notes = List<int>.unmodifiable(midiNotes);
-    return decideCandidates(
-      notes,
-      const PolychordRegisterCandidateGenerator().generate(notes),
-      profile: profile,
+    final generated = const PolychordRegisterCandidateGenerator().generateSet(
+      midiNotes,
     );
+    return decideGenerated(generated, profile: profile);
   }
 
   /// Applies [profile] to an already-generated complete candidate list.
@@ -159,103 +157,142 @@ final class PolychordRegisterSelector {
     final notes = List<int>.unmodifiable(midiNotes);
     final structural = List<PolychordCandidate>.unmodifiable(candidates);
     _validateCandidates(notes, structural);
+    return _decideValidated(notes, structural, profile);
+  }
 
-    final identityCounts = <PolychordIdentity, int>{};
-    for (final candidate in structural) {
-      identityCounts.update(
-        candidate.identity,
-        (count) => count + 1,
-        ifAbsent: () => 1,
-      );
-    }
+  /// Applies a profile to one package-internal generated candidate set.
+  @internal
+  PolychordRegisterDecision decideGenerated(
+    PolychordGeneratedCandidateSet generated, {
+    PolychordRegisterSelectorProfile profile =
+        PolychordRegisterSelectorProfile.full,
+  }) => _decideValidated(generated.midiNotes, generated.candidates, profile);
 
-    final traces = <PolychordSelectorTrace>[];
-    final survivors = <PolychordCandidate>[];
-    for (final candidate in structural) {
-      final assignmentCount = identityCounts[candidate.identity]!;
-      final integratedTertian = _integratedTertianTests(notes, candidate);
-      final assignmentRemoved = profile.assignmentVeto && assignmentCount > 1;
-      final integratedRemoved =
-          !assignmentRemoved &&
-          profile.integratedTertianVeto &&
-          integratedTertian.any;
-      final survived = !assignmentRemoved && !integratedRemoved;
-      if (survived) survivors.add(candidate);
-      traces.add(
-        PolychordSelectorTrace(
-          candidate: candidate,
-          identityAssignmentCount: assignmentCount,
-          integratedTertian: integratedTertian,
-          removedByAssignmentVeto: assignmentRemoved,
-          removedByIntegratedTertianVeto: integratedRemoved,
-          survived: survived,
-        ),
-      );
-    }
+  /// Evaluates generated candidates without constructing a static decision.
+  @internal
+  List<PolychordSelectorTrace> evaluateGenerated(
+    PolychordGeneratedCandidateSet generated, {
+    PolychordRegisterSelectorProfile profile =
+        PolychordRegisterSelectorProfile.full,
+  }) => _evaluateCandidates(
+    generated.pitchClassMask,
+    generated.candidates,
+    profile,
+  );
+}
 
-    PolychordCandidate? selected;
-    List<String> reasonCodes;
-    if (structural.isEmpty) {
-      reasonCodes = const ['no-structural-candidate'];
-    } else if (survivors.isEmpty) {
-      reasonCodes = const ['not-selected-by-policy'];
-    } else if (!profile.gapResolution) {
-      if (survivors.length == 1) {
-        selected = survivors.single;
-        reasonCodes = const [];
-      } else {
-        reasonCodes = const ['multiple-unresolved-identities'];
-      }
+PolychordRegisterDecision _decideValidated(
+  List<int> notes,
+  List<PolychordCandidate> structural,
+  PolychordRegisterSelectorProfile profile,
+) {
+  final traces = _evaluateCandidates(
+    _pitchClassMask(notes),
+    structural,
+    profile,
+  );
+  final survivors = [
+    for (final trace in traces)
+      if (trace.survived) trace.candidate,
+  ];
+
+  PolychordCandidate? selected;
+  List<String> reasonCodes;
+  if (structural.isEmpty) {
+    reasonCodes = const ['no-structural-candidate'];
+  } else if (survivors.isEmpty) {
+    reasonCodes = const ['not-selected-by-policy'];
+  } else if (!profile.gapResolution) {
+    if (survivors.length == 1) {
+      selected = survivors.single;
+      reasonCodes = const [];
     } else {
-      final greatestGap = survivors
-          .map((candidate) => candidate.gapSemitones)
-          .reduce((a, b) => a > b ? a : b);
-      final widest = survivors
-          .where((candidate) => candidate.gapSemitones == greatestGap)
-          .toList();
-      if (widest.length == 1) {
-        selected = widest.single;
-        reasonCodes = const [];
-      } else {
-        reasonCodes = const ['multiple-unresolved-identities'];
-      }
+      reasonCodes = const ['multiple-unresolved-identities'];
     }
+  } else {
+    final greatestGap = survivors
+        .map((candidate) => candidate.gapSemitones)
+        .reduce((a, b) => a > b ? a : b);
+    final widest = survivors
+        .where((candidate) => candidate.gapSemitones == greatestGap)
+        .toList();
+    if (widest.length == 1) {
+      selected = widest.single;
+      reasonCodes = const [];
+    } else {
+      reasonCodes = const ['multiple-unresolved-identities'];
+    }
+  }
 
-    return PolychordRegisterDecision(
-      selectorId: profile.selectorId,
-      midiNotes: notes,
-      candidates: structural,
-      traces: traces,
-      selected: selected,
-      reasonCodes: reasonCodes,
+  return PolychordRegisterDecision(
+    selectorId: profile.selectorId,
+    midiNotes: notes,
+    candidates: structural,
+    traces: traces,
+    selected: selected,
+    reasonCodes: reasonCodes,
+  );
+}
+
+List<PolychordSelectorTrace> _evaluateCandidates(
+  int pitchClassMask,
+  List<PolychordCandidate> structural,
+  PolychordRegisterSelectorProfile profile,
+) {
+  final identityCounts = <PolychordIdentity, int>{};
+  for (final candidate in structural) {
+    identityCounts.update(
+      candidate.identity,
+      (count) => count + 1,
+      ifAbsent: () => 1,
     );
   }
+
+  final traces = <PolychordSelectorTrace>[];
+  for (final candidate in structural) {
+    final assignmentCount = identityCounts[candidate.identity]!;
+    final integratedTertian = _integratedTertianTests(
+      pitchClassMask,
+      candidate,
+    );
+    final assignmentRemoved = profile.assignmentVeto && assignmentCount > 1;
+    final integratedRemoved =
+        !assignmentRemoved &&
+        profile.integratedTertianVeto &&
+        integratedTertian.any;
+    final survived = !assignmentRemoved && !integratedRemoved;
+    traces.add(
+      PolychordSelectorTrace(
+        candidate: candidate,
+        identityAssignmentCount: assignmentCount,
+        integratedTertian: integratedTertian,
+        removedByAssignmentVeto: assignmentRemoved,
+        removedByIntegratedTertianVeto: integratedRemoved,
+        survived: survived,
+      ),
+    );
+  }
+  return List<PolychordSelectorTrace>.unmodifiable(traces);
 }
 
 IntegratedTertianTests _integratedTertianTests(
-  List<int> midiNotes,
+  int pitchClassMask,
   PolychordCandidate candidate,
 ) {
-  final pitchClasses = midiNotes.map((note) => note % 12).toSet();
   return IntegratedTertianTests(
-    compact: _isCompactIntegrated(pitchClasses),
-    rootedNinth: _isRootedNinthIntegrated(pitchClasses, candidate),
+    compact: _isCompactIntegrated(pitchClassMask),
+    rootedNinth: _isRootedNinthIntegrated(pitchClassMask, candidate),
     rootedSeventhExtension: _isRootedSeventhExtensionIntegrated(
-      pitchClasses,
+      pitchClassMask,
       candidate,
     ),
   );
 }
 
-Set<int> _relativeShape(Set<int> pitchClasses, int rootPc) => {
-  for (final pitchClass in pitchClasses) (pitchClass - rootPc) % 12,
-};
-
-bool _isCompactIntegrated(Set<int> pitchClasses) {
+bool _isCompactIntegrated(int pitchClassMask) {
   for (var rootPc = 0; rootPc < 12; rootPc++) {
-    if (_setOfIntEquality(
-      _relativeShape(pitchClasses, rootPc),
-      _compactIntegratedShapes,
+    if (_compactIntegratedShapes.contains(
+      _relativeMask(pitchClassMask, rootPc),
     )) {
       return true;
     }
@@ -264,36 +301,52 @@ bool _isCompactIntegrated(Set<int> pitchClasses) {
 }
 
 bool _isRootedNinthIntegrated(
-  Set<int> pitchClasses,
+  int pitchClassMask,
   PolychordCandidate candidate,
 ) {
   final shapes = _rootedNinthShapes[candidate.lower.identity.quality];
   if (shapes == null) return false;
-  final relative = _relativeShape(
-    pitchClasses,
+  final relative = _relativeMask(
+    pitchClassMask,
     candidate.lower.identity.rootPc,
   );
-  return shapes.any((shape) => _setsEqual(relative, shape));
+  return shapes.contains(relative);
 }
 
 bool _isRootedSeventhExtensionIntegrated(
-  Set<int> pitchClasses,
+  int pitchClassMask,
   PolychordCandidate candidate,
 ) {
   final allowed =
       _rootedSeventhExtensionIntervals[candidate.lower.identity.quality];
   if (allowed == null) return false;
-  final added = pitchClasses.difference(candidate.lower.pitchClasses.toSet());
-  if (added.isEmpty) return false;
-  final addedIntervals = _relativeShape(added, candidate.lower.identity.rootPc);
-  return allowed.containsAll(addedIntervals);
+  final lowerMask = _pitchClassMask(candidate.lower.pitchClasses);
+  final addedMask = pitchClassMask & ~lowerMask & 0xfff;
+  if (addedMask == 0) return false;
+  final addedIntervals = _relativeMask(
+    addedMask,
+    candidate.lower.identity.rootPc,
+  );
+  return addedIntervals & ~allowed == 0;
 }
 
-bool _setOfIntEquality(Set<int> value, List<Set<int>> options) =>
-    options.any((option) => _setsEqual(value, option));
+int _pitchClassMask(Iterable<int> values) {
+  var result = 0;
+  for (final value in values) {
+    result |= 1 << (value % 12);
+  }
+  return result;
+}
 
-bool _setsEqual(Set<int> a, Set<int> b) =>
-    a.length == b.length && a.containsAll(b);
+int _relativeMask(int pitchClassMask, int rootPc) {
+  var result = 0;
+  for (var pitchClass = 0; pitchClass < 12; pitchClass++) {
+    if ((pitchClassMask & (1 << pitchClass)) != 0) {
+      result |= 1 << ((pitchClass - rootPc) % 12);
+    }
+  }
+  return result;
+}
 
 void _validateCandidates(
   List<int> midiNotes,
@@ -323,26 +376,15 @@ void _validateCandidates(
   }
 }
 
-const _compactIntegratedShapes = <Set<int>>[
-  {0, 4, 7, 10},
-  {0, 4, 7, 11},
-  {0, 3, 7, 10},
-  {0, 4, 7, 9},
-  {0, 3, 7, 9},
-];
+const _compactIntegratedShapes = <int>[0x491, 0x891, 0x489, 0x291, 0x289];
 
-const _rootedNinthShapes = <PolychordLayerQuality, List<Set<int>>>{
-  PolychordLayerQuality.major: [
-    {0, 2, 4, 7, 10},
-    {0, 2, 4, 7, 11},
-  ],
-  PolychordLayerQuality.minor: [
-    {0, 2, 3, 7, 10},
-  ],
+const _rootedNinthShapes = <PolychordLayerQuality, List<int>>{
+  PolychordLayerQuality.major: [0x495, 0x895],
+  PolychordLayerQuality.minor: [0x48d],
 };
 
-const _rootedSeventhExtensionIntervals = <PolychordLayerQuality, Set<int>>{
-  PolychordLayerQuality.dominant7: {1, 2, 3, 5, 6, 8, 9},
-  PolychordLayerQuality.major7: {2, 6, 9},
-  PolychordLayerQuality.minor7: {2, 5, 9},
+const _rootedSeventhExtensionIntervals = <PolychordLayerQuality, int>{
+  PolychordLayerQuality.dominant7: 0x36e,
+  PolychordLayerQuality.major7: 0x244,
+  PolychordLayerQuality.minor7: 0x224,
 };

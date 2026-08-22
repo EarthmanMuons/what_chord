@@ -49,7 +49,8 @@ export 'src/polychord/services/polychord_coherent_separated_onset_interpreter.da
 export 'src/polychord/services/polychord_frame_transition_evidence_analyzer.dart';
 export 'src/polychord/services/polychord_continuous_authorization_gate.dart';
 export 'src/polychord/services/polychord_onset_register_selector.dart';
-export 'src/polychord/services/polychord_register_candidate_generator.dart';
+export 'src/polychord/services/polychord_register_candidate_generator.dart'
+    show PolychordRegisterCandidateGenerator;
 export 'src/polychord/services/polychord_register_selector.dart';
 export 'src/polychord/services/polychord_release_pedal_evidence_analyzer.dart';
 export 'src/polychord/services/polychord_release_pedal_tracker.dart';

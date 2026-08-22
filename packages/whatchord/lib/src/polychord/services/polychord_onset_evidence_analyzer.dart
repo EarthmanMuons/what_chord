@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import '../models/polychord_candidate.dart';
 import '../models/polychord_onset_evidence.dart';
 import 'polychord_register_candidate_generator.dart';
@@ -15,11 +17,21 @@ final class PolychordOnsetEvidenceAnalyzer {
     Iterable<PolychordSoundingNoteOnset> soundingNotes,
   ) {
     final notes = _validateSoundingNotes(soundingNotes);
-    final candidates = const PolychordRegisterCandidateGenerator().generate(
+    final generated = const PolychordRegisterCandidateGenerator().generateSet(
       notes.map((note) => note.midiNote),
     );
+    return analyzeGenerated(generated, notes);
+  }
+
+  /// Analyzes one already-generated package-internal structural set.
+  @internal
+  List<PolychordCandidateOnsetEvidence> analyzeGenerated(
+    PolychordGeneratedCandidateSet generated,
+    List<PolychordSoundingNoteOnset> soundingNotes,
+  ) {
+    final byMidiNote = {for (final note in soundingNotes) note.midiNote: note};
     return List<PolychordCandidateOnsetEvidence>.unmodifiable(
-      candidates.map((candidate) => _analyze(candidate, notes)),
+      generated.candidates.map((candidate) => _analyze(candidate, byMidiNote)),
     );
   }
 
@@ -39,15 +51,14 @@ final class PolychordOnsetEvidenceAnalyzer {
         'must be an exact generated candidate for soundingNotes',
       );
     }
-    return _analyze(candidate, notes);
+    return _analyze(candidate, {for (final note in notes) note.midiNote: note});
   }
 }
 
 PolychordCandidateOnsetEvidence _analyze(
   PolychordCandidate candidate,
-  List<PolychordSoundingNoteOnset> notes,
+  Map<int, PolychordSoundingNoteOnset> byMidiNote,
 ) {
-  final byMidiNote = {for (final note in notes) note.midiNote: note};
   final lower = _summarize(candidate.lower.midiNotes, byMidiNote);
   final upper = _summarize(candidate.upper.midiNotes, byMidiNote);
 
