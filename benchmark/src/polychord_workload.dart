@@ -37,6 +37,54 @@ final class PolychordBenchmarkCase {
 /// Frozen automatic-product cue boundary used only to construct workload time.
 const int cohortGapMs = 80;
 const int benchmarkVelocity = 80;
+const int minimumTimedFinalEventsPerSample = 1000;
+const int minimumAllocationEvents = 10000;
+
+typedef PolychordMemoryReplay = ({
+  int timestampMs,
+  List<PolychordTemporalEvent> events,
+});
+
+/// Repetitions needed to make one final-event timing sample long enough.
+int finalTimingRepetitions(int caseCount) {
+  if (caseCount <= 0) {
+    throw RangeError.range(caseCount, 1, null, 'caseCount');
+  }
+  return (minimumTimedFinalEventsPerSample + caseCount - 1) ~/ caseCount;
+}
+
+/// Complete corpus passes needed to amortize allocation-probe overhead.
+int allocationPassRepetitions(int eventsPerPass) {
+  if (eventsPerPass <= 0) {
+    throw RangeError.range(eventsPerPass, 1, null, 'eventsPerPass');
+  }
+  return (minimumAllocationEvents + eventsPerPass - 1) ~/ eventsPerPass;
+}
+
+/// Preconstructs reset-delimited event replays outside an allocation window.
+List<PolychordMemoryReplay> memoryReplays(
+  List<PolychordBenchmarkCase> cases,
+  int passCount,
+) {
+  if (cases.isEmpty) {
+    throw ArgumentError.value(cases, 'cases', 'must not be empty');
+  }
+  if (passCount <= 0) {
+    throw RangeError.range(passCount, 1, null, 'passCount');
+  }
+  final replays = <PolychordMemoryReplay>[];
+  var baseTimestampMs = 0;
+  for (var passIndex = 0; passIndex < passCount; passIndex++) {
+    for (final benchmarkCase in cases) {
+      replays.add((
+        timestampMs: baseTimestampMs,
+        events: benchmarkCase.noteOnEvents(baseTimestampMs),
+      ));
+      baseTimestampMs += 1000;
+    }
+  }
+  return replays;
+}
 
 /// Projects a snapshot corpus entry into one compact, deterministic voicing.
 ///

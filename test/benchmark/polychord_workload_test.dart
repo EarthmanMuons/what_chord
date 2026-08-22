@@ -87,4 +87,31 @@ void main() {
     expect(transitions, contains(PolychordProductDisplayTransition.clear));
     expect(engine.latestObservation?.frame?.soundingMidiNotes, isEmpty);
   });
+
+  test('final timing repetitions stabilize every frozen workload', () {
+    expect(finalTimingRepetitions(352), 3);
+    expect(finalTimingRepetitions(81), 13);
+    expect(finalTimingRepetitions(5), 200);
+    expect(() => finalTimingRepetitions(0), throwsRangeError);
+  });
+
+  test('allocation repetitions and prebuilt replay timestamps are frozen', () {
+    expect(allocationPassRepetitions(1796), 6);
+    expect(allocationPassRepetitions(35), 286);
+    expect(() => allocationPassRepetitions(0), throwsRangeError);
+
+    final benchmarkCase = projectPolychordBenchmarkCase(
+      'C',
+      const ChordInput(
+        pcMask: (1 << 0) | (1 << 4) | (1 << 7),
+        bassPc: 0,
+        noteCount: 3,
+      ),
+    );
+    final replays = memoryReplays([benchmarkCase], 2);
+    expect(replays.map((replay) => replay.timestampMs), [0, 1000]);
+    expect(replays.map((replay) => replay.events.length), [3, 3]);
+    expect(() => memoryReplays([], 1), throwsArgumentError);
+    expect(() => memoryReplays([benchmarkCase], 0), throwsRangeError);
+  });
 }

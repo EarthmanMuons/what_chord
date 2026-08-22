@@ -160,8 +160,10 @@ product path with cold primary analysis in the same process:
 tool/polychord_benchmark.sh --check
 ```
 
-It writes the uncommitted `benchmark/polychord_last_run.json`. The frozen
-workload, 5% gate, structural controls, memory method, and stress traces are
-specified in `research/polychord/product-performance-benchmark-v1.md`. Use
-`--validate-only` to check fixture projection and control reachability without
-performing a timed measurement.
+It writes the uncommitted `benchmark/polychord_last_run.json`. The active frozen
+workload, live-core 5% gate, repeated structural timing, null-controlled memory
+method, and split core/diagnostic stress traces are specified in
+`research/polychord/product-performance-benchmark-v2.md`. Use `--validate-only`
+to check fixture projection, timing repetitions, and control reachability
+without performing a timed measurement. The v1 contract and failed result are
+retained in the research log.
