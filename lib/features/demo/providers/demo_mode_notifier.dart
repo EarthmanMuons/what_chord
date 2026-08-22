@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:material_ui/material_ui.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_ui/material_ui.dart';
 
 import 'package:whatchord_app/core/providers/app_theme_mode_notifier.dart';
 import 'package:whatchord_app/features/chords/chords.dart';

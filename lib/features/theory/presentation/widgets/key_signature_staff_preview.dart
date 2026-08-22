@@ -1,7 +1,6 @@
 import 'dart:ui' as ui;
 
 import 'package:material_ui/material_ui.dart';
-
 import 'package:whatchord/whatchord.dart';
 
 class KeySignatureStaffPreview extends StatelessWidget {
