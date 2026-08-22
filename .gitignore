@@ -88,4 +88,5 @@ gha-creds-*.json
 
 # Benchmark run output (transient; baseline is committed separately)
 /benchmark/last_run.json
+/benchmark/polychord_last_run.json
 /benchmark/noise.json

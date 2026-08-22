@@ -42,8 +42,9 @@ The author-adjudicated product path has since passed its frozen suite,
 development exposure, and prior-art comparison through log 2026-08-14-06. Log
 2026-08-14-07 records app integration and automated presentation, history,
 diagnostic, primary-isolation, and unchanged-engine guards. The dedicated
-polychord performance and hands-on device checks remain; the held POP909 reserve
-has not been opened.
+polychord benchmark is frozen prospectively by log 2026-08-22-01; its timed run
+and the hands-on device checks remain. The held POP909 reserve has not been
+opened.
 
 ## Task and claim boundary
 
@@ -647,11 +648,12 @@ The following work must be dated and completed in order:
     prior-art comparison. Log 2026-08-14-07 records integration into the app's
     normalized timestamped-event path and accessible secondary output. Automated
     engine, app, presentation, diagnostic, history-isolation, and
-    unchanged-primary benchmark guards pass. Dedicated polychord performance
-    measurement and hands-on MIDI, accessibility, and note-storm checks remain
-    before the release candidate can be frozen. The held POP909 reserve remains
-    untouched, and the product claim remains author-adjudicated rather than an
-    independently validated accuracy claim.
+    unchanged-primary benchmark guards pass. Log 2026-08-22-01 freezes the
+    dedicated pure-Dart performance benchmark without running its timed
+    measurement. That run and hands-on MIDI, accessibility, and device
+    note-storm checks remain before the release candidate can be frozen. The
+    held POP909 reserve remains untouched, and the product claim remains
+    author-adjudicated rather than an independently validated accuracy claim.
 15. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding
