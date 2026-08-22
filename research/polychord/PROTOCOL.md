@@ -45,8 +45,10 @@ diagnostic, primary-isolation, and unchanged-engine guards. The dedicated
 polychord benchmark v1 was frozen by log 2026-08-22-01 and failed in log
 2026-08-22-02. Log 2026-08-22-03 records equivalence-guarded optimization, log
 2026-08-22-04 prospectively freezes corrected benchmark v2, and log
-2026-08-22-05 records its passing clean-tree result. The hands-on device checks
-remain. The held POP909 reserve has not been opened.
+2026-08-22-05 records its passing clean-tree result. Log 2026-08-22-06 records
+acceptable maintainer testing on iPhone and Android, the explicit product-level
+device-telemetry amendment, and the prospective release-candidate and held-run
+freeze. The held POP909 reserve has not been opened.
 
 ## Task and claim boundary
 
@@ -656,11 +658,13 @@ The following work must be dated and completed in order:
     and log 2026-08-22-04 freezes a v2 measurement that gates the live core,
     stabilizes the structural timing batch, and null-controls allocation-probe
     overhead. Log 2026-08-22-05 records a clean-tree pass on all three timing
-    workloads and closes the pure-Dart performance gate. Hands-on MIDI,
-    accessibility, and device note-storm checks remain before the release
-    candidate can be frozen. The held POP909 reserve remains untouched, and the
-    product claim remains author-adjudicated rather than an independently
-    validated accuracy claim.
+    workloads and closes the pure-Dart performance gate. Log 2026-08-22-06
+    records acceptable iPhone and Android functional and accessibility behavior,
+    replaces exact oldest-tier frame telemetry with that qualitative
+    cross-platform acceptance for this product release, and freezes
+    `held-exposure-v1.md`. The held POP909 reserve remains untouched pending its
+    single clean-commit run, and the product claim remains author-adjudicated
+    rather than an independently validated accuracy claim.
 15. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding

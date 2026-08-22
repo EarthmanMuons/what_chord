@@ -6,12 +6,13 @@ complete through log 2026-08-14-06. Log 2026-08-14-07 records integration of the
 passing pure-Dart policy into the app's normalized MIDI path and secondary
 presentation. Benchmark v1, frozen in log 2026-08-22-01, failed in log
 2026-08-22-02. Logs 2026-08-22-03 through -05 record equivalence-guarded
-optimization, prospective benchmark v2, and its passing clean-tree result.
-Hands-on device and accessibility checks, release-candidate freeze, and the one
-final held exposure remain. This plan permits an author-adjudicated
-product-policy experiment and delivery path. It does not claim independent
-annotation, perceptual validity, generalized detection accuracy, or
-publication-ready source coverage.
+optimization, prospective benchmark v2, and its passing clean-tree result. Log
+2026-08-22-06 records acceptable iPhone and Android functional and accessibility
+behavior, the product-level device-telemetry amendment, and the prospective
+release-candidate and held-exposure freeze. The one final held exposure remains.
+This plan permits an author-adjudicated product-policy experiment and delivery
+path. It does not claim independent annotation, perceptual validity, generalized
+detection accuracy, or publication-ready source coverage.
 
 The decision is recorded in log 2026-08-13-08. The stricter `polychord-output/2`
 source-admission route remains preserved in `automatic-selection-v2-plan.md` and
@@ -252,10 +253,13 @@ Proceed in this order:
    regressions and unchanged-primary behavioral guards pass. The dedicated
    polychord v1 benchmark failed in log 2026-08-22-02. The optimized path and
    corrected v2 measurement are recorded in logs 2026-08-22-03 and -04; log
-   2026-08-22-05 records its clean-tree pass. Complete the hands-on MIDI,
-   accessibility, and note-storm checks before freezing a release candidate.
-8. Freeze the release candidate and run the untouched 808-song POP909 pool once
-   as a false-display safety check.
+   2026-08-22-05 records its clean-tree pass. Log 2026-08-22-06 records
+   acceptable iPhone and Android functional and accessibility behavior and the
+   explicit decision not to require exact frame telemetry for this release.
+8. **Release-candidate freeze prepared:** `held-exposure-v1.md` and log
+   2026-08-22-06 prospectively freeze the candidate and exact harness. Commit
+   that boundary, then run the untouched 808-song POP909 pool once as a
+   false-display safety check.
 9. Ship only if every gate passes. Preserve the stronger source-validation and
    independent-review work as an optional later research track.
 
