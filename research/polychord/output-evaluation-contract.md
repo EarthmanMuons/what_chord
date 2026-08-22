@@ -412,11 +412,10 @@ Before adoption:
 - `tool/benchmark.sh --check` passes against the unchanged primary-engine
   baseline;
 - a dedicated benchmark replays candidate generation, evidence attachment,
-  selection, immutable product-observation construction, and separately reported
-  diagnostic serialization over the oracle, common, and structural workloads
-  using the existing normalized-time methodology;
-- the added live-path cold normalized time is at most 5% of the primary snapshot
-  baseline, outside the harness's combined uncertainty window;
+  selection, and decision serialization over the adversarial oracle and common
+  voicing corpora using the existing normalized-time methodology;
+- the added cold normalized time is at most 5% of the primary snapshot baseline,
+  outside the harness's combined uncertainty window;
 - allocation churn, retained memory, candidate counts, and maximum candidates
   per frame are reported, with no unbounded cache keyed by temporal history;
 - worst-case frames spanning the supported MIDI range and rapid note-on/off and
@@ -426,12 +425,7 @@ Before adoption:
   and disabled.
 
 The 5% limit is a budget, not a target. An amendment may change it only before
-held evaluation and with a development-evidence justification. Benchmark v2 does
-not change that limit: after v1's retained failure, it aligns "added" with the
-immutable observation path the app actually executes, reports `toJson()`
-separately, lengthens the nonconvergent structural sample, and null-controls
-fixed allocation-probe cost. The prospective rationale and mechanics are in logs
-2026-08-22-03 and -04 and `product-performance-benchmark-v2.md`.
+held evaluation and with a development-evidence justification.
 
 ## Required implementation order
 
