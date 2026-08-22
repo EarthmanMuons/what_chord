@@ -1,0 +1,484 @@
+{
+  "schema": "whatchord-polychord-benchmark/2",
+  "meta": {
+    "gitHead": "deaa49ab131ac084ef5b231972391f444c7e7196",
+    "gitDirty": false,
+    "dartVersion": "3.13.1 (stable) (Tue Aug 18 01:00:59 2026 -0700) on \"macos_arm64\"",
+    "targetRelCi95": 0.015,
+    "budgetRatio": 0.05,
+    "minimumTimedFinalEventsPerSample": 1000,
+    "minimumAllocationEvents": 10000,
+    "referenceIterations": 400000,
+    "referenceDisplayScale": 100.0,
+    "oracleFixtureSha256": "05d48ea502347e2c8b7f75c06851871d35f8d2bcf1e7a472c16474258dbb3463",
+    "commonFixtureSha256": "a01c8ba94effe8fb7b4853d039811a1dc826651aa32169468c13176cee6b59c0",
+    "structuralFixtureSha256": {
+      "basic-positive": "fa6bd1292aaa9e43fc77bf258ce1d676773eea87cc7f9dba0dd40c58c39861f4",
+      "upper-seventh": "bdbff6f47458270e392cfd7a718320b864f857620ebad934e69a7af3153d580b",
+      "assignment-ambiguity": "9f36b60548646eb8beb1d5f635852fae24717fca93deee95111460cabb880fd5",
+      "multiple-identities": "354ac45bbd8bf05d3b3ea3b631fe31a499e1203f770be448e8fe896d578479bb",
+      "seventh-extension-veto": "8590adef9fc8fa3a64886014f0740a03858e57be1489ed765724db06a956d127"
+    },
+    "retentionPasses": 20
+  },
+  "referenceUs": {
+    "mean": 825.0,
+    "median": 821.5,
+    "stddev": 23.075587936620156,
+    "min": 799.0,
+    "max": 925.0,
+    "n": 30,
+    "relCi95": 0.010009082537187339,
+    "converged": true
+  },
+  "corpora": {
+    "oracle": {
+      "caseCount": 352,
+      "eventCount": 1796,
+      "finalTimingRepetitions": 3,
+      "finalTimedEventsPerSample": 1056,
+      "time": {
+        "primaryFinal": {
+          "normalized": 29.517627027854303,
+          "normalizedRelCi95": 0.010369183361642527,
+          "usPerEvent": {
+            "mean": 243.52042297979798,
+            "median": 243.546875,
+            "stddev": 1.8434680524553513,
+            "min": 239.69886363636363,
+            "max": 247.87594696969697,
+            "n": 30,
+            "relCi95": 0.0027089168224837903,
+            "converged": true
+          }
+        },
+        "productCoreFinal": {
+          "normalized": 0.3384921740386501,
+          "normalizedRelCi95": 0.017965887001450184,
+          "usPerEvent": {
+            "mean": 2.792560435818863,
+            "median": 2.733901515151515,
+            "stddev": 0.20053753239577976,
+            "min": 2.566287878787879,
+            "max": 3.7083333333333335,
+            "n": 89,
+            "relCi95": 0.014919496054245538,
+            "converged": true
+          }
+        },
+        "productSerializedFinal": {
+          "normalized": 1.181286201172565,
+          "normalizedRelCi95": 0.01784641247277961,
+          "usPerEvent": {
+            "mean": 9.745611159673663,
+            "median": 9.712121212121211,
+            "stddev": 0.5297783242069901,
+            "min": 9.160037878787879,
+            "max": 12.760416666666666,
+            "n": 52,
+            "relCi95": 0.01477540879002524,
+            "converged": true
+          }
+        },
+        "primaryEntry": {
+          "normalized": 24.518514769071565,
+          "normalizedRelCi95": 0.010137426637621474,
+          "usPerEvent": {
+            "mean": 202.2777468448404,
+            "median": 202.0044543429844,
+            "stddev": 0.9089511041958992,
+            "min": 201.03563474387528,
+            "max": 205.2271714922049,
+            "n": 30,
+            "relCi95": 0.0016080067154489405,
+            "converged": true
+          }
+        },
+        "productSerializedEntry": {
+          "normalized": 0.9299295853861554,
+          "normalizedRelCi95": 0.01096708477055531,
+          "usPerEvent": {
+            "mean": 7.671919079435782,
+            "median": 7.66369710467706,
+            "stddev": 0.09610697310784223,
+            "min": 7.536748329621381,
+            "max": 7.896993318485523,
+            "n": 30,
+            "relCi95": 0.004482768690030492,
+            "converged": true
+          }
+        }
+      },
+      "budget": {
+        "productToPrimaryRatio": 0.011467458875309727,
+        "budgetRatio": 0.05,
+        "ratioRelCi95": 0.015163429455891034,
+        "ratioCi95Lower": 0.011293572871615637,
+        "ratioCi95Upper": 0.011641344879003819,
+        "primaryConverged": true,
+        "productConverged": true,
+        "status": "pass"
+      },
+      "practicalEntryOverhead": {
+        "ratio": 0.037927647500051606,
+        "ratioRelCi95": 0.004762446926239344,
+        "ratioCi95Lower": 0.037747019091795495,
+        "ratioCi95Upper": 0.03810827590830771
+      },
+      "candidatesPerFrame": {
+        "count": 1796,
+        "min": 0,
+        "median": 0.0,
+        "p90": 0,
+        "max": 0,
+        "total": 0
+      },
+      "finalCandidatesPerCase": {
+        "count": 352,
+        "min": 0,
+        "median": 0.0,
+        "p90": 0,
+        "max": 0,
+        "total": 0
+      },
+      "displayedFrameCount": 0,
+      "serializedUtf8Bytes": 4150862
+    },
+    "common": {
+      "caseCount": 81,
+      "eventCount": 345,
+      "finalTimingRepetitions": 13,
+      "finalTimedEventsPerSample": 1053,
+      "time": {
+        "primaryFinal": {
+          "normalized": 16.0586760290464,
+          "normalizedRelCi95": 0.010671577294632896,
+          "usPerEvent": {
+            "mean": 132.4840772396328,
+            "median": 132.68233618233617,
+            "stddev": 1.3703820447698818,
+            "min": 130.03228869895537,
+            "max": 134.92877492877494,
+            "n": 30,
+            "relCi95": 0.0037014630511590734,
+            "converged": true
+          }
+        },
+        "productCoreFinal": {
+          "normalized": 0.28482106857256206,
+          "normalizedRelCi95": 0.017942821377527535,
+          "usPerEvent": {
+            "mean": 2.349773815723637,
+            "median": 2.282051282051282,
+            "stddev": 0.1721694573029478,
+            "min": 2.1870845204178537,
+            "max": 2.9876543209876543,
+            "n": 93,
+            "relCi95": 0.014891712653339457,
+            "converged": true
+          }
+        },
+        "productSerializedFinal": {
+          "normalized": 1.0630099667136703,
+          "normalizedRelCi95": 0.016168135775791015,
+          "usPerEvent": {
+            "mean": 8.76983222538778,
+            "median": 8.733618233618234,
+            "stddev": 0.3111820715236988,
+            "min": 8.350427350427351,
+            "max": 9.364672364672364,
+            "n": 30,
+            "relCi95": 0.012697514765818737,
+            "converged": true
+          }
+        },
+        "primaryEntry": {
+          "normalized": 17.877768994290733,
+          "normalizedRelCi95": 0.01192194640416251,
+          "usPerEvent": {
+            "mean": 147.49159420289854,
+            "median": 147.57246376811594,
+            "stddev": 2.6695825919265133,
+            "min": 142.3449275362319,
+            "max": 155.63768115942028,
+            "n": 30,
+            "relCi95": 0.006476964785105357,
+            "converged": true
+          }
+        },
+        "productSerializedEntry": {
+          "normalized": 0.906678377982726,
+          "normalizedRelCi95": 0.016231701011444673,
+          "usPerEvent": {
+            "mean": 7.480096618357489,
+            "median": 7.427536231884058,
+            "stddev": 0.26710791051710464,
+            "min": 7.078260869565217,
+            "max": 7.965217391304348,
+            "n": 30,
+            "relCi95": 0.012778356094924942,
+            "converged": true
+          }
+        }
+      },
+      "budget": {
+        "productToPrimaryRatio": 0.017736273404942424,
+        "budgetRatio": 0.05,
+        "ratioRelCi95": 0.015344834129723473,
+        "ratioCi95Lower": 0.017464113231464157,
+        "ratioCi95Upper": 0.01800843357842069,
+        "primaryConverged": true,
+        "productConverged": true,
+        "status": "pass"
+      },
+      "practicalEntryOverhead": {
+        "ratio": 0.05071540963932769,
+        "ratioRelCi95": 0.014326111032523806,
+        "ratioCi95Lower": 0.04998885504977475,
+        "ratioCi95Upper": 0.05144196422888063
+      },
+      "candidatesPerFrame": {
+        "count": 345,
+        "min": 0,
+        "median": 0.0,
+        "p90": 0,
+        "max": 0,
+        "total": 0
+      },
+      "finalCandidatesPerCase": {
+        "count": 81,
+        "min": 0,
+        "median": 0.0,
+        "p90": 0,
+        "max": 0,
+        "total": 0
+      },
+      "displayedFrameCount": 0,
+      "serializedUtf8Bytes": 763710
+    },
+    "structural": {
+      "caseCount": 5,
+      "eventCount": 35,
+      "finalTimingRepetitions": 200,
+      "finalTimedEventsPerSample": 1000,
+      "time": {
+        "primaryFinal": {
+          "normalized": 19.396040404040402,
+          "normalizedRelCi95": 0.010298928854473664,
+          "usPerEvent": {
+            "mean": 160.0173333333333,
+            "median": 159.946,
+            "stddev": 1.084898671045729,
+            "min": 157.827,
+            "max": 161.943,
+            "n": 30,
+            "relCi95": 0.0024261496889684455,
+            "converged": true
+          }
+        },
+        "productCoreFinal": {
+          "normalized": 0.925591311343524,
+          "normalizedRelCi95": 0.01803136959171086,
+          "usPerEvent": {
+            "mean": 7.636128318584072,
+            "median": 7.2669999999999995,
+            "stddev": 0.8784417549243055,
+            "min": 6.601,
+            "max": 12.478,
+            "n": 226,
+            "relCi95": 0.014998285105859488,
+            "converged": true
+          }
+        },
+        "productSerializedFinal": {
+          "normalized": 6.858856565656565,
+          "normalizedRelCi95": 0.013323500936564672,
+          "usPerEvent": {
+            "mean": 56.585566666666665,
+            "median": 56.2005,
+            "stddev": 1.390577842762356,
+            "min": 54.343,
+            "max": 60.18,
+            "n": 30,
+            "relCi95": 0.008793972024654794,
+            "converged": true
+          }
+        },
+        "primaryEntry": {
+          "normalized": 13.580194805194804,
+          "normalizedRelCi95": 0.01782088851035049,
+          "usPerEvent": {
+            "mean": 112.03660714285714,
+            "median": 110.44285714285715,
+            "stddev": 4.767722473460133,
+            "min": 106.28571428571429,
+            "max": 131.02857142857144,
+            "n": 32,
+            "relCi95": 0.014744569646555086,
+            "converged": true
+          }
+        },
+        "productSerializedEntry": {
+          "normalized": 1.9254769921436585,
+          "normalizedRelCi95": 0.01799873461352209,
+          "usPerEvent": {
+            "mean": 15.885185185185183,
+            "median": 15.585714285714285,
+            "stddev": 0.890915789012069,
+            "min": 15.114285714285714,
+            "max": 19.914285714285715,
+            "n": 54,
+            "relCi95": 0.01495903454276945,
+            "converged": true
+          }
+        }
+      },
+      "budget": {
+        "productToPrimaryRatio": 0.047720632255989395,
+        "budgetRatio": 0.05,
+        "ratioRelCi95": 0.015193247132523326,
+        "ratioCi95Lower": 0.04699560089680389,
+        "ratioCi95Upper": 0.048445663615174904,
+        "primaryConverged": true,
+        "productConverged": true,
+        "status": "pass"
+      },
+      "practicalEntryOverhead": {
+        "ratio": 0.14178566800876152,
+        "ratioRelCi95": 0.021004167408252183,
+        "ratioCi95Lower": 0.13880757810181463,
+        "ratioCi95Upper": 0.14476375791570842
+      },
+      "candidatesPerFrame": {
+        "count": 35,
+        "min": 0,
+        "median": 0.0,
+        "p90": 1,
+        "max": 2,
+        "total": 9
+      },
+      "finalCandidatesPerCase": {
+        "count": 5,
+        "min": 1,
+        "median": 1.0,
+        "p90": 2,
+        "max": 2,
+        "total": 7
+      },
+      "displayedFrameCount": 0,
+      "serializedUtf8Bytes": 177900
+    }
+  },
+  "memory": {
+    "oracle": {
+      "corpus": "oracle",
+      "eventsPerPass": 1796,
+      "churnPassCount": 6,
+      "churnEventCount": 10776,
+      "grossChurnBytes": 22568288,
+      "grossChurnObjects": 237199,
+      "nullControlChurnBytes": 22529008,
+      "nullControlChurnObjects": 236839,
+      "netChurnBytes": 39280,
+      "netChurnObjects": 360,
+      "netChurnBytesPerEvent": 3.6451373422420192,
+      "netChurnObjectsPerEvent": 0.0334075723830735,
+      "retainedBytesAfterOnePass": 14528,
+      "liveHeapBytesAfterOnePass": 22548816,
+      "repeatedPassCount": 20,
+      "repeatedEventCount": 35920,
+      "retainedGrowthBytesAfterRepeatedPasses": 18224,
+      "liveHeapBytesAfterRepeatedPasses": 22567040
+    },
+    "structural": {
+      "corpus": "structural",
+      "eventsPerPass": 35,
+      "churnPassCount": 286,
+      "churnEventCount": 10010,
+      "grossChurnBytes": 20418144,
+      "grossChurnObjects": 177792,
+      "nullControlChurnBytes": 20422672,
+      "nullControlChurnObjects": 177971,
+      "netChurnBytes": 0,
+      "netChurnObjects": 0,
+      "netChurnBytesPerEvent": 0.0,
+      "netChurnObjectsPerEvent": 0.0,
+      "retainedBytesAfterOnePass": 3040,
+      "liveHeapBytesAfterOnePass": 20364816,
+      "repeatedPassCount": 20,
+      "repeatedEventCount": 700,
+      "retainedGrowthBytesAfterRepeatedPasses": 32,
+      "liveHeapBytesAfterRepeatedPasses": 20364848
+    }
+  },
+  "stress": {
+    "fullMidiRange": {
+      "id": "full-midi-range",
+      "eventCount": 258,
+      "coreTraceUs": {
+        "mean": 6309.366666666667,
+        "median": 6270.0,
+        "stddev": 172.98424949894323,
+        "min": 6040.0,
+        "max": 6838.0,
+        "n": 30,
+        "relCi95": 0.00981106693569872,
+        "converged": true
+      },
+      "coreMeanUsPerEvent": 24.454909560723515,
+      "serializedTraceUs": {
+        "mean": 21127.133333333335,
+        "median": 21101.0,
+        "stddev": 273.2120224210536,
+        "min": 20709.0,
+        "max": 21705.0,
+        "n": 30,
+        "relCi95": 0.004627587901446981,
+        "converged": true
+      },
+      "serializedMeanUsPerEvent": 81.88811369509044,
+      "candidatesPerFrame": {
+        "count": 258,
+        "min": 0,
+        "median": 0.0,
+        "p90": 0,
+        "max": 0,
+        "total": 0
+      }
+    },
+    "positiveReattack": {
+      "id": "positive-reattack",
+      "eventCount": 16,
+      "coreTraceUs": {
+        "mean": 67.37751004016064,
+        "median": 64.0,
+        "stddev": 10.821967290338891,
+        "min": 63.0,
+        "max": 198.0,
+        "n": 249,
+        "relCi95": 0.01995021853451976,
+        "converged": true
+      },
+      "coreMeanUsPerEvent": 4.21109437751004,
+      "serializedTraceUs": {
+        "mean": 415.1296296296296,
+        "median": 409.5,
+        "stddev": 30.992419216912406,
+        "min": 390.0,
+        "max": 560.0,
+        "n": 54,
+        "relCi95": 0.019912736061831447,
+        "converged": true
+      },
+      "serializedMeanUsPerEvent": 25.94560185185185,
+      "candidatesPerFrame": {
+        "count": 16,
+        "min": 0,
+        "median": 1.0,
+        "p90": 1,
+        "max": 1,
+        "total": 10
+      }
+    }
+  }
+}
