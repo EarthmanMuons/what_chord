@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:whatchord_app/core/providers/shared_preferences_provider.dart';
+import 'package:whatchord_app/features/midi/models/midi_constants.dart';
 import 'package:whatchord_app/features/midi/models/midi_device.dart';
 import 'package:whatchord_app/features/midi/models/midi_message.dart';
 import 'package:whatchord_app/features/midi/models/midi_note_state.dart';
@@ -108,22 +109,27 @@ void main() {
     expect(noteState().soundingNoteNumbers, {60});
   });
 
-  test('the all-notes-off controller clears pressed and sustained', () async {
-    await pedal(127);
-    await noteOn(60);
-    await noteOn(64);
-    await noteOff(60);
+  for (final (ccNumber, name) in const [
+    (MidiConstants.ccAllSoundOff, 'all-sound-off'),
+    (MidiConstants.ccAllNotesOff, 'all-notes-off'),
+  ]) {
+    test('the $name controller clears pressed and sustained', () async {
+      await pedal(127);
+      await noteOn(60);
+      await noteOn(64);
+      await noteOff(60);
 
-    await emit(
-      const MidiMessage(
-        type: MidiMessageType.controlChange,
-        ccNumber: 123,
-        ccValue: 0,
-      ),
-    );
-    expect(noteState().soundingNoteNumbers, isEmpty);
-    expect(noteState().isPedalDown, isTrue, reason: 'pedal state unaffected');
-  });
+      await emit(
+        MidiMessage(
+          type: MidiMessageType.controlChange,
+          ccNumber: ccNumber,
+          ccValue: 0,
+        ),
+      );
+      expect(noteState().soundingNoteNumbers, isEmpty);
+      expect(noteState().isPedalDown, isTrue, reason: 'pedal state unaffected');
+    });
+  }
 
   test('the pedal latch ignores MIDI pedal releases until cleared', () async {
     final notifier = container.read(midiNoteStateProvider.notifier);
