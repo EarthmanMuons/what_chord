@@ -121,24 +121,33 @@ void main() {
     },
   );
 
-  test('turns all-notes-off into an explicit empty reset', () async {
-    ble.emitMessage(
-      const MidiMessage(type: MidiMessageType.noteOn, note: 60, velocity: 100),
-    );
-    await pumpEventQueue();
-    nowMs = 10;
-    ble.emitMessage(
-      const MidiMessage(
-        type: MidiMessageType.controlChange,
-        ccNumber: MidiConstants.ccAllNotesOff,
-        ccValue: 0,
-      ),
-    );
-    await pumpEventQueue();
+  for (final (ccNumber, name) in const [
+    (MidiConstants.ccAllSoundOff, 'all-sound-off'),
+    (MidiConstants.ccAllNotesOff, 'all-notes-off'),
+  ]) {
+    test('turns $name into an explicit empty reset', () async {
+      ble.emitMessage(
+        const MidiMessage(
+          type: MidiMessageType.noteOn,
+          note: 60,
+          velocity: 100,
+        ),
+      );
+      await pumpEventQueue();
+      nowMs = 10;
+      ble.emitMessage(
+        MidiMessage(
+          type: MidiMessageType.controlChange,
+          ccNumber: ccNumber,
+          ccValue: 0,
+        ),
+      );
+      await pumpEventQueue();
 
-    final reset = events.last as InputTemporalResetEvent;
-    expect(reset.timestampMs, 10);
-    expect(reset.snapshot.pressedNoteNumbers, isEmpty);
-    expect(reset.snapshot.sustainedNoteNumbers, isEmpty);
-  });
+      final reset = events.last as InputTemporalResetEvent;
+      expect(reset.timestampMs, 10);
+      expect(reset.snapshot.pressedNoteNumbers, isEmpty);
+      expect(reset.snapshot.sustainedNoteNumbers, isEmpty);
+    });
+  }
 }

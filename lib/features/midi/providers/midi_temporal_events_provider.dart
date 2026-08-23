@@ -73,7 +73,7 @@ final midiTemporalEventsProvider =
         if (message == null) return;
 
         if (message.type == MidiMessageType.controlChange &&
-            message.ccNumber == MidiConstants.ccAllNotesOff) {
+            MidiConstants.endsAllNotes(message.ccNumber)) {
           pressed.clear();
           sustained.clear();
           controller.add(

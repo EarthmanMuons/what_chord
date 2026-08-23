@@ -17,6 +17,9 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ### Fixed
 
+- A controller sending All Sound Off (CC 120) now clears the held notes and
+  starts a fresh observation, matching how All Notes Off (CC 123) already
+  behaved. Previously the message was ignored and notes could appear stuck.
 - Website navigation now identifies the current page for screen-reader users,
   with a matching visible state on the Articles index.
 
