@@ -49,7 +49,9 @@ polychord benchmark v1 was frozen by log 2026-08-22-01 and failed in log
 acceptable maintainer testing on iPhone and Android, the explicit product-level
 device-telemetry amendment, and the prospective release-candidate and held-run
 freeze. Log 2026-08-27-01 supersedes that unexecuted held contract after the app
-adopted CC120 as a reset. The held POP909 reserve has not been opened.
+adopted CC120 as a reset. Log 2026-08-27-02 retains the v2 technical abort after
+one zero-display song and freezes the reserve's loss of pristine status. V3 is a
+prospective post-abort completion run, not a fresh held estimate.
 
 ## Task and claim boundary
 
@@ -666,9 +668,12 @@ The following work must be dated and completed in order:
     `held-exposure-v1.md`. Before that contract ran, app commit `1a1cb852c`
     adopted CC120 as a temporal reset; log 2026-08-27-01 and
     `held-exposure-v2.md` prospectively align the otherwise unchanged replay.
-    The held reserve remains untouched pending its single clean-commit run, and
-    the product claim remains author-adjudicated rather than an independently
-    validated accuracy claim.
+    V2 then aborted on its second song because the historical normalizer emitted
+    an unmatched note-off that the app filters. Log 2026-08-27-02 retains that
+    failure and the first song's zero-display report. `held-exposure-v3.md`
+    prospectively corrects replay normalization only and discloses that the
+    reserve is no longer pristine. The product claim remains author-adjudicated
+    rather than an independently validated accuracy claim.
 15. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding
