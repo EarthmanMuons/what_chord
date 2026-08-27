@@ -18,6 +18,7 @@ import shlex
 import subprocess
 import sys
 from collections import Counter
+from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Self
@@ -28,14 +29,14 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 BUILD_ROOT = REPO_ROOT / "build"
 ROSTER = REPO_ROOT / "research/performed-input/data/pop909-held-pool.json"
 DART_BATCH = REPO_ROOT / "tool/polychord/held_exposure_batch.dart"
-CONTRACT = REPO_ROOT / "research/polychord/held-exposure-v1.md"
+CONTRACT = REPO_ROOT / "research/polychord/held-exposure-v2.md"
 
 ROSTER_SHA256 = "b368b33c488680393b5c397d37faee4332ad39a3caee05fd547687dcc969d781"
 POP909_COMMIT = "d83e6edba6872a704f5d3b8b32f5cb540088dae6"
 REPORT_SCHEMA = "polychord-held-exposure-report/1"
 PIECE_SCHEMA = "polychord-held-exposure-piece/1"
 MANIFEST_SCHEMA = "polychord-held-exposure-manifest/1"
-MEASUREMENT_ID = "pop909-held-product-false-display/1"
+MEASUREMENT_ID = "pop909-held-product-false-display/2"
 ALLOWED_DISPOSITIONS = (
     "in-scope-polychord",
     "ordinary-integrated-harmony",
@@ -193,6 +194,29 @@ def add_counts(total: Counter[str], values: dict) -> None:
         total[key] += value
 
 
+def normalize_product_messages(
+    messages: list[shared.RawMidiMessage], end_timestamp_ms: int
+) -> dict:
+    """Apply current app reset semantics before frozen shared normalization."""
+
+    all_sound_off_count = sum(
+        message.type == "controlChange"
+        and message.controller == shared.ALL_SOUND_OFF_CONTROLLER
+        for message in messages
+    )
+    product_messages = [
+        replace(message, controller=shared.ALL_NOTES_OFF_CONTROLLER)
+        if message.type == "controlChange"
+        and message.controller == shared.ALL_SOUND_OFF_CONTROLLER
+        else message
+        for message in messages
+    ]
+    normalized = shared.normalize_midi_messages(product_messages, end_timestamp_ms)
+    normalized["normalization"]["mappedAllSoundOffMessages"] = all_sound_off_count
+    normalized["normalization"] = dict(sorted(normalized["normalization"].items()))
+    return normalized
+
+
 def note_name(midi_note: int) -> str:
     names = ("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B")
     return f"{names[midi_note % 12]}{midi_note // 12 - 1}"
@@ -264,7 +288,7 @@ def main() -> int:
             messages, end_timestamp_ms, read_counts = shared.read_midi_messages(
                 path, selected_channels=selected_channels
             )
-            normalized = shared.normalize_midi_messages(messages, end_timestamp_ms)
+            normalized = normalize_product_messages(messages, end_timestamp_ms)
             request = {
                 "id": f"pop909/{song_id}",
                 "endTimestampMs": end_timestamp_ms,

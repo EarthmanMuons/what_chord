@@ -9,10 +9,12 @@ presentation. Benchmark v1, frozen in log 2026-08-22-01, failed in log
 optimization, prospective benchmark v2, and its passing clean-tree result. Log
 2026-08-22-06 records acceptable iPhone and Android functional and accessibility
 behavior, the product-level device-telemetry amendment, and the prospective
-release-candidate and held-exposure freeze. The one final held exposure remains.
-This plan permits an author-adjudicated product-policy experiment and delivery
-path. It does not claim independent annotation, perceptual validity, generalized
-detection accuracy, or publication-ready source coverage.
+release-candidate and held-exposure freeze. Log 2026-08-27-01 supersedes the
+unexecuted v1 held contract after the app adopted CC120 reset semantics. The one
+final held exposure remains. This plan permits an author-adjudicated
+product-policy experiment and delivery path. It does not claim independent
+annotation, perceptual validity, generalized detection accuracy, or
+publication-ready source coverage.
 
 The decision is recorded in log 2026-08-13-08. The stricter `polychord-output/2`
 source-admission route remains preserved in `automatic-selection-v2-plan.md` and
@@ -256,10 +258,10 @@ Proceed in this order:
    2026-08-22-05 records its clean-tree pass. Log 2026-08-22-06 records
    acceptable iPhone and Android functional and accessibility behavior and the
    explicit decision not to require exact frame telemetry for this release.
-8. **Release-candidate freeze prepared:** `held-exposure-v1.md` and log
-   2026-08-22-06 prospectively freeze the candidate and exact harness. Commit
-   that boundary, then run the untouched 808-song POP909 pool once as a
-   false-display safety check.
+8. **Release-candidate freeze prepared:** `held-exposure-v2.md` and log
+   2026-08-27-01 supersede unexecuted v1 solely to align CC120 reset behavior
+   with the current app. Commit that boundary, then run the untouched 808-song
+   POP909 pool once as a false-display safety check.
 9. Ship only if every gate passes. Preserve the stronger source-validation and
    independent-review work as an optional later research track.
 

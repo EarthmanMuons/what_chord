@@ -48,7 +48,8 @@ polychord benchmark v1 was frozen by log 2026-08-22-01 and failed in log
 2026-08-22-05 records its passing clean-tree result. Log 2026-08-22-06 records
 acceptable maintainer testing on iPhone and Android, the explicit product-level
 device-telemetry amendment, and the prospective release-candidate and held-run
-freeze. The held POP909 reserve has not been opened.
+freeze. Log 2026-08-27-01 supersedes that unexecuted held contract after the app
+adopted CC120 as a reset. The held POP909 reserve has not been opened.
 
 ## Task and claim boundary
 
@@ -662,9 +663,12 @@ The following work must be dated and completed in order:
     records acceptable iPhone and Android functional and accessibility behavior,
     replaces exact oldest-tier frame telemetry with that qualitative
     cross-platform acceptance for this product release, and freezes
-    `held-exposure-v1.md`. The held POP909 reserve remains untouched pending its
-    single clean-commit run, and the product claim remains author-adjudicated
-    rather than an independently validated accuracy claim.
+    `held-exposure-v1.md`. Before that contract ran, app commit `1a1cb852c`
+    adopted CC120 as a temporal reset; log 2026-08-27-01 and
+    `held-exposure-v2.md` prospectively align the otherwise unchanged replay.
+    The held reserve remains untouched pending its single clean-commit run, and
+    the product claim remains author-adjudicated rather than an independently
+    validated accuracy claim.
 15. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding

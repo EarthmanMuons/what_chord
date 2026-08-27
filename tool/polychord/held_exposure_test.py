@@ -37,6 +37,30 @@ class HeldExposureTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "overlap"):
             subject.held_ids(payload)
 
+    def test_all_sound_off_uses_current_product_reset_semantics(self) -> None:
+        normalized = subject.normalize_product_messages(
+            [
+                subject.shared.RawMidiMessage(0, "noteOn", midi_note=60, velocity=80),
+                subject.shared.RawMidiMessage(
+                    10,
+                    "controlChange",
+                    controller=subject.shared.ALL_SOUND_OFF_CONTROLLER,
+                    value=0,
+                ),
+            ],
+            10,
+        )
+
+        self.assertEqual(
+            [event["type"] for event in normalized["events"]],
+            [
+                "noteOn",
+                "allNotesOff",
+            ],
+        )
+        self.assertEqual(normalized["frames"][-1]["soundingMidiNotes"], [])
+        self.assertEqual(normalized["normalization"]["mappedAllSoundOffMessages"], 1)
+
     def test_dart_batch_reaches_only_the_separated_onset_positive(self) -> None:
         positive = self._request(
             "positive",
