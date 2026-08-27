@@ -1,19 +1,18 @@
 # 2026-08-14: Implement and cross-check the automatic product policy
 
-**Goal.** Implement the already-frozen
-`polychord-onset-register-policy/1` and `polychord-output/3` as a narrow
-composition of the established structural and temporal substrate, then compare
-the complete independent Python and pure-Dart paths before producing a product
-suite score, prior-art output, new development output, held output, or app
-integration.
+**Goal.** Implement the already-frozen `polychord-onset-register-policy/1` and
+`polychord-output/3` as a narrow composition of the established structural and
+temporal substrate, then compare the complete independent Python and pure-Dart
+paths before producing a product suite score, prior-art output, new development
+output, held output, or app integration.
 
 **Starting state and no-peek boundary.** Work began from repository commit
 `3d2077850ea5edb8bdea01c0a2c5ab89f9603b5c`. The 20-case, 108-checkpoint
 author-adjudicated ruler was already frozen, but no product-policy
 implementation or prediction existed. The equivalence input reused all 20
 product fixture and action scripts while removing every checkpoint and expected
-value before the Dart process received them. It compared implementations; it
-did not invoke the product scorer or compare either path with the ruler. No
+value before the Dart process received them. It compared implementations; it did
+not invoke the product scorer or compare either path with the ruler. No
 prior-art baseline, development, or held output was produced or read.
 
 **What was implemented.** `tool/polychord/product_policy.py` is the independent
@@ -33,17 +32,17 @@ models and services for:
   observations, primary-display availability changes, and tracker resets.
 
 The earlier 50/200-millisecond diagnostic, register-only selector, and
-candidate-only stable-display gate remain unchanged. The product selector
-reuses their already-equivalent generator and static predicate behavior instead
-of rebuilding that substrate. Its implementation asserts the preregistered
+candidate-only stable-display gate remain unchanged. The product selector reuses
+their already-equivalent generator and static predicate behavior instead of
+rebuilding that substrate. Its implementation asserts the preregistered
 positive-survivor uniqueness invariant at runtime.
 
 The output classes validate complete authorization bindings, legal display
 state, monotonic product observations, reset isolation, and agreement between an
 active display and its current authorization. The engine exposes the exact
 pending deadline needed by a later application provider without coupling the
-pure package to Riverpod, Flutter, the primary analyzer, or presentation.
-Its reset path can also restore carried-in pressed or sustained notes only as
+pure package to Riverpod, Flutter, the primary analyzer, or presentation. Its
+reset path can also restore carried-in pressed or sustained notes only as
 unknown onset history, preserving the contract's automatic-abstention boundary.
 
 **Cross-language method.** The persistent Dart adapter received two kinds of
@@ -52,9 +51,9 @@ expectation-free requests:
 1. all 202 musical and product-control actions across the 20 frozen replay
    cases, including non-checkpoint actions, sustain, reattack, timer, primary
    availability, and reset behavior; and
-2. 3,300 structural decisions covering all five lower qualities, all five
-   upper qualities, all 11 different-root relations, and all 12 transpositions,
-   with the intended adjacent layers attacked at the inclusive 80-millisecond
+2. 3,300 structural decisions covering all five lower qualities, all five upper
+   qualities, all 11 different-root relations, and all 12 transpositions, with
+   the intended adjacent layers attacked at the inclusive 80-millisecond
    boundary.
 
 The harness compared decoded complete product-observation documents for the
@@ -147,8 +146,7 @@ Final SHA-256 pins are:
 - Dart product engine:
   `3e042ec8b7a8a29fd94787eb9faf70e89476773379b6b0bfc926bd9d4fa66aaa`;
 - Dart product-policy tests:
-  `7066034fd1f4fc0e12ec3d3eac19ea473128e85e47a28d79cef761f50792aac8`;
-  and
+  `7066034fd1f4fc0e12ec3d3eac19ea473128e85e47a28d79cef761f50792aac8`; and
 - generated equivalence report:
   `f6d364266d92038e666e0fcb89226cf9fb6c7721e5a446235ff4b65dd05841ce`.
 
@@ -161,5 +159,5 @@ the frozen author-adjudicated product suite remains deliberately unscored.
 change. Then implement and freeze the hash-locked prior-art environments,
 adapters, smoke controls, and expectation-free product prediction projection.
 Only after that prospective commit may the first product-suite score and
-baseline comparison be produced. No additional literature, corpus, or ruler
-work is required before those product steps.
+baseline comparison be produced. No additional literature, corpus, or ruler work
+is required before those product steps.

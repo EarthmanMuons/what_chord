@@ -6,3 +6,19 @@ research/whatkey/data/fixtures/
 
 # Committed evaluation artifacts; byte fidelity matters, never reformat
 research/whatkey/results/
+
+# Frozen polychord contracts and inputs are byte-pinned by manifests or dated
+# measurement records. Reformatting them would invalidate scientific provenance.
+research/polychord/FRAMEWORK.md
+research/polychord/adoption-suite-plan.md
+research/polychord/frame-replay-schema.md
+research/polychord/held-exposure-v2.md
+research/polychord/held-exposure-v3.md
+research/polychord/internal-suite-schema.md
+research/polychord/onset-register-selector-v1.md
+research/polychord/output-evaluation-contract.md
+research/polychord/pilot-annotation.md
+research/polychord/prior-art-baseline-contract-v1.md
+research/polychord/product-output-contract-v3.md
+research/polychord/product-suite-v1.md
+research/polychord/register-candidate-schema.md

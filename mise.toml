@@ -21,6 +21,14 @@ description = "Lint and auto-fix site CSS with stylelint"
 depends = ["css:lint:install"]
 run = "npx stylelint --fix 'docs/site/public/css/*.css'"
 
+[tasks."markdown:format"]
+description = "Format Markdown files with Prettier"
+run = "npx prettier --write \"**/*.md\""
+
+[tasks."markdown:format-check"]
+description = "Check Markdown formatting with Prettier"
+run = "npx prettier --check \"**/*.md\""
+
 [tasks."site:engine"]
 description = "Compile the Dart chord engine used by the website"
 run = "tool/build_web_demo.sh"

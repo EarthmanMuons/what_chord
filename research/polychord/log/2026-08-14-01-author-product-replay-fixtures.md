@@ -7,8 +7,8 @@ replay ruler or producing a selector, product prediction, or baseline result.
 **Setup.** Work began from repository commit
 `759e412bc174604ba634c611c6f88256d583b0a3`, which preregistered the complete
 20-case inventory. The inherited frame-replay manifest remained pinned at
-`d75da154da03079a69c4ceade54cc9989b24f36fdf477308ae797c3ac77e6cd4`.
-The unchanged replay validator was
+`d75da154da03079a69c4ceade54cc9989b24f36fdf477308ae797c3ac77e6cd4`. The
+unchanged replay validator was
 `826a593721f14e673a8a70a351ba78f1179b58977a5574fa6f9ece0c430f31f0`.
 
 The exact validation and formatting commands were:
@@ -29,14 +29,14 @@ prettier --prose-wrap always \
 git diff --check
 ```
 
-**What happened.** A separate `polychord-product-fixture-manifest/1` now pins
-19 streams:
+**What happened.** A separate `polychord-product-fixture-manifest/1` now pins 19
+streams:
 
 - four unchanged inherited replays for Petrushka rehearsal 49, Shrovetide,
   synchronous cohorts, and the earlier lower-first positive control; and
-- fifteen explicitly authored product realizations covering reverse onset
-  order, a seventh chord in the upper layer, a seventh chord in the lower
-  layer, multiple identities, exact-assignment ambiguity, all three integrated
+- fifteen explicitly authored product realizations covering reverse onset order,
+  a seventh chord in the upper layer, a seventh chord in the lower layer,
+  multiple identities, exact-assignment ambiguity, all three integrated
   predicates, incomplete history, the exact and just-outside 50/80 ms cue
   boundaries, pedal-held releases, reattack, and authorization-key change.
 
@@ -60,14 +60,12 @@ The resulting artifact digests were:
 - product fixture manifest:
   `f4f9d4bb51a1a2bf450ca6ce7dce2e01a89ff586b75c2c34c8f003bf48c3d2c0`;
 - partial product-suite validator:
-  `2408ec1ad042ac9709e731892d6a2cc655897d823d89ea4577d82d3471c7a4bf`;
-  and
+  `2408ec1ad042ac9709e731892d6a2cc655897d823d89ea4577d82d3471c7a4bf`; and
 - validator tests:
   `6abb445198ba264ad17da328571d173125150bc34f1c20571f69d60283b9fd41`.
 
-The manifest itself records every individual replay digest. No selector,
-product observation, prior-art adapter, development corpus, or held corpus was
-run.
+The manifest itself records every individual replay digest. No selector, product
+observation, prior-art adapter, development corpus, or held corpus was run.
 
 **Plain-English reading.** The musical event histories needed by the automatic
 ruler now exist as inspectable, hash-locked data. They do not yet say that an
@@ -83,8 +81,8 @@ controls out of MIDI fixtures.
 
 This is a data-provenance checkpoint, not the suite freeze. Scoring remains
 disabled. Any correction before freeze must be recorded; after a product result
-is read, an outcome-affecting correction requires the change control declared
-in `product-suite-v1.md`.
+is read, an outcome-affecting correction requires the change control declared in
+`product-suite-v1.md`.
 
 **Next.** Extend the strict validator to the complete machine-readable case and
 action schema, encode every expected checkpoint literally, and implement the

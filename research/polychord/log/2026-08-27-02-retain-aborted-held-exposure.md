@@ -14,9 +14,9 @@ was then executed:
   --out-directory build/polychord/product-held-exposure-v2
 ```
 
-**What happened.** Song 002 completed with zero stable display episodes and
-zero displayed milliseconds. Before song 003 returned a report, the Dart
-product tracker stopped with:
+**What happened.** Song 002 completed with zero stable display episodes and zero
+displayed milliseconds. Before song 003 returned a report, the Dart product
+tracker stopped with:
 
 ```text
 Bad state: noteOff releases note 69, which is not pressed

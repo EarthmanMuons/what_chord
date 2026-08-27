@@ -14,8 +14,8 @@ absence were inspected; no held MIDI was opened.
 
 The v1 harness reused `development_exposure.normalize_midi_messages`, whose
 frozen historical behavior deliberately ignored CC120. Running it after the app
-change would therefore have measured a near-equivalent but no longer exact
-input stream.
+change would therefore have measured a near-equivalent but no longer exact input
+stream.
 
 The correction leaves the shared historical parser unchanged. The held harness
 now maps raw CC120 messages to the parser's CC123 reset immediately before
