@@ -55,14 +55,14 @@ that final tree. This environmental denial did not open held data or alter the
 earlier synthetic result.
 
 The broad historical Python suite then exposed that benchmark-v2 commit
-`deaa49ab1` had edited the already-frozen
-`output-evaluation-contract.md`. Its internal and product suites correctly
-rejected the changed dependency digest before executing their controls. The v2
-measurement mechanics were already independently versioned and preserved in
-`product-performance-benchmark-v2.md` and logs 2026-08-22-03 through -05, so
-this step restores the frozen output contract's original bytes rather than
-rewriting either frozen suite pin. This is a research-record correction only;
-it does not change the 5% budget, v2 result, product code, or held design.
+`deaa49ab1` had edited the already-frozen `output-evaluation-contract.md`. Its
+internal and product suites correctly rejected the changed dependency digest
+before executing their controls. The v2 measurement mechanics were already
+independently versioned and preserved in `product-performance-benchmark-v2.md`
+and logs 2026-08-22-03 through -05, so this step restores the frozen output
+contract's original bytes rather than rewriting either frozen suite pin. This is
+a research-record correction only; it does not change the 5% budget, v2 result,
+product code, or held design.
 
 **Prospective artifact pins.** These SHA-256 values were computed after final
 formatting and before the held reserve was opened:

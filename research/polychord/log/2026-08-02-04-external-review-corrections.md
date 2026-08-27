@@ -93,8 +93,8 @@ this entry records what the review found and what changed.
 the superset of all registral fires across the six configurations measured here:
 32 fires. In schema-3 terminology it is the
 `upper-structure-common --disallow-shared-pitch-classes` profile. Dispositions
-below; timestamps were recorded in the schema-2 reports under
-`build/polychord/` and are reproduced in the schema-3 profile reports.
+below; timestamps were recorded in the schema-2 reports under `build/polychord/`
+and are reproduced in the schema-3 profile reports.
 
 | corpus   | piece  | event | voicing (MIDI)       | split               | current top-1 (cost)           | disposition    |
 | -------- | ------ | ----- | -------------------- | ------------------- | ------------------------------ | -------------- |

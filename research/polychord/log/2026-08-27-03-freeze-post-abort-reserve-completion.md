@@ -10,13 +10,13 @@ piece. Product behavior remains commit
 measurement correction. The v2 partial directory remains unchanged, and
 `build/polychord/product-held-exposure-v3` is absent.
 
-V3 replaces the historical development state normalizer in the held harness
-with a dedicated projection of current `midiTemporalEventsProvider` behavior.
-It filters repeated pressed-note attacks and unmatched releases, transitions
-valid releases to sustain only while pedal is down, filters repeated pedal
-states, clears sustained notes on pedal release, and emits an empty reset for
-every CC120 or CC123 while preserving pedal state. The unchanged historical
-Mido parser still owns source selection and deterministic message order.
+V3 replaces the historical development state normalizer in the held harness with
+a dedicated projection of current `midiTemporalEventsProvider` behavior. It
+filters repeated pressed-note attacks and unmatched releases, transitions valid
+releases to sustain only while pedal is down, filters repeated pedal states,
+clears sustained notes on pedal release, and emits an empty reset for every
+CC120 or CC123 while preserving pedal state. The unchanged historical Mido
+parser still owns source selection and deterministic message order.
 
 The five label-free controls were run with:
 
@@ -59,13 +59,13 @@ completion run:
 
 **Plain-English reading.** V3 changes only how the test reconstructs the MIDI
 events the app would accept. It does not change which polychords qualify. The
-reserve is no longer perfectly untouched because one negative song completed
-and the next exposed an input irregularity, but no musical decision was tuned.
+reserve is no longer perfectly untouched because one negative song completed and
+the next exposed an input irregularity, but no musical decision was tuned.
 
 **Decisions.** Adopt `held-exposure-v3.md` as the sole completion contract.
-Describe its result as post-abort reserve evidence, not a pristine held estimate.
-Keep v2 unchanged. Require a clean commit before running v3, and retain v3
-regardless of outcome.
+Describe its result as post-abort reserve evidence, not a pristine held
+estimate. Keep v2 unchanged. Require a clean commit before running v3, and
+retain v3 regardless of outcome.
 
 **Next.** Commit this prospective boundary, execute the two v3 commands exactly
 once, adjudicate every stable display if any, and record the final release

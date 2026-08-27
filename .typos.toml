@@ -52,6 +52,9 @@ extend-ignore-re = [
 extend-ignore-re = [
   # frozen version-1 baseline wire-format fields
   "[\"']unparseable(?:AlternativeCount|Alternatives)?[\"']",
+
+  # local name in the hash-pinned version-1 comparison runner
+  "\\bunparseable_count\\b",
 ]
 
 [type.md]

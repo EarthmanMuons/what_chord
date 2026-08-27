@@ -8,12 +8,12 @@ Augurs counterexample, but did it leave an initial jazz convention embedded as
 the operational definition of a polychord?
 
 **Decision before measurement.** Yes. The old detector is an upper-structure
-boundary screen, not a neutral polychord split. Its asymmetry has no basis in the
-constructional definition, and its lower shells and power dyads are the source
-of 29 of its 32 registral fires. The literature distinguishes the narrower
-major/minor two-triad case as a bichord or polytriad and separately admits
-superimpositions involving common seventh chords. The general definition does
-not privilege the upper layer.
+boundary screen, not a neutral polychord split. Its asymmetry has no basis in
+the constructional definition, and its lower shells and power dyads are the
+source of 29 of its 32 registral fires. The literature distinguishes the
+narrower major/minor two-triad case as a bichord or polytriad and separately
+admits superimpositions involving common seventh chords. The general definition
+does not privilege the upper layer.
 
 Report schema 3 therefore replaces the Boolean widening with required, named
 profiles:
@@ -31,10 +31,10 @@ meaning of different harmonic areas: two register groups both spelling C major
 are one rooted harmony, not `C|C`. The primary run allows the pitch-class
 projections of the register groups to overlap only when separate sounded notes
 support the shared pitch class. The register-blind comparator applies the same
-note-instance requirement. The script reports every qualifying register
-boundary rather than choosing the widest one without evidence. Reports embed
-the exact upper and lower templates, profile description, overlap policy, and
-candidate policy.
+note-instance requirement. The script reports every qualifying register boundary
+rather than choosing the widest one without evidence. Reports embed the exact
+upper and lower templates, profile description, overlap policy, and candidate
+policy.
 
 This remains deliberately narrower than the initiative's constructional
 definition. Augmented and diminished families, incomplete units, bass-only
@@ -43,12 +43,12 @@ and sonorities with more than two layers are not in the primary profile. A ruler
 decision must justify any of them before a new named profile measures them.
 
 **Setup.** The corpus fixtures, development splits, and gap sweep are unchanged
-from logs -01 and -03. Shared pitch classes are allowed in the two constructional
-profiles. A disjoint `complete-common` ablation isolates the effect of that
-choice. The two upper-structure reproductions explicitly disallow shared pitch
-classes, matching the old detector. Schema-3 reports retain every registral and
-pitch-class fire and candidate, ambiguity counts, per-piece tallies, argv,
-script and fixture hashes, and manifest and split pins.
+from logs -01 and -03. Shared pitch classes are allowed in the two
+constructional profiles. A disjoint `complete-common` ablation isolates the
+effect of that choice. The two upper-structure reproductions explicitly disallow
+shared pitch classes, matching the old detector. Schema-3 reports retain every
+registral and pitch-class fire and candidate, ambiguity counts, per-piece
+tallies, argv, script and fixture hashes, and manifest and split pins.
 
 Commands for the primary profile:
 
@@ -174,12 +174,12 @@ interpretation, not those historical measurements.
 **Plain-English reading.** The original census answered, "How often is there a
 triad or seventh above a jazz-like lower foundation?" It did not answer the
 broader question we meant to ask. The corrected primary test gives both layers
-the same chord vocabulary and can see famous examples whose layers repeat a
-note in different registers. That makes the pop exposure rise from about one
-event in a thousand to about one in eighty. Nearly all of the new events are
-ordinary chords split into overlapping subchords, which is exactly the
-ambiguity the eventual method must solve. The lower old number was real, but it
-was real for a much narrower and differently shaped question.
+the same chord vocabulary and can see famous examples whose layers repeat a note
+in different registers. That makes the pop exposure rise from about one event in
+a thousand to about one in eighty. Nearly all of the new events are ordinary
+chords split into overlapping subchords, which is exactly the ambiguity the
+eventual method must solve. The lower old number was real, but it was real for a
+much narrower and differently shaped question.
 
 **Decisions.** Use `complete-common` as the primary constructional exposure
 profile and `bichord-triads` as its named ablation. Retain the upper-structure
@@ -189,7 +189,8 @@ committed-event results. The golden ruler must explicitly distinguish
 shared-tone polychords from integrated sixth, seventh, and extended chords
 before an implementation-shaped frame census is meaningful.
 
-**Next.** Score-verify and encode a pilot ruler centered on this exact ambiguity:
-canonical shared-tone positives beside relative-triad, duplicated-register,
-upper-structure, and ordinary extended-chord negatives. Use it to decide the
-constructional conflict/integration rule before freezing the full ruler.
+**Next.** Score-verify and encode a pilot ruler centered on this exact
+ambiguity: canonical shared-tone positives beside relative-triad,
+duplicated-register, upper-structure, and ordinary extended-chord negatives. Use
+it to decide the constructional conflict/integration rule before freezing the
+full ruler.

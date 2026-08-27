@@ -7,11 +7,10 @@ projection without passing a product-suite target to a baseline or producing a
 product score.
 
 **Setup and no-peek boundary.** Work began from clean repository commit
-`4c75f13c153eb7ffb6bf33029d16ee8d2d06b06c`, which implemented and
-cross-checked the product policy. No musicpy, mingus, or ChordRecGen package was
-installed in the repository environment. No prior-art detector had received a
-product-suite target. The product scorer had not received an implementation
-prediction.
+`4c75f13c153eb7ffb6bf33029d16ee8d2d06b06c`, which implemented and cross-checked
+the product policy. No musicpy, mingus, or ChordRecGen package was installed in
+the repository environment. No prior-art detector had received a product-suite
+target. The product scorer had not received an implementation prediction.
 
 The exact source archives were downloaded from the URLs preregistered in
 `prior-art-baseline-contract-v1.md` and verified before extraction:
@@ -124,23 +123,23 @@ transport assertions passed for all four baselines:
 Every adapter preserved its declared converted input, raw alternative order,
 native failure state, and byte-equivalent result after removing only elapsed
 time. Every adapter produced the same supported ordered composite on the
-six-note control. The musicpy empty-input call natively raised `IndexError: list
-index out of range`; the adapter retained that exception with its exact empty
-converted input instead of turning it into no output.
+six-note control. The musicpy empty-input call natively raised
+`IndexError: list index out of range`; the adapter retained that exception with
+its exact empty converted input instead of turning it into no output.
 
 The first smoke attempt had two false harness failures for musicpy. It treated
 the native empty-input exception as a transport failure and discarded the
 already-converted input when serializing the exception. The worker was corrected
 to bind adapter input before native invocation and retain it in an exception
-result; small-input smoke acceptance now permits a retained native exception.
-No suite target or musical expectation was involved, and the corrected final
-report replaced only this pre-freeze smoke artifact.
+result; small-input smoke acceptance now permits a retained native exception. No
+suite target or musical expectation was involved, and the corrected final report
+replaced only this pre-freeze smoke artifact.
 
 **Metadata-only suite refreeze.** The baseline contract requires committed
 adapter files to be pinned by the product suite, but the original machine suite
-predated their implementation. A single `baselineFreeze` dependency was added
-to the suite schema. Its manifest pins every adapter, lock, schema, worker,
-test, product projection, source manifest, runtime manifest, smoke report, and
+predated their implementation. A single `baselineFreeze` dependency was added to
+the suite schema. Its manifest pins every adapter, lock, schema, worker, test,
+product projection, source manifest, runtime manifest, smoke report, and
 runtime/executable identity.
 
 Removing the `dependencies` object leaves the new and pre-adapter machine suites
@@ -169,8 +168,8 @@ new suite digest retained exact equivalence:
 see the comparison cases. The external libraries receive only the notes they
 would receive in real use, and their oddities remain visible rather than being
 helpfully repaired. We can also generate a grader-shaped WhatChord result
-without giving the Dart implementation the answer sheet. Nothing here says
-which system performs better; that result has not been run yet.
+without giving the Dart implementation the answer sheet. Nothing here says which
+system performs better; that result has not been run yet.
 
 **Decisions.** Accept the four adapters, their strict normalization, and the
 product prediction projection as the frozen version-1 comparison path. Preserve
@@ -187,8 +186,7 @@ The main freeze pins are:
 - runtime manifest:
   `67d3c364565e2347a72cf779465b5f52eb7f9a8b3ccd1157b95c464a63ff11d5`;
 - smoke report:
-  `b945f9b7110b07a3e72649831ee3d8779301982822ca8f53055faf537d246038`;
-  and
+  `b945f9b7110b07a3e72649831ee3d8779301982822ca8f53055faf537d246038`; and
 - post-refreeze product-policy equivalence report:
   `cd1ba0e0b3047647f2b2efda45caff2248c8ad308f63b2fe6536b7e92402bc59`.
 

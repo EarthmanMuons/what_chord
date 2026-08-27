@@ -103,12 +103,11 @@ lever must record explicitly.
 **What the census settles for the initiative.**
 
 - Under this initial upper-structure profile, fire rate with registral gating is
-  roughly 0.05% of committed-event mass.
-  (Corrected by the review in log -04: committed events snapshot the onset
-  voicing and ignore same-identity revoicing, so frame-level and display-level
-  exposure must be measured separately before this becomes a safety claim, and
-  the adoption guard must instrument the adopted generator rather than this
-  census detector.)
+  roughly 0.05% of committed-event mass. (Corrected by the review in log -04:
+  committed events snapshot the onset voicing and ignore same-identity
+  revoicing, so frame-level and display-level exposure must be measured
+  separately before this becomes a safety claim, and the adoption guard must
+  instrument the adopted generator rather than this census detector.)
 - No corpus we hold provides positive polychord ground truth; the fired sets are
   boundary cases where the single symbol is conventionally right. The ruler must
   be hand-authored goldens (positives from literature and jazz practice,

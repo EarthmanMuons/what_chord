@@ -120,11 +120,11 @@ Three task-boundary questions give fixed feedback and gate the review cases.
 Their answers are not retained or exported; local state stores only that the
 orientation was completed.
 
-Generated cases now show written scientific-pitch names, a neutral keyboard,
-and a plain attack timeline. Black-key notes display both common enharmonic
-names because the blinded MIDI evidence carries no spelling. Note assignment
-uses those names, and score pitch membership uses named pitch classes rather
-than integers. Raw MIDI and onset JSON remain in the verified packet and exported
+Generated cases now show written scientific-pitch names, a neutral keyboard, and
+a plain attack timeline. Black-key notes display both common enharmonic names
+because the blinded MIDI evidence carries no spelling. Note assignment uses
+those names, and score pitch membership uses named pitch classes rather than
+integers. Raw MIDI and onset JSON remain in the verified packet and exported
 response but are not shown in the reviewer flow. Score cases embed the verified
 unannotated crops and link to the complete source; the application verifies the
 manifest and both image digests before showing any review case.
@@ -150,11 +150,11 @@ answers are still blinded and structurally comparable with the initial ruler.
 
 **Decisions.** Supersede instrument version 1 with version 2 before collecting
 responses; do not rewrite log -10 or imply that version 1 collected data. Treat
-`pilot-annotation.md` as the reviewer handbook and
-`pilot-response-schema.md` as its technical companion. Require formal theory or
-equivalent advanced experience, but no software or MIR knowledge. Use the same
-orientation and feedback for every reviewer, and exclude the cognitive-
-walkthrough participant from the independent panel.
+`pilot-annotation.md` as the reviewer handbook and `pilot-response-schema.md` as
+its technical companion. Require formal theory or equivalent advanced
+experience, but no software or MIR knowledge. Use the same orientation and
+feedback for every reviewer, and exclude the cognitive- walkthrough participant
+from the independent panel.
 
 Keep synthesized audio out of this pilot. A synthesized performance would add
 timbre, articulation, duration, balance, and potentially layer-segregation cues

@@ -6,10 +6,10 @@ the guided instrument and do not edit these fields directly.
 
 ## Annotation unit and evidence record
 
-The response records `snapshot` for one simultaneous sonority and
-`event-window` for a short passage established by arpeggiation, motion, or
-successive attacks. Do not verticalize an event window and describe its union as
-an observed voicing.
+The response records `snapshot` for one simultaneous sonority and `event-window`
+for a short passage established by arpeggiation, motion, or successive attacks.
+Do not verticalize an event window and describe its union as an observed
+voicing.
 
 Each source case retains a stable source, edition, printed location, digital
 page, and file digest. Each generated case retains its complete octave-specific
@@ -74,10 +74,10 @@ implicit negative label.
 
 ## Independent review and validation
 
-The generated packet uses neutral, deterministically shuffled case IDs. It
-omits the initial labels, layer assignments, alternatives, eligibility
-judgments, rationales, descriptive IDs, and generated-case intent. It retains
-only generated note/onset evidence or a pinned score location. A score case
+The generated packet uses neutral, deterministically shuffled case IDs. It omits
+the initial labels, layer assignments, alternatives, eligibility judgments,
+rationales, descriptive IDs, and generated-case intent. It retains only
+generated note/onset evidence or a pinned score location. A score case
 necessarily reveals its work and location, so the procedure is label-blinded,
 not work-blinded or double-blinded.
 
@@ -90,11 +90,11 @@ python3 tool/polychord/pilot_ruler.py \
   --validate-review path/to/completed-review.json
 ```
 
-The initial annotations and completed reviews remain separate. If a reviewer
-saw the initial ruler or helped make its decisions, record the pass as
-non-independent and obtain another review before a publication claim.
-The formative pilot succeeds when the procedure exposes disagreements clearly;
-it is not required to produce high agreement on its first pass.
+The initial annotations and completed reviews remain separate. If a reviewer saw
+the initial ruler or helped make its decisions, record the pass as
+non-independent and obtain another review before a publication claim. The
+formative pilot succeeds when the procedure exposes disagreements clearly; it is
+not required to produce high agreement on its first pass.
 
 ## Pre-adjudication reporting
 
@@ -125,8 +125,8 @@ Before adjudication:
   ruler freezes;
 - a layer pitch-class or generated-note partition mismatch blocks freezing the
   decomposition representation; and
-- a recoverability disagreement blocks using that input condition as an
-  accuracy rule until the wording is revised and independently retested.
+- a recoverability disagreement blocks using that input condition as an accuracy
+  rule until the wording is revised and independently retested.
 
 Report every mismatch. Adjudication produces a later artifact and never replaces
 the raw initial or reviewer responses.

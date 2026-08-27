@@ -24,13 +24,13 @@ with the definition. Logs -04 and -05 further limit the product claim: the word
 "independent" cannot mean perceptually segregated streams on pitch-and-register
 input alone.
 
-**Setup.** The schema-1 script gained `--upper-sevenths`, which widened the upper
-templates from plain major/minor triads to also admit plain dominant, major, and
-minor sevenths. The default remained the strict triad tier, and a re-run of the
-When in Rome narrow census reproduced log -01 exactly. Smoke check: an Augurs
-voicing (E1 E2 G#2 B2 under Eb3 G3 Bb3 Db4) fires only under `--upper-sevenths`,
-as D#7|E:majorTriad at G=3 (the layer gap is 4 semitones), confirming the strict
-tier was blind to upper-seventh polychords.
+**Setup.** The schema-1 script gained `--upper-sevenths`, which widened the
+upper templates from plain major/minor triads to also admit plain dominant,
+major, and minor sevenths. The default remained the strict triad tier, and a
+re-run of the When in Rome narrow census reproduced log -01 exactly. Smoke
+check: an Augurs voicing (E1 E2 G#2 B2 under Eb3 G3 Bb3 Db4) fires only under
+`--upper-sevenths`, as D#7|E:majorTriad at G=3 (the layer gap is 4 semitones),
+confirming the strict tier was blind to upper-seventh polychords.
 
 Commands: the three log -01 invocations with `--upper-sevenths` added and
 `-wide` output names.
@@ -55,8 +55,8 @@ Every log -01 conclusion stands: registral exposure stays under 0.1% of event
 mass, the fires are conventionally-named boundary shapes, and the register-blind
 generator over-fires by two orders of magnitude.
 
-**Decision at the time (superseded by log -06).** The strict upper-triad tier was
-retained as the census baseline because it was the jazz-shaped form and the
+**Decision at the time (superseded by log -06).** The strict upper-triad tier
+was retained as the census baseline because it was the jazz-shaped form and the
 tighter false-positive gate, with the widened tier reported beside it. That was
 still the wrong primary design: a false-positive gate is not a constructional
 definition, and neither tier treated the layers symmetrically. The durable
