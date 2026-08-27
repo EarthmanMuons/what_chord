@@ -13,10 +13,11 @@ release-candidate and held-exposure freeze. Log 2026-08-27-01 supersedes the
 unexecuted v1 held contract after the app adopted CC120 reset semantics. The v2
 run then aborted on song 003 due to a historical-normalizer mismatch after song
 002 produced no display. Log 2026-08-27-02 retains the failure, and v3 is the
-prospective post-abort completion run. This plan permits an author-adjudicated
-product-policy experiment and delivery path. It does not claim independent
-annotation, perceptual validity, generalized detection accuracy, or
-publication-ready source coverage.
+post-abort completion run. Log 2026-08-27-04 records its verified pass with zero
+stable displays and zero displayed time across all 808 songs. The product cycle
+is complete. This plan permits an author-adjudicated product-policy experiment
+and delivery path. It does not claim independent annotation, perceptual
+validity, generalized detection accuracy, or publication-ready source coverage.
 
 The decision is recorded in log 2026-08-13-08. The stricter `polychord-output/2`
 source-admission route remains preserved in `automatic-selection-v2-plan.md` and
@@ -260,13 +261,13 @@ Proceed in this order:
    2026-08-22-05 records its clean-tree pass. Log 2026-08-22-06 records
    acceptable iPhone and Android functional and accessibility behavior and the
    explicit decision not to require exact frame telemetry for this release.
-8. **Post-abort completion freeze prepared:** V2 stopped on song 003 because its
-   historical normalizer emitted an unmatched note-off that the app filters.
-   Preserve its partial result. `held-exposure-v3.md` corrects only replay
-   normalization; commit that boundary, then run all 808 songs once into the new
-   v3 directory with the one-song negative exposure disclosed.
-9. Ship only if every gate passes. Preserve the stronger source-validation and
-   independent-review work as an optional later research track.
+8. **Complete:** V2 stopped on song 003 because its historical normalizer
+   emitted an unmatched note-off that the app filters. Its partial result is
+   preserved. V3 corrected only replay normalization and passed across all 808
+   songs with zero stable displays and zero displayed time, as recorded in log
+   2026-08-27-04.
+9. **Approved:** every product gate passes. Preserve stronger source validation
+   and independent review as an optional later research track.
 
 This sequence completes a useful and testable product without disguising
 maintainer judgment as external ground truth.

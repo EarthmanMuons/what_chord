@@ -1,0 +1,90 @@
+{
+  "artifacts": {
+    "manifestSha256": "e33e5c6eff9f5bff69681eaad0416f59593bb24493d5c0cd92ad766d76357981",
+    "outputFileCountIncludingManifestAndReview": 811,
+    "retainedBuildSize": "1.1G",
+    "reviewSha256": "141e6806e933b29126d131fe25a2ea9e4ffb78e03d126f736fda0a1dd8b5800a",
+    "summarySha256": "dcb31c8c27901cd7c5cbc23489329e03663083d47b986f630c6c2ffa2848d040"
+  },
+  "candidateCommit": "02e3f3223e7ace03946645216c3762eddf33faf7",
+  "counts": {
+    "actions": 2540324,
+    "authorizationReason:ambiguous-exact-assignment": 5062,
+    "authorizationReason:integrated-tertian-reading": 16165,
+    "authorizationReason:layer-separation-not-supported": 3295,
+    "authorizationReason:no-structural-candidate": 1879884,
+    "authorizationReason:primary-not-displayable": 398680,
+    "authorizedFrames": 2,
+    "candidateFrames": 24524,
+    "candidateInstances": 35301,
+    "rawSelectedFrames": 2,
+    "selectorReason:ambiguous-exact-assignment": 5062,
+    "selectorReason:integrated-tertian-reading": 16165,
+    "selectorReason:layer-separation-not-supported": 3295,
+    "selectorReason:no-structural-candidate": 2278564,
+    "sourceFrames": 2303088,
+    "transition:clear": 2,
+    "transition:none": 2540320,
+    "transition:pending": 2
+  },
+  "deviation": {
+    "classification": "post-abort reserve completion, not a pristine held estimate",
+    "v2CompletedSong": "002",
+    "v2CompletedSongDisplayedMs": 0,
+    "v2CompletedSongStableEpisodes": 0,
+    "v2FailureSong": "003",
+    "v2FailureType": "historical normalizer emitted an unmatched note-off filtered by the app"
+  },
+  "displayedMs": 0,
+  "generatedAt": "2026-08-27T16:41:47+00:00",
+  "isolation": {
+    "corpusLabelsSuppliedToAnalysis": false,
+    "pop909HeldSongsOpened": 808,
+    "pop909SampleSongsOpened": 0
+  },
+  "measurementId": "pop909-held-product-false-display/3",
+  "normalization": {
+    "excludedChannelMessages": 559809,
+    "filteredRepeatedNoteOnMessages": 29722,
+    "filteredRepeatedPedalMessages": 26505,
+    "filteredUnmatchedNoteOffMessages": 29722,
+    "ignoredOtherControlChanges": 11077,
+    "normalizedEvents": 2303088,
+    "rawRelevantMessages": 2389037,
+    "relevantMessages": 2389037
+  },
+  "pendingSequences": [
+    {
+      "candidate": "A#|F",
+      "clearReason": "raw-selector-abstention",
+      "durationMs": 69,
+      "pieceId": "310",
+      "pieceReportSha256": "96f2546b47b368fc219f252472ef7b15c1f3af0c130519680a63d28022483d29",
+      "startMs": 133883
+    },
+    {
+      "candidate": "A#|F",
+      "clearReason": "raw-selector-abstention",
+      "durationMs": 69,
+      "pieceId": "310",
+      "pieceReportSha256": "96f2546b47b368fc219f252472ef7b15c1f3af0c130519680a63d28022483d29",
+      "startMs": 196258
+    }
+  ],
+  "result": "pass",
+  "schema": "polychord-held-exposure-retained-summary/1",
+  "songCount": 808,
+  "source": {
+    "heldRosterSha256": "3e15bc8a4b057c8442ba15d1f665b2162379b0303e153184ef194e4a31172407",
+    "midiContentSha256": "3146413446acd557fcbfd3d193d13930999be3386928da99b1fb97b63a5b5f53",
+    "pop909Commit": "d83e6edba6872a704f5d3b8b32f5cb540088dae6",
+    "rosterSha256": "b368b33c488680393b5c397d37faee4332ad39a3caee05fd547687dcc969d781"
+  },
+  "stableEpisodeCount": 0,
+  "verifier": {
+    "displayedMs": 0,
+    "pass": true,
+    "songCount": 808,
+    "stableEpisodeCount": 0
+  }
+}
