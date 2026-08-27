@@ -1,6 +1,13 @@
 [default]
 locale = "en-us"
 
+[default.extend-words]
+# Project and upstream vocabulary that must retain its exact spelling.
+OER = "OER"
+Mor = "Mor"
+ommission = "ommission"
+speciality = "speciality"
+
 [files]
 # exclude Xcode project and Interface Builder files, the compiled Dart-to-JS
 # bundle (minified identifiers trip the spell checker), and research data splits
@@ -34,12 +41,34 @@ extend-ignore-re = [
 
 [type.json]
 extend-ignore-re = [
+  # frozen version-1 baseline wire-format fields
+  "\"unparseable(?:AlternativeCount|Alternatives)?\"",
+
   # chord symbols with an added tone (e.g. "Aadd#9", "Aadd♯9")
   "\\b[A-G](?:[#b♯♭])?add[#b♯♭]?\\d+\\b",
 ]
 
+[type.py]
+extend-ignore-re = [
+  # frozen version-1 baseline wire-format fields
+  "[\"']unparseable(?:AlternativeCount|Alternatives)?[\"']",
+]
+
 [type.md]
 extend-ignore-re = [
+  # abbreviated git object IDs
+  "(?i)\\b[0-9a-f]{7,40}\\b",
+
+  # uppercase image-file acronym with a plural suffix
+  "\\bPNGs?\\b",
+
+  # frozen version-1 baseline wire-format token
+  "`unparseable`",
+
+  # frozen version-1 contract and result prose retained under pinned hashes
+  "\\bunparseable (?:returns|invocation|output|prediction)\\b",
+  "unsupported, unparseable, exception",
+
   # plural ordinal suffixes (e.g. "4ths") used in musical-interval terminology
   "\\b\\d+ths\\b",
 
