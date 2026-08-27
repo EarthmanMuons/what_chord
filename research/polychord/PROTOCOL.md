@@ -51,7 +51,8 @@ device-telemetry amendment, and the prospective release-candidate and held-run
 freeze. Log 2026-08-27-01 supersedes that unexecuted held contract after the app
 adopted CC120 as a reset. Log 2026-08-27-02 retains the v2 technical abort after
 one zero-display song and freezes the reserve's loss of pristine status. V3 is a
-prospective post-abort completion run, not a fresh held estimate.
+post-abort completion run, not a fresh held estimate. Log 2026-08-27-04 records
+its verified pass: 808 songs, zero stable displays, and zero displayed time.
 
 ## Task and claim boundary
 
@@ -672,8 +673,10 @@ The following work must be dated and completed in order:
     an unmatched note-off that the app filters. Log 2026-08-27-02 retains that
     failure and the first song's zero-display report. `held-exposure-v3.md`
     prospectively corrects replay normalization only and discloses that the
-    reserve is no longer pristine. The product claim remains author-adjudicated
-    rather than an independently validated accuracy claim.
+    reserve is no longer pristine. Log 2026-08-27-04 records a verified v3 pass
+    with zero stable displays across all 808 songs and completes the product
+    cycle. The product claim remains author-adjudicated rather than an
+    independently validated accuracy claim.
 15. Optional external validation: use a newly registered, evidence-complete
     study before any reproducibility, independently validated ruler, or
     generalized accuracy claim. This is not a prerequisite for the preceding
