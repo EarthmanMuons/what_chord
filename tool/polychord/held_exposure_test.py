@@ -59,7 +59,24 @@ class HeldExposureTest(unittest.TestCase):
             ],
         )
         self.assertEqual(normalized["frames"][-1]["soundingMidiNotes"], [])
-        self.assertEqual(normalized["normalization"]["mappedAllSoundOffMessages"], 1)
+        self.assertEqual(normalized["normalization"]["allSoundOffResetMessages"], 1)
+
+    def test_unmatched_release_under_pedal_is_filtered_like_the_app(self) -> None:
+        normalized = subject.normalize_product_messages(
+            [
+                subject.shared.RawMidiMessage(
+                    0, "controlChange", controller=64, value=127
+                ),
+                subject.shared.RawMidiMessage(10, "noteOff", midi_note=69, velocity=0),
+            ],
+            10,
+        )
+
+        self.assertEqual([event["type"] for event in normalized["events"]], ["pedal"])
+        self.assertEqual(normalized["frames"][-1]["soundingMidiNotes"], [])
+        self.assertEqual(
+            normalized["normalization"]["filteredUnmatchedNoteOffMessages"], 1
+        )
 
     def test_dart_batch_reaches_only_the_separated_onset_positive(self) -> None:
         positive = self._request(

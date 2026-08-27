@@ -18,7 +18,6 @@ import shlex
 import subprocess
 import sys
 from collections import Counter
-from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Self
@@ -29,14 +28,14 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 BUILD_ROOT = REPO_ROOT / "build"
 ROSTER = REPO_ROOT / "research/performed-input/data/pop909-held-pool.json"
 DART_BATCH = REPO_ROOT / "tool/polychord/held_exposure_batch.dart"
-CONTRACT = REPO_ROOT / "research/polychord/held-exposure-v2.md"
+CONTRACT = REPO_ROOT / "research/polychord/held-exposure-v3.md"
 
 ROSTER_SHA256 = "b368b33c488680393b5c397d37faee4332ad39a3caee05fd547687dcc969d781"
 POP909_COMMIT = "d83e6edba6872a704f5d3b8b32f5cb540088dae6"
 REPORT_SCHEMA = "polychord-held-exposure-report/1"
 PIECE_SCHEMA = "polychord-held-exposure-piece/1"
 MANIFEST_SCHEMA = "polychord-held-exposure-manifest/1"
-MEASUREMENT_ID = "pop909-held-product-false-display/2"
+MEASUREMENT_ID = "pop909-held-product-false-display/3"
 ALLOWED_DISPOSITIONS = (
     "in-scope-polychord",
     "ordinary-integrated-harmony",
@@ -197,24 +196,108 @@ def add_counts(total: Counter[str], values: dict) -> None:
 def normalize_product_messages(
     messages: list[shared.RawMidiMessage], end_timestamp_ms: int
 ) -> dict:
-    """Apply current app reset semantics before frozen shared normalization."""
+    """Mirror the app temporal provider's filtering and state transitions."""
 
-    all_sound_off_count = sum(
-        message.type == "controlChange"
-        and message.controller == shared.ALL_SOUND_OFF_CONTROLLER
-        for message in messages
-    )
-    product_messages = [
-        replace(message, controller=shared.ALL_NOTES_OFF_CONTROLLER)
-        if message.type == "controlChange"
-        and message.controller == shared.ALL_SOUND_OFF_CONTROLLER
-        else message
-        for message in messages
-    ]
-    normalized = shared.normalize_midi_messages(product_messages, end_timestamp_ms)
-    normalized["normalization"]["mappedAllSoundOffMessages"] = all_sound_off_count
-    normalized["normalization"] = dict(sorted(normalized["normalization"].items()))
-    return normalized
+    pressed: set[int] = set()
+    sustained: set[int] = set()
+    pedal_down = False
+    events = []
+    frames = []
+    counts: Counter[str] = Counter(rawRelevantMessages=len(messages))
+    last_timestamp_ms = 0
+
+    for raw_index, message in enumerate(messages):
+        if message.timestamp_ms < last_timestamp_ms:
+            raise ValueError(f"raw message {raw_index} timestamps decrease")
+        if message.timestamp_ms > end_timestamp_ms:
+            raise ValueError(f"raw message {raw_index} occurs after MIDI end")
+        last_timestamp_ms = message.timestamp_ms
+
+        if message.type == "noteOn":
+            _require_product_note(message, raw_index)
+            if message.midi_note in pressed:
+                counts["filteredRepeatedNoteOnMessages"] += 1
+                continue
+            pressed.add(message.midi_note)
+            sustained.discard(message.midi_note)
+            event_type = "noteOn"
+        elif message.type == "noteOff":
+            _require_product_note(message, raw_index)
+            if message.midi_note not in pressed:
+                counts["filteredUnmatchedNoteOffMessages"] += 1
+                continue
+            pressed.remove(message.midi_note)
+            if pedal_down:
+                sustained.add(message.midi_note)
+            else:
+                sustained.discard(message.midi_note)
+            event_type = "noteOff"
+        elif message.type == "controlChange" and message.controller == 64:
+            if message.value is None:
+                raise ValueError(f"raw message {raw_index} lacks a CC value")
+            next_pedal_down = message.value >= 64
+            if next_pedal_down == pedal_down:
+                counts["filteredRepeatedPedalMessages"] += 1
+                continue
+            pedal_down = next_pedal_down
+            if not pedal_down:
+                sustained.clear()
+            event_type = "pedal"
+        elif message.type == "controlChange" and message.controller in {
+            shared.ALL_SOUND_OFF_CONTROLLER,
+            shared.ALL_NOTES_OFF_CONTROLLER,
+        }:
+            pressed.clear()
+            sustained.clear()
+            event_type = "allNotesOff"
+            if message.controller == shared.ALL_SOUND_OFF_CONTROLLER:
+                counts["allSoundOffResetMessages"] += 1
+            else:
+                counts["allNotesOffResetMessages"] += 1
+        else:
+            raise ValueError(f"raw message {raw_index} is unsupported")
+
+        event = {
+            "index": len(events),
+            "rawMessageIndex": raw_index,
+            "timestampMs": message.timestamp_ms,
+            "type": event_type,
+            "sourceChannel": message.channel,
+        }
+        if message.midi_note is not None:
+            event["midiNote"] = message.midi_note
+            event["velocity"] = message.velocity
+        if event_type == "pedal":
+            event["down"] = pedal_down
+            event["controller"] = 64
+        elif event_type == "allNotesOff":
+            event["controller"] = message.controller
+        events.append(event)
+        frames.append(
+            {
+                "afterEventIndex": len(frames),
+                "timestampMs": message.timestamp_ms,
+                "pressedMidiNotes": sorted(pressed),
+                "sustainedMidiNotes": sorted(sustained),
+                "soundingMidiNotes": sorted(pressed | sustained),
+                "pedalDown": pedal_down,
+            }
+        )
+
+    counts["normalizedEvents"] = len(events)
+    return {
+        "events": events,
+        "frames": frames,
+        "endTimestampMs": end_timestamp_ms,
+        "normalization": dict(sorted(counts.items())),
+    }
+
+
+def _require_product_note(message: shared.RawMidiMessage, index: int) -> None:
+    if message.midi_note is None or not 0 <= message.midi_note <= 127:
+        raise ValueError(f"raw message {index} lacks a valid MIDI note")
+    if message.velocity is None or not 0 <= message.velocity <= 127:
+        raise ValueError(f"raw message {index} lacks a valid velocity")
 
 
 def note_name(midi_note: int) -> str:
