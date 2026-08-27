@@ -25,10 +25,10 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ### Added
 
-- Live MIDI can now show a conservative polychord annotation when two complete
-  chordal layers have clearly separated attacks. The primary chord,
-  alternatives, history, key detection, Explore, and shared links remain
-  unchanged.
+- Live MIDI can now show a conservative polychord annotation in familiar stacked
+  upper-over-lower notation when two complete chordal layers have clearly
+  separated attacks. The primary chord, alternatives, history, key detection,
+  Explore, and shared links remain unchanged.
 - A new website technical deep-dive, "Building a Streaming Key Detector,"
   explains the 24-state hidden Markov model, fading musical evidence, and
   confidence rules behind WhatChord's live key estimates.

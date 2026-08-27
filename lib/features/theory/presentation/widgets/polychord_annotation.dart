@@ -61,15 +61,35 @@ class PolychordAnnotation extends StatelessWidget {
         children: [
           Text('Polychord', style: labelStyle, textAlign: textAlign),
           const SizedBox(height: 2),
-          Wrap(
-            alignment: alignment,
-            runAlignment: alignment,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              Text(upper, style: symbolStyle, textAlign: textAlign),
-              Text(' | ', style: symbolStyle, textAlign: textAlign),
-              Text(lower, style: symbolStyle, textAlign: textAlign),
-            ],
+          IntrinsicWidth(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Text(
+                    upper,
+                    style: symbolStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 1),
+                ColoredBox(
+                  color: colors.onSurface.withValues(alpha: 0.82),
+                  child: const SizedBox(height: 1.5),
+                ),
+                const SizedBox(height: 1),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Text(
+                    lower,
+                    style: symbolStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
