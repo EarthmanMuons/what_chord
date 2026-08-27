@@ -1,120 +1,102 @@
-# Polychord
+# Polychords
 
-Should WhatChord name polychords (two or more chordal units combined in one
-sonority, like the Petrushka chord), and when should that reading appear instead
-of, or beside, the single-symbol name?
+A dense sonority can often be forced into one extended-chord name even when the
+music is more clearly built from two familiar chords. When should the app also
+show that two-layer reading, and what evidence can live MIDI provide without
+pretending to know what a listener hears or a composer intended?
 
-Status: evidence development. `FRAMEWORK.md` is the active theory-derived v0
-specification. Exact frame replay and the register-only structural baseline are
-fixed as research contracts. No engine lever has been proposed or evaluated, and
-no result is independently validated.
+**Status:** complete. A conservative secondary annotation is implemented and
+approved for release after the author-adjudicated product ruler, prior-art
+comparison, performance gate, cross-platform acceptance, and final false-display
+reserve all passed. Independent validation remains optional future work.
 
-## What is known so far
+## What came out
 
-- Not currently supported: the chord-recognition article lists polychords under
-  what the algorithm does not handle (the best single-chord description of the
-  combined note set wins), and the Petrushka pitch set is a golden that resolves
-  to C7(b9,#11) as a complete single-symbol explanation. This initiative is what
-  could change that.
-- Exposure census (logs 2026-08-02-01, -03, -04, and -06): the initial detector
-  was an asymmetric jazz upper-structure screen, not a sound operationalization
-  of the general definition. Its 32 wide-tier fires remain useful boundary
-  evidence: 29 have an incomplete lower shell or power dyad, and none was judged
-  a positive polychord. Schema 3 replaces the triad/seventh switch with named
-  profiles. The primary `complete-common` profile treats both layers
-  symmetrically as complete major/minor triads or common seventh chords,
-  requires different roots, permits a shared pitch class only when separate
-  notes support it, and reports every qualifying register boundary. At the
-  liberal three-semitone gap it fires on 0.051% of When in Rome dev mass (4
-  events), 0.157% of ASAP dev (12), and 1.221% of the POP909 sample (372);
-  almost every candidate uses shared tones and the inspected examples are
-  ordinary integrated sixth, seventh, or extended chords. The narrower symmetric
-  `bichord-triads` ablation reaches 0.051%, 0.047%, and 0.728%. Register-blind
-  exposure under the primary profile is 0.20%, 1.77%, and 12.80%. These are
-  committed-event scoping bounds, not safety or accuracy results; frame-level
-  generator and stable-display exposure remain unmeasured.
-- External landscape (logs 2026-08-02-02 and -05): no published computational
-  method or evaluated dataset for automatic polychord naming was found within
-  the documented search scope. That is a provisional, scoped novelty claim, not
-  a claim that no software exists. Three implementations require comparison:
-  mingus, ChordRecGen, and the actively released musicpy 7.15, whose documented
-  detector uses a fixed register-order split. Ground truth must be
-  hand-authored. The field's sanctioned term for what WhatChord would name is
-  "polychord" as a notational/constructional claim; "bitonal" and "polytonal"
-  assert contested key percepts and are avoided. Dorico supports polychord
-  symbols, and MuseScore Studio 4.6 added them in June 2025, a real demand
-  signal. The exact search queries, claim boundary, sources, and limitations are
-  in `prior-art-search.md`.
-- External review (log 2026-08-02-04): corrected the shared-tone audit (the
-  initial disjoint detectors excluded four positives: Ives, Copland, Holst, and
-  Milhaud), made the protocol self-contained, replaced the census-based guard
-  with a generator-instrumented one, and identified the scope decisions that
-  must precede the ruler freeze. Schema 3 measures the separate-note shared-tone
-  case but does not settle whether those readings belong in the product.
+- **The implementation leaves the primary chord unchanged.** Live timestamped
+  MIDI can add a stacked upper-over-lower annotation when two complete chordal
+  groups in adjacent registers have qualifying attack histories. The snapshot
+  analyzer, ranking, history segmentation, key inference, and Explore behavior
+  remain unchanged.
+- **Register alone was not enough.** The first register-only selector passed its
+  maintained suite and then produced 73 stable annotations on the 101-song
+  POP909 development sample. Every one was an ordinary integrated harmony or a
+  serialization artifact. That failure established onset evidence as a required
+  product cue rather than an optional refinement.
+- **Both layers use the same vocabulary.** Major and minor triads plus dominant,
+  major, and minor seventh chords are available above or below. This is not an
+  upper-triad-only detector. Shared pitch classes are allowed only when separate
+  sounded notes can support both layers; bass notes, fifths, shells, same-root
+  groups, and three-or-more-layer readings stay outside the initial scope.
+- **The evidence claim stays narrow.** _Polychord_ names a useful constructional
+  or notational decomposition, not two simultaneous keys, perceptually
+  independent streams, or compositional intent. No surveyed corpus supplies
+  verified positive labels, so corpus runs measure false-display exposure, not
+  recall or general detection accuracy.
+- **Existing software did not supply the required behavior.** The frozen
+  descriptive comparison found complementary partial matches from musicpy,
+  mingus, and ChordRecGen, but none combined ordered layers, exact note
+  assignment, temporal evidence, and conservative abstention under the product
+  contract. The broader literature search found no published computational
+  polychord detector within its recorded scope.
 
-## Direction
+## Results
 
-`FRAMEWORK.md` now records the active product hypothesis. WhatChord initially
-considers a polychord to be a two-layer constructional or notational
-decomposition, displayed only as a secondary annotation while the primary
-single-chord identity remains unchanged. The conservative generator scope is
-symmetric: each layer is a complete major or minor triad or a complete dominant,
-major, or minor seventh chord with a different root. Shared pitch classes are
-allowed when distinct sounded notes can be assigned to the layers. Bass-only,
-fifth-only, shell, upper-structure, same-root, and three-or-more-layer cases are
-outside the initial positive generator.
+The pure-Dart product matched the Python reference on the frozen product suite
+and passed all 108 timestamped checkpoints across 20 cases. Its primary output
+and established regressions remained unchanged, the optimized live path passed
+the frozen performance budget, and hands-on iPhone and Android checks found the
+functional and accessibility behavior acceptable.
 
-Construction evidence remains separate from detector eligibility. Scores and
-analytical literature can establish a construction, but the live detector may
-use only information present in its input. A contiguous register split is the
-required baseline. Onset, release, pedal, and motion are incremental research
-evidence and require frame-accurate event state; an aggregate note set plus
-attack times is insufficient.
+The final POP909 safety replay covered 808 songs and 2,303,088 app-equivalent
+source frames. Two candidates briefly entered the hidden pending state, both
+cleared after 69 milliseconds, and neither reached the 200-millisecond display
+deadline. The result was **zero stable annotations and zero displayed time**.
+Because an earlier replay aborted after exposing one negative song, this is
+recorded as a post-abort completion rather than a perfectly pristine held
+estimate. Because the corpus has no verified positive labels, it says nothing
+about how many real polychords the detector may have missed.
 
-The first six-case annotation pilot and its static `review-instrument/` are now
-deferred without collecting responses. Their exact pinned artifacts remain in
-the repository as provenance for logs 2026-08-02-07 through -11, but they must
-not be distributed. The score crops cannot identify the focal musical material
-without revealing the proposed decomposition, and the generated temporal cases
-do not show complete duration, release, pedal, or held-note evidence. Log
-2026-08-10-01 records this correction.
+The author-adjudicated named-snapshot comparison is descriptive rather than an
+independent benchmark. On the 14 positives with an eligible ordered register
+split, the WhatChord register policy matched all 14, compared with 5 for musicpy
+and 2 each for mingus and ChordRecGen. The other systems were not designed for
+this product vocabulary or evidence contract, so these figures establish
+behavioral differences, not a general accuracy ranking.
 
-External annotation is no longer a gate for framework development, score
-verification, temporal infrastructure, corpus exposure measurement, or an
-author-adjudicated internal regression suite. Without a redesigned external
-study, those results must not be described as independent ground truth,
-reproducibility, or generalized accuracy.
+## Where this fits
 
-The exact event substrate is now fixed in `frame-replay-schema.md`, with four
-byte-pinned fixtures under `data/frame-replay/` and an executable validator in
-`tool/polychord/frame_replay.py`. It preserves ordered note events, velocity,
-pedal transitions, carried-in state, pressed versus sustained notes, every
-derived frame, and the terminal observation time without embedding chord labels
-or proposed splits.
+This initiative separates two questions that a static pitch set cannot answer by
+itself: whether notes admit a two-chord decomposition, and whether the live
+evidence justifies showing that decomposition. The failed register-only version
+made that distinction operational. The implemented feature therefore lives in
+the timestamped MIDI path as a secondary annotation rather than inside the pure
+snapshot chord analyzer.
 
-The register-only candidate contract is now fixed in
-`register-candidate-schema.md` and implemented as research instrumentation in
-`tool/polychord/register_candidates.py`. It examines every contiguous register
-boundary with the same complete common-chord vocabulary on both sides, reports
-the exact note assignment and observed gap, and makes no ranking, confidence,
-temporal, or display decision. Synthetic compatibility tests preserve the
-structural meaning of the earlier schema-3 census without changing its pinned
-implementation.
+Two musically important classes remain outside the automatic policy:
+overlapping-register constructions such as Stravinsky's _Augurs_ and unfolding
+constructions such as the _Petrushka_ chord. Supporting either would require a
+new observable assignment model, not merely a looser threshold. A future claim
+of reproducibility or generalized accuracy would likewise require a separately
+registered study with evidence-complete examples and independent annotation.
 
-The first provenance-rich internal seed is now fixed by
-`internal-suite-schema.md` and `data/internal-suite/suite-v0.json`. Its eight
-cases keep musical construction, product policy, input eligibility, and raw
-register candidates separate. The seed is author-adjudicated and explicitly
-non-scorable; it is not an independently validated ruler or an accuracy set.
+## Contents
 
-Next work can extend the suite only with exact source or generated observations,
-then study named temporal ablations on the replay substrate. The first raw onset
-contract is now fixed in `onset-evidence-schema.md`: it preserves each sounding
-note's latest attack, unknown carried-in history, reattacks, and pedal-held
-state, then reports threshold-free layer timing. It deliberately makes no
-confidence or display decision. `onset-support-ablation.md` defines the first
-one-sided interpretation: two complete, internally tight onset cohorts separated
-by a conservative interval provide positive support, while every other case
-remains neutral. Corpora remain negative-exposure guards, not accuracy rulers.
-Pinned comparisons with musicpy, mingus, and, if reproducible, ChordRecGen
-remain required before adoption.
+- [Protocol](PROTOCOL.md): claim boundaries, evidence rules, project
+  progression, and product guards.
+- [Framework](FRAMEWORK.md): theory-derived vocabulary and the separation of
+  construction, perception, and intent.
+- [Product completion plan](product-completion-plan.md): the acceptance gates
+  and completed delivery sequence.
+- [Product output contract](product-output-contract-v3.md) and
+  [selector](onset-register-selector-v1.md): the implemented secondary output
+  and timestamped-MIDI policy.
+- [Prior-art search](prior-art-search.md): the academic, software, terminology,
+  and notation survey.
+- [Results](results/): committed comparison and reserve summaries.
+- [Log](log/): dated, append-only record of experiments, corrections, and
+  decisions. The final reserve result is
+  [2026-08-27-04](log/2026-08-27-04-complete-product-held-exposure.md).
+
+Supporting research code lives in `tool/polychord/`. The product implementation
+lives in the pure-Dart engine under `packages/whatchord/` and in the app's
+timestamped MIDI presentation path.

@@ -911,10 +911,13 @@ key carries essentially everything the recent past has to offer.
 
 A few things are known limitations or non-goals:
 
-- **Polychords.** Two simultaneous independent sonorities (like Stravinsky's
-  [Petrushka chord](https://en.wikipedia.org/wiki/Petrushka_chord), an F♯ major
-  triad over a C major triad) are not modeled. The algorithm will find the best
-  single-chord description of the combined note set.
+- **Static polychord lookup.** The snapshot analyzer still finds the best
+  single-chord description of a combined note set. During live timestamped MIDI,
+  a separate conservative layer can add a secondary stacked polychord annotation
+  when two complete chordal groups have clearly separated attacks. It does not
+  infer unfolding or overlapping-register constructions such as Stravinsky's
+  [Petrushka chord](https://en.wikipedia.org/wiki/Petrushka_chord) from a static
+  note set.
 - **Non-12-TET tuning.** This engine is built around 12 pitch classes and
   standard MIDI note numbers. Microtonal intervals, quarter tones, and
   [just-intonation](https://en.wikipedia.org/wiki/Just_intonation) distinctions

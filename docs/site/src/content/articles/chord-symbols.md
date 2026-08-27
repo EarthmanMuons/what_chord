@@ -1,7 +1,8 @@
 ---
 cardDescription:
   "How WhatChord formats chord symbols: extensions, added tones, alterations,
-  parentheses, and slash bass, with the reasoning behind each choice."
+  parentheses, slash bass, and polychords, with the reasoning behind each
+  choice."
 cta:
   action:
     href: "/try"
@@ -28,8 +29,8 @@ decks:
     unambiguous interpretation rather than cataloging every variant.'
 description:
   "A reference for how WhatChord formats chord symbols: extensions, added tones,
-  alterations, parentheses, omissions, and slash bass, with the reasoning behind
-  each choice."
+  alterations, parentheses, omissions, slash bass, and polychords, with the
+  reasoning behind each choice."
 group: "musicians"
 indexOrder: 2
 related:
@@ -38,7 +39,7 @@ related:
   - "scale-degrees"
 socialDescription:
   "The conventions behind WhatChord’s chord symbols: extensions, added tones,
-  alterations, parentheses, and slash bass, explained for musicians."
+  alterations, parentheses, slash bass, and polychords, explained for musicians."
 socialTitle: "How to Format Chord Symbols"
 tag: "Reference"
 title: "Chord Symbol Guide"
@@ -393,6 +394,29 @@ tone, the sounding spelling wins, so a sharp ninth in the bass is
 <span class="chord">A7(♯9) / C</span>, not <span class="chord not-used">A7(♯9) /
 B♯</span>, and double accidentals are avoided.
 
+## Polychords
+
+A polychord combines complete chordal units sounding together. Standard notation
+places the upper chord above the lower chord and separates them with a
+horizontal rule:
+
+<div class="polychord-example">
+  <span class="polychord-example-symbol" aria-hidden="true">
+    <span class="polychord-example-upper">D</span>
+    <span class="polychord-example-lower">Am</span>
+  </span>
+  <span>D major over A minor</span>
+</div>
+
+This is different from slash bass. <span class="chord">D / A</span> names one D
+chord with A as its lowest note; the stacked example names both D major and A
+minor as chordal layers. The upper chord is conventionally written first in
+plain-text interchange, where the same reading may appear as <code>D|Am</code>,
+but the pipe is an interchange form rather than the primary visual symbol.
+
+Like other chord symbols, the stack names a harmonic reading rather than proving
+how a listener separates the sound or whether the passage establishes two keys.
+
 ## References
 
 These formatting decisions draw on both historical and modern practice:
@@ -409,6 +433,9 @@ These formatting decisions draw on both historical and modern practice:
   [_The Jazz Theory Book_](https://www.shermusic.com/1883217040.php) (Sher Music
   Co., 1995), a pedagogical reference for the musical reasoning behind chord
   qualities, extensions, alterations, and common voicing practice.
+- University of Puget Sound,
+  [_Polychords_](https://musictheory.pugetsound.edu/mt21c/polychords.html), an
+  open music-theory reference for stacked chord construction and notation.
 
 Where references or house styles differ, WhatChord favors symbols that are
 concise, widely recognizable, and clear in a real-time app interface. The goal
