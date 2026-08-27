@@ -1,19 +1,20 @@
 # Polychord research protocol
 
-Status: SCOPING. The schema-3 census profiles are fixed for the measurements in
-log 2026-08-02-06. `FRAMEWORK.md`, adopted in log 2026-08-10-01, fixes the
-theory-derived v0 product semantics and evidence boundaries as a working
-hypothesis. It is not an independently annotated ruler. The composite data and
-presentation contract, scoring model, adoption bar, stable-display policy, and
-performance budget are fixed by `output-evaluation-contract.md` and log
-2026-08-10-18. The complete author-adjudicated adoption suite is frozen by log
-2026-08-11-03. It is a product-policy conformance ruler, not independent ground
-truth. The register-only selector passed its frozen author-adjudicated suite but
-failed the development exposure gate: log 2026-08-11-12 dispositions all 73
-stable POP909 displays as ordinary integrated harmonies or zero-duration
-serialization artifacts. No v1 selector reached the held 808-song POP909 reserve
-or product integration. Log 2026-08-11-13 records the static observability
-collision that requires evidence beyond register for automatic version 2.
+Status: PRODUCT CYCLE COMPLETE; independent validation remains optional. The
+schema-3 census profiles are fixed for the measurements in log 2026-08-02-06.
+`FRAMEWORK.md`, adopted in log 2026-08-10-01, fixes the theory-derived v0
+product semantics and evidence boundaries as a working hypothesis. It is not an
+independently annotated ruler. The composite data and presentation contract,
+scoring model, adoption bar, stable-display policy, and performance budget are
+fixed by `output-evaluation-contract.md` and log 2026-08-10-18. The complete
+author-adjudicated adoption suite is frozen by log 2026-08-11-03. It is a
+product-policy conformance ruler, not independent ground truth. The
+register-only selector passed its frozen author-adjudicated suite but failed the
+development exposure gate: log 2026-08-11-12 dispositions all 73 stable POP909
+displays as ordinary integrated harmonies or zero-duration serialization
+artifacts. No v1 selector reached the held 808-song POP909 reserve or product
+integration. Log 2026-08-11-13 records the static observability collision that
+requires evidence beyond register for automatic version 2.
 `automatic-output-contract-v2.md` fixes that input and output boundary, and
 `automatic-suite-v2-plan.md` fixes the suite construction and source-coverage
 requirements that must be satisfied before an exact version-2 selector is
@@ -94,8 +95,9 @@ sparse committed-event fixture is a live event stream.
 - Each experiment, measurement correction, or significant decision gets a dated
   entry under `log/` with the exact commands, fixture and code pins, results,
   and interpretation.
-- Development and held-out data remain separate. No held-out result is read
-  until the ruler, generator, scoring model, and adoption bar are frozen.
+- Development and reserve data were kept separate until the ruler, generator,
+  scoring model, adoption bar, product candidate, and release gates were frozen.
+  Any future held source must be registered before its results are read.
 - Negative results and corrections remain in the log. Once a ruler or result set
   is frozen, changes require a later dated amendment rather than silent
   revision.
@@ -111,20 +113,21 @@ Current scoping sources, all octave-preserving but not equally time-complete:
   snapshots do not support stable-display replay.
 - ASAP x When in Rome, development split only, replayed from raw performance
   MIDI (`research/performed-input/data/splits/asap-wir-nc-v2.json`).
-- The frozen 101-song POP909 sample roster, used as an advisory corpus. The
-  stable-display measurement reuses the exact raw-MIDI `BRIDGE` plus `PIANO`
-  projection already frozen for that sample. The 808-song clean reserve remains
-  evaluation-virgin; it is not yet a declared final test set. Freeze a
-  fit-for-purpose development/test allocation from that reserve only if POP909
-  later gains a formal evaluation role.
+- The frozen 101-song POP909 sample roster, used as an advisory development
+  corpus. The stable-display measurement reuses the exact raw-MIDI `BRIDGE` plus
+  `PIANO` projection already frozen for that sample. The separate 808-song pool
+  served as a final false-display safety reserve. Its v2 technical abort and
+  post-abort v3 completion are recorded explicitly; it was never a labeled
+  accuracy test or the test side of an ordinary 80/20 supervised split.
 
 Rules:
 
-- No test split has been run or scored with a polychord generator or selector.
-  Log 2026-08-11-08 records one incidentally printed committed When in Rome test
-  fixture during a schema-shape audit; future work must not describe that
-  source's test fixtures as wholly unseen. No raw ASAP test performance or held
-  POP909 song has been opened in this initiative.
+- No labeled test split was scored as polychord accuracy. Log 2026-08-11-08
+  records one incidentally printed committed When in Rome test fixture during a
+  schema-shape audit; future work must not describe that source's test fixtures
+  as wholly unseen. No raw ASAP test performance was opened. The POP909 reserve
+  was replayed without reading corpus labels under the frozen false-display
+  contracts recorded in logs 2026-08-27-01 through -04.
 - Corpus results are reported separately and never pooled. Pieces represented in
   more than one corpus are not treated as independent observations.
 - Fixture sets and split files are versioned and immutable for a result set.
@@ -650,7 +653,7 @@ The following work must be dated and completed in order:
     under either profile, no selector is run, and the held reserve remains
     untouched. Log 2026-08-12-07 preserves the correction to the initial guard
     interpretation and the stronger frozen control requirement.
-14. Product completion track: active. `product-completion-plan.md` and logs
+14. Product completion track: complete. `product-completion-plan.md` and logs
     2026-08-13-08 through 2026-08-14-06 preserve the frozen contract, policy,
     suite, equivalent Python and Dart implementations, development exposure, and
     prior-art comparison. Log 2026-08-14-07 records integration into the app's
@@ -668,9 +671,9 @@ The following work must be dated and completed in order:
     cross-platform acceptance for this product release, and freezes
     `held-exposure-v1.md`. Before that contract ran, app commit `1a1cb852c`
     adopted CC120 as a temporal reset; log 2026-08-27-01 and
-    `held-exposure-v2.md` prospectively align the otherwise unchanged replay.
-    V2 then aborted on its second song because the historical normalizer emitted
-    an unmatched note-off that the app filters. Log 2026-08-27-02 retains that
+    `held-exposure-v2.md` prospectively align the otherwise unchanged replay. V2
+    then aborted on its second song because the historical normalizer emitted an
+    unmatched note-off that the app filters. Log 2026-08-27-02 retains that
     failure and the first song's zero-display report. `held-exposure-v3.md`
     prospectively corrects replay normalization only and discloses that the
     reserve is no longer pristine. Log 2026-08-27-04 records a verified v3 pass
@@ -696,7 +699,9 @@ Any adopted lever must pass all of the following:
   every frame-capable scoping corpus, with a complete disposition of every new
   fire, plus separately labeled committed-event proposal diagnostics where raw
   replay is unavailable;
-- the frozen polychord performance budget and on-device note-storm profiling.
+- the frozen polychord performance budget, passing pure-Dart benchmark, and
+  accepted iPhone and Android functional and accessibility checks. Exact device
+  frame telemetry remains optional under the recorded product-level amendment.
 
 Single-chord pool differences cannot reveal an incorrect secondary decomposition
 when the primary identity is unchanged. The generator and display guards are

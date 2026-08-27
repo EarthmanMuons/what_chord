@@ -1239,6 +1239,34 @@ a.heading-anchor svg {
   color: var(--accent-light);
 }
 
+.polychord-example {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin: 24px 0;
+}
+
+.polychord-example-symbol {
+  display: inline-grid;
+  flex: 0 0 auto;
+  min-width: 3.25em;
+  font-family: var(--mono);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--accent-light);
+  text-align: center;
+}
+
+.polychord-example-upper,
+.polychord-example-lower {
+  padding: 0.2em 0.35em;
+}
+
+.polychord-example-upper {
+  border-bottom: 2px solid currentcolor;
+}
+
 .callout {
   padding: 20px 24px;
   margin: 28px 0;
@@ -1990,6 +2018,7 @@ a.heading-anchor svg {
   .article-page a,
   .article-page .article-body a,
   .article-page .chord,
+  .article-page .polychord-example-symbol,
   .article-page .article-body code {
     color: #003b7a;
   }

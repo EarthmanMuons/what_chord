@@ -1,9 +1,9 @@
 # Polychord product completion plan
 
-Status: active product-development plan. The exact product contract, selector,
-suite, implementations, development exposure, and prior-art comparison are
-complete through log 2026-08-14-06. Log 2026-08-14-07 records integration of the
-passing pure-Dart policy into the app's normalized MIDI path and secondary
+Status: complete product-development record. The exact product contract,
+selector, suite, implementations, development exposure, and prior-art comparison
+are complete through log 2026-08-14-06. Log 2026-08-14-07 records integration of
+the passing pure-Dart policy into the app's normalized MIDI path and secondary
 presentation. Benchmark v1, frozen in log 2026-08-22-01, failed in log
 2026-08-22-02. Logs 2026-08-22-03 through -05 record equivalence-guarded
 optimization, prospective benchmark v2, and its passing clean-tree result. Log
@@ -22,15 +22,16 @@ validity, generalized detection accuracy, or publication-ready source coverage.
 The decision is recorded in log 2026-08-13-08. The stricter `polychord-output/2`
 source-admission route remains preserved in `automatic-selection-v2-plan.md` and
 `automatic-suite-v2-plan.md` for any later independent-validation or publication
-claim. Product work will use a new output and selector identity rather than
+claim. Product work used a new output and selector identity rather than
 weakening that frozen route in place.
 
 ## Product outcome
 
-Complete a conservative automatic polychord annotation for timestamped MIDI,
-compare it with WhatChord's register-only experiment and the executable
-prior-art baselines, validate it against author-adjudicated product policy and
-development-corpus exposure, and integrate it only if every product gate passes.
+The completed outcome is a conservative automatic polychord annotation for
+timestamped MIDI, compared with WhatChord's register-only experiment and the
+executable prior-art baselines, validated against author-adjudicated product
+policy and development-corpus exposure, and integrated after every product gate
+passed.
 
 The product claim is deliberately narrow:
 
@@ -53,7 +54,8 @@ The first product experiment retains these existing decisions:
 - adjacent-register structural candidates from
   `polychord-register-candidates/1`, with different recognized roots and exact
   sounded-note assignment;
-- upper-chord-first pipe notation, such as `D|C7`;
+- upper-chord-first canonical text notation, such as `D|C7`, with a stacked
+  upper-over-lower symbol separated by a horizontal rule in the visual app;
 - an optional secondary annotation that cannot change the primary chord,
   ranking, history segmentation, key inference, or Explore result;
 - automatic input only from ordered timestamped note-on, note-off, and sustain
@@ -182,11 +184,12 @@ When in Rome committed-event fixtures may supply structural diagnostics but
 cannot measure onset decisions or display duration. Corpus labels are not read.
 Every authorization and every stable display is retained and dispositioned.
 
-The 808-song POP909 pool remains untouched until the exact product candidate,
+The 808-song POP909 pool was kept untouched until the exact product candidate,
 presentation behavior, tests, performance checks, and development dispositions
-all pass. It is a final false-display safety exposure set, not a labeled
-polychord accuracy set and not the test side of an ordinary 80/20 supervised
-split.
+all passed. It served as a final false-display safety exposure set, not a
+labeled polychord accuracy set or the test side of an ordinary 80/20 supervised
+split. The v2 run's technical abort and the post-abort v3 completion are
+retained in the dated record; v3 is not described as a fresh held estimate.
 
 ## Acceptance gates
 
@@ -252,15 +255,15 @@ Proceed in this order:
    retaining all case-level outputs.
 6. **Complete:** run POP909-sample and ASAP development exposure and disposition
    every stable display.
-7. **Integration implemented; release guards remain:** the normal app path now
-   owns the normalized event adapter, passing selector, complete diagnostics,
-   stable timer, and accessible secondary presentation. Package and app
-   regressions and unchanged-primary behavioral guards pass. The dedicated
-   polychord v1 benchmark failed in log 2026-08-22-02. The optimized path and
-   corrected v2 measurement are recorded in logs 2026-08-22-03 and -04; log
-   2026-08-22-05 records its clean-tree pass. Log 2026-08-22-06 records
-   acceptable iPhone and Android functional and accessibility behavior and the
-   explicit decision not to require exact frame telemetry for this release.
+7. **Complete:** the normal app path now owns the normalized event adapter,
+   passing selector, complete diagnostics, stable timer, and accessible
+   secondary presentation. Package and app regressions and unchanged-primary
+   behavioral guards pass. The dedicated polychord v1 benchmark failed in log
+   2026-08-22-02. The optimized path and corrected v2 measurement are recorded
+   in logs 2026-08-22-03 and -04; log 2026-08-22-05 records its clean-tree pass.
+   Log 2026-08-22-06 records acceptable iPhone and Android functional and
+   accessibility behavior and the explicit decision not to require exact frame
+   telemetry for this release.
 8. **Complete:** V2 stopped on song 003 because its historical normalizer
    emitted an unmatched note-off that the app filters. Its partial result is
    preserved. V3 corrected only replay normalization and passed across all 808
