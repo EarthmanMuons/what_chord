@@ -1,5 +1,0 @@
-- Live MIDI now recognizes clear polychords and displays them in familiar stacked notation.
-- Chord names now wait for your notes to settle, reducing flashes during rolled chords, passing tones, and pedal-heavy transitions.
-- Bare shell voicings now include an omitted-third dominant-seventh alternative.
-- Help & Support now links directly to the Scale Degree Guide.
-- All Sound Off messages now clear held notes correctly.
