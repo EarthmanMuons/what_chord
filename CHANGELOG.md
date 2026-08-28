@@ -10,27 +10,17 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ## [Unreleased]
 
-### Changed
-
-- The minimum supported iOS version is now 15, up from 13. Devices on iOS 13 or
-  14 can no longer install WhatChord.
-
-### Fixed
-
-- A controller sending All Sound Off (CC 120) now clears the held notes and
-  starts a fresh observation, matching how All Notes Off (CC 123) already
-  behaved. Previously the message was ignored and notes could appear stuck.
-- Website navigation now identifies the current page for screen-reader users,
-  with a matching visible state on the Articles index.
-
 ### Added
 
+- Live MIDI now recognizes clear polychords and displays them in familiar
+  stacked upper-over-lower notation. Detection is deliberately conservative, and
+  the primary chord, alternatives, history, key detection, Explore, and shared
+  links continue to work as before.
+- Bare root-fifth-flat-seventh shell voicings now include an omitted-third
+  dominant-seventh alternative, such as D7(omit3), alongside the complete chord
+  they contain. The Chord Symbol Guide explains the notation and reasoning.
 - Help & Support now links directly to the Scale Degree Guide alongside the
   Chord Symbol Guide.
-- Live MIDI can now show a conservative polychord annotation in familiar stacked
-  upper-over-lower notation when two complete chordal layers have clearly
-  separated attacks. The primary chord, alternatives, history, key detection,
-  Explore, and shared links remain unchanged.
 - A new website technical deep-dive, "Building a Streaming Key Detector,"
   explains the 24-state hidden Markov model, fading musical evidence, and
   confidence rules behind WhatChord's live key estimates.
@@ -40,23 +30,24 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 - A new website article, "We Can Measure Exactly How Wrong We Are," tours the
   ideas WhatChord tested and declined, and explains why reproducible negative
   results matter as much as features that ship.
-- Bare shell voicings now offer an honest alternative reading. A root, fifth,
-  and flat seventh with no third (the jazz shell voicing D-A-C) still names as
-  the complete chord it contains (Am/D), and the identification now also
-  surfaces D7(omit3) beside it: the dominant seventh the shell functions as,
-  marked with the omitted third per Brandt and Roemer's copyist standard. The
-  chord symbol guide's Omissions section explains the reasoning.
 
 ### Changed
 
-- The live chord display now shows a chord once it has proven stable, using the
-  same judgment as chord history, instead of re-labeling on every note change.
-  Rolled chords, passing tones, and pedal-blurred transitions no longer flash
-  intermediate names through the identity card, and what you see always matches
-  what history records. This also makes screen-reader announcements far calmer,
-  since the displayed chord changes only when a new chord actually lands.
-  Building a chord note by note keeps the note and interval labels up until the
-  chord lands, and manual lookup entry keeps its instant feedback.
+- The live chord display now waits for a chord to settle before updating,
+  reducing flashes during rolled chords, passing tones, and pedal-blurred
+  transitions. The display stays aligned with chord history, screen-reader
+  announcements are calmer, and manual lookup remains immediate.
+- The minimum supported iOS version is now 15. Devices running iOS 13 or 14 can
+  no longer install this release.
+
+### Fixed
+
+- All Sound Off messages from MIDI controllers now clear held notes and begin a
+  fresh observation, preventing notes from appearing stuck.
+- Improved website contrast and fixed chart and diagram labels that could shift
+  out of place on iOS at larger text sizes.
+- Website navigation now identifies the current page for screen-reader users,
+  with a matching visible state on the Articles index.
 
 ## [2026.7.27] - 2026-07-27
 
