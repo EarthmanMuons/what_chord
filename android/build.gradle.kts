@@ -21,8 +21,10 @@ subprojects {
         afterEvaluate {
             extensions.configure<com.android.build.api.dsl.LibraryExtension> {
                 // flutter_pcm_sound 3.3.3 hard-codes API 33, but its resolved
-                // AndroidX dependencies require API 34 or newer.
-                compileSdk = 36
+                // AndroidX dependencies require API 34 or newer. The plugin
+                // permission_handler_android requires Android SDK version 37
+                // or higher.
+                compileSdk = 37
             }
         }
     }
