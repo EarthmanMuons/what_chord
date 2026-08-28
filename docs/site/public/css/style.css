@@ -19,8 +19,8 @@
   font-weight: 400;
   src: url("../fonts/WhatChordSymbols-Regular.woff2") format("woff2");
   font-display: swap;
-  unicode-range: U+2B, U+B0, U+F8, U+394, U+2212, U+266D-266F, U+1D11E,
-    U+1D12A-1D12B;
+  unicode-range:
+    U+2B, U+B0, U+F8, U+394, U+2212, U+266D-266F, U+1D11E, U+1D12A-1D12B;
 }
 
 @font-face {
@@ -29,8 +29,8 @@
   font-weight: 700;
   src: url("../fonts/WhatChordSymbols-Bold.woff2") format("woff2");
   font-display: swap;
-  unicode-range: U+2B, U+B0, U+F8, U+394, U+2212, U+266D-266F, U+1D11E,
-    U+1D12A-1D12B;
+  unicode-range:
+    U+2B, U+B0, U+F8, U+394, U+2212, U+266D-266F, U+1D11E, U+1D12A-1D12B;
 }
 
 *,
@@ -1249,7 +1249,7 @@ a.heading-anchor svg {
 .polychord-example-symbol {
   display: inline-grid;
   flex: 0 0 auto;
-  min-width: 3.25em;
+  min-width: 2.25em;
   font-family: var(--mono);
   font-size: 1.35rem;
   font-weight: 700;
