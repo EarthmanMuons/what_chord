@@ -25,6 +25,8 @@ The format is based on [Keep a Changelog][1], and this project adheres to
 
 ### Added
 
+- Help & Support now links directly to the Scale Degree Guide alongside the
+  Chord Symbol Guide.
 - Live MIDI can now show a conservative polychord annotation in familiar stacked
   upper-over-lower notation when two complete chordal layers have clearly
   separated attacks. The primary chord, alternatives, history, key detection,

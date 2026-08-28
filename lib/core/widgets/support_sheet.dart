@@ -151,6 +151,19 @@ class _SupportSheetContent extends StatelessWidget {
                       ),
                     ),
                   ),
+                  _SupportActionTile(
+                    icon: Icons.queue_music,
+                    title: 'Scale Degree Guide',
+                    subtitle:
+                        'Degree names, Roman numerals, and harmonized scales',
+                    onTapHint: 'Open the scale degree guide in browser',
+                    onTap: () => openUrl(
+                      context,
+                      Uri.parse(
+                        'https://whatchord.earthmanmuons.com/articles/scale-degrees.html',
+                      ),
+                    ),
+                  ),
                 ],
                 const SizedBox(height: 16),
                 const _SupportSectionTitle('Get Support'),
