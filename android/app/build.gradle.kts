@@ -16,7 +16,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.earthmanmuons.whatchord"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37 // TODO: revert to flutter.compileSdkVersion once upstream is at least 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
