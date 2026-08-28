@@ -410,9 +410,9 @@ horizontal rule:
 
 This is different from slash bass. <span class="chord">D / A</span> names one D
 chord with A as its lowest note; the stacked example names both D major and A
-minor as chordal layers. The upper chord is conventionally written first in
-plain-text interchange, where the same reading may appear as <code>D|Am</code>,
-but the pipe is an interchange form rather than the primary visual symbol.
+minor as chordal layers. For plain-text representations, the upper chord is
+written first, so the same reading may appear as <code>D|Am</code> or simply
+<code>D over Am</code>. The stacked form remains the standard visual symbol.
 
 Like other chord symbols, the stack names a harmonic reading rather than proving
 how a listener separates the sound or whether the passage establishes two keys.
@@ -433,9 +433,6 @@ These formatting decisions draw on both historical and modern practice:
   [_The Jazz Theory Book_](https://www.shermusic.com/1883217040.php) (Sher Music
   Co., 1995), a pedagogical reference for the musical reasoning behind chord
   qualities, extensions, alterations, and common voicing practice.
-- University of Puget Sound,
-  [_Polychords_](https://musictheory.pugetsound.edu/mt21c/polychords.html), an
-  open music-theory reference for stacked chord construction and notation.
 
 Where references or house styles differ, WhatChord favors symbols that are
 concise, widely recognizable, and clear in a real-time app interface. The goal
