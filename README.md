@@ -38,7 +38,8 @@ simple note-matching.
 
 - **Live chord identification**\
   Connect a Bluetooth or USB MIDI keyboard and see chords update instantly as
-  you play.
+  you play. Clear polychords played as distinct chordal layers are shown in
+  familiar stacked notation.
 
 - **Automatic key detection**\
   Auto mode listens to your recent live chords, estimates the current key, shows

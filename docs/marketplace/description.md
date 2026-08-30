@@ -11,7 +11,7 @@ WhatChord goes beyond simple note matching. Its musically informed analysis cons
 FEATURES
 
 - Real-time chord recognition  
-  Chord names update immediately as you play.
+  Chord names update immediately as you play, including polychords shown in familiar stacked notation.
 
 - Automatic key detection
   Auto mode estimates the current key from recent live chords, shows confidence across major and minor keys, and can keep the app's key context following your playing.
